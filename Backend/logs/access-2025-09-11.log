@@ -225,3 +225,7 @@
 2025-09-11T11:41:15.424Z [INFO] [req:N/A] ✅ Mongoose connected to DB
 2025-09-11T11:41:15.426Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
 2025-09-11T11:41:15.430Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T16:05:02.830Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T16:05:02.860Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T16:05:02.862Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T16:05:02.865Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001

@@ -14,6 +14,7 @@ import AppLayout from "./components/AppLayout";
 import React from "react";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ShippingReturnsPage from './pages/ShippingReturnsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="about" element={<AboutUs />} />
             <Route path="contact" element={<ContactUs />} />
             <Route path="search" element={<SearchPage />} />
+            <Route path="/shipping-returns" element={<ShippingReturnsPage />}/> 
             <Route path="press" element={<PressPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>

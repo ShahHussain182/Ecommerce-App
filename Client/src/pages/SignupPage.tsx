@@ -33,6 +33,8 @@ const SignupPage = () => {
     },
   });
 
+  const { clearErrors } = form;
+
   function onSubmit(values: z.infer<typeof signupFormSchema>) {
     console.log("Signup form submitted:", values);
     toast.success("Account created successfully!", {
@@ -63,7 +65,14 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="yourusername" {...field} />
+                    <Input
+                      placeholder="yourusername"
+                      {...field}
+                      onChange={(e) => {
+                        if (error) clearErrors("userName");
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormErrorMessage message={error?.message} />
                 </FormItem>
@@ -78,7 +87,15 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="name@example.com" {...field} />
+                    <Input
+                      type="email"
+                      placeholder="name@example.com"
+                      {...field}
+                      onChange={(e) => {
+                        if (error) clearErrors("email");
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormErrorMessage message={error?.message} />
                 </FormItem>
@@ -93,7 +110,15 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                      onChange={(e) => {
+                        if (error) clearErrors("password");
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormErrorMessage message={error?.message} />
                 </FormItem>
@@ -108,7 +133,15 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                      onChange={(e) => {
+                        if (error) clearErrors("confirmPassword");
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormErrorMessage message={error?.message} />
                 </FormItem>

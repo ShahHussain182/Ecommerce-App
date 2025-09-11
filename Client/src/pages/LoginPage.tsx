@@ -26,6 +26,8 @@ const LoginPage = () => {
     },
   });
 
+  const { clearErrors } = form;
+
   function onSubmit(values: z.infer<typeof loginFormSchema>) {
     console.log("Login form submitted:", values);
     toast.success("Logged in successfully!", {
@@ -56,7 +58,15 @@ const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="name@example.com" {...field} />
+                    <Input
+                      type="email"
+                      placeholder="name@example.com"
+                      {...field}
+                      onChange={(e) => {
+                        if (error) clearErrors("email");
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormErrorMessage message={error?.message} />
                 </FormItem>
@@ -76,7 +86,15 @@ const LoginPage = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                      onChange={(e) => {
+                        if (error) clearErrors("password");
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormErrorMessage message={error?.message} />
                 </FormItem>
