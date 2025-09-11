@@ -15,6 +15,7 @@ import React from "react";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ShippingReturnsPage from './pages/ShippingReturnsPage';
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +35,7 @@ const App = () => (
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Index />} />
             <Route path="products" element={<ProductsPage />} />

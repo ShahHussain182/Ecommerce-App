@@ -229,3 +229,26 @@
 2025-09-11T16:05:02.860Z [INFO] [req:N/A] ✅ Mongoose connected to DB
 2025-09-11T16:05:02.862Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
 2025-09-11T16:05:02.865Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T16:21:51.283Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T16:21:51.316Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T16:21:51.318Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T16:21:51.322Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T16:53:45.182Z [HTTP] [req:70b0d0a4-af01-469e-a078-1c889ff5bb22] ::ffff:127.0.0.1 - - [11/Sep/2025:16:53:45 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T16:57:21.385Z [HTTP] [req:78669c53-8837-4eeb-8126-19c72410ce7c] ::ffff:127.0.0.1 - - [11/Sep/2025:16:57:21 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 837 "-" "vscode-restclient"
+2025-09-11T17:07:05.507Z [HTTP] [req:525e8828-54a2-48dd-a069-5dd653824910] ::1 - - [11/Sep/2025:17:07:05 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8081/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:10:07.534Z [HTTP] [req:2903ea5a-f39f-4523-b72d-ed3d32861788] ::1 - - [11/Sep/2025:17:10:07 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8081/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-11T17:12:09.555Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T17:12:09.585Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T17:12:09.587Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T17:12:09.590Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T17:12:23.744Z [HTTP] [req:660002fe-0bb1-4ceb-8394-fab620a8247f] ::1 - - [11/Sep/2025:17:12:23 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8081/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-11T17:19:41.490Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T17:19:41.520Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T17:19:41.522Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T17:19:41.526Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T17:20:18.932Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T17:20:18.966Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T17:20:18.969Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T17:20:18.972Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T17:21:07.814Z [HTTP] [req:dff52875-4ae0-4fe0-8090-ecad8b4fe4cc] ::1 - - [11/Sep/2025:17:21:07 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-11T17:21:08.114Z [HTTP] [req:b3baf11e-ea55-4311-b2a7-1bd3ae9000c6] ::1 - - [11/Sep/2025:17:21:08 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 829 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
