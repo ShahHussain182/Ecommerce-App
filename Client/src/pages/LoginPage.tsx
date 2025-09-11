@@ -19,7 +19,7 @@ const loginFormSchema = z.object({
 const LoginPage = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
-    mode: 'onTouched',
+    mode: 'onBlur',
     defaultValues: {
       email: "",
       password: "",

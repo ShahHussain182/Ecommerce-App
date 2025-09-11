@@ -24,7 +24,7 @@ const signupFormSchema = z.object({
 const SignupPage = () => {
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
-    mode: 'onTouched',
+    mode: 'onBlur',
     defaultValues: {
       userName: "",
       email: "",
