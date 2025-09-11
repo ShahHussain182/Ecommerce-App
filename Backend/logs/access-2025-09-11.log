@@ -252,3 +252,31 @@
 2025-09-11T17:20:18.972Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
 2025-09-11T17:21:07.814Z [HTTP] [req:dff52875-4ae0-4fe0-8090-ecad8b4fe4cc] ::1 - - [11/Sep/2025:17:21:07 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
 2025-09-11T17:21:08.114Z [HTTP] [req:b3baf11e-ea55-4311-b2a7-1bd3ae9000c6] ::1 - - [11/Sep/2025:17:21:08 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 829 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-11T17:29:55.932Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T17:29:56.000Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T17:29:56.007Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T17:29:56.017Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T17:32:06.174Z [HTTP] [req:744e11ff-5efb-4734-85d3-2f986d2e4a5f] ::1 - - [11/Sep/2025:17:32:06 +0000] "OPTIONS /api/v1/auth/verify-email HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:32:06.219Z [HTTP] [req:69d32215-ffdc-41ae-9eb8-f464ec14cb81] ::1 - - [11/Sep/2025:17:32:06 +0000] "POST /api/v1/auth/verify-email HTTP/1.1" 400 54 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:32:56.001Z [HTTP] [req:47d90d80-95bb-49eb-a48d-dc74c057b2ff] ::1 - - [11/Sep/2025:17:32:56 +0000] "OPTIONS /api/v1/auth/verify-email HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:32:56.074Z [HTTP] [req:78f4aa4c-8a14-40f6-9bd0-b2689f1ba2a0] ::1 - - [11/Sep/2025:17:32:56 +0000] "POST /api/v1/auth/verify-email HTTP/1.1" 200 838 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:33:25.009Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T17:33:25.041Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T17:33:25.043Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T17:33:25.047Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T17:34:19.421Z [HTTP] [req:fc839e9b-dabe-4b4b-8572-337212e84937] ::1 - - [11/Sep/2025:17:34:19 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:34:19.449Z [ERROR] [req:e5ea9369-d005-40c5-aca5-27a2464b98e2] ❌ Path: /api/v1/auth/signup | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-09-11T17:34:19.454Z [HTTP] [req:e5ea9369-d005-40c5-aca5-27a2464b98e2] ::1 - - [11/Sep/2025:17:34:19 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 144 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:34:28.100Z [HTTP] [req:a38f7e9b-a1e4-46e1-b908-5af60065913c] ::1 - - [11/Sep/2025:17:34:28 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:34:28.964Z [HTTP] [req:f8a71ec5-c1ca-4232-b47a-cc63ce854202] ::1 - - [11/Sep/2025:17:34:28 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 840 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:34:56.249Z [HTTP] [req:d6c66c0a-b1f0-49fc-b512-b57b225c2b57] ::1 - - [11/Sep/2025:17:34:56 +0000] "OPTIONS /api/v1/auth/verify-email HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-11T17:34:56.297Z [HTTP] [req:65699aad-4948-4300-8b8d-9912a9c40ec8] ::1 - - [11/Sep/2025:17:34:56 +0000] "POST /api/v1/auth/verify-email HTTP/1.1" 200 841 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

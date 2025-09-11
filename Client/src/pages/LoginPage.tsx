@@ -33,6 +33,10 @@ const LoginPage = () => {
     toast.success("Logged in successfully!", {
       description: "Welcome back!",
     });
+    // Clear signup/verification related session storage flags on successful login
+    sessionStorage.removeItem('signupInProgress');
+    sessionStorage.removeItem('hasVerifiedEmail');
+    sessionStorage.removeItem('signupEmail');
     form.reset();
   }
 

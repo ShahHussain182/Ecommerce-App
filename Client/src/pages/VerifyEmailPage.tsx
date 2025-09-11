@@ -21,7 +21,10 @@ const verifyEmailSchema = z.object({
 const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email;
+  const emailFromState = location.state?.email;
+  const emailFromSession = sessionStorage.getItem('signupEmail');
+  const email = emailFromState || emailFromSession;
+
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof verifyEmailSchema>>({
@@ -31,15 +34,30 @@ const VerifyEmailPage = () => {
     },
   });
 
-  // Restrict access: only allow if redirected from signup with email state
+  // Restrict access and manage session state
   useEffect(() => {
+    // If already verified, redirect to home
+    if (sessionStorage.getItem('hasVerifiedEmail') === 'true') {
+      navigate('/', { replace: true });
+      toast.info("You have already verified your email.");
+      return;
+    }
+
+    // If no email in state or session, redirect to signup
     if (!email) {
       toast.error("Access Denied", {
         description: "Please sign up to verify your email.",
       });
-      navigate('/signup', { replace: true }); // Redirect to signup and replace history entry
+      navigate('/signup', { replace: true });
+      return;
     }
-  }, [email, navigate]);
+
+    // If email is only in state, save it to session storage for persistence on refresh
+    if (emailFromState && !emailFromSession) {
+      sessionStorage.setItem('signupEmail', emailFromState);
+      sessionStorage.setItem('signupInProgress', 'true');
+    }
+  }, [email, emailFromState, emailFromSession, navigate]);
 
   async function onSubmit(values: z.infer<typeof verifyEmailSchema>) {
     setServerError(null);
@@ -52,9 +70,12 @@ const VerifyEmailPage = () => {
 
       if (response.data.success) {
         toast.success("Email verified successfully!", {
-          description: "You can now log in.",
+          description: "You can now access your account.",
         });
-        navigate('/login', { replace: true }); // Redirect to login and replace history entry
+        sessionStorage.setItem('hasVerifiedEmail', 'true'); // Mark as verified
+        sessionStorage.removeItem('signupInProgress'); // Clear signup in progress flag
+        sessionStorage.removeItem('signupEmail'); // Clear stored email
+        navigate('/', { replace: true }); // Redirect to home page
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred during verification. Please try again.";
@@ -76,7 +97,7 @@ const VerifyEmailPage = () => {
   };
 
   // If email is not present, the useEffect will handle redirection, so we don't render the form
-  if (!email) {
+  if (!email || sessionStorage.getItem('hasVerifiedEmail') === 'true') {
     return null; 
   }
 

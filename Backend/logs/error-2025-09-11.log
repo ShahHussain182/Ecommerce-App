@@ -74,3 +74,13 @@
     "message": "Unrecognized key(s) in object: 'firstName', 'lastName'"
   }
 ]
+2025-09-11T17:34:19.449Z [ERROR] [req:e5ea9369-d005-40c5-aca5-27a2464b98e2] ❌ Path: /api/v1/auth/signup | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]

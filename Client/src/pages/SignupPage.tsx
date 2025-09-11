@@ -5,7 +5,7 @@ import * as z from 'zod';
 import { motion } from 'framer-motion';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,6 +45,17 @@ const SignupPage = () => {
 
   const { clearErrors } = form;
 
+  // Restrict access to signup page if already in signup flow or verified
+  useEffect(() => {
+    if (sessionStorage.getItem('hasVerifiedEmail') === 'true') {
+      navigate('/', { replace: true });
+      toast.info("You have already verified your email.");
+    } else if (sessionStorage.getItem('signupInProgress') === 'true' && sessionStorage.getItem('signupEmail')) {
+      navigate('/verify-email', { state: { email: sessionStorage.getItem('signupEmail') }, replace: true });
+      toast.info("Please verify your email to continue.");
+    }
+  }, [navigate]);
+
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     setServerError(null);
     const { confirmPassword, ...payload } = values;
@@ -58,7 +69,9 @@ const SignupPage = () => {
         toast.success("Account created successfully!", {
           description: "Please check your email to verify your account.",
         });
-        navigate('/verify-email', { state: { email: payload.email } });
+        sessionStorage.setItem('signupInProgress', 'true'); // Mark signup in progress
+        sessionStorage.setItem('signupEmail', payload.email); // Store email for verification page
+        navigate('/verify-email', { state: { email: payload.email }, replace: true });
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
