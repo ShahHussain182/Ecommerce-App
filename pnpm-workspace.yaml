@@ -1,0 +1,8 @@
+packages:
+  - Client
+  - Backend
+
+onlyBuiltDependencies:
+  - '@swc/core'
+  - bcrypt
+  - esbuild

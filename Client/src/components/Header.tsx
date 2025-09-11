@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link, useNavigate } from 'react-router-dom';
-import React from 'react'; // Import React for useState
+import React from 'react';
 
 export const Header = () => {
   const cartItems = useCartStore((state) => state.items);
@@ -31,8 +31,8 @@ export const Header = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery(''); // Clear search input
-      setIsSearchDialogOpen(false); // Close the dialog
+      setSearchQuery('');
+      setIsSearchDialogOpen(false);
     }
   };
 
@@ -86,8 +86,10 @@ export const Header = () => {
               </DialogContent>
             </Dialog>
 
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
+            <Button variant="ghost" size="icon" asChild>
+              <Link to="/login">
+                <User className="h-5 w-5" />
+              </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
               <Link to="/cart" className="relative">

@@ -1,0 +1,11 @@
+{
+    "name": "ecommerce-app",
+    "private": true,
+    "scripts": {
+      "dev": "pnpm --filter client dev"
+    },
+    "devDependencies": {
+      "concurrently": "^9.0.0"
+    }
+  }
+  

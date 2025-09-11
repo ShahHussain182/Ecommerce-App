@@ -188,3 +188,40 @@
 2025-09-11T09:09:07.298Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
 2025-09-11T09:09:07.861Z [WARN] [req:90c6622c-7028-4740-9812-d4cf5af04d5b] 404 Not Found - Path: /
 2025-09-11T09:09:07.867Z [HTTP] [req:90c6622c-7028-4740-9812-d4cf5af04d5b] ::1 - - [11/Sep/2025:09:09:07 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-11T10:36:30.425Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T10:36:30.457Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T10:36:30.459Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T10:36:30.462Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T10:36:36.884Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T10:37:57.778Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T10:37:57.815Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T10:37:57.817Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T10:37:57.823Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T10:37:58.074Z [WARN] [req:893bfc60-f0d7-4611-ac0f-b74d117416a1] 404 Not Found - Path: /
+2025-09-11T10:37:58.082Z [HTTP] [req:893bfc60-f0d7-4611-ac0f-b74d117416a1] ::1 - - [11/Sep/2025:10:37:58 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-11T10:38:33.565Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T10:38:33.607Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T10:38:33.609Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T10:38:33.612Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T10:38:44.598Z [WARN] [req:c31c4098-d863-4a9e-82a2-3d4591ce364b] 404 Not Found - Path: /
+2025-09-11T10:38:44.606Z [HTTP] [req:c31c4098-d863-4a9e-82a2-3d4591ce364b] ::1 - - [11/Sep/2025:10:38:44 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-11T10:45:54.988Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T10:45:55.020Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T10:45:55.023Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T10:45:55.028Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T10:46:02.573Z [WARN] [req:ff8667e7-6055-4d21-b984-d6dcb00954e8] 404 Not Found - Path: /
+2025-09-11T10:46:02.580Z [HTTP] [req:ff8667e7-6055-4d21-b984-d6dcb00954e8] ::1 - - [11/Sep/2025:10:46:02 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-11T10:47:34.738Z [WARN] [req:9d2ca6ea-a56c-4aeb-a800-99269bdf2c61] 404 Not Found - Path: /
+2025-09-11T10:47:34.742Z [HTTP] [req:9d2ca6ea-a56c-4aeb-a800-99269bdf2c61] ::1 - - [11/Sep/2025:10:47:34 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-11T10:51:20.467Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T10:51:20.499Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T10:51:20.501Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T10:51:20.506Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T11:30:38.682Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T11:30:38.717Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T11:30:38.719Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T11:30:38.723Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T11:41:15.392Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T11:41:15.424Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T11:41:15.426Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T11:41:15.430Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
