@@ -1,0 +1,76 @@
+2025-09-11T08:24:30.260Z [ERROR] [req:504f77a0-23aa-40e7-819b-38896a71700c] ❌ Path: /api/v1/auth/signup | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "firstName",
+      "lastName"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'firstName', 'lastName'"
+  }
+]
+2025-09-11T08:26:09.310Z [ERROR] [req:32d5d06e-e72a-48b0-be66-1775659898b4] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "emailOrUsername"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "email",
+      "phoneNumber",
+      "userName"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'email', 'phoneNumber', 'userName'"
+  }
+]
+2025-09-11T08:27:01.530Z [ERROR] [req:6bcda572-e29f-407b-9abd-c31c9eeac859] ❌ Path: /api/v1/auth/login | Error: Expected double-quoted property name in JSON at position 109 (line 7 column 1)
+2025-09-11T08:27:18.338Z [ERROR] [req:f5b97446-4740-4f22-971b-e532447a654d] ❌ Path: /api/v1/auth/login | Error: Expected double-quoted property name in JSON at position 106 (line 6 column 1)
+2025-09-11T08:34:58.457Z [ERROR] [req:fc447cd1-0f1e-4734-a0b0-edd456cd517f] ❌ Path: /api/v1/auth/forgot-password | Error: Error sending password reset email: Error: Demo domains can only be used to send emails to account owners. You can only send testing emails to your own email address.
+2025-09-11T08:34:59.098Z [ERROR] [req:c1f3763a-bd20-4d84-82aa-49875ed03ee4] ❌ Path: /api/v1/auth/forgot-password | Error: Error sending password reset email: Error: Demo domains can only be used to send emails to account owners. You can only send testing emails to your own email address.
+2025-09-11T08:40:09.545Z [ERROR] [req:f12f653e-5f6d-4278-81e2-825ef0f84641] ❌ Path: /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "password"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "email"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'email'"
+  }
+]
+2025-09-11T08:43:14.744Z [ERROR] [req:0d08451f-cd2e-411e-8220-69d874623268] ❌ Path: /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-09-11T08:49:46.750Z [ERROR] [req:3fc35ce2-5e0d-43d3-8d12-f10a299fd960] ❌ Path: /api/v1/auth/signup | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "firstName",
+      "lastName"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'firstName', 'lastName'"
+  }
+]

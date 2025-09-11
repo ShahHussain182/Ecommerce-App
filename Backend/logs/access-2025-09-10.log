@@ -1,0 +1,310 @@
+2025-09-10T11:45:57.952Z [DEBUG] Running in development mode
+2025-09-10T11:45:57.954Z [DEBUG] Running in development mode
+2025-09-10T11:45:58.021Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:45:58.024Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:45:58.065Z [INFO] 🚀 Server running in development mode on port 3001
+2025-09-10T11:45:58.079Z [ERROR] Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at Function.listen (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\express@4.21.2\node_modules\express\lib\application.js:635:24)
+    at startServer (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:97:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-10T11:45:58.065Z [DEBUG] http://localhost:3001
+2025-09-10T11:45:58.093Z [INFO] Mongoose disconnected.
+2025-09-10T11:45:58.099Z [ERROR] MongoExpiredSessionError: Cannot use a session that has ended
+    at applySession (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sessions.js:756:16)
+    at Connection.prepareCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:177:62)
+    at Connection.sendCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:269:30)
+    at sendCommand.next (<anonymous>)
+    at Connection.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:333:26)
+    at Server.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\server.js:194:40)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async tryOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:213:32)
+    at async executeOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:78:16)
+    at async Collection.createIndex (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\collection.js:372:25)
+2025-09-10T11:45:58.111Z [INFO] MongoStore client disconnected.
+2025-09-10T11:45:58.333Z [HTTP] ::1 - - [10/Sep/2025:11:45:58 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T11:50:03.925Z [DEBUG] Running in development mode
+2025-09-10T11:50:03.933Z [DEBUG] Running in development mode
+2025-09-10T11:50:04.001Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:50:04.024Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:50:04.047Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:50:04.057Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:50:04.050Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:50:04.054Z [INFO] 🚀 Server running in development mode on port 3001
+2025-09-10T11:50:04.054Z [DEBUG] http://localhost:3001
+2025-09-10T11:50:04.061Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:50:04.066Z [ERROR] Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at Function.listen (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\express@4.21.2\node_modules\express\lib\application.js:635:24)
+    at startServer (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:97:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-10T11:50:04.076Z [WARN] ⚠️ Mongoose connection is disconnected.
+2025-09-10T11:50:04.077Z [INFO] Mongoose disconnected.
+2025-09-10T11:50:04.082Z [ERROR] MongoExpiredSessionError: Cannot use a session that has ended
+    at applySession (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sessions.js:756:16)
+    at Connection.prepareCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:177:62)
+    at Connection.sendCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:269:30)
+    at sendCommand.next (<anonymous>)
+    at Connection.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:333:26)
+    at Server.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\server.js:194:40)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async tryOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:213:32)
+    at async executeOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:78:16)
+    at async Collection.createIndex (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\collection.js:372:25)
+2025-09-10T11:50:04.089Z [INFO] MongoStore client disconnected.
+2025-09-10T11:50:31.663Z [WARN] 404 Not Found - Path: /
+2025-09-10T11:50:31.669Z [HTTP] ::1 - - [10/Sep/2025:11:50:31 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-10T11:50:31.917Z [WARN] 404 Not Found - Path: /favicon.ico
+2025-09-10T11:50:31.919Z [HTTP] ::1 - - [10/Sep/2025:11:50:31 +0000] "GET /favicon.ico HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-10T11:52:13.229Z [DEBUG] Running in development mode
+2025-09-10T11:52:13.307Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:52:13.358Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:52:13.362Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:52:13.366Z [INFO] 🚀 Server running in development mode on port 3001
+2025-09-10T11:52:13.366Z [DEBUG] http://localhost:3001
+2025-09-10T11:52:13.383Z [DEBUG] Running in development mode
+2025-09-10T11:52:13.471Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:52:13.521Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:52:13.653Z [WARN] 404 Not Found - Path: /
+2025-09-10T11:52:13.660Z [HTTP] ::1 - - [10/Sep/2025:11:52:13 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T11:52:22.451Z [DEBUG] Running in development mode
+2025-09-10T11:52:22.505Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:52:22.540Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:52:22.544Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:52:22.548Z [INFO] 🚀 Server running in development mode on port 3001
+2025-09-10T11:52:22.548Z [DEBUG] http://localhost:3001
+2025-09-10T11:52:22.588Z [DEBUG] Running in development mode
+2025-09-10T11:52:22.645Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:52:22.678Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:52:22.680Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:52:22.683Z [ERROR] Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at Function.listen (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\express@4.21.2\node_modules\express\lib\application.js:635:24)
+    at startServer (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:97:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-10T11:52:22.693Z [WARN] ⚠️ Mongoose connection is disconnected.
+2025-09-10T11:52:22.693Z [INFO] Mongoose disconnected.
+2025-09-10T11:52:22.697Z [ERROR] MongoClientClosedError: Operation interrupted because client was closed
+    at ConnectionPool.closeCheckedOutConnections (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection_pool.js:260:26)
+    at Server.closeCheckedOutConnections (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\server.js:111:26)
+    at Topology.closeCheckedOutConnections (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\topology.js:222:27)
+    at MongoClient._close (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\mongo_client.js:343:24)
+    at MongoClient.close (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\mongo_client.js:326:35)
+    at cleanup (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:116:23)
+    at async process.<anonymous> (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:131:9)
+2025-09-10T11:52:22.702Z [INFO] MongoStore client disconnected.
+2025-09-10T11:52:33.918Z [DEBUG] Running in development mode
+2025-09-10T11:52:33.997Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:52:34.049Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:52:34.052Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:52:34.062Z [INFO] 🚀 Server running in development mode on port 3001
+2025-09-10T11:52:34.062Z [DEBUG] http://localhost:3001
+2025-09-10T11:52:34.095Z [DEBUG] Running in development mode
+2025-09-10T11:52:34.166Z [INFO] MongoClient connected for sessions.
+2025-09-10T11:52:34.212Z [INFO] ✅ Mongoose connected to DB
+2025-09-10T11:52:34.215Z [INFO] 📦 MongoDB Connected: localhost
+2025-09-10T11:52:34.219Z [ERROR] Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at Function.listen (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\express@4.21.2\node_modules\express\lib\application.js:635:24)
+    at startServer (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:97:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-10T11:52:34.228Z [WARN] ⚠️ Mongoose connection is disconnected.
+2025-09-10T11:52:34.229Z [INFO] Mongoose disconnected.
+2025-09-10T11:52:34.236Z [ERROR] MongoExpiredSessionError: Cannot use a session that has ended
+    at applySession (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sessions.js:756:16)
+    at Connection.prepareCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:177:62)
+    at Connection.sendCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:269:30)
+    at sendCommand.next (<anonymous>)
+    at Connection.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:333:26)
+    at Server.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\server.js:194:40)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async tryOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:213:32)
+    at async executeOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:78:16)
+    at async Collection.createIndex (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\collection.js:372:25)
+2025-09-10T11:52:34.246Z [INFO] MongoStore client disconnected.
+2025-09-10T11:52:34.360Z [WARN] 404 Not Found - Path: /
+2025-09-10T11:52:34.368Z [HTTP] ::1 - - [10/Sep/2025:11:52:34 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T11:52:46.626Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T11:52:46.665Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T11:52:46.667Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T11:52:46.670Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T11:52:46.721Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T11:52:46.750Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T11:54:31.086Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T11:54:31.123Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T11:54:31.125Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T11:54:31.130Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T11:54:31.220Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T11:54:31.257Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T11:54:31.428Z [WARN] [req:2f7bcbb3-932c-449f-a91e-1ef94437a1c0] 404 Not Found - Path: /
+2025-09-10T11:54:31.436Z [HTTP] [req:2f7bcbb3-932c-449f-a91e-1ef94437a1c0] ::1 - - [10/Sep/2025:11:54:31 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T11:55:58.868Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T11:55:58.911Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T11:55:58.913Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T11:55:58.917Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T11:55:58.978Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T11:55:59.013Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T11:55:59.015Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T11:55:59.019Z [ERROR] [req:N/A] Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at Function.listen (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\express@4.21.2\node_modules\express\lib\application.js:635:24)
+    at startServer (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:98:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-10T11:55:59.029Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-10T11:55:59.029Z [INFO] [req:N/A] Mongoose disconnected.
+2025-09-10T11:55:59.033Z [ERROR] [req:N/A] MongoClientClosedError: Operation interrupted because client was closed
+    at ConnectionPool.closeCheckedOutConnections (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection_pool.js:260:26)
+    at Server.closeCheckedOutConnections (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\server.js:111:26)
+    at Topology.closeCheckedOutConnections (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\topology.js:222:27)
+    at MongoClient._close (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\mongo_client.js:343:24)
+    at MongoClient.close (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\mongo_client.js:326:35)
+    at cleanup (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:117:23)
+    at async process.<anonymous> (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:132:9)
+2025-09-10T11:55:59.039Z [INFO] [req:N/A] MongoStore client disconnected.
+2025-09-10T11:56:05.856Z [WARN] [req:ffcda4d7-cc3d-4988-86f5-5e434f779fb2] 404 Not Found - Path: /
+2025-09-10T11:56:05.863Z [HTTP] [req:ffcda4d7-cc3d-4988-86f5-5e434f779fb2] ::1 - - [10/Sep/2025:11:56:05 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-10T12:17:23.429Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:17:23.429Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:17:23.461Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:17:23.464Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:17:23.463Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:17:23.468Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:17:23.822Z [WARN] [req:fe9a3200-49f1-4b94-951d-87e5113ecd3f] 404 Not Found - Path: /
+2025-09-10T12:17:23.829Z [HTTP] [req:fe9a3200-49f1-4b94-951d-87e5113ecd3f] ::1 - - [10/Sep/2025:12:17:23 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:17:48.395Z [WARN] [req:fe4c4243-5758-441e-a209-8e3b7848b260] 404 Not Found - Path: /
+2025-09-10T12:17:48.400Z [HTTP] [req:fe4c4243-5758-441e-a209-8e3b7848b260] ::1 - - [10/Sep/2025:12:17:48 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-10T12:18:07.184Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:18:07.220Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:18:07.223Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:18:07.227Z [ERROR] [req:N/A] Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at Function.listen (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\express@4.21.2\node_modules\express\lib\application.js:635:24)
+    at startServer (file:///C:/Users/Administrator/dyad-apps/Backend/backend/server.js:98:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-09-10T12:18:07.244Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-10T12:18:07.245Z [INFO] [req:N/A] Mongoose disconnected.
+2025-09-10T12:18:07.251Z [ERROR] [req:N/A] MongoExpiredSessionError: Cannot use a session that has ended
+    at applySession (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sessions.js:756:16)
+    at Connection.prepareCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:177:62)
+    at Connection.sendCommand (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:269:30)
+    at sendCommand.next (<anonymous>)
+    at Connection.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\cmap\connection.js:333:26)
+    at Server.command (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\sdam\server.js:194:40)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async tryOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:213:32)
+    at async executeOperation (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\operations\execute_operation.js:78:16)
+    at async Collection.createIndex (C:\Users\Administrator\dyad-apps\Backend\node_modules\.pnpm\mongodb@6.19.0\node_modules\mongodb\lib\collection.js:372:25)
+2025-09-10T12:18:07.261Z [INFO] [req:N/A] MongoStore client disconnected.
+2025-09-10T12:18:43.090Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:18:43.131Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:18:43.134Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:18:43.138Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:21:45.319Z [WARN] [req:ca9d7155-0324-4b9d-9dc2-4ce7dbe4c51d] 404 Not Found - Path: /api/v1/auth/signup
+2025-09-10T12:21:45.325Z [HTTP] [req:ca9d7155-0324-4b9d-9dc2-4ce7dbe4c51d] ::1 - - [10/Sep/2025:12:21:45 +0000] "GET /api/v1/auth/signup HTTP/1.1" 404 58 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:23:18.270Z [HTTP] [req:09057f4e-975d-47fd-876e-034e1e1823d1] ::1 - - [10/Sep/2025:12:23:18 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 54 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:31:13.436Z [ERROR] [req:c39d7b19-9a10-41cc-92cf-f70d62895033] ❌ Path: /api/v1/auth/signup | Error: Error sending verification email : Error: Unauthorized
+2025-09-10T12:31:15.157Z [HTTP] [req:c39d7b19-9a10-41cc-92cf-f70d62895033] ::1 - - [10/Sep/2025:12:31:15 +0000] "POST /api/v1/auth/signup HTTP/1.1" 500 136 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:35:09.087Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:35:09.118Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:35:09.120Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:35:09.123Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:35:22.770Z [WARN] [req:d7bbb7c1-962f-451f-90ce-c540fae70aab] 404 Not Found - Path: /
+2025-09-10T12:35:22.777Z [HTTP] [req:d7bbb7c1-962f-451f-90ce-c540fae70aab] ::1 - - [10/Sep/2025:12:35:22 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:37:37.076Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:37:37.133Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:37:37.136Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:37:37.143Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:38:19.714Z [HTTP] [req:03b4ff10-52b4-4ffd-873e-af95ca42565e] ::1 - - [10/Sep/2025:12:38:19 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 869 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:39:32.012Z [ERROR] [req:N/A] Shutting down due to SIGINT:
+2025-09-10T12:42:50.322Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:42:50.356Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:42:50.358Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:42:50.361Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:42:50.645Z [WARN] [req:ba11626d-cfc3-418d-a94f-ff3b49dece18] 404 Not Found - Path: /
+2025-09-10T12:42:50.651Z [HTTP] [req:ba11626d-cfc3-418d-a94f-ff3b49dece18] ::1 - - [10/Sep/2025:12:42:50 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:42:55.155Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:42:55.188Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:42:55.191Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:42:55.196Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:43:20.192Z [HTTP] [req:f028b8d6-b353-4c92-8abb-8aa4d697bd95] ::1 - - [10/Sep/2025:12:43:20 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:43:47.244Z [HTTP] [req:b79535d4-66d9-4459-a8ab-82d823e4cf88] ::1 - - [10/Sep/2025:12:43:47 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 869 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:43:55.849Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-10T12:44:35.763Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:44:35.792Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:44:35.794Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:44:35.797Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:44:36.153Z [WARN] [req:20165f89-8434-447e-bb0a-ab7d89ffb852] 404 Not Found - Path: /
+2025-09-10T12:44:36.161Z [HTTP] [req:20165f89-8434-447e-bb0a-ab7d89ffb852] ::1 - - [10/Sep/2025:12:44:36 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:46:43.277Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:46:43.306Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:46:43.308Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:46:43.311Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:46:43.587Z [WARN] [req:0acc1fb4-5fa9-481b-a253-a7f1a680824b] 404 Not Found - Path: /
+2025-09-10T12:46:43.595Z [HTTP] [req:0acc1fb4-5fa9-481b-a253-a7f1a680824b] ::1 - - [10/Sep/2025:12:46:43 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:46:46.550Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:46:46.588Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:46:46.591Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:46:46.596Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:47:21.169Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:47:21.204Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:47:21.206Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:47:21.210Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:47:21.310Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:47:21.351Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:47:21.509Z [WARN] [req:1d5bfdd4-7bad-46a8-ad06-a5a45a79dfbf] 404 Not Found - Path: /
+2025-09-10T12:47:21.515Z [HTTP] [req:1d5bfdd4-7bad-46a8-ad06-a5a45a79dfbf] ::1 - - [10/Sep/2025:12:47:21 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:47:30.067Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:47:30.098Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:47:30.100Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:47:30.103Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:47:36.672Z [HTTP] [req:6d03e4dd-d2c6-46d3-835b-e0fd156d2611] ::1 - - [10/Sep/2025:12:47:36 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 869 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:47:43.976Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-10T12:51:31.039Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:51:31.079Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:51:31.081Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:51:31.084Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:51:31.389Z [WARN] [req:62eb5848-736b-43b5-bb47-cf46771d9fa9] 404 Not Found - Path: /
+2025-09-10T12:51:31.399Z [HTTP] [req:62eb5848-736b-43b5-bb47-cf46771d9fa9] ::1 - - [10/Sep/2025:12:51:31 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T12:51:53.434Z [HTTP] [req:878c3d7b-5db4-48fa-8041-a70393b92ad6] ::1 - - [10/Sep/2025:12:51:53 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 869 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:52:11.229Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:52:11.268Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:52:11.271Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:52:11.274Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:52:17.180Z [HTTP] [req:6a8e58c3-9588-408b-b808-9999d3174cda] ::1 - - [10/Sep/2025:12:52:17 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:52:37.677Z [HTTP] [req:2783bdb6-bd90-44e6-94ac-7b3014077aac] ::1 - - [10/Sep/2025:12:52:37 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 869 "-" "PostmanRuntime/7.45.0"
+2025-09-10T12:52:41.125Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-10T12:53:36.905Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T12:53:36.934Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T12:53:36.936Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T12:53:36.940Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T12:53:37.270Z [WARN] [req:c3ab18e8-4d52-4cd8-9547-d0cd3a15e8e4] 404 Not Found - Path: /
+2025-09-10T12:53:37.280Z [HTTP] [req:c3ab18e8-4d52-4cd8-9547-d0cd3a15e8e4] ::1 - - [10/Sep/2025:12:53:37 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T13:05:04.142Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T13:05:04.205Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T13:05:04.207Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T13:05:04.211Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T13:05:04.535Z [WARN] [req:0f94e436-17c6-4f9a-8f43-6c8e555ed93a] 404 Not Found - Path: /
+2025-09-10T13:05:04.543Z [HTTP] [req:0f94e436-17c6-4f9a-8f43-6c8e555ed93a] ::1 - - [10/Sep/2025:13:05:04 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-10T13:06:06.106Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T13:06:06.142Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T13:06:06.144Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T13:06:06.148Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T13:06:52.415Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-10T13:06:57.444Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-10T13:06:57.481Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-10T13:06:57.483Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-10T13:06:57.487Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-10T13:09:51.407Z [HTTP] [req:8825cc17-15a4-4c13-aa8f-0eb62923060f] ::ffff:127.0.0.1 - - [10/Sep/2025:13:09:51 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 877 "-" "vscode-restclient"
+2025-09-10T13:09:57.088Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...

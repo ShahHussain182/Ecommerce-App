@@ -1,0 +1,190 @@
+2025-09-11T07:44:45.000Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T07:44:45.038Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T07:44:45.051Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T07:44:45.146Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T07:46:36.045Z [HTTP] [req:292d0109-d87a-4036-9466-0aa4525451bc] ::ffff:127.0.0.1 - - [11/Sep/2025:07:46:36 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 877 "-" "vscode-restclient"
+2025-09-11T07:46:50.368Z [HTTP] [req:419cfbfc-94e0-4c6d-bde7-9945e57b5000] ::ffff:127.0.0.1 - - [11/Sep/2025:07:46:50 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T07:47:07.055Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T07:58:44.844Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T07:58:44.880Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T07:58:44.882Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T07:58:44.886Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T07:58:57.406Z [HTTP] [req:7df22c82-8633-46b0-9102-3c61ce654c78] ::ffff:127.0.0.1 - - [11/Sep/2025:07:58:57 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T07:59:16.722Z [HTTP] [req:fddcce98-e7ed-4419-a241-78a09a305778] ::ffff:127.0.0.1 - - [11/Sep/2025:07:59:16 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 877 "-" "vscode-restclient"
+2025-09-11T07:59:20.040Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:10:55.043Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:10:55.079Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:10:55.081Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:10:55.085Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:11:31.790Z [HTTP] [req:0d15108c-c99b-4a0a-958e-90d77321862a] ::ffff:127.0.0.1 - - [11/Sep/2025:08:11:31 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 877 "-" "vscode-restclient"
+2025-09-11T08:11:46.752Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:14:41.043Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:14:41.074Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:14:41.076Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:14:41.080Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:14:43.151Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:14:48.377Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:14:48.413Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:14:48.415Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:14:48.419Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:15:14.462Z [HTTP] [req:577467ca-c266-4022-bc2c-05b88bc36703] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:14 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 877 "-" "vscode-restclient"
+2025-09-11T08:15:15.557Z [HTTP] [req:8f897af3-8544-48f9-90da-79e1bbf5ed3d] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:15 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:16.466Z [HTTP] [req:11c798af-6e37-460e-9b6f-24507765addd] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:16 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:17.041Z [HTTP] [req:3444e9c7-a5f0-4623-916f-2c8584e4bcda] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:17 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:17.958Z [HTTP] [req:ebcfc773-2d8b-4896-8ba4-4f899f8c1b93] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:17 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:18.559Z [HTTP] [req:9bda5264-09e2-4d01-9c6b-2ff134ac3531] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:18 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:19.190Z [HTTP] [req:f822830c-6c94-4043-a436-ad692034c782] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:19 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:19.794Z [HTTP] [req:01c7ac14-0cb5-4b5b-bc99-4a4c2d9ee9a7] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:19 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:20.449Z [HTTP] [req:14503995-8c1e-440e-9516-4b66dd679367] ::ffff:127.0.0.1 - - [11/Sep/2025:08:15:20 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:15:26.798Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:17:59.634Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:17:59.670Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:17:59.672Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:17:59.676Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:18:06.380Z [HTTP] [req:93819007-1f89-464f-8db5-c59c025460bd] ::ffff:127.0.0.1 - - [11/Sep/2025:08:18:06 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:18:24.311Z [HTTP] [req:7732e1e2-8a4e-4577-a732-ca82e081665a] ::ffff:127.0.0.1 - - [11/Sep/2025:08:18:24 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 877 "-" "vscode-restclient"
+2025-09-11T08:18:31.007Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:24:17.695Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:24:17.730Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:24:17.732Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:24:17.735Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:24:30.260Z [ERROR] [req:504f77a0-23aa-40e7-819b-38896a71700c] ❌ Path: /api/v1/auth/signup | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "firstName",
+      "lastName"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'firstName', 'lastName'"
+  }
+]
+2025-09-11T08:24:30.271Z [HTTP] [req:504f77a0-23aa-40e7-819b-38896a71700c] ::ffff:127.0.0.1 - - [11/Sep/2025:08:24:30 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 136 "-" "vscode-restclient"
+2025-09-11T08:24:58.282Z [HTTP] [req:3e753ef4-688b-45b9-859b-0ad082554284] ::ffff:127.0.0.1 - - [11/Sep/2025:08:24:58 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 51 "-" "vscode-restclient"
+2025-09-11T08:25:19.325Z [HTTP] [req:19c3a5d0-6a9f-42f7-8531-2d6b86fc573b] ::ffff:127.0.0.1 - - [11/Sep/2025:08:25:19 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 837 "-" "vscode-restclient"
+2025-09-11T08:26:09.310Z [ERROR] [req:32d5d06e-e72a-48b0-be66-1775659898b4] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "emailOrUsername"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "email",
+      "phoneNumber",
+      "userName"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'email', 'phoneNumber', 'userName'"
+  }
+]
+2025-09-11T08:26:09.318Z [HTTP] [req:32d5d06e-e72a-48b0-be66-1775659898b4] ::ffff:127.0.0.1 - - [11/Sep/2025:08:26:09 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 197 "-" "vscode-restclient"
+2025-09-11T08:27:01.530Z [ERROR] [req:6bcda572-e29f-407b-9abd-c31c9eeac859] ❌ Path: /api/v1/auth/login | Error: Expected double-quoted property name in JSON at position 109 (line 7 column 1)
+2025-09-11T08:27:01.533Z [HTTP] [req:6bcda572-e29f-407b-9abd-c31c9eeac859] ::ffff:127.0.0.1 - - [11/Sep/2025:08:27:01 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 100 "-" "vscode-restclient"
+2025-09-11T08:27:18.338Z [ERROR] [req:f5b97446-4740-4f22-971b-e532447a654d] ❌ Path: /api/v1/auth/login | Error: Expected double-quoted property name in JSON at position 106 (line 6 column 1)
+2025-09-11T08:27:18.341Z [HTTP] [req:f5b97446-4740-4f22-971b-e532447a654d] ::ffff:127.0.0.1 - - [11/Sep/2025:08:27:18 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 100 "-" "vscode-restclient"
+2025-09-11T08:27:29.284Z [HTTP] [req:c75a0e54-d4fb-4864-a670-e2d26c934e7a] ::ffff:127.0.0.1 - - [11/Sep/2025:08:27:29 +0000] "POST /api/v1/auth/login HTTP/1.1" 403 72 "-" "vscode-restclient"
+2025-09-11T08:27:38.074Z [HTTP] [req:f28036f7-a092-4e25-96ab-9ec258ff556f] ::ffff:127.0.0.1 - - [11/Sep/2025:08:27:38 +0000] "POST /api/v1/auth/login HTTP/1.1" 403 72 "-" "vscode-restclient"
+2025-09-11T08:29:18.447Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:29:18.482Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:29:18.484Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:29:18.487Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:30:58.034Z [HTTP] [req:ae1e1148-b2db-4a86-ba17-a5e4f3477ff7] ::ffff:127.0.0.1 - - [11/Sep/2025:08:30:58 +0000] "POST /api/v1/auth/verify-email HTTP/1.1" 200 838 "-" "vscode-restclient"
+2025-09-11T08:32:01.923Z [HTTP] [req:8a2c0ea0-fb47-4f21-950a-339993d3af2b] ::ffff:127.0.0.1 - - [11/Sep/2025:08:32:01 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "-" "vscode-restclient"
+2025-09-11T08:32:15.014Z [HTTP] [req:8f70f3b0-1dac-45c7-abdf-081b1f84b882] ::ffff:127.0.0.1 - - [11/Sep/2025:08:32:15 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "-" "vscode-restclient"
+2025-09-11T08:33:13.550Z [HTTP] [req:1cf19b22-5570-41f6-976c-4459b5647d65] ::ffff:127.0.0.1 - - [11/Sep/2025:08:33:13 +0000] "POST /api/v1/auth/logout HTTP/1.1" 200 46 "-" "vscode-restclient"
+2025-09-11T08:33:24.651Z [HTTP] [req:526bbcab-e65e-4bf0-bda2-5f345a9768b0] ::ffff:127.0.0.1 - - [11/Sep/2025:08:33:24 +0000] "POST /api/v1/auth/logout HTTP/1.1" 200 46 "-" "vscode-restclient"
+2025-09-11T08:34:58.457Z [ERROR] [req:fc447cd1-0f1e-4734-a0b0-edd456cd517f] ❌ Path: /api/v1/auth/forgot-password | Error: Error sending password reset email: Error: Demo domains can only be used to send emails to account owners. You can only send testing emails to your own email address.
+2025-09-11T08:34:58.459Z [HTTP] [req:fc447cd1-0f1e-4734-a0b0-edd456cd517f] ::ffff:127.0.0.1 - - [11/Sep/2025:08:34:58 +0000] "POST /api/v1/auth/forgot-password HTTP/1.1" 500 248 "-" "vscode-restclient"
+2025-09-11T08:34:59.098Z [ERROR] [req:c1f3763a-bd20-4d84-82aa-49875ed03ee4] ❌ Path: /api/v1/auth/forgot-password | Error: Error sending password reset email: Error: Demo domains can only be used to send emails to account owners. You can only send testing emails to your own email address.
+2025-09-11T08:34:59.101Z [HTTP] [req:c1f3763a-bd20-4d84-82aa-49875ed03ee4] ::ffff:127.0.0.1 - - [11/Sep/2025:08:34:59 +0000] "POST /api/v1/auth/forgot-password HTTP/1.1" 500 248 "-" "vscode-restclient"
+2025-09-11T08:35:38.474Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:35:38.511Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:35:38.513Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:35:38.523Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:35:48.006Z [HTTP] [req:e85e1259-1493-46fb-8dbc-8f5244ce6bb4] ::ffff:127.0.0.1 - - [11/Sep/2025:08:35:48 +0000] "POST /api/v1/auth/forgot-password HTTP/1.1" 200 67 "-" "vscode-restclient"
+2025-09-11T08:35:53.124Z [HTTP] [req:2c6df305-e857-401f-9d7a-e200ab8e12b4] ::ffff:127.0.0.1 - - [11/Sep/2025:08:35:53 +0000] "POST /api/v1/auth/forgot-password HTTP/1.1" 200 67 "-" "vscode-restclient"
+2025-09-11T08:39:24.036Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:39:24.073Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:39:24.075Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:39:24.079Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:40:09.545Z [ERROR] [req:f12f653e-5f6d-4278-81e2-825ef0f84641] ❌ Path: /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "password"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "email"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'email'"
+  }
+]
+2025-09-11T08:40:09.553Z [HTTP] [req:f12f653e-5f6d-4278-81e2-825ef0f84641] ::ffff:127.0.0.1 - - [11/Sep/2025:08:40:09 +0000] "POST /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f HTTP/1.1" 400 163 "-" "vscode-restclient"
+2025-09-11T08:43:14.744Z [ERROR] [req:0d08451f-cd2e-411e-8220-69d874623268] ❌ Path: /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-09-11T08:43:14.749Z [HTTP] [req:0d08451f-cd2e-411e-8220-69d874623268] ::ffff:127.0.0.1 - - [11/Sep/2025:08:43:14 +0000] "POST /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f HTTP/1.1" 400 144 "-" "vscode-restclient"
+2025-09-11T08:43:23.762Z [HTTP] [req:4236db38-499c-41c8-9689-3554596bfc73] ::ffff:127.0.0.1 - - [11/Sep/2025:08:43:23 +0000] "POST /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f HTTP/1.1" 200 54 "-" "vscode-restclient"
+2025-09-11T08:43:33.457Z [HTTP] [req:d68c1cd7-8fe5-4971-a654-68ba87e2847d] ::ffff:127.0.0.1 - - [11/Sep/2025:08:43:33 +0000] "POST /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f HTTP/1.1" 200 54 "-" "vscode-restclient"
+2025-09-11T08:45:10.021Z [HTTP] [req:c1d70824-4dbe-40ba-b53d-9b6be4cf6f23] ::ffff:127.0.0.1 - - [11/Sep/2025:08:45:10 +0000] "POST /api/v1/auth/reset-password/cd0a4ab127608b8d6e25b2462b50bf9d0290c18f HTTP/1.1" 400 60 "-" "vscode-restclient"
+2025-09-11T08:45:43.826Z [HTTP] [req:f1d20086-b563-4d25-8cad-7d61736095a7] ::ffff:127.0.0.1 - - [11/Sep/2025:08:45:43 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "-" "vscode-restclient"
+2025-09-11T08:45:52.950Z [HTTP] [req:dcf99a5d-33df-4a96-8908-8f008ea2b5cf] ::ffff:127.0.0.1 - - [11/Sep/2025:08:45:52 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 50 "-" "vscode-restclient"
+2025-09-11T08:45:58.163Z [HTTP] [req:8f2da054-e951-42f0-9f16-b64e9605f54b] ::ffff:127.0.0.1 - - [11/Sep/2025:08:45:58 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "-" "vscode-restclient"
+2025-09-11T08:47:59.234Z [HTTP] [req:3844dc4c-84a7-4310-b1dc-43190931b75b] ::ffff:127.0.0.1 - - [11/Sep/2025:08:47:59 +0000] "POST /api/v1/auth/signupaad HTTP/1.1" 200 5 "-" "vscode-restclient"
+2025-09-11T08:48:48.145Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:48:48.181Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:48:48.183Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:48:48.187Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:48:58.631Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:48:58.663Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:48:58.666Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:48:58.671Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:49:02.763Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:49:22.549Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:49:22.597Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:49:22.599Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:49:22.603Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:49:23.724Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T08:49:28.887Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T08:49:28.921Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T08:49:28.923Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T08:49:28.926Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T08:49:46.750Z [ERROR] [req:3fc35ce2-5e0d-43d3-8d12-f10a299fd960] ❌ Path: /api/v1/auth/signup | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "firstName",
+      "lastName"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'firstName', 'lastName'"
+  }
+]
+2025-09-11T08:49:46.761Z [HTTP] [req:3fc35ce2-5e0d-43d3-8d12-f10a299fd960] ::ffff:127.0.0.1 - - [11/Sep/2025:08:49:46 +0000] "POST /api/v1/auth/signup HTTP/1.1" 400 136 "-" "vscode-restclient"
+2025-09-11T08:49:50.813Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-11T09:09:07.263Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-11T09:09:07.293Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-11T09:09:07.295Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-11T09:09:07.298Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-11T09:09:07.861Z [WARN] [req:90c6622c-7028-4740-9812-d4cf5af04d5b] 404 Not Found - Path: /
+2025-09-11T09:09:07.867Z [HTTP] [req:90c6622c-7028-4740-9812-d4cf5af04d5b] ::1 - - [11/Sep/2025:09:09:07 +0000] "GET / HTTP/1.1" 404 58 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
