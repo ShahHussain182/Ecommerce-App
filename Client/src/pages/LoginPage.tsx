@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { AuthLayout } from '@/components/AuthLayout';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
+import { useAuthStore } from '@/store/authStore'; // Import the auth store
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -17,6 +19,10 @@ const loginFormSchema = z.object({
 });
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const loginUser = useAuthStore((state) => state.login); // Get login action from store
+  const clearSignupProgress = useAuthStore((state) => state.clearSignupProgress); // Get clear signup action
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     mode: 'onBlur',
@@ -28,16 +34,29 @@ const LoginPage = () => {
 
   const { clearErrors } = form;
 
-  function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log("Login form submitted:", values);
-    toast.success("Logged in successfully!", {
-      description: "Welcome back!",
-    });
-    // Clear signup/verification related session storage flags on successful login
-    sessionStorage.removeItem('signupInProgress');
-    sessionStorage.removeItem('hasVerifiedEmail');
-    sessionStorage.removeItem('signupEmail');
-    form.reset();
+  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+    try {
+      const response = await axios.post('http://localhost:3001/api/v1/auth/login', {
+        emailOrUsername: values.email, // Assuming email is used for login
+        password: values.password,
+      }, {
+        withCredentials: true,
+      });
+
+      if (response.data.success) {
+        loginUser(response.data.user); // Update auth store with user data
+        clearSignupProgress(); // Clear any lingering signup progress
+        navigate('/', { replace: true }); // Redirect to home page
+      }
+    } catch (error: any) {
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (axios.isAxiosError(error) && error.response) {
+        errorMessage = error.response.data.message || errorMessage;
+      }
+      toast.error("Login Failed", {
+        description: errorMessage,
+      });
+    }
   }
 
   const onError = (errors: any) => {

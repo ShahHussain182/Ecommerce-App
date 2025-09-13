@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { FormErrorMessage } from "@/components/FormErrorMessage";
+import { useAuthStore } from '@/store/authStore'; // Import the auth store
 
 
 const verifyEmailSchema = z.object({
@@ -22,8 +23,10 @@ const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const emailFromState = location.state?.email;
-  const emailFromSession = sessionStorage.getItem('signupEmail');
-  const email = emailFromState || emailFromSession;
+  
+  // Use auth store state and actions
+  const { isAuthenticated, isVerified, signupInProgress, signupEmail, clearSignupProgress, markEmailVerified } = useAuthStore();
+  const email = emailFromState || signupEmail; // Prioritize state, then store
 
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -34,30 +37,22 @@ const VerifyEmailPage = () => {
     },
   });
 
-  // Restrict access and manage session state
+  // Restrict access and manage auth store state
   useEffect(() => {
-    // If already verified, redirect to home
-    if (sessionStorage.getItem('hasVerifiedEmail') === 'true') {
+    if (isAuthenticated && isVerified) {
       navigate('/', { replace: true });
-      toast.info("You have already verified your email.");
+      toast.info("You are already logged in and verified.");
       return;
     }
-
-    // If no email in state or session, redirect to signup
-    if (!email) {
+    
+    if (!signupInProgress || !email) {
       toast.error("Access Denied", {
         description: "Please sign up to verify your email.",
       });
       navigate('/signup', { replace: true });
       return;
     }
-
-    // If email is only in state, save it to session storage for persistence on refresh
-    if (emailFromState && !emailFromSession) {
-      sessionStorage.setItem('signupEmail', emailFromState);
-      sessionStorage.setItem('signupInProgress', 'true');
-    }
-  }, [email, emailFromState, emailFromSession, navigate]);
+  }, [email, navigate, isAuthenticated, isVerified, signupInProgress]);
 
   async function onSubmit(values: z.infer<typeof verifyEmailSchema>) {
     setServerError(null);
@@ -72,9 +67,8 @@ const VerifyEmailPage = () => {
         toast.success("Email verified successfully!", {
           description: "You can now access your account.",
         });
-        sessionStorage.setItem('hasVerifiedEmail', 'true'); // Mark as verified
-        sessionStorage.removeItem('signupInProgress'); // Clear signup in progress flag
-        sessionStorage.removeItem('signupEmail'); // Clear stored email
+        markEmailVerified(); // Update auth store
+        clearSignupProgress(); // Clear signup progress
         navigate('/', { replace: true }); // Redirect to home page
       }
     } catch (error: any) {
@@ -96,8 +90,8 @@ const VerifyEmailPage = () => {
     }
   };
 
-  // If email is not present, the useEffect will handle redirection, so we don't render the form
-  if (!email || sessionStorage.getItem('hasVerifiedEmail') === 'true') {
+  // If email is not present or already verified, the useEffect will handle redirection, so we don't render the form
+  if (!email || (isAuthenticated && isVerified)) {
     return null; 
   }
 

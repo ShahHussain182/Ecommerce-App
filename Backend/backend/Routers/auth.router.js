@@ -1,11 +1,11 @@
 import express from "express";
-import { forgotPassword, login, logout, refresh, resetPassword, signup, verifyEmail } from "../Controllers/auth.controller.js";
-import { verifyAccessToken } from "../Middleware/verifyAccessToken.js";
+import { checkAuth, forgotPassword, login, logout, refresh, resetPassword, signup, verifyEmail } from "../Controllers/auth.controller.js";
+import { requireAuth } from "../Middleware/requireAuth.js";
 const authRouter = express.Router();
 
 
 authRouter.post("/signup",signup )
-authRouter.post("/protected-route",verifyAccessToken,async (req,res,next) => {
+authRouter.post("/protected-route",requireAuth,async (req,res,next) => {
     res.send("Hello")
 } )
 
@@ -14,7 +14,7 @@ authRouter.post("/login", login);
 authRouter.post("/logout",logout);
 authRouter.post("/forgot-password",forgotPassword);
 authRouter.post("/reset-password/:token",resetPassword);
-/* authRouter.get("/check-auth",resetPassword); */
+authRouter.get("/check-auth",requireAuth,checkAuth);
 
 authRouter.get("/refresh", refresh);
 

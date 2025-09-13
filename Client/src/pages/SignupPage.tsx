@@ -15,6 +15,7 @@ import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { useAuthStore } from '@/store/authStore'; // Import the auth store
 
 const signupFormSchema = z.object({
   userName: z.string().min(3, { message: "Username must be at least 3 characters." }),
@@ -31,6 +32,9 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState<string | null>(null);
 
+  // Use auth store state and actions
+  const { isAuthenticated, isVerified, signupInProgress, signupEmail, setSignupProgress } = useAuthStore();
+
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     mode: 'onBlur',
@@ -45,16 +49,16 @@ const SignupPage = () => {
 
   const { clearErrors } = form;
 
-  // Restrict access to signup page if already in signup flow or verified
+  // Restrict access to signup page based on auth store state
   useEffect(() => {
-    if (sessionStorage.getItem('hasVerifiedEmail') === 'true') {
+    if (isAuthenticated && isVerified) {
       navigate('/', { replace: true });
-      toast.info("You have already verified your email.");
-    } else if (sessionStorage.getItem('signupInProgress') === 'true' && sessionStorage.getItem('signupEmail')) {
-      navigate('/verify-email', { state: { email: sessionStorage.getItem('signupEmail') }, replace: true });
+      toast.info("You are already logged in and verified.");
+    } else if (signupInProgress && signupEmail) {
+      navigate('/verify-email', { state: { email: signupEmail }, replace: true });
       toast.info("Please verify your email to continue.");
     }
-  }, [navigate]);
+  }, [navigate, isAuthenticated, isVerified, signupInProgress, signupEmail]);
 
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     setServerError(null);
@@ -69,8 +73,7 @@ const SignupPage = () => {
         toast.success("Account created successfully!", {
           description: "Please check your email to verify your account.",
         });
-        sessionStorage.setItem('signupInProgress', 'true'); // Mark signup in progress
-        sessionStorage.setItem('signupEmail', payload.email); // Store email for verification page
+        setSignupProgress(payload.email); // Update auth store
         navigate('/verify-email', { state: { email: payload.email }, replace: true });
       }
     } catch (error: any) {

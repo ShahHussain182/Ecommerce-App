@@ -41,3 +41,14 @@ export interface PaginatedProductsResponse {
   nextPage: number | null;
   totalProducts: number;
 }
+
+export interface User {
+  _id: string;
+  email: string;
+  userName: string;
+  phoneNumber: string;
+  isVerified: boolean;
+  lastLogin: string; // Date string
+  createdAt: string; // Date string
+  updatedAt: string; // Date string
+}

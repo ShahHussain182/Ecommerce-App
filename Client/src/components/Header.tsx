@@ -2,6 +2,7 @@ import { ShoppingCart, User, Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCartStore } from '@/store/cartStore';
+import { useAuthStore } from '@/store/authStore'; // Import the auth store
 import {
   Sheet,
   SheetContent,
@@ -22,6 +23,7 @@ import React from 'react';
 
 export const Header = () => {
   const cartItems = useCartStore((state) => state.items);
+  const { isAuthenticated } = useAuthStore(); // Get isAuthenticated from auth store
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -87,7 +89,7 @@ export const Header = () => {
             </Dialog>
 
             <Button variant="ghost" size="icon" asChild>
-              <Link to="/login">
+              <Link to={isAuthenticated ? "/profile" : "/login"}> {/* Conditional link based on auth state */}
                 <User className="h-5 w-5" />
               </Link>
             </Button>

@@ -386,3 +386,14 @@ export const refresh = catchErrors(async (req, res) => {
   res.status(200).json({ success: true, message: "Tokens refreshed successfully" });
 
 });
+export const checkAuth = catchErrors(async (req, res) => {
+  
+
+  const user = await User.findById(req.userId).select("-password");
+  if (!user) {
+    return res.status(400).json({ success: false, message: "User not found" });
+  }
+
+  res.status(200).json({ success: true, user });
+  
+});
