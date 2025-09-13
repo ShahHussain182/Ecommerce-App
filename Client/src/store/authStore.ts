@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { User } from '@/types';
 import { toast } from 'sonner';
+import { useCartStore } from './cartStore'; // Import cart store
 
 interface AuthState {
   user: User | null;
@@ -30,7 +31,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
       user,
       isAuthenticated: true,
       isVerified: user.isVerified,
-      signupInProgress: false, // Ensure these are cleared on login
+      signupInProgress: false,
       signupEmail: null,
     });
     if (showToast) {
@@ -38,9 +39,12 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
         description: `Welcome back, ${user.userName}!`,
       });
     }
+    // Initialize cart after login
+    useCartStore.getState().initializeCart();
   },
 
   logout: () => {
+    useCartStore.getState().clearClientCart(); // Clear cart state on logout
     set({
       user: null,
       isAuthenticated: false,
@@ -69,7 +73,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
     set((state) => ({
       isVerified: true,
       user: state.user ? { ...state.user, isVerified: true } : null,
-      signupInProgress: false, // Clear signup progress after verification
+      signupInProgress: false,
       signupEmail: null,
     }));
   },

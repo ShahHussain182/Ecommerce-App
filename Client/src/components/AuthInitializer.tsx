@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
+import { useCartStore } from '@/store/cartStore'; // Import cart store
 import { Skeleton } from './ui/skeleton';
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { login, logout } = useAuthStore();
+  const { initializeCart } = useCartStore(); // Get cart initializer
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -14,8 +16,8 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
           withCredentials: true,
         });
         if (response.data.success) {
-          // On successful session check, log the user in without showing a toast
           login(response.data.user, false);
+          await initializeCart(); // Fetch and set the cart after user is logged in
         } else {
           logout();
         }
@@ -28,10 +30,9 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
     };
 
     checkUserStatus();
-  }, [login, logout]);
+  }, [login, logout, initializeCart]);
 
   if (isLoading) {
-    // Display a simple full-page loader to prevent content flashing
     return (
       <div className="flex flex-col min-h-screen">
         <header className="border-b">

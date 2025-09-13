@@ -1,5 +1,5 @@
 export interface ProductVariant {
-  _id: string; // Changed from id: number
+  _id: string;
   size: string;
   color: string;
   price: number;
@@ -8,7 +8,7 @@ export interface ProductVariant {
 }
 
 export interface Product {
-  _id: string; // Changed from id: number
+  _id: string;
   name: string;
   imageUrls: string[];
   description: string;
@@ -19,17 +19,33 @@ export interface Product {
   updatedAt?: string;
 }
 
+// This represents a single item within the cart, as returned by the backend
 export interface CartItem {
-  product: Product;
-  variant: ProductVariant;
-  cartItemId: string;
+  _id: string; // The unique ID of the cart item itself
+  productId: Product; // Populated product details
+  variantId: string; // The ID of the specific variant
   quantity: number;
+  priceAtTime: number;
+  nameAtTime: string;
+  imageAtTime: string;
 }
+
+// This represents the entire cart object from the backend
+export interface Cart {
+  _id: string;
+  userId: string;
+  items: CartItem[];
+  subtotal: number;
+  totalItems: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 export interface FilterState {
   categories?: string[];
   priceRange?: [number, number];
-  colors?: string[];
+  colors?: [number, number];
   sizes?: string[];
   sortBy?: string;
   searchTerm?: string;

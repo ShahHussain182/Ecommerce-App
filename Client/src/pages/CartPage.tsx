@@ -8,12 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Minus, Plus, Trash2, ShoppingCart } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingCart, Loader2 } from 'lucide-react';
 
 const CartPage = () => {
-  const { items, removeItem, updateItemQuantity, clearCart } = useCartStore();
-
-  const subtotal = items.reduce((acc, item) => acc + item.variant.price * item.quantity, 0);
+  const { cart, removeItem, updateItemQuantity, clearRemoteCart, isLoading } = useCartStore();
+  const items = cart?.items || [];
 
   if (items.length === 0) {
     return (
@@ -24,7 +23,7 @@ const CartPage = () => {
           <h2 className="text-3xl font-bold mb-4">Your cart is empty</h2>
           <p className="text-gray-600 mb-8">Looks like you haven't added anything to your cart yet.</p>
           <Button asChild>
-            <Link to="/">Continue Shopping</Link>
+            <Link to="/products">Continue Shopping</Link>
           </Button>
         </main>
         <Footer />
@@ -41,30 +40,26 @@ const CartPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {items.map((item) => (
-              <Card key={item.cartItemId} className="flex flex-col sm:flex-row items-center p-4">
-                <Link to={`/product/${item.product.id}`} className="flex-shrink-0">
+              <Card key={item._id} className="flex flex-col sm:flex-row items-center p-4">
+                <Link to={`/product/${item.productId._id}`} className="flex-shrink-0">
                   <img
-                    src={item.product.imageUrls[0]}
-                    alt={item.product.name}
+                    src={item.imageAtTime}
+                    alt={item.nameAtTime}
                     className="w-24 h-24 object-cover rounded-md mr-4"
                   />
                 </Link>
                 <div className="flex-grow mt-4 sm:mt-0">
-                  <Link to={`/product/${item.product.id}`}>
-                    <CardTitle className="text-lg font-semibold hover:text-primary">{item.product.name}</CardTitle>
+                  <Link to={`/product/${item.productId._id}`}>
+                    <CardTitle className="text-lg font-semibold hover:text-primary">{item.nameAtTime}</CardTitle>
                   </Link>
-                  <p className="text-sm text-gray-600">
-                    {item.variant.size !== "One Size" && `Size: ${item.variant.size}, `}
-                    Color: {item.variant.color}
-                  </p>
-                  <p className="text-md font-medium mt-1">${item.variant.price.toFixed(2)}</p>
+                  <p className="text-md font-medium mt-1">${item.priceAtTime.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center space-x-2 mt-4 sm:mt-0 sm:ml-auto">
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => updateItemQuantity(item.cartItemId, item.quantity - 1)}
-                    disabled={item.quantity <= 1}
+                    onClick={() => updateItemQuantity(item._id, item.quantity - 1)}
+                    disabled={item.quantity <= 1 || isLoading}
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
@@ -77,22 +72,25 @@ const CartPage = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => updateItemQuantity(item.cartItemId, item.quantity + 1)}
-                    disabled={item.quantity >= item.variant.stock}
+                    onClick={() => updateItemQuantity(item._id, item.quantity + 1)}
+                    disabled={isLoading}
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" onClick={() => removeItem(item.cartItemId)}>
+                  <Button variant="ghost" size="icon" onClick={() => removeItem(item._id)} disabled={isLoading}>
                     <Trash2 className="h-5 w-5 text-red-500" />
                   </Button>
                 </div>
                 <div className="text-lg font-semibold mt-4 sm:mt-0 sm:ml-4 w-full sm:w-auto text-right">
-                  ${(item.variant.price * item.quantity).toFixed(2)}
+                  ${(item.priceAtTime * item.quantity).toFixed(2)}
                 </div>
               </Card>
             ))}
             <div className="flex justify-end">
-              <Button variant="outline" onClick={clearCart}>Clear Cart</Button>
+              <Button variant="outline" onClick={clearRemoteCart} disabled={isLoading}>
+                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                Clear Cart
+              </Button>
             </div>
           </div>
 
@@ -103,18 +101,20 @@ const CartPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
-                  <p className="text-gray-700">Subtotal ({items.length} items)</p>
-                  <p className="font-semibold">${subtotal.toFixed(2)}</p>
+                  <p className="text-gray-700">Subtotal ({cart?.totalItems || 0} items)</p>
+                  <p className="font-semibold">${cart?.subtotal.toFixed(2)}</p>
                 </div>
-                {/* Add more summary details like shipping, taxes later */}
                 <Separator />
                 <div className="flex justify-between text-xl font-bold">
                   <p>Total</p>
-                  <p>${subtotal.toFixed(2)}</p>
+                  <p>${cart?.subtotal.toFixed(2)}</p>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" size="lg">Proceed to Checkout</Button>
+                <Button className="w-full" size="lg" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                  Proceed to Checkout
+                </Button>
               </CardFooter>
             </Card>
           </div>

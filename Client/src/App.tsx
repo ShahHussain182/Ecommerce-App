@@ -18,8 +18,8 @@ import ShippingReturnsPage from './pages/ShippingReturnsPage';
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import AuthInitializer from "./components/AuthInitializer";
 import { useAuthStore } from "./store/authStore";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
-import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
+import ProtectedRoute from "./components/ProtectedRoute";
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,7 +55,14 @@ const App = () => {
                 <Route index element={<Index />} />
                 <Route path="products" element={<ProductsPage />} />
                 <Route path="product/:id" element={<ProductDetail />} />
-                <Route path="cart" element={<CartPage />} />
+                <Route 
+                  path="cart" 
+                  element={
+                    <ProtectedRoute>
+                      <CartPage />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path="about" element={<AboutUs />} />
                 <Route path="contact" element={<ContactUs />} />
                 <Route path="search" element={<SearchPage />} />

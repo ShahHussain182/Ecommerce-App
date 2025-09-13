@@ -2,7 +2,7 @@ import { ShoppingCart, User, Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCartStore } from '@/store/cartStore';
-import { useAuthStore } from '@/store/authStore'; // Import the auth store
+import { useAuthStore } from '@/store/authStore';
 import {
   Sheet,
   SheetContent,
@@ -22,8 +22,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 
 export const Header = () => {
-  const cartItems = useCartStore((state) => state.items);
-  const { isAuthenticated } = useAuthStore(); // Get isAuthenticated from auth store
+  const { cart } = useCartStore();
+  const totalItems = cart?.totalItems || 0;
+  const { isAuthenticated } = useAuthStore();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -89,16 +90,16 @@ export const Header = () => {
             </Dialog>
 
             <Button variant="ghost" size="icon" asChild>
-              <Link to={isAuthenticated ? "/profile" : "/login"}> {/* Conditional link based on auth state */}
+              <Link to={isAuthenticated ? "/profile" : "/login"}>
                 <User className="h-5 w-5" />
               </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
               <Link to="/cart" className="relative">
                 <ShoppingCart className="h-5 w-5" />
-                {cartItems.length > 0 && (
-                  <Badge variant="destructive" className="absolute -top-2 -right-2 px-2 py-0.5 text-xs">
-                    {cartItems.length}
+                {totalItems > 0 && (
+                  <Badge variant="destructive" className="absolute -top-2 -right-2 px-1.5 py-0.5 text-xs">
+                    {totalItems}
                   </Badge>
                 )}
               </Link>

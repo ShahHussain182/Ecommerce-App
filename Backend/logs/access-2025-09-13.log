@@ -69,3 +69,9 @@
 2025-09-13T15:29:09.915Z [HTTP] [req:cd016dac-1b13-4ca1-8fee-4d3e4ba429b5] ::1 - - [13/Sep/2025:15:29:09 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-13T15:29:35.943Z [HTTP] [req:d824550a-8499-4b81-98e8-2395c29a1b44] ::1 - - [13/Sep/2025:15:29:35 +0000] "OPTIONS /api/v1/auth/logout HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-13T15:29:35.992Z [HTTP] [req:6e3a1340-91d5-4bea-90aa-98a0be2add86] ::1 - - [13/Sep/2025:15:29:35 +0000] "POST /api/v1/auth/logout HTTP/1.1" 200 46 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T15:30:27.972Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-13T15:30:28.002Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-13T15:30:28.006Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-13T15:30:28.045Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-13T15:30:28.048Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-13T15:33:09.781Z [HTTP] [req:e3237bfd-75fa-4d45-8cbe-7c48ac65ccc7] ::1 - - [13/Sep/2025:15:33:09 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
