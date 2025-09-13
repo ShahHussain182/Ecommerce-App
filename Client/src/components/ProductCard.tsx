@@ -2,7 +2,9 @@ import { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCartStore } from '@/store/cartStore';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/store/authStore';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
   product: Product;
@@ -10,10 +12,19 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const addItemToCart = useCartStore((state) => state.addItem);
+  const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
   const defaultVariant = product.variants[0];
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent link navigation when button is clicked
+
+    if (!isAuthenticated) {
+      toast.info("Please log in to add items to your cart.");
+      navigate('/login');
+      return;
+    }
+
     if (defaultVariant) {
       addItemToCart(product, defaultVariant, 1);
     }

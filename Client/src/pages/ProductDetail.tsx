@@ -6,6 +6,8 @@ import { useProductById } from '@/hooks/useProductById';
 import { useCartStore } from '@/store/cartStore';
 import { ProductVariant } from '@/types';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuthStore } from '@/store/authStore';
+import { toast } from 'sonner';
 
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -30,6 +32,7 @@ const ProductDetail = () => {
 
   const { data: product, isLoading, isError, error } = useProductById(productId);
   const addItemToCart = useCartStore((state) => state.addItem);
+  const { isAuthenticated } = useAuthStore();
   
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
@@ -82,8 +85,14 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast.info("Please log in to add items to your cart.");
+      navigate('/login');
+      return;
+    }
+
     if (selectedVariant && product) {
-      addItemToCart(product, selectedVariant, quantity); // Pass the current quantity
+      addItemToCart(product, selectedVariant, quantity);
     }
   };
 
