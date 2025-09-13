@@ -24,9 +24,9 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const productId = Number(id);
+  const productId = id || '';
 
   const { data: product, isLoading, isError, error } = useProductById(productId);
   const addItemToCart = useCartStore((state) => state.addItem);
@@ -251,7 +251,7 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-        <RelatedProducts currentProductId={product.id} />
+        <RelatedProducts currentProductId={product._id} />
       </main>
       <Footer />
     </div>

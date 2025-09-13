@@ -4,9 +4,10 @@ import { ProductCard } from './ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, ShoppingBag } from "lucide-react";
+import { Product } from '@/types';
 
 interface ProductGridProps {
-  queryResult: ReturnType<typeof useInfiniteQuery>;
+  queryResult: ReturnType<typeof useInfiniteQuery<{ pages: { products: Product[] }[] }>>;
 }
 
 export const ProductGrid = ({ queryResult }: ProductGridProps) => {
@@ -85,7 +86,7 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
 

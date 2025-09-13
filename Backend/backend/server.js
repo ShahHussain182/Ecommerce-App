@@ -14,6 +14,7 @@ import { requestContextMiddleware } from "./Utils/requestContext.js";
 
 import { connectDB } from "./DB/connectDB.js";
 import authRouter from "./Routers/auth.router.js";
+import productRouter from "./Routers/product.router.js"; // Import the new router
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js"; // ✅ central logger
@@ -79,7 +80,7 @@ app.use(
     store,
     cookie: {
       maxAge: sessionTTL * 1000,
-      secure: config.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       sameSite: "lax",
     },
@@ -88,6 +89,7 @@ app.use(
 
 // ----------------- Routes -----------------
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/products", productRouter); // Register the product router
 
 app.use(notFoundHandler);
 app.use(errorHandler);

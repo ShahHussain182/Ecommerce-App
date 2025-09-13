@@ -15,13 +15,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent link navigation when button is clicked
     if (defaultVariant) {
-      addItemToCart(product, defaultVariant);
+      addItemToCart(product, defaultVariant, 1);
     }
   };
 
   return (
     <Card className="overflow-hidden flex flex-col">
-      <Link to={`/product/${product.id}`} className="flex-grow flex flex-col">
+      <Link to={`/product/${product._id}`} className="flex-grow flex flex-col">
         <CardHeader className="p-0">
           <img src={product.imageUrls[0]} alt={product.name} className="w-full h-48 object-cover" />
         </CardHeader>

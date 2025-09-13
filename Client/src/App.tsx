@@ -62,7 +62,7 @@ const App = () => {
                 <Route path="/shipping-returns" element={<ShippingReturnsPage />}/> 
                 <Route path="press" element={<PressPage />} />
                 <Route 
-                  path="profile" 
+                  path="/profile" 
                   element={
                     <ProtectedRoute>
                       <ProfilePage />

@@ -1,5 +1,5 @@
 export interface ProductVariant {
-  id: number;
+  _id: string; // Changed from id: number
   size: string;
   color: string;
   price: number;
@@ -8,12 +8,15 @@ export interface ProductVariant {
 }
 
 export interface Product {
-  id: number;
+  _id: string; // Changed from id: number
   name: string;
   imageUrls: string[];
   description: string;
   category: string;
   variants: ProductVariant[];
+  isFeatured?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface CartItem {
@@ -24,11 +27,12 @@ export interface CartItem {
 }
 
 export interface FilterState {
-  categories: string[];
-  priceRange: [number, number];
-  colors: string[];
-  sizes: string[];
-  sortBy: string;
+  categories?: string[];
+  priceRange?: [number, number];
+  colors?: string[];
+  sizes?: string[];
+  sortBy?: string;
+  searchTerm?: string;
 }
 
 export interface FetchProductsParams {

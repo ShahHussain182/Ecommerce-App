@@ -3,7 +3,7 @@ import { ProductCard } from './ProductCard';
 import { Product } from '@/types';
 
 interface RelatedProductsProps {
-  currentProductId: number;
+  currentProductId: string;
 }
 
 export const RelatedProducts = ({ currentProductId }: RelatedProductsProps) => {
@@ -15,7 +15,7 @@ export const RelatedProducts = ({ currentProductId }: RelatedProductsProps) => {
   }
 
   const relatedProducts = products
-    .filter((product: Product) => product.id !== currentProductId)
+    .filter((product: Product) => product._id !== currentProductId)
     .slice(0, 4);
 
   if (relatedProducts.length === 0) {
@@ -28,7 +28,7 @@ export const RelatedProducts = ({ currentProductId }: RelatedProductsProps) => {
         <h2 className="text-3xl font-bold text-center mb-8">You Might Also Like</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {relatedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>

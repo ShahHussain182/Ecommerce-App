@@ -12,9 +12,9 @@ interface CartState {
 
 export const useCartStore = create<CartState>((set) => ({
   items: [],
-  addItem: (product, variant, quantity) => { // Added quantity parameter
+  addItem: (product, variant, quantity) => {
     set((state) => {
-      const cartItemId = `${product.id}-${variant.id}`;
+      const cartItemId = `${product._id}-${variant._id}`;
       const existingItem = state.items.find((i) => i.cartItemId === cartItemId);
 
       if (existingItem) {
@@ -26,7 +26,7 @@ export const useCartStore = create<CartState>((set) => ({
         product,
         variant,
         cartItemId,
-        quantity: quantity, // Use the passed quantity
+        quantity: quantity,
       };
       
       toast.success(`${product.name} (${variant.size}, ${variant.color}) added to cart.`);
