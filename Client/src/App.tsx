@@ -11,13 +11,15 @@ import ProductsPage from "./pages/ProductsPage";
 import SearchPage from "./pages/SearchPage";
 import PressPage from "./pages/PressPage";
 import AppLayout from "./components/AppLayout";
-import React, { useEffect } from "react"; // Import useEffect
+import React, { useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ShippingReturnsPage from './pages/ShippingReturnsPage';
 import VerifyEmailPage from "./pages/VerifyEmailPage";
-import AuthInitializer from "./components/AuthInitializer"; // Import AuthInitializer
-import { useAuthStore } from "./store/authStore"; // Import useAuthStore
+import AuthInitializer from "./components/AuthInitializer";
+import { useAuthStore } from "./store/authStore";
+import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
+import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,7 +33,6 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  // Subscribe to auth state for logging
   const { isAuthenticated, user } = useAuthStore();
 
   useEffect(() => {
@@ -60,6 +61,14 @@ const App = () => {
                 <Route path="search" element={<SearchPage />} />
                 <Route path="/shipping-returns" element={<ShippingReturnsPage />}/> 
                 <Route path="press" element={<PressPage />} />
+                <Route 
+                  path="profile" 
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
