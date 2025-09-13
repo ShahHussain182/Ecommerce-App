@@ -20,3 +20,10 @@
 2025-09-13T13:12:47.385Z [HTTP] [req:37667cfb-1971-4b15-a64b-d92fccc4fc38] ::1 - - [13/Sep/2025:13:12:47 +0000] "OPTIONS /api/v1/auth/logout HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-13T13:12:47.395Z [HTTP] [req:4eebc384-b3ac-407b-b338-b1c926c7208d] ::1 - - [13/Sep/2025:13:12:47 +0000] "POST /api/v1/auth/logout HTTP/1.1" 200 46 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-13T13:13:24.267Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-13T15:18:47.965Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-13T15:18:48.010Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-13T15:18:48.013Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-13T15:18:48.017Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-13T15:19:17.210Z [HTTP] [req:d1cba94d-ed61-4196-b465-f954a26dec40] ::1 - - [13/Sep/2025:15:19:17 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 30 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T15:19:27.402Z [HTTP] [req:5bd86ea2-dd70-4045-9ebb-78ad89bf9ad3] ::1 - - [13/Sep/2025:15:19:27 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T15:19:27.685Z [HTTP] [req:2b83c800-0255-44e0-ac8f-c5faf7d27146] ::1 - - [13/Sep/2025:15:19:27 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

@@ -14,10 +14,12 @@ import { requestContextMiddleware } from "./Utils/requestContext.js";
 
 import { connectDB } from "./DB/connectDB.js";
 import authRouter from "./Routers/auth.router.js";
-import productRouter from "./Routers/product.router.js"; // Import the new router
+import productRouter from "./Routers/product.router.js";
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
-import { logger } from "./Utils/logger.js"; // ✅ central logger
+import { logger } from "./Utils/logger.js";
+import { Product } from "./Models/Product.model.js"; // Import Product model
+import { mockProducts } from "./Utils/mockProducts.js"; // Import mock data
 
 dotenv.config();
 
@@ -29,7 +31,6 @@ if (config.NODE_ENV === "development") {
   logger.debug("Running in development mode");
 }
 app.use(requestContextMiddleware); 
-// ✅ Morgan piped into Winston
 app.use(morgan("combined", { stream: logger.stream }));
 
 app.use(helmet());
@@ -62,7 +63,6 @@ const mongoClient = new MongoClient(mongoUrl);
 await mongoClient.connect();
 logger.info("MongoClient connected for sessions.");
 
-// sync cookie maxAge and store ttl
 const sessionTTL = 60 * 60 * 24 * 30; // 30 days (seconds)
 
 const store = MongoStore.create({
@@ -89,16 +89,32 @@ app.use(
 
 // ----------------- Routes -----------------
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/products", productRouter); // Register the product router
+app.use("/api/v1/products", productRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
 
 // ----------------- Server -----------------
-let server; // hold the server instance
+let server;
 
 const startServer = async () => {
   await connectDB();
+
+  // --- Database Seeding Logic ---
+  try {
+    const productCount = await Product.countDocuments();
+    if (productCount === 0) {
+      logger.info("No products found. Seeding database with mock data...");
+      await Product.insertMany(mockProducts);
+      logger.info("✅ Database seeded successfully with mock products.");
+    } else {
+      logger.info(`${productCount} products already exist in the database. Skipping seeding.`);
+    }
+  } catch (error) {
+    logger.error("❌ Error during database seeding:", error);
+  }
+  // --- End of Seeding Logic ---
+
   server = app.listen(config.PORT, () => {
     logger.info(
       `🚀 Server running in ${config.NODE_ENV} mode on port ${config.PORT}`
@@ -115,7 +131,6 @@ startServer();
 async function cleanup() {
   logger.info("Starting cleanup process...");
 
-  // 1. Close HTTP server
   if (server) {
     logger.debug("Closing HTTP server...");
     try {
@@ -134,7 +149,6 @@ async function cleanup() {
     }
   }
 
-  // 2. Close Mongoose
   if (mongoose.connection.readyState !== 0) {
     logger.debug("Disconnecting Mongoose...");
     try {
@@ -145,7 +159,6 @@ async function cleanup() {
     }
   }
 
-  // 3. Close Mongo client
   if (mongoClient) {
     logger.debug("Closing Mongo client...");
     try {
@@ -159,8 +172,6 @@ async function cleanup() {
   logger.info("All connections closed successfully.");
 }
 
-
-// Helper function to flush Winston logger properly
 async function flushLogger() {
   logger.debug("Flushing logs...");
   return new Promise((resolve) => {
@@ -195,6 +206,7 @@ async function flushLogger() {
     }, 1000);
   });
 }
+
 ["SIGINT", "SIGTERM"].forEach((signal) => {
   process.on(signal, async () => {
     logger.warn(`Received ${signal}, starting graceful shutdown...`);
@@ -202,14 +214,13 @@ async function flushLogger() {
     const timeout = setTimeout(() => {
       logger.error("Force exiting after 10s...");
       process.exit(1);
-    }, 20000);  // Increased timeout to 10s
+    }, 20000);
     
     try {
       logger.info("Starting cleanup process...");
       await cleanup();
       logger.info("✅ Cleanup complete, exiting.");
       
-      // Flush logs properly
       logger.info("Flushing logs...");
       await flushLogger();
       logger.info("Logs flushed successfully.");
@@ -217,7 +228,6 @@ async function flushLogger() {
       clearTimeout(timeout);
       console.log("Graceful shutdown completed.");
       
-      // Add a slight delay to ensure logs are written
       setTimeout(() => process.exit(0), 100);
     } catch (err) {
       logger.error(`Error during shutdown: ${err.message}`);
@@ -226,7 +236,6 @@ async function flushLogger() {
   });
 });
 
-// Handle unexpected errors separately
 ["uncaughtException", "unhandledRejection"].forEach((event) => {
   process.on(event, async (err) => {
     logger.error(`Fatal error due to ${event}:`, err);
@@ -239,21 +248,16 @@ async function flushLogger() {
     try {
       await cleanup();
       logger.info("Emergency cleanup completed.");
-      
-      // Try to flush logs
       await flushLogger();
-      
       clearTimeout(timeout);
-      process.exit(1); // exit with failure code for fatal errors
+      process.exit(1);
     } catch (e) {
       logger.error("Error during forced shutdown:", e);
-      
       try {
         await flushLogger();
       } catch (flushError) {
         console.error("Failed to flush logs during emergency shutdown:", flushError);
       }
-      
       clearTimeout(timeout);
       process.exit(1);
     }
