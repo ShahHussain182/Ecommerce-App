@@ -1,0 +1,8 @@
+2025-09-13T12:50:31.017Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-13T12:50:31.062Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-13T12:50:31.166Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-13T12:50:31.173Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-13T12:52:52.981Z [HTTP] [req:a0552e11-ed11-44f8-aeb1-6b7ae6bddd1c] ::1 - - [13/Sep/2025:12:52:52 +0000] "OPTIONS /api/v1/auth/signup HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T12:52:57.834Z [HTTP] [req:a0127b02-294d-416f-bb17-2b713308d8b1] ::1 - - [13/Sep/2025:12:52:57 +0000] "POST /api/v1/auth/signup HTTP/1.1" 200 837 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T12:53:24.686Z [HTTP] [req:a136ff33-4f46-4d52-8fd9-221ab244d313] ::1 - - [13/Sep/2025:12:53:24 +0000] "OPTIONS /api/v1/auth/verify-email HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T12:53:28.478Z [HTTP] [req:053b3762-e03c-4d7d-92ad-5e77850706df] ::1 - - [13/Sep/2025:12:53:28 +0000] "POST /api/v1/auth/verify-email HTTP/1.1" 200 838 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
