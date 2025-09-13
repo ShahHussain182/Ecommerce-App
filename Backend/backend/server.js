@@ -15,11 +15,12 @@ import { requestContextMiddleware } from "./Utils/requestContext.js";
 import { connectDB } from "./DB/connectDB.js";
 import authRouter from "./Routers/auth.router.js";
 import productRouter from "./Routers/product.router.js";
+import cartRouter from "./Routers/cart.router.js"; // Import the new cart router
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
-import { Product } from "./Models/Product.model.js"; // Import Product model
-import { mockProducts } from "./Utils/mockProducts.js"; // Import mock data
+import { Product } from "./Models/Product.model.js";
+import { mockProducts } from "./Utils/mockProducts.js";
 
 dotenv.config();
 
@@ -90,6 +91,7 @@ app.use(
 // ----------------- Routes -----------------
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/cart", cartRouter); // Register the cart router
 
 app.use(notFoundHandler);
 app.use(errorHandler);
