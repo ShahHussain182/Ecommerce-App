@@ -11,7 +11,7 @@ interface AuthState {
 }
 
 interface AuthActions {
-  login: (user: User) => void;
+  login: (user: User, showToast?: boolean) => void;
   logout: () => void;
   setSignupProgress: (email: string) => void;
   clearSignupProgress: () => void;
@@ -25,7 +25,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   signupInProgress: false,
   signupEmail: null,
 
-  login: (user) => {
+  login: (user, showToast = true) => {
     set({
       user,
       isAuthenticated: true,
@@ -33,9 +33,11 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
       signupInProgress: false, // Ensure these are cleared on login
       signupEmail: null,
     });
-    toast.success("Logged in successfully!", {
-      description: `Welcome back, ${user.userName}!`,
-    });
+    if (showToast) {
+      toast.success("Logged in successfully!", {
+        description: `Welcome back, ${user.userName}!`,
+      });
+    }
   },
 
   logout: () => {
