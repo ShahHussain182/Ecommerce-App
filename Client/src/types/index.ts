@@ -43,6 +43,43 @@ export interface Cart {
   updatedAt: string;
 }
 
+// New: OrderItem interface for a snapshot of items in an order
+export interface OrderItem {
+  _id: string;
+  productId: string; // Only ID is stored in order, not populated product
+  variantId: string;
+  quantity: number;
+  nameAtTime: string;
+  imageAtTime: string;
+  priceAtTime: number;
+  sizeAtTime: string;
+  colorAtTime: string;
+}
+
+// New: ShippingAddress interface
+export interface ShippingAddress {
+  fullName: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
+// New: Order interface
+export interface Order {
+  _id: string;
+  userId: string;
+  items: OrderItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  totalAmount: number;
+  status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 export interface FilterState {
   categories?: string[];

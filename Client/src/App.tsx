@@ -20,6 +20,8 @@ import AuthInitializer from "./components/AuthInitializer";
 import { useAuthStore } from "./store/authStore";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
+import CheckoutPage from "./pages/CheckoutPage"; // New import
+import OrderConfirmationPage from "./pages/OrderConfirmationPage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,11 +65,26 @@ const App = () => {
                     </ProtectedRoute>
                   } 
                 />
+                <Route 
+                  path="checkout" 
+                  element={
+                    <ProtectedRoute>
+                      <CheckoutPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="order-confirmation/:orderId" 
+                  element={
+                    <ProtectedRoute>
+                      <OrderConfirmationPage />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path="about" element={<AboutUs />} />
                 <Route path="contact" element={<ContactUs />} />
                 <Route path="search" element={<SearchPage />} />
                 <Route path="/shipping-returns" element={<ShippingReturnsPage />}/> 
-                <Route path="press" element={<PressPage />} />
                 <Route 
                   path="/profile" 
                   element={
@@ -76,6 +93,7 @@ const App = () => {
                     </ProtectedRoute>
                   } 
                 />
+                <Route path="press" element={<PressPage />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

@@ -15,7 +15,8 @@ import { requestContextMiddleware } from "./Utils/requestContext.js";
 import { connectDB } from "./DB/connectDB.js";
 import authRouter from "./Routers/auth.router.js";
 import productRouter from "./Routers/product.router.js";
-import cartRouter from "./Routers/cart.router.js"; // Import the new cart router
+import cartRouter from "./Routers/cart.router.js";
+import orderRouter from "./Routers/order.router.js"; // Import the new order router
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
@@ -91,7 +92,8 @@ app.use(
 // ----------------- Routes -----------------
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
-app.use("/api/v1/cart", cartRouter); // Register the cart router
+app.use("/api/v1/cart", cartRouter);
+app.use("/api/v1/orders", orderRouter); // Register the new order router
 
 app.use(notFoundHandler);
 app.use(errorHandler);

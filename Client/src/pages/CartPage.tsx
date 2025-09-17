@@ -114,9 +114,11 @@ const CartPage = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" size="lg" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Proceed to Checkout
+                <Button asChild className="w-full" size="lg" disabled={isLoading || cart.items.length === 0}>
+                  <Link to="/checkout">
+                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    Proceed to Checkout
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>

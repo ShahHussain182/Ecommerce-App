@@ -34,3 +34,20 @@
 2025-09-17T12:42:06.698Z [HTTP] [req:03b73493-09d1-407f-a288-8166d6699cc5] ::1 - - [17/Sep/2025:12:42:06 +0000] "POST /api/v1/cart/items HTTP/1.1" 500 422 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-17T12:42:09.201Z [ERROR] [req:92507632-ee04-4bfd-814e-37e45202df5a] ❌ Path: /api/v1/cart/items | Error: Cart validation failed: items.0.colorAtTime: Path `colorAtTime` is required., items.0.sizeAtTime: Path `sizeAtTime` is required., items.1.colorAtTime: Path `colorAtTime` is required., items.1.sizeAtTime: Path `sizeAtTime` is required., items.2.colorAtTime: Path `colorAtTime` is required., items.2.sizeAtTime: Path `sizeAtTime` is required.
 2025-09-17T12:42:09.205Z [HTTP] [req:92507632-ee04-4bfd-814e-37e45202df5a] ::1 - - [17/Sep/2025:12:42:09 +0000] "POST /api/v1/cart/items HTTP/1.1" 500 422 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:36.276Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-17T12:43:36.309Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-17T12:43:36.312Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-17T12:43:36.357Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-17T12:43:36.360Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-17T12:43:42.486Z [HTTP] [req:85a8d15d-9f54-4018-bf6b-6e54f7e33a32] ::1 - - [17/Sep/2025:12:43:42 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 303 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:42.671Z [HTTP] [req:3999a8f3-0eb2-4630-bd49-7a0b71b7862e] ::1 - - [17/Sep/2025:12:43:42 +0000] "GET /api/v1/cart HTTP/1.1" 200 1904 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:42.705Z [HTTP] [req:85f0c3d0-d920-4608-ac9a-ece476989b79] ::1 - - [17/Sep/2025:12:43:42 +0000] "GET /api/v1/cart HTTP/1.1" 200 1904 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:42.759Z [HTTP] [req:dc2647c2-2eb0-465c-95b7-f01acc8f3bcd] ::1 - - [17/Sep/2025:12:43:42 +0000] "GET /api/v1/products/68c58c7880fbc2d17dbebcfd HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:42.869Z [HTTP] [req:dbe41953-b3bb-47aa-8e63-07c8373290bd] ::1 - - [17/Sep/2025:12:43:42 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:57.013Z [HTTP] [req:5dcc7dbe-3df7-48eb-b6ea-5ff03e20ff9d] ::1 - - [17/Sep/2025:12:43:57 +0000] "OPTIONS /api/v1/cart/items HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:43:57.067Z [HTTP] [req:0d06331e-073f-464c-b923-386bae2741b3] ::1 - - [17/Sep/2025:12:43:57 +0000] "POST /api/v1/cart/items HTTP/1.1" 200 1918 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:48:46.105Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-17T12:48:46.136Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-17T12:48:46.140Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-17T12:48:46.262Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-17T12:48:46.265Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
