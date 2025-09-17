@@ -48,8 +48,12 @@ export const getCart = catchErrors(async (req, res) => {
     }
 
     // Case 4: Update variant details if they changed (e.g., color name changed)
-    if (item.sizeAtTime !== variant.size || item.colorAtTime !== variant.color) {
+    // OR if they are missing (for old cart items that predate the schema change)
+    if (item.sizeAtTime === undefined || item.sizeAtTime !== variant.size) {
       item.sizeAtTime = variant.size;
+      needsUpdate = true;
+    }
+    if (item.colorAtTime === undefined || item.colorAtTime !== variant.color) {
       item.colorAtTime = variant.color;
       needsUpdate = true;
     }
@@ -61,7 +65,7 @@ export const getCart = catchErrors(async (req, res) => {
 
   if (validatedItems.length !== cart.items.length || needsUpdate) {
     cart.items = validatedItems;
-    await cart.save();
+    await cart.save(); // This is where validation happens
   }
 
   // Populate product details for a rich response to the frontend
