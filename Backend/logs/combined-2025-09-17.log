@@ -1,0 +1,24 @@
+2025-09-17T12:33:46.749Z [DEBUG] [req:N/A] Running in development mode
+2025-09-17T12:33:47.756Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-17T12:33:47.795Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-17T12:33:47.798Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-17T12:33:49.422Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-17T12:33:49.426Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-17T12:33:49.426Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-17T12:34:13.348Z [HTTP] [req:d36b360b-c733-46c2-b308-05e108461c55] ::1 - - [17/Sep/2025:12:34:13 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2473 "http://localhost:50994/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-17T12:35:23.672Z [HTTP] [req:2a4168c0-8f4e-436a-b9c1-c5376ce2a841] ::1 - - [17/Sep/2025:12:35:23 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:35:23.745Z [HTTP] [req:19b4025b-ac3e-4ad8-9669-a2aee2e2c495] ::1 - - [17/Sep/2025:12:35:23 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2473 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:35:26.772Z [HTTP] [req:52846aa8-256d-4ae0-ba4c-f26cef4ad0db] ::1 - - [17/Sep/2025:12:35:26 +0000] "GET /api/v1/products/68c58c7880fbc2d17dbebcfd HTTP/1.1" 200 642 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:37:24.374Z [HTTP] [req:59e2fb42-f59e-4e72-9f00-64e9b5e75c69] ::1 - - [17/Sep/2025:12:37:24 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:37:25.111Z [HTTP] [req:91020d31-d757-4ff1-8c11-9af57492ee70] ::1 - - [17/Sep/2025:12:37:25 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:37:25.362Z [HTTP] [req:0a0d5de2-37cc-4e8c-9a2e-2a54cc997f62] ::1 - - [17/Sep/2025:12:37:25 +0000] "GET /api/v1/cart HTTP/1.1" 200 1283 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:37:40.209Z [HTTP] [req:21305cfe-32ee-4fb2-b53f-7988047d8e3d] ::1 - - [17/Sep/2025:12:37:40 +0000] "GET /api/v1/products/68c58c7880fbc2d17dbebd07 HTTP/1.1" 200 669 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:37:46.031Z [HTTP] [req:b8b7832f-60b9-46c8-8d64-9b2ea99fdb12] ::1 - - [17/Sep/2025:12:37:46 +0000] "OPTIONS /api/v1/cart/items HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:37:46.125Z [HTTP] [req:066af6b2-d845-413f-9305-ea52fa9b7813] ::1 - - [17/Sep/2025:12:37:46 +0000] "POST /api/v1/cart/items HTTP/1.1" 200 1380 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-17T12:41:02.195Z [DEBUG] [req:N/A] Running in development mode
+2025-09-17T12:41:02.340Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-17T12:41:02.370Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-17T12:41:02.373Z [INFO] [req:N/A] 📦 MongoDB Connected: localhost
+2025-09-17T12:41:02.522Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-17T12:41:02.529Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-17T12:41:02.530Z [DEBUG] [req:N/A] http://localhost:3001

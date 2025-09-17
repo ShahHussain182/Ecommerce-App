@@ -28,6 +28,8 @@ export interface CartItem {
   priceAtTime: number;
   nameAtTime: string;
   imageAtTime: string;
+  sizeAtTime: string; // New: Snapshot of the variant's size
+  colorAtTime: string; // New: Snapshot of the variant's color
 }
 
 // This represents the entire cart object from the backend

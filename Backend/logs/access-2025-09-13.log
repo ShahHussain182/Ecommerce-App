@@ -92,3 +92,4 @@
 2025-09-13T15:39:54.867Z [HTTP] [req:573534d2-0b02-413d-9ee7-2712b796d3bb] ::1 - - [13/Sep/2025:15:39:54 +0000] "GET /api/v1/cart HTTP/1.1" 200 1283 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-13T15:39:54.890Z [HTTP] [req:d67d27d1-e48d-4264-b1f7-79c630388027] ::1 - - [13/Sep/2025:15:39:54 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-13T15:39:54.965Z [HTTP] [req:526e2cb5-dcac-4bfd-9bc9-586e65c4bea1] ::1 - - [13/Sep/2025:15:39:54 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-13T15:42:45.811Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...

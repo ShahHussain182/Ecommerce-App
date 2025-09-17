@@ -46,6 +46,13 @@ export const getCart = catchErrors(async (req, res) => {
       item.quantity = Math.max(variant.stock, 1); // Adjust to max available stock
       needsUpdate = true;
     }
+
+    // Case 4: Update variant details if they changed (e.g., color name changed)
+    if (item.sizeAtTime !== variant.size || item.colorAtTime !== variant.color) {
+      item.sizeAtTime = variant.size;
+      item.colorAtTime = variant.color;
+      needsUpdate = true;
+    }
     
     return item;
   });
@@ -98,7 +105,7 @@ export const addItemToCart = catchErrors(async (req, res) => {
     // Update quantity, ensuring it doesn't exceed stock
     existingItem.quantity = Math.min(existingItem.quantity + quantity, variant.stock);
   } else {
-    // Add new item with a data snapshot
+    // Add new item with a data snapshot, including variant details
     cart.items.push({
       productId,
       variantId,
@@ -106,6 +113,8 @@ export const addItemToCart = catchErrors(async (req, res) => {
       priceAtTime: variant.price,
       nameAtTime: product.name,
       imageAtTime: product.imageUrls[0] || '/placeholder.svg',
+      sizeAtTime: variant.size, // Store variant size
+      colorAtTime: variant.color, // Store variant color
     });
   }
 

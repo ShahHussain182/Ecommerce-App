@@ -52,6 +52,9 @@ const CartPage = () => {
                   <Link to={`/product/${item.productId._id}`}>
                     <CardTitle className="text-lg font-semibold hover:text-primary">{item.nameAtTime}</CardTitle>
                   </Link>
+                  <p className="text-sm text-gray-600">
+                    {item.sizeAtTime} / {item.colorAtTime}
+                  </p>
                   <p className="text-md font-medium mt-1">${item.priceAtTime.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center space-x-2 mt-4 sm:mt-0 sm:ml-auto">

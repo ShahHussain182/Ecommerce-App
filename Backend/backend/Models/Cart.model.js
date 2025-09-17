@@ -30,6 +30,15 @@ const cartItemSchema = new mongoose.Schema({
   imageAtTime: {
     type: String,
     required: true,
+  },
+  // New fields to store variant details
+  sizeAtTime: {
+    type: String,
+    required: true,
+  },
+  colorAtTime: {
+    type: String,
+    required: true,
   }
 }, { timestamps: true, _id: true });
 
