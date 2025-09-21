@@ -23,7 +23,8 @@ import ProfilePage from "./pages/ProfilePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import OrdersPage from "./pages/OrdersPage";
-import EditProfilePage from "./pages/EditProfilePage"; // New import
+import EditProfilePage from "./pages/EditProfilePage";
+import ChangePasswordPage from "./pages/ChangePasswordPage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -108,6 +109,14 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <EditProfilePage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/profile/change-password" 
+                  element={
+                    <ProtectedRoute>
+                      <ChangePasswordPage />
                     </ProtectedRoute>
                   } 
                 />

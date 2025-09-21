@@ -96,3 +96,8 @@ export const signupSchema = z
     email: emailSchema.optional(),
     phoneNumber: z.string().min(11, { message: "Phone number must be at least 11 digits." }).optional(),
   }).partial(); // Allows partial updates
+
+  export const changePasswordSchema = z.object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+  }).strict();

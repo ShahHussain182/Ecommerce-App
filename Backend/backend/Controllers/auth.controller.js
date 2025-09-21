@@ -1,5 +1,5 @@
 import { User } from "../Models/user.model.js";
-import { codeSchema, forgotPasswordSchema, loginSchema, loginSchema1, resetPasswordSchema, resetPasswordSchema1, signupSchema, updateUserSchema } from "../Schemas/authSchema.js";
+import { codeSchema, forgotPasswordSchema, loginSchema, loginSchema1, resetPasswordSchema, resetPasswordSchema1, signupSchema, updateUserSchema, changePasswordSchema } from "../Schemas/authSchema.js";
 import { VerificationCodeModel } from "../Models/verificationCode.model.js";
 import catchErrors from "../Utils/catchErrors.js";
 import verificationCodeType from "../Constants/verificationCodeType.js";
@@ -447,4 +447,26 @@ export const updateUserProfile = catchErrors(async (req, res) => {
     message: "Profile updated successfully.",
     user: user.pomitPassword(),
   });
+});
+
+export const changePassword = catchErrors(async (req, res) => {
+  const userId = req.userId; // From requireAuth middleware
+  const { currentPassword, newPassword } = changePasswordSchema.parse(req.body);
+
+  const user = await User.findById(userId).select('+password'); // Select password to compare
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  // Compare current password
+  const isMatch = await user.comparePassword(currentPassword);
+  if (!isMatch) {
+    return res.status(400).json({ success: false, message: "Incorrect current password." });
+  }
+
+  // Update password
+  user.password = newPassword; // Pre-save hook will hash it
+  await user.save();
+
+  res.status(200).json({ success: true, message: "Password updated successfully." });
 });
