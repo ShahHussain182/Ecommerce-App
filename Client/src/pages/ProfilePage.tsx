@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
 import * as authApi from '@/lib/authApi';
 import { toast } from 'sonner';
-import { User, Mail, Phone, Calendar, LogOut, Edit, Package, Lock } from 'lucide-react'; // Import Lock icon
+import { User, Mail, Phone, Calendar, LogOut, Edit, Package, Lock } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user, logout: logoutFromStore } = useAuthStore();
@@ -82,13 +82,13 @@ const ProfilePage = () => {
                     <span><Edit className="mr-2 h-4 w-4" /> Edit Profile</span>
                   </Link>
                 </Button>
-                <Button asChild className="w-full"> {/* New button for changing password */}
+                <Button asChild className="w-full">
                   <Link to="/profile/change-password">
                     <span><Lock className="mr-2 h-4 w-4" /> Change Password</span>
                   </Link>
                 </Button>
                 <Button variant="destructive" onClick={handleLogout} className="w-full">
-                  <LogOut className="mr-2 h-4 w-4" /> Logout
+                  <span><LogOut className="mr-2 h-4 w-4" /> Logout</span>
                 </Button>
               </div>
             </CardContent>
