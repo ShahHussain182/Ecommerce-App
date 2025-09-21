@@ -17,10 +17,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, User, Mail, Phone, Save, ArrowLeft } from 'lucide-react';
+import { Terminal, User, Mail, Phone, Save, ArrowLeft, Loader2 } from 'lucide-react'; // Added Loader2
 
 import { useAuthStore } from '@/store/authStore';
-import * as authApi from '@/lib/authApi'; // Use the new authApi
+import * as authApi from '@/lib/authApi';
 
 // Define form schema for validation, matching the backend's updateUserSchema
 const editProfileFormSchema = z.object({
@@ -33,7 +33,7 @@ type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
-  const { user, updateUser, logout } = useAuthStore(); // Added updateUser action
+  const { user, updateUser, logout } = useAuthStore();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<EditProfileFormValues>({
@@ -73,7 +73,7 @@ const EditProfilePage = () => {
       const response = await authApi.updateUserProfile(values);
 
       if (response.success && response.user) {
-        updateUser(response.user); // Update user in auth store
+        updateUser(response.user);
         toast.success("Profile Updated", {
           description: response.message,
         });
@@ -84,7 +84,7 @@ const EditProfilePage = () => {
           // Optionally navigate to verify email page if email was changed and unverified
           // navigate('/verify-email', { state: { email: response.user.email }, replace: true });
         }
-        navigate('/profile'); // Go back to profile page
+        navigate('/profile');
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
@@ -108,7 +108,7 @@ const EditProfilePage = () => {
   };
 
   if (!user) {
-    return null; // Render nothing if user is not loaded/authenticated, useEffect will redirect
+    return null;
   }
 
   return (
