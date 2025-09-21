@@ -47,6 +47,12 @@ const orderSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    orderNumber: { // New field for sequential order number
+      type: Number,
+      unique: true,
+      required: true,
+      index: true,
+    },
     items: [orderItemSchema],
     shippingAddress: {
       fullName: { type: String, required: true },

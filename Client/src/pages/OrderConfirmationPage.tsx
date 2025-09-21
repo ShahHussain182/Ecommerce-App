@@ -90,7 +90,7 @@ const OrderConfirmationPage = () => {
           <CheckCircle2 className="h-24 w-24 text-green-500 mx-auto mb-6" />
           <h1 className="text-4xl font-bold mb-4">Order Confirmed!</h1>
           <p className="text-lg text-gray-700 mb-8">
-            Thank you for your purchase. Your order <span className="font-semibold">#{order._id.substring(0, 8)}</span> has been placed successfully.
+            Thank you for your purchase. Your order <span className="font-semibold">#{order.orderNumber}</span> has been placed successfully.
           </p>
 
           <Card className="text-left mb-8">
@@ -145,7 +145,7 @@ const OrderConfirmationPage = () => {
               <Link to="/products">Continue Shopping</Link>
             </Button>
             <Button variant="outline" asChild size="lg">
-              <Link to="/orders">View My Orders</Link> {/* Updated link */}
+              <Link to="/orders">View My Orders</Link>
             </Button>
           </div>
         </div>

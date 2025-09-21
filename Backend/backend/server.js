@@ -16,12 +16,13 @@ import { connectDB } from "./DB/connectDB.js";
 import authRouter from "./Routers/auth.router.js";
 import productRouter from "./Routers/product.router.js";
 import cartRouter from "./Routers/cart.router.js";
-import orderRouter from "./Routers/order.router.js"; // Import the new order router
+import orderRouter from "./Routers/order.router.js";
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
 import { Product } from "./Models/Product.model.js";
 import { mockProducts } from "./Utils/mockProducts.js";
+import { Counter } from "./Models/Counter.model.js"; // Import Counter model
 
 dotenv.config();
 
@@ -93,7 +94,7 @@ app.use(
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
-app.use("/api/v1/orders", orderRouter); // Register the new order router
+app.use("/api/v1/orders", orderRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
@@ -114,8 +115,18 @@ const startServer = async () => {
     } else {
       logger.info(`${productCount} products already exist in the database. Skipping seeding.`);
     }
+
+    // Initialize order number counter if it doesn't exist
+    const orderCounter = await Counter.findById('orderId');
+    if (!orderCounter) {
+      await Counter.create({ _id: 'orderId', seq: 1000 }); // Start from 1000
+      logger.info("✅ Order number counter initialized to 1000.");
+    } else {
+      logger.info(`Order number counter already exists, current sequence: ${orderCounter.seq}`);
+    }
+
   } catch (error) {
-    logger.error("❌ Error during database seeding:", error);
+    logger.error("❌ Error during database seeding or counter initialization:", error);
   }
   // --- End of Seeding Logic ---
 

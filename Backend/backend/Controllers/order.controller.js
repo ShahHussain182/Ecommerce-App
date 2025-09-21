@@ -1,9 +1,20 @@
 import { Order } from '../Models/Order.model.js';
 import { Cart } from '../Models/Cart.model.js';
 import { Product } from '../Models/Product.model.js';
+import { Counter } from '../Models/Counter.model.js'; // Import Counter model
 import catchErrors from '../Utils/catchErrors.js';
 import { createOrderSchema, updateOrderStatusSchema } from '../Schemas/orderSchema.js';
 import mongoose from 'mongoose';
+
+// Helper function to get the next sequential value
+async function getNextSequenceValue(sequenceName) {
+  const sequenceDocument = await Counter.findByIdAndUpdate(
+    sequenceName,
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true, runValidators: true }
+  );
+  return sequenceDocument.seq;
+}
 
 /**
  * @description Create a new order from the user's cart.
@@ -22,88 +33,80 @@ export const createOrder = catchErrors(async (req, res) => {
     return res.status(400).json({ success: false, message: 'Your cart is empty.' });
   }
 
-  // 3. Start a Mongoose session for transaction (ensures atomicity for stock updates and order creation)
-  const session = await mongoose.startSession();
-  session.startTransaction();
+  // --- IMPORTANT: Removed transaction logic for standalone MongoDB compatibility ---
+  // For a production-grade application, you should configure MongoDB as a replica set
+  // and re-enable transactions to ensure atomicity.
 
-  try {
-    let totalAmount = 0;
-    const orderItems = [];
-    const productUpdates = [];
+  let totalAmount = 0;
+  const orderItems = [];
+  const productUpdates = [];
 
-    // 4. Validate stock and prepare order items
-    for (const cartItem of cart.items) {
-      const product = await Product.findById(cartItem.productId).session(session);
-      if (!product) {
-        throw new Error(`Product with ID ${cartItem.productId} not found.`);
-      }
-
-      const variant = product.variants.id(cartItem.variantId);
-      if (!variant) {
-        throw new Error(`Product variant with ID ${cartItem.variantId} not found for product ${product.name}.`);
-      }
-
-      if (variant.stock < cartItem.quantity) {
-        throw new Error(`Not enough stock for ${product.name} (${variant.size} / ${variant.color}). Available: ${variant.stock}, Requested: ${cartItem.quantity}.`);
-      }
-
-      // Prepare order item snapshot
-      orderItems.push({
-        productId: cartItem.productId,
-        variantId: cartItem.variantId,
-        quantity: cartItem.quantity,
-        nameAtTime: cartItem.nameAtTime,
-        imageAtTime: cartItem.imageAtTime,
-        priceAtTime: cartItem.priceAtTime,
-        sizeAtTime: cartItem.sizeAtTime,
-        colorAtTime: cartItem.colorAtTime,
-      });
-
-      totalAmount += cartItem.priceAtTime * cartItem.quantity;
-
-      // Prepare stock decrement
-      productUpdates.push({
-        updateOne: {
-          filter: { '_id': product._id, 'variants._id': variant._id },
-          update: { $inc: { 'variants.$.stock': -cartItem.quantity } },
-        },
-      });
+  // 3. Validate stock and prepare order items
+  for (const cartItem of cart.items) {
+    const product = await Product.findById(cartItem.productId);
+    if (!product) {
+      throw new Error(`Product with ID ${cartItem.productId} not found.`);
     }
 
-    // 5. Decrement product stock
-    if (productUpdates.length > 0) {
-      await Product.bulkWrite(productUpdates, { session });
+    const variant = product.variants.id(cartItem.variantId);
+    if (!variant) {
+      throw new Error(`Product variant with ID ${cartItem.variantId} not found for product ${product.name}.`);
     }
 
-    // 6. Create the new order
-    const order = new Order({
-      userId,
-      items: orderItems,
-      shippingAddress,
-      paymentMethod,
-      totalAmount,
-      status: 'Pending', // Initial status
+    if (variant.stock < cartItem.quantity) {
+      throw new Error(`Not enough stock for ${product.name} (${variant.size} / ${variant.color}). Available: ${variant.stock}, Requested: ${cartItem.quantity}.`);
+    }
+
+    // Prepare order item snapshot
+    orderItems.push({
+      productId: cartItem.productId,
+      variantId: cartItem.variantId,
+      quantity: cartItem.quantity,
+      nameAtTime: cartItem.nameAtTime,
+      imageAtTime: cartItem.imageAtTime,
+      priceAtTime: cartItem.priceAtTime,
+      sizeAtTime: cartItem.sizeAtTime,
+      colorAtTime: cartItem.colorAtTime,
     });
-    await order.save({ session });
 
-    // 7. Clear the user's cart
-    cart.items = [];
-    await cart.save({ session });
+    totalAmount += cartItem.priceAtTime * cartItem.quantity;
 
-    // 8. Commit the transaction
-    await session.commitTransaction();
-    session.endSession();
-
-    res.status(201).json({ success: true, message: 'Order placed successfully!', order });
-
-  } catch (error) {
-    // If any error occurs, abort the transaction
-    await session.abortTransaction();
-    session.endSession();
-    console.error("Error during order creation transaction:", error);
-    // Re-throw the error to be caught by the global error handler
-    throw error;
+    // Prepare stock decrement
+    productUpdates.push({
+      updateOne: {
+        filter: { '_id': product._id, 'variants._id': variant._id },
+        update: { $inc: { 'variants.$.stock': -cartItem.quantity } },
+      },
+    });
   }
+
+  // 4. Decrement product stock
+  if (productUpdates.length > 0) {
+    // Note: Without a session, this is not atomic with order creation.
+    // If the server crashes between this and order.save(), inconsistencies can occur.
+    await Product.bulkWrite(productUpdates);
+  }
+
+  // 5. Generate sequential order number
+  const orderNumber = await getNextSequenceValue('orderId');
+
+  // 6. Create the new order
+  const order = new Order({
+    userId,
+    orderNumber, // Assign the generated sequential number
+    items: orderItems,
+    shippingAddress,
+    paymentMethod,
+    totalAmount,
+    status: 'Pending', // Initial status
+  });
+  await order.save();
+
+  // 7. Clear the user's cart
+  cart.items = [];
+  await cart.save();
+
+  res.status(201).json({ success: true, message: 'Order placed successfully!', order });
 });
 
 /**

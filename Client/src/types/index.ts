@@ -71,6 +71,7 @@ export interface ShippingAddress {
 export interface Order {
   _id: string;
   userId: string;
+  orderNumber: number; // New: Sequential order number
   items: OrderItem[];
   shippingAddress: ShippingAddress;
   paymentMethod: string;

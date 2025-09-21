@@ -83,7 +83,7 @@ const OrdersPage = () => {
             <Card key={order._id} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xl font-semibold flex items-center gap-2">
-                  <Package className="h-6 w-6 text-primary" /> Order #{order._id.substring(0, 8)}
+                  <Package className="h-6 w-6 text-primary" /> Order #{order.orderNumber} {/* Display sequential order number */}
                 </CardTitle>
                 <div className="text-sm text-gray-500">
                   Placed on: {new Date(order.createdAt).toLocaleDateString()}
