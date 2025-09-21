@@ -176,3 +176,9 @@
 2025-09-21T16:00:40.158Z [HTTP] [req:d9bb8b95-a5d1-42c3-872f-047c2b5b0e8a] ::1 - - [21/Sep/2025:16:00:40 +0000] "GET /api/v1/products/68cf8b4953809e4ca0436f6f HTTP/1.1" 200 591 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-21T16:04:07.165Z [HTTP] [req:eac318c6-4dbb-4e5e-a8b7-24b1e295ebda] ::1 - - [21/Sep/2025:16:04:07 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
 2025-09-21T16:04:07.419Z [HTTP] [req:8c37c4fd-bae9-45d5-8422-db8f96f5ed6f] ::1 - - [21/Sep/2025:16:04:07 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2472 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-21T16:04:10.283Z [HTTP] [req:a98bb0ef-a5ad-4bc6-aa99-fd9e5276c000] ::1 - - [21/Sep/2025:16:04:10 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2472 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-21T16:06:04.994Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-21T16:06:40.282Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-21T16:08:02.431Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-21T16:08:13.056Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-21T16:08:57.408Z [HTTP] [req:165c7421-9268-43d0-bd85-b103b1029b50] ::1 - - [21/Sep/2025:16:08:57 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"

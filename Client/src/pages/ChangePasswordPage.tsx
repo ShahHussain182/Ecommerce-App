@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Lock, KeyRound, ArrowLeft, Loader2 } from 'lucide-react';
+import { Terminal, Lock, KeyRound, ArrowLeft, Loader2, Save } from 'lucide-react'; // Added Save icon
 
 import { useAuthStore } from '@/store/authStore';
 import * as authApi from '@/lib/authApi';
