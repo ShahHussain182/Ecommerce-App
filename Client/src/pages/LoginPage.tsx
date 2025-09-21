@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { useEffect } from 'react'; // Import useEffect
+import { useEffect, useState } from 'react'; // Import useState
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,8 @@ import { AuthLayout } from '@/components/AuthLayout';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { useAuthStore } from '@/store/authStore';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Import Alert components
+import { Terminal } from "lucide-react"; // Import Terminal icon
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -23,6 +25,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { login: loginUser, isAuthenticated } = useAuthStore();
   const clearSignupProgress = useAuthStore((state) => state.clearSignupProgress);
+  const [serverError, setServerError] = useState<string | null>(null); // Add serverError state
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -44,6 +47,7 @@ const LoginPage = () => {
   }, [isAuthenticated, navigate]);
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+    setServerError(null); // Clear previous server errors
     try {
       const response = await axios.post('http://localhost:3001/api/v1/auth/login', {
         emailOrUsername: values.email,
@@ -62,6 +66,7 @@ const LoginPage = () => {
       if (axios.isAxiosError(error) && error.response) {
         errorMessage = error.response.data.message || errorMessage;
       }
+      setServerError(errorMessage); // Set server error for Alert component
       toast.error("Login Failed", {
         description: errorMessage,
       });
@@ -82,6 +87,15 @@ const LoginPage = () => {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
+          {serverError && ( // Display server error using Alert
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+              <Alert variant="destructive">
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>Login Failed</AlertTitle>
+                <AlertDescription>{serverError}</AlertDescription>
+              </Alert>
+            </motion.div>
+          )}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
             <FormField
               control={form.control}
