@@ -1,5 +1,5 @@
 import express from "express";
-import { checkAuth, forgotPassword, login, logout, refresh, resetPassword, signup, verifyEmail } from "../Controllers/auth.controller.js";
+import { checkAuth, forgotPassword, login, logout, refresh, resetPassword, signup, updateUserProfile, verifyEmail } from "../Controllers/auth.controller.js";
 import { requireAuth } from "../Middleware/requireAuth.js";
 const authRouter = express.Router();
 
@@ -17,7 +17,7 @@ authRouter.post("/reset-password/:token",resetPassword);
 authRouter.get("/check-auth",requireAuth,checkAuth);
 
 authRouter.get("/refresh", refresh);
-
+authRouter.put("/profile", requireAuth, updateUserProfile); // New route for profile updates
 
 
  

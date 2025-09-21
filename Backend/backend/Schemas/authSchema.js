@@ -90,5 +90,9 @@ export const signupSchema = z
     
     
   })
- 
-  
+
+  export const updateUserSchema = z.object({
+    userName: z.string().min(3, { message: "Username must be at least 3 characters." }).max(20, { message: "Username must be at most 20 characters long" }).optional(),
+    email: emailSchema.optional(),
+    phoneNumber: z.string().min(11, { message: "Phone number must be at least 11 digits." }).optional(),
+  }).partial(); // Allows partial updates

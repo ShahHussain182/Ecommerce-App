@@ -17,6 +17,7 @@ interface AuthActions {
   setSignupProgress: (email: string) => void;
   clearSignupProgress: () => void;
   markEmailVerified: () => void;
+  updateUser: (updatedUser: User) => void; // New action to update user data
 }
 
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
@@ -76,5 +77,12 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
       signupInProgress: false,
       signupEmail: null,
     }));
+  },
+
+  updateUser: (updatedUser) => {
+    set({
+      user: updatedUser,
+      isVerified: updatedUser.isVerified, // Update verification status if email changed
+    });
   },
 }));

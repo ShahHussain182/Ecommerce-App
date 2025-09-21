@@ -22,7 +22,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
-import OrdersPage from "./pages/OrdersPage"; // New import
+import OrdersPage from "./pages/OrdersPage";
+import EditProfilePage from "./pages/EditProfilePage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -99,6 +100,14 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <ProfilePage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/profile/edit" 
+                  element={
+                    <ProtectedRoute>
+                      <EditProfilePage />
                     </ProtectedRoute>
                   } 
                 />

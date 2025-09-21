@@ -1,5 +1,5 @@
 import { User } from "../Models/user.model.js";
-import { codeSchema, forgotPasswordSchema, loginSchema, loginSchema1, resetPasswordSchema, resetPasswordSchema1, signupSchema } from "../Schemas/authSchema.js";
+import { codeSchema, forgotPasswordSchema, loginSchema, loginSchema1, resetPasswordSchema, resetPasswordSchema1, signupSchema, updateUserSchema } from "../Schemas/authSchema.js";
 import { VerificationCodeModel } from "../Models/verificationCode.model.js";
 import catchErrors from "../Utils/catchErrors.js";
 import verificationCodeType from "../Constants/verificationCodeType.js";
@@ -396,4 +396,55 @@ export const checkAuth = catchErrors(async (req, res) => {
 
   res.status(200).json({ success: true, user });
   
+});
+
+export const updateUserProfile = catchErrors(async (req, res) => {
+  const userId = req.userId; // From requireAuth middleware
+  const updates = updateUserSchema.parse(req.body);
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  // Handle unique constraint checks for email, userName, phoneNumber
+  if (updates.email && updates.email !== user.email) {
+    const emailExists = await User.findOne({ email: updates.email });
+    if (emailExists && !emailExists._id.equals(userId)) {
+      return res.status(400).json({ success: false, message: "Email already in use." });
+    }
+    user.email = updates.email;
+    user.isVerified = false; // Mark as unverified if email changes
+    // Optionally send new verification email here
+    const verificationCode = await VerificationCodeModel.create({
+      userId: user._id,
+      type: verificationCodeType.EmailVerification,
+      expiresAt: oneHourFromNow(),
+    });
+    /* await sendVerificationEmail(user.email, verificationCode.code); */
+  }
+
+  if (updates.userName && updates.userName !== user.userName) {
+    const userNameExists = await User.findOne({ userName: updates.userName });
+    if (userNameExists && !userNameExists._id.equals(userId)) {
+      return res.status(400).json({ success: false, message: "Username already in use." });
+    }
+    user.userName = updates.userName;
+  }
+
+  if (updates.phoneNumber && updates.phoneNumber !== user.phoneNumber) {
+    const phoneNumberExists = await User.findOne({ phoneNumber: updates.phoneNumber });
+    if (phoneNumberExists && !phoneNumberExists._id.equals(userId)) {
+      return res.status(400).json({ success: false, message: "Phone number already in use." });
+    }
+    user.phoneNumber = updates.phoneNumber;
+  }
+
+  await user.save({ validateBeforeSave: false }); // Skip password hashing pre-save hook
+
+  res.status(200).json({
+    success: true,
+    message: "Profile updated successfully.",
+    user: user.pomitPassword(),
+  });
 });

@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/authStore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link
-import axios from 'axios';
+import * as authApi from '@/lib/authApi'; // Use the new authApi
 import { toast } from 'sonner';
 import { User, Mail, Phone, Calendar, LogOut, Edit, Package } from 'lucide-react'; // Import Package icon
 
@@ -14,9 +14,7 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3001/api/v1/auth/logout', {}, {
-        withCredentials: true,
-      });
+      await authApi.logout(); // Use authApi.logout
       logoutFromStore(); // This will show the "Logged out" toast
       navigate('/login');
     } catch (error) {
@@ -80,8 +78,10 @@ const ProfilePage = () => {
                     <Package className="mr-2 h-4 w-4" /> My Orders
                   </Link>
                 </Button>
-                <Button className="w-full">
-                  <Edit className="mr-2 h-4 w-4" /> Edit Profile
+                <Button asChild className="w-full"> {/* Changed to asChild for Link */}
+                  <Link to="/profile/edit"> {/* Link to the new edit profile page */}
+                    <Edit className="mr-2 h-4 w-4" /> Edit Profile
+                  </Link>
                 </Button>
                 <Button variant="destructive" onClick={handleLogout} className="w-full">
                   <LogOut className="mr-2 h-4 w-4" /> Logout
