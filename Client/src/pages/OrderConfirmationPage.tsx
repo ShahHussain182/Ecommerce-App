@@ -1,22 +1,35 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'; // Import useMutation and useQueryClient
 import * as orderApi from '@/lib/orderApi';
 import { Order } from '@/types';
+import { toast } from 'sonner'; // Import toast for notifications
 
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
+import { CheckCircle2, Loader2, XCircle, Ban } from 'lucide-react'; // Import Ban icon
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"; // Import AlertDialog components
 
 const OrderConfirmationPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const [order, setOrder] = useState<Order | null>(null);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient(); // Initialize query client
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['order', orderId],
@@ -26,11 +39,25 @@ const OrderConfirmationPage = () => {
     gcTime: Infinity,
   });
 
-  useEffect(() => {
-    if (data) {
-      setOrder(data);
-    }
-  }, [data]);
+  const cancelOrderMutation = useMutation({
+    mutationFn: (id: string) => orderApi.updateOrderStatus(id, 'Cancelled'),
+    onSuccess: (updatedOrder) => {
+      toast.success("Order Cancelled", {
+        description: `Order #${updatedOrder.orderNumber} has been successfully cancelled.`,
+      });
+      // Invalidate and refetch the order details to show updated status
+      queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+      // Also invalidate user orders list to reflect the change
+      queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+    },
+    onError: (err: any) => {
+      const errorMessage = err.response?.data?.message || "Failed to cancel order. Please try again.";
+      toast.error("Cancellation Failed", { description: errorMessage });
+      console.error("Order cancellation error:", err);
+    },
+  });
+
+  const order = data; // Use data directly from useQuery
 
   if (!orderId) {
     return (
@@ -82,15 +109,25 @@ const OrderConfirmationPage = () => {
     );
   }
 
+  const canCancel = order.status === 'Pending';
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-3xl mx-auto text-center">
-          <CheckCircle2 className="h-24 w-24 text-green-500 mx-auto mb-6" />
-          <h1 className="text-4xl font-bold mb-4">Order Confirmed!</h1>
+          {order.status === 'Cancelled' ? (
+            <XCircle className="h-24 w-24 text-red-500 mx-auto mb-6" />
+          ) : (
+            <CheckCircle2 className="h-24 w-24 text-green-500 mx-auto mb-6" />
+          )}
+          <h1 className="text-4xl font-bold mb-4">
+            {order.status === 'Cancelled' ? 'Order Cancelled' : 'Order Confirmed!'}
+          </h1>
           <p className="text-lg text-gray-700 mb-8">
-            Thank you for your purchase. Your order <span className="font-semibold">#{order.orderNumber}</span> has been placed successfully.
+            {order.status === 'Cancelled'
+              ? `Your order #${order.orderNumber} has been cancelled.`
+              : `Thank you for your purchase. Your order #${order.orderNumber} has been placed successfully.`}
           </p>
 
           <Card className="text-left mb-8">
@@ -98,6 +135,13 @@ const OrderConfirmationPage = () => {
               <CardTitle className="text-2xl">Order Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-lg mb-2">Order Status</h3>
+                <p className="capitalize text-xl font-bold">{order.status}</p>
+              </div>
+
+              <Separator />
+
               <div>
                 <h3 className="font-semibold text-lg mb-2">Shipping Address</h3>
                 <p>{order.shippingAddress.fullName}</p>
@@ -147,6 +191,34 @@ const OrderConfirmationPage = () => {
             <Button variant="outline" asChild size="lg">
               <Link to="/orders">View My Orders</Link>
             </Button>
+            {canCancel && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="lg" disabled={cancelOrderMutation.isPending}>
+                    {cancelOrderMutation.isPending ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Ban className="mr-2 h-4 w-4" />
+                    )}
+                    Cancel Order
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently cancel your order.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>No, keep order</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => cancelOrderMutation.mutate(orderId!)}>
+                      Yes, cancel order
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
           </div>
         </div>
       </main>
