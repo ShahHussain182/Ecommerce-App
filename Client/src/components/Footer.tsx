@@ -45,10 +45,10 @@ export const Footer = () => {
           <h4 className="font-semibold text-gray-900">Shop</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li><Link to="/products" className="text-gray-600 hover:text-black transition-colors">All Products</Link></li>
-            <li><Link to="/category/electronics" className="text-gray-600 hover:text-black transition-colors">Electronics</Link></li>
-            <li><Link to="/category/clothing" className="text-gray-600 hover:text-black transition-colors">Clothing</Link></li>
-            <li><Link to="/category/home-kitchen" className="text-gray-600 hover:text-black transition-colors">Home & Kitchen</Link></li>
-            <li><Link to="/category/books" className="text-gray-600 hover:text-black transition-colors">Books</Link></li>
+            <li><Link to="products?category=Electronics" className="text-gray-600 hover:text-black transition-colors">Electronics</Link></li>
+            <li><Link to="products?category=Apparel" className="text-gray-600 hover:text-black transition-colors">Clothing</Link></li>
+            <li><Link to="products?category=Home Goods" className="text-gray-600 hover:text-black transition-colors">Home & Kitchen</Link></li>
+            <li><Link to="products?category=Books" className="text-gray-600 hover:text-black transition-colors">Books</Link></li>
           </ul>
         </div>
 
@@ -57,7 +57,8 @@ export const Footer = () => {
           <h4 className="font-semibold text-gray-900">Customer Service</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li><Link to="/contact#faq" className="text-gray-600 hover:text-black transition-colors">FAQ</Link></li>
-            <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Shipping & Returns</a></li>
+            <li><Link to="/shipping-returns" className="text-gray-600 hover:text-black transition-colors">Shipping & Returns</Link></li>
+            <li><Link to="/press" className="text-gray-600 hover:text-black transition-colors">Press</Link></li>
             <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
             <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Terms of Service</a></li>
           </ul>

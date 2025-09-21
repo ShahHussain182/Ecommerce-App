@@ -145,7 +145,7 @@ const OrderConfirmationPage = () => {
               <Link to="/products">Continue Shopping</Link>
             </Button>
             <Button variant="outline" asChild size="lg">
-              <Link to="/profile">View My Orders</Link>
+              <Link to="/orders">View My Orders</Link> {/* Updated link */}
             </Button>
           </div>
         </div>

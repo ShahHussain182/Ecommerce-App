@@ -3,10 +3,10 @@ import { Footer } from '@/components/Footer';
 import { useAuthStore } from '@/store/authStore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import axios from 'axios';
 import { toast } from 'sonner';
-import { User, Mail, Phone, Calendar, LogOut, Edit } from 'lucide-react';
+import { User, Mail, Phone, Calendar, LogOut, Edit, Package } from 'lucide-react'; // Import Package icon
 
 const ProfilePage = () => {
   const { user, logout: logoutFromStore } = useAuthStore();
@@ -75,6 +75,11 @@ const ProfilePage = () => {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button asChild className="w-full">
+                  <Link to="/orders">
+                    <Package className="mr-2 h-4 w-4" /> My Orders
+                  </Link>
+                </Button>
                 <Button className="w-full">
                   <Edit className="mr-2 h-4 w-4" /> Edit Profile
                 </Button>

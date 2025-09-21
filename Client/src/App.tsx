@@ -20,8 +20,9 @@ import AuthInitializer from "./components/AuthInitializer";
 import { useAuthStore } from "./store/authStore";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
-import CheckoutPage from "./pages/CheckoutPage"; // New import
-import OrderConfirmationPage from "./pages/OrderConfirmationPage"; // New import
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import OrdersPage from "./pages/OrdersPage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -78,6 +79,14 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <OrderConfirmationPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="orders" 
+                  element={
+                    <ProtectedRoute>
+                      <OrdersPage />
                     </ProtectedRoute>
                   } 
                 />

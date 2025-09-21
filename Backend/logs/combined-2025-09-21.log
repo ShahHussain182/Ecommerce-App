@@ -1,0 +1,16 @@
+2025-09-21T14:56:47.468Z [DEBUG] [req:N/A] Running in development mode
+2025-09-21T14:58:17.006Z [DEBUG] [req:N/A] Running in development mode
+2025-09-21T14:58:33.014Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-21T14:58:50.434Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-21T14:58:50.440Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-21T14:59:00.010Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-21T14:59:00.018Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-21T14:59:00.020Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-21T14:59:15.428Z [HTTP] [req:63989be3-da8f-44ec-b403-0b5b0792d975] ::1 - - [21/Sep/2025:14:59:15 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T14:59:17.543Z [HTTP] [req:10ef3d41-f174-469b-b1f1-c02183dc5b67] ::1 - - [21/Sep/2025:14:59:17 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2472 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T15:00:03.286Z [HTTP] [req:c6ad7e24-c078-4a93-a655-3dbb20624c4a] ::1 - - [21/Sep/2025:15:00:03 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T15:00:06.740Z [HTTP] [req:dc4a4307-83a2-4347-ac2e-f91ec2a3bb9a] ::1 - - [21/Sep/2025:15:00:06 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T15:00:14.579Z [HTTP] [req:463b1ed1-21de-460d-b869-d461aea70d53] ::1 - - [21/Sep/2025:15:00:14 +0000] "GET /api/v1/cart HTTP/1.1" 200 771 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T15:00:57.469Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-21T15:01:11.682Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-21T15:02:13.062Z [HTTP] [req:3d255061-efe2-4efe-9104-053d42758b2c] ::1 - - [21/Sep/2025:15:02:13 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
