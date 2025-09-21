@@ -45,9 +45,21 @@ const OrderConfirmationPage = () => {
       toast.success("Order Cancelled", {
         description: `Order #${updatedOrder.orderNumber} has been successfully cancelled.`,
       });
-      // Invalidate and refetch the order details to show updated status
+      
+      // Immediately update the specific order in the cache
+      queryClient.setQueryData(['order', orderId], updatedOrder);
+
+      // Immediately update the list of user orders in the cache
+      queryClient.setQueryData(['userOrders'], (oldOrders: Order[] | undefined) => {
+        if (!oldOrders) return oldOrders;
+        return oldOrders.map((order: Order) => 
+          order._id === updatedOrder._id ? updatedOrder : order
+        );
+      });
+
+      // Invalidate queries to ensure they refetch if they become stale later,
+      // but the UI should already be updated by setQueryData.
       queryClient.invalidateQueries({ queryKey: ['order', orderId] });
-      // Also invalidate user orders list to reflect the change
       queryClient.invalidateQueries({ queryKey: ['userOrders'] });
     },
     onError: (err: any) => {
