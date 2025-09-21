@@ -3,10 +3,10 @@ import { Footer } from '@/components/Footer';
 import { useAuthStore } from '@/store/authStore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link
-import * as authApi from '@/lib/authApi'; // Use the new authApi
+import { useNavigate, Link } from 'react-router-dom';
+import * as authApi from '@/lib/authApi';
 import { toast } from 'sonner';
-import { User, Mail, Phone, Calendar, LogOut, Edit, Package } from 'lucide-react'; // Import Package icon
+import { User, Mail, Phone, Calendar, LogOut, Edit, Package } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user, logout: logoutFromStore } = useAuthStore();
@@ -14,8 +14,8 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
-      await authApi.logout(); // Use authApi.logout
-      logoutFromStore(); // This will show the "Logged out" toast
+      await authApi.logout();
+      logoutFromStore();
       navigate('/login');
     } catch (error) {
       toast.error("Logout Failed", {
@@ -25,7 +25,6 @@ const ProfilePage = () => {
   };
 
   if (!user) {
-    // This should theoretically not be reached due to ProtectedRoute, but it's good practice
     return (
       <div className="flex flex-col min-h-screen">
         <Header />
@@ -75,12 +74,12 @@ const ProfilePage = () => {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button asChild className="w-full">
                   <Link to="/orders">
-                    <Package className="mr-2 h-4 w-4" /> My Orders
+                    <span><Package className="mr-2 h-4 w-4" /> My Orders</span>
                   </Link>
                 </Button>
-                <Button asChild className="w-full"> {/* Changed to asChild for Link */}
-                  <Link to="/profile/edit"> {/* Link to the new edit profile page */}
-                    <Edit className="mr-2 h-4 w-4" /> Edit Profile
+                <Button asChild className="w-full">
+                  <Link to="/profile/edit">
+                    <span><Edit className="mr-2 h-4 w-4" /> Edit Profile</span>
                   </Link>
                 </Button>
                 <Button variant="destructive" onClick={handleLogout} className="w-full">
