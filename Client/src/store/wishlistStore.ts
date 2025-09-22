@@ -7,16 +7,18 @@ interface WishlistState {
   wishlist: Wishlist | null;
   isLoading: boolean;
   error: string | null;
-  wishlistItemIds: Map<string, string>; // Changed to Map<productId_variantId, wishlistItem._id>
+  wishlistItemIds: Map<string, string>; // Map<productId_variantId, wishlistItem._id>
+}
+
+interface WishlistActions {
   initializeWishlist: () => Promise<void>;
   addItemToWishlist: (product: Product, variant: ProductVariant) => Promise<void>;
   removeItemFromWishlist: (itemId: string) => Promise<void>;
   clearClientWishlist: () => void;
   clearRemoteWishlist: () => Promise<void>;
-  getWishlistItemId: (productId: string, variantId: string) => string | undefined; // New helper
 }
 
-export const useWishlistStore = create<WishlistState>((set, get) => ({
+export const useWishlistStore = create<WishlistState & WishlistActions>((set, get) => ({
   wishlist: null,
   isLoading: false,
   error: null,
@@ -26,7 +28,7 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
   _updateWishlistItemIds: (items: WishlistItem[]) => {
     const newMap = new Map<string, string>();
     items.forEach(item => newMap.set(`${item.productId._id}_${item.variantId}`, item._id));
-    set({ wishlistItemIds: newMap });
+    set({ wishlistItemIds: newMap }); // This creates a new Map instance, triggering re-renders
   },
 
   // Fetches the wishlist from the backend and initializes the store
@@ -89,10 +91,5 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
   // Clears the wishlist locally (used on logout)
   clearClientWishlist: () => {
     set({ wishlist: null, isLoading: false, error: null, wishlistItemIds: new Map() }); // Clear derived state too
-  },
-
-  // Checks if a specific product variant is in the wishlist and returns its item ID
-  getWishlistItemId: (productId: string, variantId: string) => {
-    return get().wishlistItemIds.get(`${productId}_${variantId}`);
   },
 }));

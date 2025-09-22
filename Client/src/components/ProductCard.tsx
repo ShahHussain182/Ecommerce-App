@@ -25,14 +25,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   const addWishlistItem = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
-  // Use the new getWishlistItemId helper for efficient lookup
-  const getWishlistItemId = useWishlistStore((state) => state.getWishlistItemId);
+  
+  // Directly select the wishlistItemIds Map
+  const wishlistItemIdsMap = useWishlistStore((state) => state.wishlistItemIds);
 
-  // Check if the item is in the wishlist and get its ID
+  // Check if the item is in the wishlist and get its ID from the map
   const wishlistItemId = React.useMemo(() => {
     if (!defaultVariant) return undefined;
-    return getWishlistItemId(product._id, defaultVariant._id);
-  }, [getWishlistItemId, product._id, defaultVariant]);
+    return wishlistItemIdsMap.get(`${product._id}_${defaultVariant._id}`);
+  }, [wishlistItemIdsMap, product._id, defaultVariant]); // Depend on the map
 
   const isInWishlist = !!wishlistItemId;
 

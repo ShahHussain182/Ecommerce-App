@@ -29,7 +29,6 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { shallow } from 'zustand/shallow';
 import { EMPTY_ARRAY } from '@/lib/constants';
 
 const ProductDetail = () => {
@@ -45,8 +44,8 @@ const ProductDetail = () => {
   const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   
-  // Use the new getWishlistItemId helper for efficient lookup
-  const getWishlistItemId = useWishlistStore((state) => state.getWishlistItemId);
+  // Directly select the wishlistItemIds Map
+  const wishlistItemIdsMap = useWishlistStore((state) => state.wishlistItemIds);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
@@ -118,8 +117,8 @@ const ProductDetail = () => {
     }
 
     if (selectedVariant && product) {
-      // Use getWishlistItemId for checking and retrieving the ID
-      const currentWishlistItemId = getWishlistItemId(product._id, selectedVariant._id);
+      // Use wishlistItemIdsMap for checking and retrieving the ID
+      const currentWishlistItemId = wishlistItemIdsMap.get(`${product._id}_${selectedVariant._id}`);
       if (currentWishlistItemId) {
         removeItemFromWishlist(currentWishlistItemId);
       } else {
@@ -183,8 +182,8 @@ const ProductDetail = () => {
   // Calculate isInWishlist for rendering, depending on selectedVariant and the Map
   const isInWishlistForRender = React.useMemo(() => {
     if (!selectedVariant || !product) return false;
-    return !!getWishlistItemId(product._id, selectedVariant._id);
-  }, [getWishlistItemId, product?._id, selectedVariant?._id]);
+    return wishlistItemIdsMap.has(`${product._id}_${selectedVariant._id}`);
+  }, [wishlistItemIdsMap, product?._id, selectedVariant?._id]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
