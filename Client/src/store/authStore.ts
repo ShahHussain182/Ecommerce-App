@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { User } from '@/types';
 import { toast } from 'sonner';
-import { useCartStore } from './cartStore'; // Import cart store
+import { useCartStore } from './cartStore';
+import { useWishlistStore } from './wishlistStore'; // Import wishlist store
 
 interface AuthState {
   user: User | null;
@@ -17,7 +18,7 @@ interface AuthActions {
   setSignupProgress: (email: string) => void;
   clearSignupProgress: () => void;
   markEmailVerified: () => void;
-  updateUser: (updatedUser: User) => void; // New action to update user data
+  updateUser: (updatedUser: User) => void;
 }
 
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
@@ -40,12 +41,14 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
         description: `Welcome back, ${user.userName}!`,
       });
     }
-    // Initialize cart after login
+    // Initialize cart and wishlist after login
     useCartStore.getState().initializeCart();
+    useWishlistStore.getState().initializeWishlist();
   },
 
   logout: () => {
     useCartStore.getState().clearClientCart(); // Clear cart state on logout
+    useWishlistStore.getState().clearClientWishlist(); // Clear wishlist state on logout
     set({
       user: null,
       isAuthenticated: false,
@@ -82,7 +85,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   updateUser: (updatedUser) => {
     set({
       user: updatedUser,
-      isVerified: updatedUser.isVerified, // Update verification status if email changed
+      isVerified: updatedUser.isVerified,
     });
   },
 }));

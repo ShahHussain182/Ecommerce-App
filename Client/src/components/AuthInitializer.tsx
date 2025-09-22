@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
-import { useCartStore } from '@/store/cartStore'; // Import cart store
+import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore'; // Import wishlist store
 import { Skeleton } from './ui/skeleton';
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { login, logout } = useAuthStore();
-  const { initializeCart } = useCartStore(); // Get cart initializer
+  const { initializeCart } = useCartStore();
+  const { initializeWishlist } = useWishlistStore(); // Get wishlist initializer
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,6 +20,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
         if (response.data.success) {
           login(response.data.user, false);
           await initializeCart(); // Fetch and set the cart after user is logged in
+          await initializeWishlist(); // Fetch and set the wishlist after user is logged in
         } else {
           logout();
         }
@@ -30,7 +33,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
     };
 
     checkUserStatus();
-  }, [login, logout, initializeCart]);
+  }, [login, logout, initializeCart, initializeWishlist]);
 
   if (isLoading) {
     return (

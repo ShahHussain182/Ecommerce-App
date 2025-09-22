@@ -25,8 +25,9 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import OrdersPage from "./pages/OrdersPage";
 import EditProfilePage from "./pages/EditProfilePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // New import
-import ResetPasswordPage from "./pages/ResetPasswordPage"; // New import
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import WishlistPage from "./pages/WishlistPage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,8 +59,8 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/verify-email" element={<VerifyEmailPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New route */}
-              <Route path="/reset-password/:token" element={<ResetPasswordPage />} /> {/* New route */}
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
               <Route path="/" element={<AppLayout />}>
                 <Route index element={<Index />} />
                 <Route path="products" element={<ProductsPage />} />
@@ -93,6 +94,14 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <OrdersPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="wishlist" 
+                  element={
+                    <ProtectedRoute>
+                      <WishlistPage /> {/* New protected route */}
                     </ProtectedRoute>
                   } 
                 />

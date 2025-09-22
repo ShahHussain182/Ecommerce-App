@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProductById } from '@/hooks/useProductById';
 import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore'; // Import wishlist store
 import { ProductVariant } from '@/types';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuthStore } from '@/store/authStore';
@@ -23,7 +24,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart } from 'lucide-react'; // Import Heart icon
+import { cn } from '@/lib/utils';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,6 +36,11 @@ const ProductDetail = () => {
   const addItemToCart = useCartStore((state) => state.addItem);
   const { isAuthenticated } = useAuthStore();
   
+  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist); // Get wishlist actions
+  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
+  const isItemInWishlist = useWishlistStore((state) => state.isItemInWishlist);
+  const wishlistItems = useWishlistStore((state) => state.wishlist?.items || []);
+
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -96,6 +103,26 @@ const ProductDetail = () => {
     }
   };
 
+  const handleToggleWishlist = () => {
+    if (!isAuthenticated) {
+      toast.info("Please log in to add items to your wishlist.");
+      navigate('/login');
+      return;
+    }
+
+    if (selectedVariant && product) {
+      const isInList = isItemInWishlist(product._id, selectedVariant._id);
+      if (isInList) {
+        const wishlistItemId = wishlistItems.find(item => item.productId._id === product._id && item.variantId === selectedVariant._id)?._id;
+        if (wishlistItemId) {
+          removeItemFromWishlist(wishlistItemId);
+        }
+      } else {
+        addItemToWishlist(product, selectedVariant);
+      }
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
@@ -147,6 +174,8 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  const isInWishlist = selectedVariant ? isItemInWishlist(product._id, selectedVariant._id) : false;
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -248,6 +277,18 @@ const ProductDetail = () => {
                 </div>
                 <Button size="lg" className="flex-grow" onClick={handleAddToCart} disabled={!selectedVariant || selectedVariant.stock === 0}>
                   {selectedVariant?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={handleToggleWishlist}
+                  disabled={!isAuthenticated}
+                  className={cn(
+                    "h-12 w-12",
+                    isInWishlist ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"
+                  )}
+                >
+                  <Heart className={cn("h-6 w-6", isInWishlist && "fill-red-500")} />
                 </Button>
               </div>
 

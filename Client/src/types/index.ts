@@ -81,6 +81,30 @@ export interface Order {
   updatedAt: string;
 }
 
+// New: WishlistItem interface
+export interface WishlistItem {
+  _id: string; // The unique ID of the wishlist item itself
+  productId: Product; // Populated product details
+  variantId: string; // The ID of the specific variant
+  nameAtTime: string;
+  imageAtTime: string;
+  priceAtTime: number;
+  sizeAtTime: string;
+  colorAtTime: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// New: Wishlist interface
+export interface Wishlist {
+  _id: string;
+  userId: string;
+  items: WishlistItem[];
+  totalItems: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 export interface FilterState {
   categories?: string[];
