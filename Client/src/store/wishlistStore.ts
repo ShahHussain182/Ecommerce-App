@@ -47,30 +47,117 @@ export const useWishlistStore = create<WishlistState & WishlistActions>((set, ge
 
   // Adds an item via the API and updates the local state with the response
   addItemToWishlist: async (product, variant) => {
-    set({ isLoading: true });
+    const { wishlist: oldWishlist, wishlistItemIds: oldWishlistItemIds } = get();
+    const tempId = `temp_${Date.now()}`; // Temporary ID for optimistic update
+
+    // Create an optimistic item with available product/variant data
+    const optimisticItem: WishlistItem = {
+      _id: tempId,
+      productId: product, // Full product object for local display
+      variantId: variant._id,
+      nameAtTime: product.name,
+      imageAtTime: product.imageUrls[0] || '/placeholder.svg',
+      priceAtTime: variant.price,
+      sizeAtTime: variant.size,
+      colorAtTime: variant.color,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    // Optimistically update the state
+    set((state) => {
+      const currentItems = state.wishlist?.items || [];
+      const newItems = [...currentItems, optimisticItem];
+      const newWishlist = {
+        ...(state.wishlist || { _id: 'temp', userId: 'temp', items: [], createdAt: '', updatedAt: '' }), // Create a basic wishlist if null
+        items: newItems,
+        totalItems: newItems.length,
+      };
+      const newWishlistItemIds = new Map(state.wishlistItemIds);
+      newWishlistItemIds.set(`${product._id}_${variant._id}`, tempId); // Map product-variant to temp ID
+      return {
+        wishlist: newWishlist,
+        wishlistItemIds: newWishlistItemIds,
+        isLoading: true, // Still set isLoading for the API call
+      };
+    });
+
     try {
       const updatedWishlist = await wishlistApi.addWishlistItem(product._id, variant._id);
-      set({ wishlist: updatedWishlist, isLoading: false });
-      get()._updateWishlistItemIds(updatedWishlist.items); // Update derived state
+      // On success, replace the optimistic item with the actual one from the backend
+      set((state) => {
+        const finalWishlist = updatedWishlist;
+        const finalWishlistItemIds = new Map(state.wishlistItemIds);
+        // Remove the temporary ID mapping
+        finalWishlistItemIds.delete(`${product._id}_${variant._id}`);
+        // Add the actual ID mapping
+        const actualItem = finalWishlist.items.find(item => item.productId._id === product._id && item.variantId === variant._id);
+        if (actualItem) {
+          finalWishlistItemIds.set(`${product._id}_${variant._id}`, actualItem._id);
+        }
+        return {
+          wishlist: finalWishlist,
+          wishlistItemIds: finalWishlistItemIds,
+          isLoading: false,
+        };
+      });
       toast.success(`${product.name} added to wishlist.`);
     } catch (error: any) {
+      // On error, revert to the old state
+      set({
+        wishlist: oldWishlist,
+        wishlistItemIds: oldWishlistItemIds,
+        isLoading: false,
+      });
       const errorMessage = error.response?.data?.message || "Failed to add item to wishlist.";
       toast.error("Error", { description: errorMessage });
-      set({ isLoading: false });
     }
   },
 
   // Removes an item via the API
   removeItemFromWishlist: async (itemId: string) => {
-    set({ isLoading: true });
+    const { wishlist: oldWishlist, wishlistItemIds: oldWishlistItemIds } = get();
+
+    // Find the item to be removed to get its product/variant IDs for map update
+    const removedItem = oldWishlist?.items.find(item => item._id === itemId);
+
+    // Optimistically update the state
+    set((state) => {
+      const currentItems = state.wishlist?.items || [];
+      const newItems = currentItems.filter(item => item._id !== itemId);
+      const newWishlist = {
+        ...(state.wishlist || { _id: 'temp', userId: 'temp', items: [], createdAt: '', updatedAt: '' }),
+        items: newItems,
+        totalItems: newItems.length,
+      };
+      const newWishlistItemIds = new Map(state.wishlistItemIds);
+      if (removedItem) {
+        newWishlistItemIds.delete(`${removedItem.productId._id}_${removedItem.variantId}`);
+      }
+      return {
+        wishlist: newWishlist,
+        wishlistItemIds: newWishlistItemIds,
+        isLoading: true, // Still set isLoading for the API call
+      };
+    });
+
     try {
       const updatedWishlist = await wishlistApi.removeWishlistItem(itemId);
-      set({ wishlist: updatedWishlist, isLoading: false });
-      get()._updateWishlistItemIds(updatedWishlist.items); // Update derived state
+      // On success, update with the actual state from the backend
+      set({
+        wishlist: updatedWishlist,
+        isLoading: false,
+      });
+      get()._updateWishlistItemIds(updatedWishlist.items); // Re-sync map with actual backend state
       toast.success("Item removed from wishlist.");
     } catch (error) {
+      // On error, revert to the old state
+      set({
+        wishlist: oldWishlist,
+        wishlistItemIds: oldWishlistItemIds,
+        isLoading: false,
+      });
       toast.error("Failed to remove item from wishlist.");
-      set({ isLoading: false });
     }
   },
 
