@@ -28,9 +28,9 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import React from 'react'; // Import React for useMemo
-import { shallow } from 'zustand/shallow'; // Import shallow for optimized re-renders
-import { EMPTY_ARRAY } from '@/lib/constants'; // Import EMPTY_ARRAY
+import React from 'react';
+import { shallow } from 'zustand/shallow';
+import { EMPTY_ARRAY } from '@/lib/constants';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,17 +39,16 @@ const ProductDetail = () => {
 
   const { data: product, isLoading, isError, error } = useProductById(productId);
   const addItemToCart = useCartStore((state) => state.addItem);
-  const { isAuthenticated } = useAuthStore();
   
-  // Select relevant state and actions from the wishlist store using shallow comparison
-  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } = useWishlistStore(
-    (state) => ({
-      addItemToWishlist: state.addItemToWishlist,
-      removeItemFromWishlist: state.removeItemFromWishlist,
-      wishlistItems: state.wishlist?.items ?? EMPTY_ARRAY, // Use ?? EMPTY_ARRAY for stable reference
-    }),
-    shallow // Use shallow comparison
-  );
+  // Optimized: Select isAuthenticated directly (primitive value)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  
+  // Optimized: Select actions directly (stable function references)
+  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
+  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
+  
+  // Optimized: Select wishlist items array directly with shallow comparison
+  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY, shallow);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
@@ -190,7 +189,7 @@ const ProductDetail = () => {
   const isInWishlistForRender = React.useMemo(() => {
     if (!selectedVariant || !product) return false;
     return wishlistItems.some(item => item.productId._id === product._id && item.variantId === selectedVariant._id);
-  }, [wishlistItems, product?._id, selectedVariant?._id]); // Dependencies are correct now
+  }, [wishlistItems, product?._id, selectedVariant?._id]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">

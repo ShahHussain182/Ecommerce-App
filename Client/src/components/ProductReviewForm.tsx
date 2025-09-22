@@ -18,7 +18,7 @@ import { useSubmitReview } from '@/hooks/useSubmitReview';
 import { CreateReviewPayload } from '@/types';
 import { useProductReviews } from '@/hooks/useProductReviews'; // Import useProductReviews
 import { Link } from 'react-router-dom';
-import { shallow } from 'zustand/shallow'; // Import shallow
+// Removed shallow import as it's no longer needed for these direct selections
 
 interface ProductReviewFormProps {
   productId: string;
@@ -34,7 +34,10 @@ const reviewFormSchema = z.object({
 type ReviewFormValues = z.infer<typeof reviewFormSchema>;
 
 export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormProps) => {
-  const { isAuthenticated, user } = useAuthStore(state => ({ isAuthenticated: state.isAuthenticated, user: state.user }), shallow); // Use shallow for consistency
+  // Optimized: Select isAuthenticated and user directly
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+  
   const submitReviewMutation = useSubmitReview();
   const [hoveredRating, setHoveredRating] = useState(0);
 
