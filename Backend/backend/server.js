@@ -41,7 +41,7 @@ app.use(morgan("combined", { stream: logger.stream }));
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "http://localhost:8080", // Updated to match client's vite.config.ts
     credentials: true,
   })
 );
@@ -104,7 +104,7 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // ----------------- Server -----------------
-let server;
+let server; // Declare server variable here
 
 const startServer = async () => {
   await connectDB();
@@ -150,7 +150,7 @@ startServer();
 async function cleanup() {
   logger.info("Starting cleanup process...");
 
-  if (server) {
+  if (server) { // Check if server is defined
     logger.debug("Closing HTTP server...");
     try {
       await new Promise((resolve, reject) => {
@@ -181,7 +181,7 @@ async function cleanup() {
   if (mongoClient) {
     logger.debug("Closing Mongo client...");
     try {
-      await mongoClient.close(true);
+      await mongoClient.close(true); // Force close for MongoStore client
       logger.info("MongoStore client disconnected.");
     } catch (error) {
       logger.error("Failed to close Mongo client:", error);
@@ -194,31 +194,28 @@ async function cleanup() {
 async function flushLogger() {
   logger.debug("Flushing logs...");
   return new Promise((resolve) => {
-    const transports = logger.transports;
+    const transports = logger.transports.filter(t => t.close); // Only consider transports with a close method
     let pendingTransports = transports.length;
 
     if (pendingTransports === 0) {
       logger.debug("No transports to flush.");
-      resolve();
-      return;
+      return resolve();
     }
 
-    const onFinish = () => {
-      pendingTransports--;
-      if (pendingTransports === 0) {
+    let closedCount = 0;
+    const onTransportClosed = () => {
+      closedCount++;
+      if (closedCount === pendingTransports) {
         logger.debug("All transports flushed.");
         resolve();
       }
+    };
+
+    transports.forEach(transport => {
+      transport.close(onTransportClosed);
     });
 
-    transports.forEach((transport) => {
-      if (transport.close) {
-        transport.close(onFinish);
-      } else {
-        onFinish();
-      }
-    });
-
+    // Fallback timeout in case some transports never call their callback
     setTimeout(() => {
       logger.warn("Flush logger timeout reached.");
       resolve();
