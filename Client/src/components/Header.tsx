@@ -2,7 +2,7 @@ import { ShoppingCart, User, Search, Menu, Heart } from 'lucide-react'; // Impor
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCartStore } from '@/store/cartStore';
-import { useWishlistStore } from '@/store/wishlistStore'; // Import wishlist store
+import { useWishlistStore } from '@/store/wishlistStore';
 import { useAuthStore } from '@/store/authStore';
 import {
   Sheet,
@@ -21,12 +21,19 @@ import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
+import { shallow } from 'zustand/shallow'; // Import shallow
 
 export const Header = () => {
-  const { cart } = useCartStore();
-  const totalCartItems = cart?.totalItems || 0;
-  const { wishlist } = useWishlistStore(); // Get wishlist from store
-  const totalWishlistItems = wishlist?.totalItems || 0; // Get total wishlist items
+  // Use selectors with shallow comparison for cart and wishlist
+  const { totalCartItems } = useCartStore(
+    (state) => ({ totalCartItems: state.cart?.totalItems || 0 }),
+    shallow
+  );
+  const { totalWishlistItems } = useWishlistStore(
+    (state) => ({ totalWishlistItems: state.wishlist?.totalItems || 0 }),
+    shallow
+  );
+  
   const { isAuthenticated } = useAuthStore();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
@@ -74,7 +81,7 @@ export const Header = () => {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Search Products</DialogTitle>
+                  <DialogTitle>Search Products</CardTitle>
                   <DialogDescription>
                     Find your next favorite item.
                   </DialogDescription>
@@ -93,7 +100,7 @@ export const Header = () => {
             </Dialog>
 
             <Button variant="ghost" size="icon" asChild>
-              <Link to="/wishlist" className="relative"> {/* New Wishlist Link */}
+              <Link to="/wishlist" className="relative">
                 <Heart className="h-5 w-5" />
                 {totalWishlistItems > 0 && (
                   <Badge variant="destructive" className="absolute -top-2 -right-2 px-1.5 py-0.5 text-xs">

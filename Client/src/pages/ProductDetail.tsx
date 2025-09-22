@@ -30,6 +30,7 @@ import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from
 import { cn } from '@/lib/utils';
 import React from 'react'; // Import React for useMemo
 import { shallow } from 'zustand/shallow'; // Import shallow for optimized re-renders
+import { EMPTY_ARRAY } from '@/lib/constants'; // Import EMPTY_ARRAY
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +46,7 @@ const ProductDetail = () => {
     (state) => ({
       addItemToWishlist: state.addItemToWishlist,
       removeItemFromWishlist: state.removeItemFromWishlist,
-      wishlistItems: state.wishlist?.items || [], // Directly select the items array
+      wishlistItems: state.wishlist?.items ?? EMPTY_ARRAY, // Use ?? EMPTY_ARRAY for stable reference
     }),
     shallow // Use shallow comparison
   );
