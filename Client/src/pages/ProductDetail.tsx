@@ -59,6 +59,13 @@ const ProductDetail = () => {
   const addToCartSectionRef = useRef<HTMLDivElement>(null);
   const [isStickyBarVisible, setIsStickyBarVisible] = useState(false);
 
+  // Calculate isInWishlist for rendering, depending on selectedVariant and the Map
+  // THIS useMemo is now at the top level, before any conditional returns.
+  const isInWishlistForRender = React.useMemo(() => {
+    if (!selectedVariant || !product) return false;
+    return wishlistItemIdsMap.has(`${product._id}_${selectedVariant._id}`);
+  }, [wishlistItemIdsMap, product?._id, selectedVariant?._id]);
+
   useEffect(() => {
     if (product && product.variants.length > 0) {
       setSelectedVariant(product.variants[0]);
@@ -178,12 +185,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-  // Calculate isInWishlist for rendering, depending on selectedVariant and the Map
-  const isInWishlistForRender = React.useMemo(() => {
-    if (!selectedVariant || !product) return false;
-    return wishlistItemIdsMap.has(`${product._id}_${selectedVariant._id}`);
-  }, [wishlistItemIdsMap, product?._id, selectedVariant?._id]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
