@@ -28,6 +28,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import React from 'react'; // Import React for useMemo
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,7 +42,12 @@ const ProductDetail = () => {
   const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   const isItemInWishlist = useWishlistStore((state) => state.isItemInWishlist);
-  const wishlistItems = useWishlistStore((state) => state.wishlist?.items || []);
+  
+  // Memoize wishlistItems to prevent infinite re-renders
+  const wishlistItems = React.useMemo(() => {
+    return useWishlistStore.getState().wishlist?.items || [];
+  }, [useWishlistStore.getState().wishlist?.items]);
+
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
