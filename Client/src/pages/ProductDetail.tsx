@@ -29,6 +29,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react'; // Import React for useMemo
+import { shallow } from 'zustand/shallow'; // Import shallow for optimized re-renders
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,15 +40,15 @@ const ProductDetail = () => {
   const addItemToCart = useCartStore((state) => state.addItem);
   const { isAuthenticated } = useAuthStore();
   
-  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
-  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
-  const isItemInWishlist = useWishlistStore((state) => state.isItemInWishlist);
-  
-  // Memoize wishlistItems to prevent infinite re-renders
-  const wishlistItems = React.useMemo(() => {
-    return useWishlistStore.getState().wishlist?.items || [];
-  }, [useWishlistStore.getState().wishlist?.items]);
-
+  // Select relevant state and actions from the wishlist store using shallow comparison
+  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } = useWishlistStore(
+    (state) => ({
+      addItemToWishlist: state.addItemToWishlist,
+      removeItemFromWishlist: state.removeItemFromWishlist,
+      wishlistItems: state.wishlist?.items || [], // Directly select the items array
+    }),
+    shallow // Use shallow comparison
+  );
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
@@ -119,7 +120,8 @@ const ProductDetail = () => {
     }
 
     if (selectedVariant && product) {
-      const isInList = isItemInWishlist(product._id, selectedVariant._id);
+      // Use wishlistItems directly here for checking
+      const isInList = wishlistItems.some(item => item.productId._id === product._id && item.variantId === selectedVariant._id);
       if (isInList) {
         const wishlistItemId = wishlistItems.find(item => item.productId._id === product._id && item.variantId === selectedVariant._id)?._id;
         if (wishlistItemId) {
@@ -183,7 +185,11 @@ const ProductDetail = () => {
     );
   }
 
-  const isInWishlist = selectedVariant ? isItemInWishlist(product._id, selectedVariant._id) : false;
+  // Calculate isInWishlist for rendering, depending on selectedVariant and wishlistItems
+  const isInWishlistForRender = React.useMemo(() => {
+    if (!selectedVariant || !product) return false;
+    return wishlistItems.some(item => item.productId._id === product._id && item.variantId === selectedVariant._id);
+  }, [wishlistItems, product?._id, selectedVariant?._id]); // Dependencies are correct now
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -314,10 +320,10 @@ const ProductDetail = () => {
                   disabled={!isAuthenticated}
                   className={cn(
                     "h-12 w-12",
-                    isInWishlist ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"
+                    isInWishlistForRender ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"
                   )}
                 >
-                  <Heart className={cn("h-6 w-6", isInWishlist && "fill-red-500")} />
+                  <Heart className={cn("h-6 w-6", isInWishlistForRender && "fill-red-500")} />
                 </Button>
               </div>
 

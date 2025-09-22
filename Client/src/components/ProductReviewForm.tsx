@@ -18,6 +18,7 @@ import { useSubmitReview } from '@/hooks/useSubmitReview';
 import { CreateReviewPayload } from '@/types';
 import { useProductReviews } from '@/hooks/useProductReviews'; // Import useProductReviews
 import { Link } from 'react-router-dom';
+import { shallow } from 'zustand/shallow'; // Import shallow
 
 interface ProductReviewFormProps {
   productId: string;
@@ -33,7 +34,7 @@ const reviewFormSchema = z.object({
 type ReviewFormValues = z.infer<typeof reviewFormSchema>;
 
 export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormProps) => {
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore(state => ({ isAuthenticated: state.isAuthenticated, user: state.user }), shallow); // Use shallow for consistency
   const submitReviewMutation = useSubmitReview();
   const [hoveredRating, setHoveredRating] = useState(0);
 

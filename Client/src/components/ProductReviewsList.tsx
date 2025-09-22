@@ -32,6 +32,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from '@/components/ui/skeleton';
+import { shallow } from 'zustand/shallow'; // Import shallow
 
 interface ProductReviewsListProps {
   productId: string;
@@ -48,7 +49,7 @@ const editReviewFormSchema = z.object({
 type EditReviewFormValues = z.infer<typeof editReviewFormSchema>;
 
 export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }: ProductReviewsListProps) => {
-  const { user } = useAuthStore();
+  const { user } = useAuthStore(state => ({ user: state.user }), shallow); // Use shallow for consistency
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } = useProductReviews(productId);
   const updateReviewMutation = useUpdateReview();
   const deleteReviewMutation = useDeleteReview();

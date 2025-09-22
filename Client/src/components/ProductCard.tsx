@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react'; // Import React for useMemo
+import { shallow } from 'zustand/shallow'; // Import shallow for optimized re-renders
 
 interface ProductCardProps {
   product: Product;
@@ -22,24 +23,29 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
   const defaultVariant = product.variants[0];
 
-  // Select specific actions and the wishlist object from the store
-  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
-  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
-  const isItemInWishlist = useWishlistStore((state) => state.isItemInWishlist);
-  const wishlist = useWishlistStore((state) => state.wishlist); // Select the wishlist object directly
+  // Select relevant state and actions from the wishlist store using shallow comparison
+  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } = useWishlistStore(
+    (state) => ({
+      addItemToWishlist: state.addItemToWishlist,
+      removeItemFromWishlist: state.removeItemFromWishlist,
+      wishlistItems: state.wishlist?.items || [], // Directly select the items array
+    }),
+    shallow // Use shallow comparison to prevent unnecessary re-renders
+  );
 
-  // Check if the item is in the wishlist using the provided function
+  // Check if the item is in the wishlist using the selected wishlistItems
   const isInWishlist = React.useMemo(() => {
-    return defaultVariant ? isItemInWishlist(product._id, defaultVariant._id) : false;
-  }, [isItemInWishlist, product._id, defaultVariant]);
+    if (!defaultVariant) return false;
+    return wishlistItems.some(item => item.productId._id === product._id && item.variantId === defaultVariant._id);
+  }, [wishlistItems, product._id, defaultVariant]); // Now depends on wishlistItems
 
   // Find the specific wishlistItemId if it's in the wishlist
   const wishlistItemId = React.useMemo(() => {
-    if (!isInWishlist || !wishlist?.items || !defaultVariant) return undefined;
-    return wishlist.items.find(item =>
+    if (!isInWishlist || !defaultVariant) return undefined;
+    return wishlistItems.find(item =>
       item.productId._id === product._id && item.variantId === defaultVariant._id
     )?._id;
-  }, [isInWishlist, wishlist?.items, product._id, defaultVariant?._id]);
+  }, [isInWishlist, wishlistItems, product._id, defaultVariant?._id]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
