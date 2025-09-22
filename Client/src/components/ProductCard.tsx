@@ -4,14 +4,14 @@ import { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCartStore } from '@/store/cartStore';
-import { useWishlistStore } from '@/store/wishlistStore';
 import { useAuthStore } from '@/store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { EMPTY_ARRAY } from '@/lib/constants';
+import { useWishlistStore } from '@/store/wishlistStore';
+import { useAddWishlistItemMutation, useRemoveWishlistItemMutation } from '@/hooks/useWishlistMutations';
 
 interface ProductCardProps {
   product: Product;
@@ -23,17 +23,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
   const defaultVariant = product.variants[0];
 
-  const addWishlistItem = useWishlistStore((state) => state.addItemToWishlist);
-  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
+  const addWishlistItemMutation = useAddWishlistItemMutation();
+  const removeWishlistItemMutation = useRemoveWishlistItemMutation();
   
-  // Directly select the wishlistItemIds Map
   const wishlistItemIdsMap = useWishlistStore((state) => state.wishlistItemIds);
 
-  // Check if the item is in the wishlist and get its ID from the map
   const wishlistItemId = React.useMemo(() => {
     if (!defaultVariant) return undefined;
     return wishlistItemIdsMap.get(`${product._id}_${defaultVariant._id}`);
-  }, [wishlistItemIdsMap, product._id, defaultVariant]); // Depend on the map
+  }, [wishlistItemIdsMap, product._id, defaultVariant]);
 
   const isInWishlist = !!wishlistItemId;
 
@@ -61,12 +59,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
     if (defaultVariant) {
       if (isInWishlist && wishlistItemId) {
-        removeItemFromWishlist(wishlistItemId);
+        removeWishlistItemMutation.mutate(wishlistItemId);
       } else {
-        addWishlistItem(product, defaultVariant);
+        addWishlistItemMutation.mutate({ productId: product._id, variantId: defaultVariant._id });
       }
     }
   };
+
+  const isWishlistActionPending = addWishlistItemMutation.isPending || removeWishlistItemMutation.isPending;
 
   return (
     <Card className="overflow-hidden flex flex-col relative">
@@ -78,7 +78,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           isInWishlist ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-gray-600"
         )}
         onClick={handleToggleWishlist}
-        disabled={!isAuthenticated}
+        disabled={!isAuthenticated || isWishlistActionPending}
       >
         <Heart className={cn("h-5 w-5", isInWishlist && "fill-red-500")} />
       </Button>

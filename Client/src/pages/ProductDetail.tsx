@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProductById } from '@/hooks/useProductById';
 import { useCartStore } from '@/store/cartStore';
-import { useWishlistStore } from '@/store/wishlistStore';
 import { ProductVariant } from '@/types';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuthStore } from '@/store/authStore';
@@ -29,7 +28,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react';
-import { EMPTY_ARRAY } from '@/lib/constants';
+import { useWishlistStore } from '@/store/wishlistStore';
+import { useAddWishlistItemMutation, useRemoveWishlistItemMutation } from '@/hooks/useWishlistMutations';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,11 +41,9 @@ const ProductDetail = () => {
   
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   
-  // Re-added these lines
-  const addWishlistItem = useWishlistStore((state) => state.addItemToWishlist);
-  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
+  const addWishlistItemMutation = useAddWishlistItemMutation();
+  const removeWishlistItemMutation = useRemoveWishlistItemMutation();
   
-  // Directly select the wishlistItemIds Map
   const wishlistItemIdsMap = useWishlistStore((state) => state.wishlistItemIds);
 
   const [quantity, setQuantity] = useState(1);
@@ -60,8 +58,6 @@ const ProductDetail = () => {
   const addToCartSectionRef = useRef<HTMLDivElement>(null);
   const [isStickyBarVisible, setIsStickyBarVisible] = useState(false);
 
-  // Calculate isInWishlist for rendering, depending on selectedVariant and the Map
-  // THIS useMemo is now at the top level, before any conditional returns.
   const isInWishlistForRender = React.useMemo(() => {
     if (!selectedVariant || !product) return false;
     return wishlistItemIdsMap.has(`${product._id}_${selectedVariant._id}`);
@@ -125,12 +121,11 @@ const ProductDetail = () => {
     }
 
     if (selectedVariant && product) {
-      // Use wishlistItemIdsMap for checking and retrieving the ID
       const currentWishlistItemId = wishlistItemIdsMap.get(`${product._id}_${selectedVariant._id}`);
       if (currentWishlistItemId) {
-        removeItemFromWishlist(currentWishlistItemId);
+        removeWishlistItemMutation.mutate(currentWishlistItemId);
       } else {
-        addWishlistItem(product, selectedVariant);
+        addWishlistItemMutation.mutate({ productId: product._id, variantId: selectedVariant._id });
       }
     }
   };
@@ -186,6 +181,8 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  const isWishlistActionPending = addWishlistItemMutation.isPending || removeWishlistItemMutation.isPending;
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -270,7 +267,6 @@ const ProductDetail = () => {
             <div className="flex flex-col space-y-6">
               <h1 className="text-4xl font-bold tracking-tight">{product.name}</h1>
               
-              {/* Average Rating Display */}
               {product.numberOfReviews > 0 && (
                 <div className="flex items-center gap-2">
                   <div className="flex">
@@ -313,7 +309,7 @@ const ProductDetail = () => {
                   variant="outline" 
                   size="icon" 
                   onClick={handleToggleWishlist}
-                  disabled={!isAuthenticated}
+                  disabled={!isAuthenticated || isWishlistActionPending}
                   className={cn(
                     "h-12 w-12",
                     isInWishlistForRender ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"
@@ -333,7 +329,6 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* New dedicated section for Product Reviews */}
         <section id="reviews-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <ProductReviewForm productId={productId} />
           <ProductReviewsList 

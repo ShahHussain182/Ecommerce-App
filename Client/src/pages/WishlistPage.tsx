@@ -2,7 +2,7 @@
 
 import { Link, useNavigate } from 'react-router-dom';
 import { useWishlistStore } from '@/store/wishlistStore';
-import { useCartStore } from '@/store/cartStore'; // Import cart store for 'Add to Cart' functionality
+import { useCartStore } from '@/store/cartStore';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -12,13 +12,17 @@ import { HeartCrack, Loader2, ShoppingBag, ShoppingCart, Trash2 } from 'lucide-r
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/authStore';
 import { useEffect } from 'react';
+import { useRemoveWishlistItemMutation, useClearWishlistMutation } from '@/hooks/useWishlistMutations';
 
 const WishlistPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
-  const { wishlist, removeItemFromWishlist, clearRemoteWishlist, isLoading } = useWishlistStore();
+  const { wishlist, isLoading } = useWishlistStore(); // Removed removeItemFromWishlist, clearRemoteWishlist
   const addItemToCart = useCartStore((state) => state.addItem);
   const items = wishlist?.items || [];
+
+  const removeWishlistItemMutation = useRemoveWishlistItemMutation();
+  const clearWishlistMutation = useClearWishlistMutation();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -37,7 +41,7 @@ const WishlistPage = () => {
     // Optionally remove from wishlist after adding to cart
     const wishlistItemId = items.find(item => item.productId._id === product._id && item.variantId === variant._id)?._id;
     if (wishlistItemId) {
-      removeItemFromWishlist(wishlistItemId);
+      removeWishlistItemMutation.mutate(wishlistItemId);
     }
   };
 
@@ -74,6 +78,8 @@ const WishlistPage = () => {
       </div>
     );
   }
+
+  const isAnyWishlistMutationPending = removeWishlistItemMutation.isPending || clearWishlistMutation.isPending;
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -120,11 +126,11 @@ const WishlistPage = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleAddToCart(product, variant)}
-                      disabled={isOutOfStock || isLoading}
+                      disabled={isOutOfStock || isAnyWishlistMutationPending}
                     >
                       <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => removeItemFromWishlist(item._id)} disabled={isLoading}>
+                    <Button variant="ghost" size="icon" onClick={() => removeWishlistItemMutation.mutate(item._id)} disabled={isAnyWishlistMutationPending}>
                       <Trash2 className="h-5 w-5 text-red-500" />
                     </Button>
                   </div>
@@ -132,8 +138,8 @@ const WishlistPage = () => {
               );
             })}
             <div className="flex justify-end">
-              <Button variant="outline" onClick={clearRemoteWishlist} disabled={isLoading}>
-                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              <Button variant="outline" onClick={() => clearWishlistMutation.mutate()} disabled={isAnyWishlistMutationPending}>
+                {isAnyWishlistMutationPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Clear Wishlist
               </Button>
             </div>
