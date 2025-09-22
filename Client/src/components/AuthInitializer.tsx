@@ -18,9 +18,10 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
           withCredentials: true,
         });
         if (response.data.success) {
-          login(response.data.user, false);
-          await initializeCart(); // Fetch and set the cart after user is logged in
-          await initializeWishlist(); // Fetch and set the wishlist after user is logged in
+          login(response.data.user, false); // Only update auth store state
+          // Now, after login, explicitly initialize other stores
+          await initializeCart();
+          await initializeWishlist();
         } else {
           logout();
         }

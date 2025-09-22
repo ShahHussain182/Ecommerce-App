@@ -41,9 +41,8 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
         description: `Welcome back, ${user.userName}!`,
       });
     }
-    // Initialize cart and wishlist after login
-    useCartStore.getState().initializeCart();
-    useWishlistStore.getState().initializeWishlist();
+    // Removed direct calls to initializeCart and initializeWishlist from here.
+    // AuthInitializer will now explicitly call them after login.
   },
 
   logout: () => {
