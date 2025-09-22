@@ -34,7 +34,12 @@ export const Header = () => {
     shallow
   );
   
-  const { isAuthenticated } = useAuthStore();
+  // Corrected: Use shallow comparison for useAuthStore as well
+  const { isAuthenticated } = useAuthStore(
+    (state) => ({ isAuthenticated: state.isAuthenticated }),
+    shallow
+  );
+
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = React.useState('');
