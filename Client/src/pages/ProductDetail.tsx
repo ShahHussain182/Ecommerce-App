@@ -40,15 +40,14 @@ const ProductDetail = () => {
   const { data: product, isLoading, isError, error } = useProductById(productId);
   const addItemToCart = useCartStore((state) => state.addItem);
   
-  // Optimized: Select isAuthenticated directly (primitive value)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   
-  // Optimized: Select actions directly (stable function references)
   const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   
-  // Optimized: Select wishlist items array directly with shallow comparison
-  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY, shallow);
+  // Use the new wishlistItemIds Set for efficient lookup
+  const wishlistItemIds = useWishlistStore((state) => state.wishlistItemIds);
+  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY, shallow); // Still needed for finding itemId
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
@@ -120,8 +119,8 @@ const ProductDetail = () => {
     }
 
     if (selectedVariant && product) {
-      // Use wishlistItems directly here for checking
-      const isInList = wishlistItems.some(item => item.productId._id === product._id && item.variantId === selectedVariant._id);
+      // Use wishlistItemIds Set for checking
+      const isInList = wishlistItemIds.has(`${product._id}_${selectedVariant._id}`);
       if (isInList) {
         const wishlistItemId = wishlistItems.find(item => item.productId._id === product._id && item.variantId === selectedVariant._id)?._id;
         if (wishlistItemId) {
@@ -185,11 +184,11 @@ const ProductDetail = () => {
     );
   }
 
-  // Calculate isInWishlist for rendering, depending on selectedVariant and wishlistItems
+  // Calculate isInWishlist for rendering, depending on selectedVariant and wishlistItemIds
   const isInWishlistForRender = React.useMemo(() => {
     if (!selectedVariant || !product) return false;
-    return wishlistItems.some(item => item.productId._id === product._id && item.variantId === selectedVariant._id);
-  }, [wishlistItems, product?._id, selectedVariant?._id]);
+    return wishlistItemIds.has(`${product._id}_${selectedVariant._id}`);
+  }, [wishlistItemIds, product?._id, selectedVariant?._id]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">

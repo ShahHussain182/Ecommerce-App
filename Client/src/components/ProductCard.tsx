@@ -19,20 +19,21 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const addItemToCart = useCartStore((state) => state.addItem);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated); // Directly select primitive
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
   const defaultVariant = product.variants[0];
 
-  // Optimized: Fetch individual pieces of state directly
   const addWishlistItem = useWishlistStore((state) => state.addItemToWishlist);
-  const removeWishlistItem = useWishlistStore((state) => state.removeItemFromWishlist);
-  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY); // Array reference, relies on Zustand's default equality
+  const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
+  // Use the new wishlistItemIds Set for efficient lookup
+  const wishlistItemIds = useWishlistStore((state) => state.wishlistItemIds);
+  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY); // Still needed for finding itemId
 
-  // Check if the item is in the wishlist using the selected wishlistItems
+  // Check if the item is in the wishlist using the Set
   const isInWishlist = React.useMemo(() => {
     if (!defaultVariant) return false;
-    return wishlistItems.some(item => item.productId._id === product._id && item.variantId === defaultVariant._id);
-  }, [wishlistItems, product._id, defaultVariant]);
+    return wishlistItemIds.has(`${product._id}_${defaultVariant._id}`);
+  }, [wishlistItemIds, product._id, defaultVariant]);
 
   // Find the specific wishlistItemId if it's in the wishlist
   const wishlistItemId = React.useMemo(() => {
@@ -66,7 +67,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
     if (defaultVariant) {
       if (isInWishlist && wishlistItemId) {
-        removeWishlistItem(wishlistItemId);
+        removeItemFromWishlist(wishlistItemId);
       } else {
         addWishlistItem(product, defaultVariant);
       }
