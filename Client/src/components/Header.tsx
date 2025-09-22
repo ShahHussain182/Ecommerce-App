@@ -1,4 +1,4 @@
-import { ShoppingCart, User, Search, Menu, Heart } from 'lucide-react'; // Import Heart icon
+import { ShoppingCart, User, Search, Menu, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCartStore } from '@/store/cartStore';
@@ -21,24 +21,13 @@ import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
-import { shallow } from 'zustand/shallow'; // Import shallow
+// No longer need shallow for these selectors as they return primitives directly
 
 export const Header = () => {
-  // Use selectors with shallow comparison for cart and wishlist
-  const { totalCartItems } = useCartStore(
-    (state) => ({ totalCartItems: state.cart?.totalItems || 0 }),
-    shallow
-  );
-  const { totalWishlistItems } = useWishlistStore(
-    (state) => ({ totalWishlistItems: state.wishlist?.totalItems || 0 }),
-    shallow
-  );
-  
-  // Corrected: Use shallow comparison for useAuthStore as well
-  const { isAuthenticated } = useAuthStore(
-    (state) => ({ isAuthenticated: state.isAuthenticated }),
-    shallow
-  );
+  // Optimized: Select primitive values directly
+  const totalCartItems = useCartStore((state) => state.cart?.totalItems || 0);
+  const totalWishlistItems = useWishlistStore((state) => state.wishlist?.totalItems || 0);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const isMobile = useIsMobile();
   const navigate = useNavigate();
