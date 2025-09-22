@@ -17,7 +17,8 @@ import authRouter from "./Routers/auth.router.js";
 import productRouter from "./Routers/product.router.js";
 import cartRouter from "./Routers/cart.router.js";
 import orderRouter from "./Routers/order.router.js";
-import wishlistRouter from "./Routers/wishlist.router.js"; // New import for wishlist router
+import wishlistRouter from "./Routers/wishlist.router.js";
+import reviewRouter from "./Routers/review.router.js"; // New import for review router
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
@@ -96,7 +97,8 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/orders", orderRouter);
-app.use("/api/v1/wishlist", wishlistRouter); // New wishlist router
+app.use("/api/v1/wishlist", wishlistRouter);
+app.use("/api/v1/reviews", reviewRouter); // New review router
 
 app.use(notFoundHandler);
 app.use(errorHandler);
@@ -207,7 +209,7 @@ async function flushLogger() {
         logger.debug("All transports flushed.");
         resolve();
       }
-    };
+    });
 
     transports.forEach((transport) => {
       if (transport.close) {

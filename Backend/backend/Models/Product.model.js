@@ -60,6 +60,19 @@ const productSchema = new mongoose.Schema(
       required: true,
       validate: [v => Array.isArray(v) && v.length > 0, 'At least one product variant is required.']
     },
+    // New fields for reviews
+    averageRating: {
+      type: Number,
+      default: 0,
+      min: [0, 'Average rating cannot be less than 0.'],
+      max: [5, 'Average rating cannot be more than 5.'],
+      set: (val) => parseFloat(val.toFixed(1)), // Store with one decimal place
+    },
+    numberOfReviews: {
+      type: Number,
+      default: 0,
+      min: [0, 'Number of reviews cannot be negative.'],
+    },
   },
   { 
     timestamps: true, // Automatically adds createdAt and updatedAt fields

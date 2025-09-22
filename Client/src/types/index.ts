@@ -17,6 +17,8 @@ export interface Product {
   isFeatured?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  averageRating: number; // New: Average rating of the product
+  numberOfReviews: number; // New: Total number of reviews
 }
 
 // This represents a single item within the cart, as returned by the backend
@@ -103,6 +105,35 @@ export interface Wishlist {
   totalItems: number;
   createdAt: string;
   updatedAt: string;
+}
+
+// New: Review interface
+export interface Review {
+  _id: string;
+  productId: string;
+  userId: {
+    _id: string;
+    userName: string;
+  };
+  rating: number;
+  title?: string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// New: ReviewPayload for creating/updating reviews
+export interface CreateReviewPayload {
+  productId: string;
+  rating: number;
+  title?: string;
+  comment: string;
+}
+
+export interface UpdateReviewPayload {
+  rating?: number;
+  title?: string;
+  comment?: string;
 }
 
 

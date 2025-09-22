@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProductById } from '@/hooks/useProductById';
 import { useCartStore } from '@/store/cartStore';
-import { useWishlistStore } from '@/store/wishlistStore'; // Import wishlist store
+import { useWishlistStore } from '@/store/wishlistStore';
 import { ProductVariant } from '@/types';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuthStore } from '@/store/authStore';
@@ -17,6 +17,8 @@ import { ProductDetailSkeleton } from '@/components/ProductDetailSkeleton';
 import { ProductVariantSelector } from '@/components/ProductVariantSelector';
 import { StockIndicator } from '@/components/StockIndicator';
 import { StickyAddToCartBar } from '@/components/StickyAddToCartBar';
+import { ProductReviewForm } from '@/components/ProductReviewForm'; // New import
+import { ProductReviewsList } from '@/components/ProductReviewsList'; // New import
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +26,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart } from 'lucide-react'; // Import Heart icon
+import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react'; // Import Star icon
 import { cn } from '@/lib/utils';
 
 const ProductDetail = () => {
@@ -36,7 +38,7 @@ const ProductDetail = () => {
   const addItemToCart = useCartStore((state) => state.addItem);
   const { isAuthenticated } = useAuthStore();
   
-  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist); // Get wishlist actions
+  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   const isItemInWishlist = useWishlistStore((state) => state.isItemInWishlist);
   const wishlistItems = useWishlistStore((state) => state.wishlist?.items || []);
@@ -260,6 +262,27 @@ const ProductDetail = () => {
             <div className="flex flex-col space-y-6">
               <h1 className="text-4xl font-bold tracking-tight">{product.name}</h1>
               
+              {/* Average Rating Display */}
+              {product.numberOfReviews > 0 && (
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={cn(
+                          "h-5 w-5",
+                          i < Math.round(product.averageRating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-lg font-semibold">{product.averageRating.toFixed(1)}</span>
+                  <Link to="#reviews" className="text-sm text-blue-600 hover:underline">
+                    ({product.numberOfReviews} reviews)
+                  </Link>
+                </div>
+              )}
+
               <div>
                 <p className="text-3xl font-semibold">${selectedVariant?.price.toFixed(2)}</p>
                 {selectedVariant && <StockIndicator stock={selectedVariant.stock} />}
@@ -296,6 +319,18 @@ const ProductDetail = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Description</AccordionTrigger>
                   <AccordionContent>{product.description}</AccordionContent>
+                </AccordionItem>
+                {/* New Accordion Item for Reviews */}
+                <AccordionItem value="reviews">
+                  <AccordionTrigger id="reviews">Customer Reviews ({product.numberOfReviews})</AccordionTrigger>
+                  <AccordionContent>
+                    <ProductReviewForm productId={productId} />
+                    <ProductReviewsList 
+                      productId={productId} 
+                      averageRating={product.averageRating} 
+                      numberOfReviews={product.numberOfReviews} 
+                    />
+                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </div>
