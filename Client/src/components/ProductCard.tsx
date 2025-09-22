@@ -25,23 +25,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   const addWishlistItem = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
-  // Use the new wishlistItemIds Set for efficient lookup
-  const wishlistItemIds = useWishlistStore((state) => state.wishlistItemIds);
-  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY); // Still needed for finding itemId
+  // Use the new getWishlistItemId helper for efficient lookup
+  const getWishlistItemId = useWishlistStore((state) => state.getWishlistItemId);
 
-  // Check if the item is in the wishlist using the Set
-  const isInWishlist = React.useMemo(() => {
-    if (!defaultVariant) return false;
-    return wishlistItemIds.has(`${product._id}_${defaultVariant._id}`);
-  }, [wishlistItemIds, product._id, defaultVariant]);
-
-  // Find the specific wishlistItemId if it's in the wishlist
+  // Check if the item is in the wishlist and get its ID
   const wishlistItemId = React.useMemo(() => {
-    if (!isInWishlist || !defaultVariant) return undefined;
-    return wishlistItems.find(item =>
-      item.productId._id === product._id && item.variantId === defaultVariant._id
-    )?._id;
-  }, [isInWishlist, wishlistItems, product._id, defaultVariant?._id]);
+    if (!defaultVariant) return undefined;
+    return getWishlistItemId(product._id, defaultVariant._id);
+  }, [getWishlistItemId, product._id, defaultVariant]);
+
+  const isInWishlist = !!wishlistItemId;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();

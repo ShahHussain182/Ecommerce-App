@@ -45,9 +45,8 @@ const ProductDetail = () => {
   const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   
-  // Use the new wishlistItemIds Set for efficient lookup
-  const wishlistItemIds = useWishlistStore((state) => state.wishlistItemIds);
-  const wishlistItems = useWishlistStore((state) => state.wishlist?.items ?? EMPTY_ARRAY, shallow); // Still needed for finding itemId
+  // Use the new getWishlistItemId helper for efficient lookup
+  const getWishlistItemId = useWishlistStore((state) => state.getWishlistItemId);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
@@ -119,15 +118,12 @@ const ProductDetail = () => {
     }
 
     if (selectedVariant && product) {
-      // Use wishlistItemIds Set for checking
-      const isInList = wishlistItemIds.has(`${product._id}_${selectedVariant._id}`);
-      if (isInList) {
-        const wishlistItemId = wishlistItems.find(item => item.productId._id === product._id && item.variantId === selectedVariant._id)?._id;
-        if (wishlistItemId) {
-          removeItemFromWishlist(wishlistItemId);
-        }
+      // Use getWishlistItemId for checking and retrieving the ID
+      const currentWishlistItemId = getWishlistItemId(product._id, selectedVariant._id);
+      if (currentWishlistItemId) {
+        removeItemFromWishlist(currentWishlistItemId);
       } else {
-        addItemToWishlist(product, selectedVariant);
+        addWishlistItem(product, selectedVariant);
       }
     }
   };
@@ -184,11 +180,11 @@ const ProductDetail = () => {
     );
   }
 
-  // Calculate isInWishlist for rendering, depending on selectedVariant and wishlistItemIds
+  // Calculate isInWishlist for rendering, depending on selectedVariant and the Map
   const isInWishlistForRender = React.useMemo(() => {
     if (!selectedVariant || !product) return false;
-    return wishlistItemIds.has(`${product._id}_${selectedVariant._id}`);
-  }, [wishlistItemIds, product?._id, selectedVariant?._id]);
+    return !!getWishlistItemId(product._id, selectedVariant._id);
+  }, [getWishlistItemId, product?._id, selectedVariant?._id]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">

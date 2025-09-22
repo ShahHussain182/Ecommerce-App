@@ -7,26 +7,26 @@ interface WishlistState {
   wishlist: Wishlist | null;
   isLoading: boolean;
   error: string | null;
-  wishlistItemIds: Set<string>; // New derived state for quick lookups
+  wishlistItemIds: Map<string, string>; // Changed to Map<productId_variantId, wishlistItem._id>
   initializeWishlist: () => Promise<void>;
   addItemToWishlist: (product: Product, variant: ProductVariant) => Promise<void>;
   removeItemFromWishlist: (itemId: string) => Promise<void>;
   clearClientWishlist: () => void;
   clearRemoteWishlist: () => Promise<void>;
-  isItemInWishlist: (productId: string, variantId: string) => boolean;
+  getWishlistItemId: (productId: string, variantId: string) => string | undefined; // New helper
 }
 
 export const useWishlistStore = create<WishlistState>((set, get) => ({
   wishlist: null,
   isLoading: false,
   error: null,
-  wishlistItemIds: new Set(), // Initialize as an empty Set
+  wishlistItemIds: new Map(), // Initialize as an empty Map
 
-  // Helper to update wishlistItemIds
+  // Helper to update wishlistItemIds Map
   _updateWishlistItemIds: (items: WishlistItem[]) => {
-    const newSet = new Set<string>();
-    items.forEach(item => newSet.add(`${item.productId._id}_${item.variantId}`));
-    set({ wishlistItemIds: newSet });
+    const newMap = new Map<string, string>();
+    items.forEach(item => newMap.set(`${item.productId._id}_${item.variantId}`, item._id));
+    set({ wishlistItemIds: newMap });
   },
 
   // Fetches the wishlist from the backend and initializes the store
@@ -88,11 +88,11 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
 
   // Clears the wishlist locally (used on logout)
   clearClientWishlist: () => {
-    set({ wishlist: null, isLoading: false, error: null, wishlistItemIds: new Set() }); // Clear derived state too
+    set({ wishlist: null, isLoading: false, error: null, wishlistItemIds: new Map() }); // Clear derived state too
   },
 
-  // Checks if a specific product variant is in the wishlist using the Set
-  isItemInWishlist: (productId: string, variantId: string) => {
-    return get().wishlistItemIds.has(`${productId}_${variantId}`);
+  // Checks if a specific product variant is in the wishlist and returns its item ID
+  getWishlistItemId: (productId: string, variantId: string) => {
+    return get().wishlistItemIds.get(`${productId}_${variantId}`);
   },
 }));
