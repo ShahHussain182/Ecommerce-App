@@ -1,13 +1,16 @@
+"use client";
+
 import { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCartStore } from '@/store/cartStore';
-import { useWishlistStore } from '@/store/wishlistStore'; // Import wishlist store
-import { Link, useNavigate } from 'react-router-dom';
+import { useWishlistStore } from '@/store/wishlistStore';
 import { useAuthStore } from '@/store/authStore';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Heart } from 'lucide-react'; // Import Heart icon
-import { cn } from '@/lib/utils'; // Import cn for conditional styling
+import { Heart } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import React from 'react'; // Import React for useMemo
 
 interface ProductCardProps {
   product: Product;
@@ -19,18 +22,27 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
   const defaultVariant = product.variants[0];
 
+  // Select specific actions and the wishlist object from the store
   const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   const isItemInWishlist = useWishlistStore((state) => state.isItemInWishlist);
-  const wishlistItems = useWishlistStore((state) => state.wishlist?.items || []);
+  const wishlist = useWishlistStore((state) => state.wishlist); // Select the wishlist object directly
 
-  const isInWishlist = defaultVariant ? isItemInWishlist(product._id, defaultVariant._id) : false;
-  const wishlistItemId = isInWishlist 
-    ? wishlistItems.find(item => item.productId._id === product._id && item.variantId === defaultVariant?._id)?._id 
-    : undefined;
+  // Check if the item is in the wishlist using the provided function
+  const isInWishlist = React.useMemo(() => {
+    return defaultVariant ? isItemInWishlist(product._id, defaultVariant._id) : false;
+  }, [isItemInWishlist, product._id, defaultVariant]);
+
+  // Find the specific wishlistItemId if it's in the wishlist
+  const wishlistItemId = React.useMemo(() => {
+    if (!isInWishlist || !wishlist?.items || !defaultVariant) return undefined;
+    return wishlist.items.find(item =>
+      item.productId._id === product._id && item.variantId === defaultVariant._id
+    )?._id;
+  }, [isInWishlist, wishlist?.items, product._id, defaultVariant?._id]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent link navigation when button is clicked
+    e.preventDefault();
 
     if (!isAuthenticated) {
       toast.info("Please log in to add items to your cart.");
@@ -44,7 +56,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent link navigation
+    e.preventDefault();
     if (!isAuthenticated) {
       toast.info("Please log in to add items to your wishlist.");
       navigate('/login');
@@ -62,9 +74,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Card className="overflow-hidden flex flex-col relative">
-      <Button 
-        variant="ghost" 
-        size="icon" 
+      <Button
+        variant="ghost"
+        size="icon"
         className={cn(
           "absolute top-2 right-2 z-10 rounded-full bg-white/80 hover:bg-white",
           isInWishlist ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-gray-600"
