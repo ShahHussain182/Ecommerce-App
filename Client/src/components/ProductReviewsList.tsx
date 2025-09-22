@@ -31,7 +31,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Skeleton } from '@/components/ui/skeleton'; // Added Skeleton import
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface ProductReviewsListProps {
   productId: string;
@@ -125,12 +125,12 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <Card className="p-4">
+        <Card className="p-6">
           <Skeleton className="h-6 w-1/2 mb-2" />
           <Skeleton className="h-4 w-1/4" />
         </Card>
         {Array.from({ length: 3 }).map((_, i) => (
-          <Card key={i} className="p-4">
+          <Card key={i} className="p-6">
             <Skeleton className="h-5 w-3/4 mb-2" />
             <Skeleton className="h-4 w-1/3 mb-2" />
             <Skeleton className="h-16 w-full" />
@@ -142,7 +142,7 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
 
   if (isError) {
     return (
-      <div className="text-center text-red-500">
+      <div className="text-center text-red-500 p-4">
         Error loading reviews: {error?.message}
       </div>
     );
@@ -150,9 +150,9 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
 
   return (
     <div className="space-y-6">
-      <Card className="p-6">
-        <CardTitle className="text-2xl font-bold mb-2">Customer Reviews</CardTitle>
-        <div className="flex items-center gap-2 mb-4">
+      <Card className="p-6 shadow-sm">
+        <CardTitle className="text-2xl font-bold mb-4">Customer Reviews</CardTitle>
+        <div className="flex items-center gap-2 mb-6">
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
@@ -167,13 +167,13 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
           <span className="text-xl font-semibold">{averageRating.toFixed(1)}</span>
           <span className="text-gray-600">({numberOfReviews} reviews)</span>
         </div>
-        <Separator />
+        <Separator className="mb-6" />
         {reviews.length === 0 && (
           <p className="text-gray-600 mt-4">No reviews yet. Be the first to review this product!</p>
         )}
         <div className="mt-6 space-y-6">
           {reviews.map((review) => (
-            <Card key={review._id} className="p-4">
+            <Card key={review._id} className="p-6 border shadow-sm">
               {editingReviewId === review._id ? (
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onEditSubmit)} className="space-y-4">
@@ -182,13 +182,13 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
                       name="rating"
                       render={({ field, fieldState: { error } }) => (
                         <FormItem>
-                          <FormLabel>Your Rating</FormLabel>
+                          <FormLabel className="text-base">Your Rating</FormLabel>
                           <div className="flex items-center gap-1">
                             {[1, 2, 3, 4, 5].map((starValue) => (
                               <Star
                                 key={starValue}
                                 className={cn(
-                                  "h-6 w-6 cursor-pointer transition-colors",
+                                  "h-7 w-7 cursor-pointer transition-colors",
                                   (hoveredRating >= starValue || form.watch('rating') >= starValue)
                                     ? "fill-yellow-400 text-yellow-400"
                                     : "text-gray-300"
@@ -208,7 +208,7 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
                       name="title"
                       render={({ field, fieldState: { error } }) => (
                         <FormItem>
-                          <FormLabel>Review Title (Optional)</FormLabel>
+                          <FormLabel className="text-base">Review Title (Optional)</FormLabel>
                           <Input {...field} />
                           <FormErrorMessage message={error?.message} />
                         </FormItem>
@@ -219,7 +219,7 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
                       name="comment"
                       render={({ field, fieldState: { error } }) => (
                         <FormItem>
-                          <FormLabel>Your Comment</FormLabel>
+                          <FormLabel className="text-base">Your Comment</FormLabel>
                           <Textarea rows={4} {...field} />
                           <FormErrorMessage message={error?.message} />
                         </FormItem>
@@ -238,23 +238,25 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
                 </Form>
               ) : (
                 <>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <UserCircle className="h-6 w-6 text-gray-500" />
-                      <p className="font-semibold text-lg">{review.userId.userName}</p>
-                      <span className="text-sm text-gray-500">
-                        {format(new Date(review.createdAt), 'MMM dd, yyyy')}
-                      </span>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <UserCircle className="h-7 w-7 text-gray-500" />
+                      <div>
+                        <p className="font-semibold text-lg text-gray-900">{review.userId.userName}</p>
+                        <span className="text-sm text-gray-500">
+                          {format(new Date(review.createdAt), 'MMMM dd, yyyy')}
+                        </span>
+                      </div>
                     </div>
                     {user?._id === review.userId._id && (
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" onClick={() => handleEditClick(review)}>
+                        <Button variant="ghost" size="icon" onClick={() => handleEditClick(review)} className="text-gray-600 hover:text-primary">
                           <Edit className="h-4 w-4" />
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <Trash2 className="h-4 w-4 text-red-500" />
+                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600">
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
@@ -287,14 +289,14 @@ export const ProductReviewsList = ({ productId, averageRating, numberOfReviews }
                       />
                     ))}
                   </div>
-                  {review.title && <h3 className="font-medium text-lg mb-1">{review.title}</h3>}
-                  <p className="text-gray-700">{review.comment}</p>
+                  {review.title && <h3 className="font-medium text-xl text-gray-900 mb-2">{review.title}</h3>}
+                  <p className="text-gray-700 leading-relaxed">{review.comment}</p>
                 </>
               )}
             </Card>
           ))}
         </div>
-        <div ref={loadMoreRef} className="mt-6 text-center">
+        <div ref={loadMoreRef} className="mt-8 text-center">
           {hasNextPage && (
             <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
               {isFetchingNextPage ? (

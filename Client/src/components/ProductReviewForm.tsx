@@ -4,18 +4,20 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Star, Loader2 } from 'lucide-react';
+import { Star, Loader2, CheckCircle2 } from 'lucide-react'; // Added CheckCircle2
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/authStore';
 import { useSubmitReview } from '@/hooks/useSubmitReview';
 import { CreateReviewPayload } from '@/types';
+import { useProductReviews } from '@/hooks/useProductReviews'; // Import useProductReviews
+import { Link } from 'react-router-dom';
 
 interface ProductReviewFormProps {
   productId: string;
@@ -34,6 +36,11 @@ export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductRevie
   const { isAuthenticated, user } = useAuthStore();
   const submitReviewMutation = useSubmitReview();
   const [hoveredRating, setHoveredRating] = useState(0);
+
+  // Fetch reviews to check if the current user has already reviewed
+  const { data: reviewsData, isLoading: isLoadingReviews } = useProductReviews(productId);
+  const allReviews = reviewsData?.pages.flatMap(page => page.reviews) || [];
+  const hasUserReviewed = user && allReviews.some(review => review.userId._id === user._id);
 
   const form = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewFormSchema),
@@ -54,7 +61,6 @@ export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductRevie
 
   const onSubmit = async (values: ReviewFormValues) => {
     if (!isAuthenticated || !user) {
-      // This case should ideally be prevented by UI, but as a fallback
       return;
     }
 
@@ -75,23 +81,50 @@ export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductRevie
 
   if (!isAuthenticated) {
     return (
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="text-xl">Leave a Review</CardTitle>
+      <Card className="mb-6 p-6 shadow-sm">
+        <CardHeader className="p-0 mb-4">
+          <CardTitle className="text-xl font-semibold">Leave a Review</CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-gray-600">Please <Link to="/login" className="text-primary underline">log in</Link> to leave a review.</p>
+        <CardContent className="p-0">
+          <p className="text-gray-600">Please <Link to="/login" className="text-primary underline font-medium">log in</Link> to leave a review.</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (isLoadingReviews) {
+    return (
+      <Card className="mb-6 p-6 shadow-sm">
+        <CardHeader className="p-0 mb-4">
+          <CardTitle className="text-xl font-semibold">Leave a Review</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="flex items-center gap-2 text-gray-500">
+            <Loader2 className="h-5 w-5 animate-spin" />
+            <span>Checking your review status...</span>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (hasUserReviewed) {
+    return (
+      <Card className="mb-6 p-6 shadow-sm bg-green-50 border-green-200">
+        <CardContent className="p-0 flex items-center gap-3 text-green-700">
+          <CheckCircle2 className="h-6 w-6 flex-shrink-0" />
+          <p className="font-medium">You have already submitted a review for this product. You can edit your existing review below.</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="mb-6">
-      <CardHeader>
-        <CardTitle className="text-xl">Leave a Review</CardTitle>
+    <Card className="mb-6 p-6 shadow-sm">
+      <CardHeader className="p-0 mb-4">
+        <CardTitle className="text-xl font-semibold">Leave a Review</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -99,14 +132,14 @@ export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductRevie
               name="rating"
               render={({ field, fieldState: { error } }) => (
                 <FormItem>
-                  <FormLabel>Your Rating</FormLabel>
+                  <FormLabel className="text-base">Your Rating</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map((starValue) => (
                         <Star
                           key={starValue}
                           className={cn(
-                            "h-6 w-6 cursor-pointer transition-colors",
+                            "h-7 w-7 cursor-pointer transition-colors",
                             (hoveredRating >= starValue || currentRating >= starValue)
                               ? "fill-yellow-400 text-yellow-400"
                               : "text-gray-300"
@@ -127,7 +160,7 @@ export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductRevie
               name="title"
               render={({ field, fieldState: { error } }) => (
                 <FormItem>
-                  <FormLabel>Review Title (Optional)</FormLabel>
+                  <FormLabel className="text-base">Review Title (Optional)</FormLabel>
                   <FormControl>
                     <Input placeholder="Great product!" {...field} />
                   </FormControl>
@@ -140,7 +173,7 @@ export const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductRevie
               name="comment"
               render={({ field, fieldState: { error } }) => (
                 <FormItem>
-                  <FormLabel>Your Comment</FormLabel>
+                  <FormLabel className="text-base">Your Comment</FormLabel>
                   <FormControl>
                     <Textarea placeholder="Tell us what you think..." rows={4} {...field} />
                   </FormControl>
