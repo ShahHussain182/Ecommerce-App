@@ -25,7 +25,7 @@ const VerifyEmailPage = () => {
   const emailFromState = location.state?.email;
   
   // Use auth store state and actions
-  const { isAuthenticated, isVerified, signupInProgress, signupEmail, clearSignupProgress, markEmailVerified, login } = useAuthStore(); // Added login action
+  const { isAuthenticated, isVerified, signupInProgress, signupEmail, login } = useAuthStore(); // Removed clearSignupProgress and markEmailVerified
   const email = emailFromState || signupEmail; // Prioritize state, then store
 
   const [serverError, setServerError] = useState<string | null>(null);
@@ -67,9 +67,9 @@ const VerifyEmailPage = () => {
         toast.success("Email verified successfully!", {
           description: "You can now access your account.",
         });
-        markEmailVerified(); // Update auth store (sets isVerified: true, signupInProgress: false, signupEmail: null)
-        login(response.data.user); // Log the user in with the returned user data (sets isAuthenticated: true, user object)
-        clearSignupProgress(); // This is now redundant as login also clears signupInProgress and signupEmail, but harmless.
+        // The login action in authStore already handles setting isVerified,
+        // isAuthenticated, and clearing signupInProgress/signupEmail.
+        login(response.data.user); 
         navigate('/', { replace: true }); // Redirect to home page
       }
     } catch (error: any) {
