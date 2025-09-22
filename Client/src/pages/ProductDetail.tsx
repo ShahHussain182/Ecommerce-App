@@ -41,7 +41,8 @@ const ProductDetail = () => {
   
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   
-  const addItemToWishlist = useWishlistStore((state) => state.addItemToWishlist);
+  // Re-added these lines
+  const addWishlistItem = useWishlistStore((state) => state.addItemToWishlist);
   const removeItemFromWishlist = useWishlistStore((state) => state.removeItemFromWishlist);
   
   // Directly select the wishlistItemIds Map
