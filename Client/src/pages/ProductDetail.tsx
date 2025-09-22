@@ -17,8 +17,8 @@ import { ProductDetailSkeleton } from '@/components/ProductDetailSkeleton';
 import { ProductVariantSelector } from '@/components/ProductVariantSelector';
 import { StockIndicator } from '@/components/StockIndicator';
 import { StickyAddToCartBar } from '@/components/StickyAddToCartBar';
-import { ProductReviewForm } from '@/components/ProductReviewForm'; // New import
-import { ProductReviewsList } from '@/components/ProductReviewsList'; // New import
+import { ProductReviewForm } from '@/components/ProductReviewForm';
+import { ProductReviewsList } from '@/components/ProductReviewsList';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,7 +26,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react'; // Import Star icon
+import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const ProductDetail = () => {
@@ -277,9 +277,9 @@ const ProductDetail = () => {
                     ))}
                   </div>
                   <span className="text-lg font-semibold">{product.averageRating.toFixed(1)}</span>
-                  <Link to="#reviews" className="text-sm text-blue-600 hover:underline">
+                  <a href="#reviews-section" className="text-sm text-blue-600 hover:underline">
                     ({product.numberOfReviews} reviews)
-                  </Link>
+                  </a>
                 </div>
               )}
 
@@ -320,22 +320,21 @@ const ProductDetail = () => {
                   <AccordionTrigger>Description</AccordionTrigger>
                   <AccordionContent>{product.description}</AccordionContent>
                 </AccordionItem>
-                {/* New Accordion Item for Reviews */}
-                <AccordionItem value="reviews">
-                  <AccordionTrigger id="reviews">Customer Reviews ({product.numberOfReviews})</AccordionTrigger>
-                  <AccordionContent>
-                    <ProductReviewForm productId={productId} />
-                    <ProductReviewsList 
-                      productId={productId} 
-                      averageRating={product.averageRating} 
-                      numberOfReviews={product.numberOfReviews} 
-                    />
-                  </AccordionContent>
-                </AccordionItem>
               </Accordion>
             </div>
           </div>
         </div>
+
+        {/* New dedicated section for Product Reviews */}
+        <section id="reviews-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <ProductReviewForm productId={productId} />
+          <ProductReviewsList 
+            productId={productId} 
+            averageRating={product.averageRating} 
+            numberOfReviews={product.numberOfReviews} 
+          />
+        </section>
+
         <RelatedProducts currentProductId={product._id} />
       </main>
       <Footer />
