@@ -200,3 +200,41 @@
 2025-09-21T16:12:09.203Z [HTTP] [req:fa2efe85-0c52-4400-92a5-4c008a9aa005] ::1 - - [21/Sep/2025:16:12:09 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-21T16:13:36.086Z [HTTP] [req:057a41d0-edd8-40cf-8553-b76a3108eb06] ::1 - - [21/Sep/2025:16:13:36 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
 2025-09-21T16:13:36.302Z [HTTP] [req:1286f19d-0a1e-4b98-9245-7a8a1a3d7b9a] ::1 - - [21/Sep/2025:16:13:36 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2472 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-21T16:13:38.000Z [HTTP] [req:2f93ac43-a108-42c7-9021-efdb8b98a699] ::1 - - [21/Sep/2025:16:13:38 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2472 "http://localhost:54115/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.20.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-21T16:13:47.173Z [HTTP] [req:9a366c75-f6ad-4c44-8501-7618e7a59268] ::1 - - [21/Sep/2025:16:13:47 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:13:47.183Z [ERROR] [req:da7fbf97-c133-4a51-a509-3019a6e0cc42] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "code": "too_small",
+    "minimum": 8,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Password must be at least 8 characters long",
+    "path": [
+      "password"
+    ]
+  },
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one number",
+    "path": [
+      "password"
+    ]
+  },
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-09-21T16:13:47.186Z [HTTP] [req:da7fbf97-c133-4a51-a509-3019a6e0cc42] ::1 - - [21/Sep/2025:16:13:47 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 135 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:13:57.189Z [HTTP] [req:5f22ba18-1b2c-4c7a-9ed6-732ef2a234ed] ::1 - - [21/Sep/2025:16:13:57 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:13:58.605Z [HTTP] [req:affbe509-0e98-4a33-b1b0-f2c2a251c314] ::1 - - [21/Sep/2025:16:13:58 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 50 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:14:02.247Z [HTTP] [req:8ef019b2-7e5f-4ce0-9a8b-b5892800b410] ::1 - - [21/Sep/2025:16:14:02 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 50 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:14:26.358Z [HTTP] [req:f981ebf4-4e43-4910-95bd-303b30a3c3bd] ::1 - - [21/Sep/2025:16:14:26 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:14:34.190Z [HTTP] [req:66c58425-194a-4ad5-8cc9-1b762d287d24] ::1 - - [21/Sep/2025:16:14:34 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 826 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-21T16:14:40.337Z [HTTP] [req:630af87e-8468-4a39-96ac-629575362a91] ::1 - - [21/Sep/2025:16:14:40 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

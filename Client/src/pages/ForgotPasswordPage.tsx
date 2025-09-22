@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,54 +12,47 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { AuthLayout } from '@/components/AuthLayout';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
-import { useAuthStore } from '@/store/authStore';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 
-const loginFormSchema = z.object({
+// Define form schema for validation
+const forgotPasswordFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(1, { message: "Password is required." }),
 });
 
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   const navigate = useNavigate();
-  const { login: loginUser, isAuthenticated } = useAuthStore();
-  const clearSignupProgress = useAuthStore((state) => state.clearSignupProgress);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<z.infer<typeof forgotPasswordFormSchema>>({
+    resolver: zodResolver(forgotPasswordFormSchema),
     mode: 'onBlur',
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
   const { clearErrors } = form;
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      toast.info("You are already logged in.");
-      navigate('/', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
-
-  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  async function onSubmit(values: z.infer<typeof forgotPasswordFormSchema>) {
     setServerError(null);
+    setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/auth/login', {
-        emailOrUsername: values.email,
-        password: values.password,
+      const response = await axios.post('http://localhost:3001/api/v1/auth/forgot-password', {
+        email: values.email,
       }, {
         withCredentials: true,
       });
 
       if (response.data.success) {
-        loginUser(response.data.user);
-        clearSignupProgress();
-        navigate('/', { replace: true });
+        setIsSuccess(true);
+        toast.success("Password Reset Email Sent", {
+          description: "Please check your email for instructions to reset your password.",
+        });
+        // Optionally, you could automatically redirect after a few seconds
+        // setTimeout(() => navigate('/login'), 5000);
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
@@ -67,23 +60,46 @@ const LoginPage = () => {
         errorMessage = error.response.data.message || errorMessage;
       }
       setServerError(errorMessage);
-      toast.error("Login Failed", {
+      toast.error("Request Failed", {
         description: errorMessage,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
   const onError = (errors: any) => {
     if (Object.keys(errors).length > 0) {
-      const firstErrorKey = Object.keys(errors)[0] as keyof z.infer<typeof loginFormSchema>;
+      const firstErrorKey = Object.keys(errors)[0] as keyof z.infer<typeof forgotPasswordFormSchema>;
       form.setFocus(firstErrorKey);
     }
   };
 
+  if (isSuccess) {
+    return (
+      <AuthLayout
+        title="Check Your Email"
+        description="We've sent password reset instructions to your email."
+      >
+        <div className="text-center">
+          <Alert className="mb-6">
+            <AlertTitle>Instructions Sent</AlertTitle>
+            <AlertDescription>
+              Please check your email (including spam/junk folder) for a link to reset your password.
+            </AlertDescription>
+          </Alert>
+          <Button asChild variant="outline">
+            <Link to="/login">Back to Login</Link>
+          </Button>
+        </div>
+      </AuthLayout>
+    );
+  }
+
   return (
     <AuthLayout
-      title="Log in to your account"
-      description="Welcome back! Please enter your details."
+      title="Forgot Password?"
+      description="Enter your email address and we'll send you a link to reset your password."
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
@@ -91,7 +107,7 @@ const LoginPage = () => {
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
               <Alert variant="destructive">
                 <Terminal className="h-4 w-4" />
-                <AlertTitle>Login Failed</AlertTitle>
+                <AlertTitle>Request Failed</AlertTitle>
                 <AlertDescription>{serverError}</AlertDescription>
               </Alert>
             </motion.div>
@@ -119,49 +135,21 @@ const LoginPage = () => {
               )}
             />
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field, fieldState: { error } }) => (
-                <FormItem>
-                  <div className="flex items-center justify-between">
-                    <FormLabel>Password</FormLabel>
-                    <Link to="/forgot-password" className="text-sm font-medium text-primary hover:underline">
-                      Forgot password?
-                    </Link>
-                  </div>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                      onChange={(e) => {
-                        if (error) clearErrors("password");
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormErrorMessage message={error?.message} />
-                </FormItem>
-              )}
-            />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Logging In..." : "Log In"}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Reset Link"}
             </Button>
           </motion.div>
         </form>
       </Form>
       <div className="mt-4 text-center text-sm">
-        Don't have an account?{" "}
-        <Link to="/signup" className="underline">
-          Sign up
+        Remember your password?{" "}
+        <Link to="/login" className="underline">
+          Log in
         </Link>
       </div>
     </AuthLayout>
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;

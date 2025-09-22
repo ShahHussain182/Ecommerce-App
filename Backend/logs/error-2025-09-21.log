@@ -1,0 +1,29 @@
+2025-09-21T16:13:47.183Z [ERROR] [req:da7fbf97-c133-4a51-a509-3019a6e0cc42] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "code": "too_small",
+    "minimum": 8,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Password must be at least 8 characters long",
+    "path": [
+      "password"
+    ]
+  },
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one number",
+    "path": [
+      "password"
+    ]
+  },
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]

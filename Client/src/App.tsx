@@ -24,7 +24,9 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import OrdersPage from "./pages/OrdersPage";
 import EditProfilePage from "./pages/EditProfilePage";
-import ChangePasswordPage from "./pages/ChangePasswordPage"; // New import
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // New import
+import ResetPasswordPage from "./pages/ResetPasswordPage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,6 +58,8 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/verify-email" element={<VerifyEmailPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New route */}
+              <Route path="/reset-password/:token" element={<ResetPasswordPage />} /> {/* New route */}
               <Route path="/" element={<AppLayout />}>
                 <Route index element={<Index />} />
                 <Route path="products" element={<ProductsPage />} />
