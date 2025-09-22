@@ -81,7 +81,7 @@ export const Header = () => {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Search Products</CardTitle>
+                  <DialogTitle>Search Products</DialogTitle>
                   <DialogDescription>
                     Find your next favorite item.
                   </DialogDescription>
