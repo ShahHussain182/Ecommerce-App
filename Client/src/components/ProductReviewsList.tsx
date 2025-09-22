@@ -31,6 +31,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Skeleton } from '@/components/ui/skeleton'; // Added Skeleton import
 
 interface ProductReviewsListProps {
   productId: string;
