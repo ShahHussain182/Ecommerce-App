@@ -555,7 +555,7 @@ export function Products() {
                             <img
                               src={product.imageUrls[0]}
                               alt={product.name}
-                              className="h-8 w-8 rounded-md object-cover" {/* Smaller image */}
+                              className="h-8 w-8 rounded-md object-cover" 
                             />
                             <div className="font-medium">{product.name}</div>
                           </div>
