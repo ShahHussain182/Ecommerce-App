@@ -1,1 +1,12 @@
 2025-09-26T07:40:24.879Z [ERROR] [req:ed3aec81-a61c-4626-a04c-c36dc1f0f88e] ❌ Path: /api/v1/wishlist/items/optimistic_1758872418410 | Error: Cast to ObjectId failed for value "optimistic_1758872418410" (type string) at path "_id" because of "BSONError"
+2025-09-26T12:33:27.037Z [ERROR] [req:05d4038f-0dea-4276-8eb9-6b9bd2a48b90] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "validation": "url",
+    "code": "invalid_string",
+    "message": "Must be a valid URL.",
+    "path": [
+      "imageUrls",
+      0
+    ]
+  }
+]
