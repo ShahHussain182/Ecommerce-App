@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import { productService, CreateProductData, UpdateProductData } from '@/services
 import { Product, ProductVariant } from '@/types';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createProductSchema, updateProductSchema, variantSchema } from '@/schemas/productSchema';
+import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
 import { z } from 'zod';
 
 // Type for the form data, combining create and update schemas
@@ -214,6 +214,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
 export function Products() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -222,13 +223,25 @@ export function Products() {
   const [page, setPage] = useState(1);
   const limit = 10; // Number of items per page
 
+  // Debounce search term
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setPage(1); // Reset to first page on new search term
+    }, 500); // 500ms debounce delay
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
   // Query for products from API
   const { data: productsData, isLoading, error } = useQuery({
-    queryKey: ['products', { searchTerm, category: selectedCategory, page, limit }],
+    queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
     queryFn: () => productService.getProducts({
       page,
       limit,
-      searchTerm: searchTerm || undefined,
+      searchTerm: debouncedSearchTerm || undefined,
       categories: selectedCategory === 'All' ? undefined : selectedCategory || undefined,
       sortBy: 'name-asc'
     }),
@@ -255,38 +268,97 @@ export function Products() {
 
   const updateProductMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProductData }) => productService.updateProduct(id, data),
+    onMutate: async ({ id, data }) => {
+      // Cancel any outgoing refetches for the products query
+      await queryClient.cancelQueries({ queryKey: ['products'] });
+
+      // Snapshot the previous value
+      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }]);
+
+      // Optimistically update the product in the cache
+      queryClient.setQueryData(
+        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+        (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            products: oldData.products.map((product) =>
+              product._id === id ? { ...product, ...data } : product
+            ),
+          };
+        }
+      );
+
+      return { previousProducts };
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product updated successfully');
       setIsEditDialogOpen(false);
     },
-    onError: (err: any) => {
+    onError: (err: any, variables, context) => {
       toast.error(err.response?.data?.message || 'Failed to update product');
+      // Rollback to the previous cache state
+      if (context?.previousProducts) {
+        queryClient.setQueryData(
+          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+          context.previousProducts
+        );
+      }
+    },
+    onSettled: () => {
+      // Always refetch after error or success to ensure server state is reflected
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
   const deleteProductMutation = useMutation({
     mutationFn: productService.deleteProduct,
+    onMutate: async (productIdToDelete) => {
+      // Cancel any outgoing refetches for the products query
+      await queryClient.cancelQueries({ queryKey: ['products'] });
+
+      // Snapshot the previous value
+      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }]);
+
+      // Optimistically remove the product from the cache
+      queryClient.setQueryData(
+        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+        (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            products: oldData.products.filter((product) => product._id !== productIdToDelete),
+            totalProducts: oldData.totalProducts - 1, // Adjust total count
+          };
+        }
+      );
+
+      return { previousProducts };
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product deleted successfully');
     },
-    onError: (err: any) => {
+    onError: (err: any, variables, context) => {
       toast.error(err.response?.data?.message || 'Failed to delete product');
+      // Rollback to the previous cache state
+      if (context?.previousProducts) {
+        queryClient.setQueryData(
+          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+          context.previousProducts
+        );
+      }
+    },
+    onSettled: () => {
+      // Always refetch after error or success to ensure server state is reflected
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
   const handleToggleFeatured = async (product: Product) => {
-    const toastId = toast.loading('Updating product...');
-    try {
-      await updateProductMutation.mutateAsync({
-        id: product._id,
-        data: { isFeatured: !product.isFeatured },
-      });
-      toast.success('Product updated successfully', { id: toastId });
-    } catch (error) {
-      toast.error('Failed to update product', { id: toastId });
-    }
+    updateProductMutation.mutate({
+      id: product._id,
+      data: { isFeatured: !product.isFeatured },
+    });
   };
 
   return (
@@ -330,7 +402,6 @@ export function Products() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setPage(1); // Reset to first page on search
             }}
           />
         </div>
