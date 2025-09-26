@@ -41,10 +41,12 @@ app.use(morgan("combined", { stream: logger.stream }));
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:8080", // Updated to match client's vite.config.ts
+    origin: ["http://localhost:8080", "http://localhost:5173"], // multiple origins
     credentials: true,
   })
 );
+
+
 
 app.use(
   rateLimit({
