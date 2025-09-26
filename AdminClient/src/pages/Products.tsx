@@ -19,14 +19,14 @@ import { z } from 'zod';
 // Type for the form data, combining create and update schemas
 type ProductFormValues = z.infer<typeof createProductSchema>;
 
-const categories = ['All', 'Electronics', 'Apparel', 'Accessories', 'Home Goods', 'Wearables']; // Changed 'Clothing' to 'Apparel'
+const categories = ['All', 'Electronics', 'Apparel', 'Accessories', 'Home Goods', 'Wearables'];
 
-const getTotalStock = (variants: ProductVariant[]) => {
-  return variants.reduce((total, variant) => total + variant.stock, 0);
+const getTotalStock = (variants?: ProductVariant[]) => {
+  return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
 };
 
-const getMinPrice = (variants: ProductVariant[]) => {
-  return variants.length > 0 ? Math.min(...variants.map(v => v.price)) : 0;
+const getMinPrice = (variants?: ProductVariant[]) => {
+  return variants && variants.length > 0 ? Math.min(...variants.map(v => v.price)) : 0;
 };
 
 const getStockStatus = (totalStock: number) => {
@@ -59,7 +59,8 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
       category: product?.category || 'Electronics',
       imageUrls: product?.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
       isFeatured: product?.isFeatured || false,
-      variants: product?.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
+      // Initialize variants as an empty array if no product or no variants
+      variants: product?.variants && product.variants.length > 0 ? product.variants : [],
     },
   });
 
@@ -72,7 +73,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
         category: product.category,
         imageUrls: product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
         isFeatured: product.isFeatured,
-        variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
+        variants: product.variants && product.variants.length > 0 ? product.variants : [],
       });
     } else {
       // Reset to empty for new product form
@@ -82,7 +83,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
         category: 'Electronics',
         imageUrls: [''],
         isFeatured: false,
-        variants: [{ size: '', color: '', price: 0, stock: 0 }],
+        variants: [],
       });
     }
   }, [product, reset]);
@@ -164,7 +165,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <Label>Product Variants</Label>
+          <Label>Product Variants (Optional)</Label>
           <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting}>
             <Plus className="mr-2 h-3 w-3" />
             Add Variant
@@ -217,7 +218,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
               onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={variantFields.length === 1 || isSubmitting}
+              disabled={variantFields.length === 0 || isSubmitting} // Allow removing all variants
             >
               <Trash2 className="h-3 w-3" />
             </Button>
@@ -418,7 +419,7 @@ export function Products() {
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
               <DialogDescription>
-                Create a new product with variants, pricing, and inventory details.
+                Create a new product with variants, pricing, and inventory details. Variants are optional.
               </DialogDescription>
             </DialogHeader>
             <ProductForm
@@ -481,7 +482,7 @@ export function Products() {
                 <TableRow>
                   <TableHead className="min-w-[250px]">Product</TableHead>
                   <TableHead className="min-w-[120px]">Category</TableHead>
-                  <TableHead className="min-w-[120px]">Price Range</TableHead>
+                  <TableHead className="min-w-[120px]">Price</TableHead> {/* Changed from Price Range */}
                   <TableHead className="min-w-[80px]">Stock</TableHead>
                   <TableHead className="min-w-[100px]">Rating</TableHead>
                   <TableHead className="min-w-[150px]">Status</TableHead>
@@ -553,11 +554,11 @@ export function Products() {
                         </TableCell>
                         <TableCell>
                           <div className="font-medium">
-                            ${minPrice.toFixed(2)}
-                            {product.variants.length > 1 && <span className="text-muted-foreground">+</span>}
+                            {product.variants && product.variants.length > 0 ? `$${minPrice.toFixed(2)}` : 'N/A'}
+                            {product.variants && product.variants.length > 1 && <span className="text-muted-foreground">+</span>}
                           </div>
                           <div className="text-sm text-muted-foreground">
-                            {product.variants.length} variant{product.variants.length !== 1 ? 's' : ''}
+                            {product.variants ? `${product.variants.length} variant${product.variants.length !== 1 ? 's' : ''}` : 'No variants'}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -726,17 +727,21 @@ export function Products() {
               <div>
                 <Label className="text-sm font-medium">Variants</Label>
                 <div className="mt-2 space-y-2">
-                  {selectedProduct.variants.map((variant: ProductVariant, index: number) => (
-                    <div key={variant._id || index} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div>
-                        <span className="font-medium">{variant.size} - {variant.color}</span>
+                  {selectedProduct.variants && selectedProduct.variants.length > 0 ? (
+                    selectedProduct.variants.map((variant: ProductVariant, index: number) => (
+                      <div key={variant._id || index} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div>
+                          <span className="font-medium">{variant.size} - {variant.color}</span>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-medium">${variant.price.toFixed(2)}</div>
+                          <div className="text-sm text-muted-foreground">{variant.stock} in stock</div>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <div className="font-medium">${variant.price.toFixed(2)}</div>
-                        <div className="text-sm text-muted-foreground">{variant.stock} in stock</div>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">No variants for this product.</p>
+                  )}
                 </div>
               </div>
             </div>

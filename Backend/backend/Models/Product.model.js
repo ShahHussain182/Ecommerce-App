@@ -57,8 +57,8 @@ const productSchema = new mongoose.Schema(
     },
     variants: {
       type: [variantSchema],
-      required: true,
-      validate: [v => Array.isArray(v) && v.length > 0, 'At least one product variant is required.']
+      // Removed 'required: true' and 'validate' to make variants optional
+      default: [], // Default to an empty array if not provided
     },
     // New fields for reviews
     averageRating: {

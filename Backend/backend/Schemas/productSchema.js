@@ -34,7 +34,7 @@ export const createProductSchema = z.object({
   category: z.string().min(1, "Category is required."),
   imageUrls: z.array(imageUrlSchema).min(1, "At least one image URL is required."),
   isFeatured: z.boolean().default(false),
-  variants: z.array(variantSchema).min(1, "At least one variant is required."),
+  variants: z.array(variantSchema).optional(), // Made optional
 }).strict();
 
 export const updateProductSchema = z.object({
@@ -43,5 +43,5 @@ export const updateProductSchema = z.object({
   category: z.string().min(1, "Category is required.").optional(),
   imageUrls: z.array(imageUrlSchema).min(1, "At least one image URL is required.").optional(),
   isFeatured: z.boolean().optional(),
-  variants: z.array(variantSchema).min(1, "At least one variant is required.").optional(),
+  variants: z.array(variantSchema).optional(), // Made optional
 }).partial(); // Allow partial updates
