@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const variantSchema = z.object({
   _id: z.string().optional(), // Optional for new variants, required for existing ones
-  size: z.string().min(1, "Size is required."),
-  color: z.string().min(1, "Color is required."),
+  size: z.string().optional(), // Made optional
+  color: z.string().optional(), // Made optional
   price: z.number().min(0, "Price cannot be negative."),
   stock: z.number().int().min(0, "Stock cannot be negative."),
 });

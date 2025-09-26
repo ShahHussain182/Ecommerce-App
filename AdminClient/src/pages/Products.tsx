@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
 import { Product, ProductVariant } from '@/types';
@@ -15,6 +15,12 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
 import { z } from 'zod';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Type for the form data, combining create and update schemas
 type ProductFormValues = z.infer<typeof createProductSchema>;
@@ -59,11 +65,9 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
       category: product?.category || 'Electronics',
       imageUrls: product?.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
       isFeatured: product?.isFeatured || false,
-      // For new products, start with an empty variants array.
-      // For existing products, use their variants or an empty array if none.
       variants: product?.variants && product.variants.length > 0 
         ? product.variants 
-        : [], 
+        : [{ size: '', color: '', price: 0, stock: 0 }], // Default to one empty variant for new products
     },
   });
 
@@ -76,17 +80,17 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
         category: product.category,
         imageUrls: product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
         isFeatured: product.isFeatured,
-        variants: product.variants && product.variants.length > 0 ? product.variants : [],
+        variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
       });
     } else {
-      // Reset to empty for new product form, including an empty variants array
+      // Reset to empty for new product form, including one empty variant
       reset({
         name: '',
         description: '',
         category: 'Electronics',
         imageUrls: [''],
         isFeatured: false,
-        variants: [],
+        variants: [{ size: '', color: '', price: 0, stock: 0 }],
       });
     }
   }, [product, reset]);
@@ -165,6 +169,11 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
               disabled={isSubmitting}
             />
             {errors.imageUrls?.[index] && <p className="text-sm text-destructive">{errors.imageUrls[index]?.message}</p>}
+            {imageUrlFields.length > 1 && (
+              <Button type="button" onClick={() => removeImageUrl(index)} variant="ghost" size="icon" disabled={isSubmitting}>
+                <X className="h-3 w-3" />
+              </Button>
+            )}
           </div>
         ))}
         {errors.imageUrls?.root && <p className="text-sm text-destructive">{errors.imageUrls.root.message}</p>}
@@ -182,7 +191,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
         {variantFields.map((field, index) => (
           <div key={field.id} className="grid grid-cols-5 gap-2 items-end">
             <div className="space-y-1">
-              <Label className="text-xs">Size</Label>
+              <Label className="text-xs">Size (Optional)</Label>
               <Input
                 {...register(`variants.${index}.size`)}
                 placeholder="S, M, L"
@@ -191,7 +200,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
               {errors.variants?.[index]?.size && <p className="text-sm text-destructive">{errors.variants[index]?.size?.message}</p>}
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Color</Label>
+              <Label className="text-xs">Color (Optional)</Label>
               <Input
                 {...register(`variants.${index}.color`)}
                 placeholder="Black, White"
@@ -225,7 +234,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
               onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={variantFields.length === 0 || isSubmitting} // Allow removing all variants
+              disabled={variantFields.length === 1 || isSubmitting} // Prevent removing the last variant
             >
               <Trash2 className="h-3 w-3" />
             </Button>
@@ -487,13 +496,13 @@ export function Products() {
             <Table className="min-w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="min-w-[250px]">Product</TableHead>
-                  <TableHead className="min-w-[120px]">Category</TableHead>
-                  <TableHead className="min-w-[120px]">Price</TableHead> {/* Changed from Price Range */}
+                  <TableHead className="min-w-[200px]">Product</TableHead> {/* Adjusted min-width */}
+                  <TableHead className="min-w-[100px]">Category</TableHead>
+                  <TableHead className="min-w-[100px]">Price</TableHead>
                   <TableHead className="min-w-[80px]">Stock</TableHead>
                   <TableHead className="min-w-[100px]">Rating</TableHead>
-                  <TableHead className="min-w-[150px]">Status</TableHead>
-                  <TableHead className="min-w-[180px] text-right">Actions</TableHead>
+                  <TableHead className="min-w-[120px]">Status</TableHead> {/* Adjusted min-width */}
+                  <TableHead className="min-w-[80px] text-right">Actions</TableHead> {/* Adjusted min-width */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -546,14 +555,9 @@ export function Products() {
                             <img
                               src={product.imageUrls[0]}
                               alt={product.name}
-                              className="h-10 w-10 rounded-md object-cover"
+                              className="h-8 w-8 rounded-md object-cover" {/* Smaller image */}
                             />
-                            <div>
-                              <div className="font-medium">{product.name}</div>
-                              <div className="text-sm text-muted-foreground truncate max-w-[200px]">
-                                {product.description}
-                              </div>
-                            </div>
+                            <div className="font-medium">{product.name}</div>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -562,15 +566,10 @@ export function Products() {
                         <TableCell>
                           <div className="font-medium">
                             {product.variants && product.variants.length > 0 ? `$${minPrice.toFixed(2)}` : 'N/A'}
-                            {product.variants && product.variants.length > 1 && <span className="text-muted-foreground">+</span>}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            {product.variants ? `${product.variants.length} variant${product.variants.length !== 1 ? 's' : ''}` : 'No variants'}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="font-medium">{totalStock}</div>
-                          <div className="text-sm text-muted-foreground">units</div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-1">
@@ -583,8 +582,8 @@ export function Products() {
                           <div className="flex items-center space-x-2">
                             <Badge variant={stockStatus.variant}>{stockStatus.status}</Badge>
                             {product.isFeatured && (
-                              <Badge variant="outline">
-                                <Star className="mr-1 h-3 w-3" />
+                              <Badge variant="outline" className="flex items-center gap-1">
+                                <Star className="h-3 w-3" />
                                 Featured
                               </Badge>
                             )}
@@ -602,32 +601,35 @@ export function Products() {
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => {
-                                setSelectedProduct(product);
-                                setIsEditDialogOpen(true);
-                              }}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => handleToggleFeatured(product)}
-                              disabled={updateProductMutation.isPending}
-                            >
-                              <Star className={`h-4 w-4 ${product.isFeatured ? 'fill-yellow-400 text-yellow-400' : ''}`} />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => deleteProductMutation.mutate(product._id)}
-                              disabled={deleteProductMutation.isPending}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={() => {
+                                  setSelectedProduct(product);
+                                  setIsEditDialogOpen(true);
+                                }}>
+                                  <Edit className="mr-2 h-4 w-4" /> Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleToggleFeatured(product)} disabled={updateProductMutation.isPending}>
+                                  {product.isFeatured ? (
+                                    <>
+                                      <X className="mr-2 h-4 w-4" /> Unfeature
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Check className="mr-2 h-4 w-4" /> Feature
+                                    </>
+                                  )}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => deleteProductMutation.mutate(product._id)} disabled={deleteProductMutation.isPending}>
+                                  <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -738,7 +740,9 @@ export function Products() {
                     selectedProduct.variants.map((variant: ProductVariant, index: number) => (
                       <div key={variant._id || index} className="flex items-center justify-between p-3 border rounded-lg">
                         <div>
-                          <span className="font-medium">{variant.size} - {variant.color}</span>
+                          <span className="font-medium">
+                            {variant.size || 'N/A'} {variant.color && `/ ${variant.color}`}
+                          </span>
                         </div>
                         <div className="text-right">
                           <div className="font-medium">${variant.price.toFixed(2)}</div>
