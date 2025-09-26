@@ -63,7 +63,7 @@ export interface Order {
 export interface User {
   _id: string;
   email: string;
-  name: string;
+  userName: string; // Changed from 'name' to 'userName' to match backend
   role?: 'admin' | 'user';
   createdAt: string;
   updatedAt: string;

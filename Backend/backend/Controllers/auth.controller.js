@@ -387,14 +387,13 @@ export const refresh = catchErrors(async (req, res) => {
 
 });
 export const checkAuth = catchErrors(async (req, res) => {
-  
-
-  const user = await User.findById(req.userId).select("-password");
-  if (!user) {
-    return res.status(400).json({ success: false, message: "User not found" });
+  // req.user is populated by requireAuth middleware
+  if (!req.user) {
+    return res.status(401).json({ success: false, message: "User not authenticated" });
   }
 
-  res.status(200).json({ success: true, user });
+  // Return the user object, which now includes the role
+  res.status(200).json({ success: true, user: req.user.pomitPassword() });
   
 });
 

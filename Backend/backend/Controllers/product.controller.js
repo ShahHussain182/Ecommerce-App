@@ -123,13 +123,7 @@ export const getFeaturedProducts = catchErrors(async (req, res) => {
  * @description Create a new product (Admin only)
  */
 export const createProduct = catchErrors(async (req, res) => {
-  // In a real app, you'd check if the user has an 'admin' role here
-  // For now, we'll assume requireAuth is sufficient for admin panel access
-  if (req.user?.role !== 'admin') { // Assuming req.user is populated by auth middleware
-    // This check is illustrative; actual role check needs to be implemented in requireAuth or a separate middleware
-    // For now, we'll proceed as if any authenticated user can create products in the admin panel
-  }
-
+  // Admin role check is now handled by requireAdmin middleware
   const productData = createProductSchema.parse(req.body);
 
   const product = await Product.create(productData);
@@ -142,10 +136,7 @@ export const createProduct = catchErrors(async (req, res) => {
  */
 export const updateProduct = catchErrors(async (req, res) => {
   const { id } = req.params;
-  // In a real app, you'd check if the user has an 'admin' role here
-  if (req.user?.role !== 'admin') {
-    // Illustrative role check
-  }
+  // Admin role check is now handled by requireAdmin middleware
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
@@ -170,10 +161,7 @@ export const updateProduct = catchErrors(async (req, res) => {
  */
 export const deleteProduct = catchErrors(async (req, res) => {
   const { id } = req.params;
-  // In a real app, you'd check if the user has an 'admin' role here
-  if (req.user?.role !== 'admin') {
-    // Illustrative role check
-  }
+  // Admin role check is now handled by requireAdmin middleware
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
