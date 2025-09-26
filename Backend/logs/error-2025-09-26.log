@@ -1,0 +1,1 @@
+2025-09-26T07:40:24.879Z [ERROR] [req:ed3aec81-a61c-4626-a04c-c36dc1f0f88e] ❌ Path: /api/v1/wishlist/items/optimistic_1758872418410 | Error: Cast to ObjectId failed for value "optimistic_1758872418410" (type string) at path "_id" because of "BSONError"

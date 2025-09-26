@@ -9,7 +9,7 @@ export const verifyAccessToken =  (req) =>  {
     }
   
     try {
-      const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET); // Corrected: Use ACCESS_TOKEN_SECRET
       return { valid: true, userId: decoded.userId , sessionId : decoded.sessionId};
 
 		
@@ -18,7 +18,7 @@ export const verifyAccessToken =  (req) =>  {
 	} catch (error) {
 		console.log("Error in verifyToken ", error);
     if (error.name === "TokenExpiredError") {
-      return { valid: false, status: 401, message: "Refresh token expired" };
+      return { valid: false, status: 401, message: "Access token expired" };
     } else if (error.name === "JsonWebTokenError") {
       return { valid: false, status: 401, message: "Invalid token" };
     } else {
@@ -46,4 +46,3 @@ export const verifyRefreshToken = (req) => {
       }
     }
   };
-  

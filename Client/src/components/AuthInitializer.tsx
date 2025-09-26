@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
-import { useWishlistStore } from '@/store/wishlistStore'; // Import wishlist store
+import { useWishlistStore } from '@/store/wishlistStore';
 import { Skeleton } from './ui/skeleton';
+import { useRefreshToken } from '@/hooks/useRefreshToken'; // Import the new hook
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { login, logout } = useAuthStore();
   const { initializeCart } = useCartStore();
-  const { initializeWishlist } = useWishlistStore(); // Get wishlist initializer
+  const { initializeWishlist } = useWishlistStore();
   const [isLoading, setIsLoading] = useState(true);
+  const refreshTokenMutation = useRefreshToken();
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -18,23 +20,37 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
           withCredentials: true,
         });
         if (response.data.success) {
-          login(response.data.user, false); // Only update auth store state
-          // Now, after login, explicitly initialize other stores
+          login(response.data.user, false);
           await initializeCart();
           await initializeWishlist();
         } else {
           logout();
         }
-      } catch (error) {
-        console.error("Auth check failed, user is not logged in.");
-        logout();
+      } catch (error: any) {
+        console.error("Auth check failed:", error);
+        // Check if the error is due to an expired access token
+        if (axios.isAxiosError(error) && error.response?.status === 401 && error.response?.data?.message === "Access token expired") {
+          console.log("Access token expired, attempting to refresh...");
+          try {
+            await refreshTokenMutation.mutateAsync();
+            console.log("Tokens refreshed, re-checking auth status...");
+            // After successful refresh, re-run checkUserStatus to get new user data
+            await checkUserStatus(); 
+          } catch (refreshError) {
+            console.error("Refresh token failed, logging out:", refreshError);
+            logout();
+          }
+        } else {
+          // Other errors, just log out
+          logout();
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     checkUserStatus();
-  }, [login, logout, initializeCart, initializeWishlist]);
+  }, [login, logout, initializeCart, initializeWishlist, refreshTokenMutation]);
 
   if (isLoading) {
     return (

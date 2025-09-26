@@ -75,3 +75,8 @@ export const changePassword = async (payload: ChangePasswordPayload): Promise<Ge
   const response = await authApi.put('/change-password', payload);
   return response.data;
 };
+
+export const refreshToken = async (): Promise<GenericSuccessResponse> => {
+  const response = await authApi.get('/refresh');
+  return response.data;
+};

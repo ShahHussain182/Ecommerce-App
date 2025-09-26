@@ -1,6 +1,7 @@
 packages:
   - Client
   - Backend
+  - AdminClient
 
 onlyBuiltDependencies:
   - '@swc/core'
