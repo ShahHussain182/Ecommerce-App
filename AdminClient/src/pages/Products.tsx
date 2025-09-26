@@ -70,7 +70,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
 
   const handleFormSubmit = (data: ProductFormValues) => {
     onSubmit(data);
-    reset(); // Reset form after submission
+    // Removed reset() here. The form will naturally reset when the dialog closes.
   };
 
   return (
