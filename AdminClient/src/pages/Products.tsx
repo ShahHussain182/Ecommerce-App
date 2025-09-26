@@ -19,7 +19,7 @@ import { z } from 'zod';
 // Type for the form data, combining create and update schemas
 type ProductFormValues = z.infer<typeof createProductSchema>;
 
-const categories = ['All', 'Electronics', 'Clothing', 'Accessories', 'Home Goods', 'Wearables'];
+const categories = ['All', 'Electronics', 'Apparel', 'Accessories', 'Home Goods', 'Wearables']; // Changed 'Clothing' to 'Apparel'
 
 const getTotalStock = (variants: ProductVariant[]) => {
   return variants.reduce((total, variant) => total + variant.stock, 0);
@@ -156,17 +156,6 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
               placeholder="https://example.com/image.jpg"
               disabled={isSubmitting}
             />
-            {imageUrlFields.length > 1 && (
-              <Button
-                type="button"
-                onClick={() => removeImageUrl(index)}
-                variant="ghost"
-                size="icon"
-                disabled={isSubmitting}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
             {errors.imageUrls?.[index] && <p className="text-sm text-destructive">{errors.imageUrls[index]?.message}</p>}
           </div>
         ))}
