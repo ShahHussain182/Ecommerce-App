@@ -59,10 +59,11 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
       category: product?.category || 'Electronics',
       imageUrls: product?.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
       isFeatured: product?.isFeatured || false,
-      // Initialize variants: if editing, use existing; if new, ensure at least one empty variant
+      // For new products, start with an empty variants array.
+      // For existing products, use their variants or an empty array if none.
       variants: product?.variants && product.variants.length > 0 
         ? product.variants 
-        : [{ size: '', color: '', price: 0, stock: 0 }], // Always start with one variant for new products
+        : [], 
     },
   });
 
@@ -78,14 +79,14 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
         variants: product.variants && product.variants.length > 0 ? product.variants : [],
       });
     } else {
-      // Reset to empty for new product form, ensuring one default variant field
+      // Reset to empty for new product form, including an empty variants array
       reset({
         name: '',
         description: '',
         category: 'Electronics',
         imageUrls: [''],
         isFeatured: false,
-        variants: [{ size: '', color: '', price: 0, stock: 0 }],
+        variants: [],
       });
     }
   }, [product, reset]);
@@ -101,7 +102,11 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
   });
 
   const handleFormSubmit = (data: ProductFormValues) => {
-    onSubmit(data);
+    // Filter out any completely empty variant fields before submission
+    const cleanedVariants = data.variants?.filter(
+      (v) => v.size || v.color || v.price > 0 || v.stock > 0
+    );
+    onSubmit({ ...data, variants: cleanedVariants });
   };
 
   return (
@@ -220,7 +225,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
               onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={variantFields.length === 1 || isSubmitting} // Prevent removing the last variant
+              disabled={variantFields.length === 0 || isSubmitting} // Allow removing all variants
             >
               <Trash2 className="h-3 w-3" />
             </Button>
