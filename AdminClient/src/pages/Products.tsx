@@ -246,7 +246,6 @@ export function Products() {
       sortBy: 'name-asc'
     }),
     staleTime: 5 * 60 * 1000, // 5 minutes
-    // Removed placeholderData to ensure immediate loading state on category/search change
   });
 
   const products = productsData?.products || [];
@@ -393,8 +392,8 @@ export function Products() {
       </div>
 
       {/* Search and Filter */}
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex items-center space-x-4 flex-wrap gap-y-2">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search products..."
@@ -406,7 +405,7 @@ export function Products() {
           />
         </div>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-wrap">
           {categories.map((category) => (
             <Button
               key={category}
@@ -422,7 +421,7 @@ export function Products() {
           ))}
         </div>
         
-        <Button variant="outline">
+        <Button variant="outline" className="ml-auto">
           <Filter className="mr-2 h-4 w-4" />
           More Filters
         </Button>
@@ -437,158 +436,160 @@ export function Products() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Price Range</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead>Rating</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
+          <div className="overflow-x-auto"> {/* Wrapper for horizontal scroll */}
+            <Table className="min-w-full">
+              <TableHeader>
                 <TableRow>
-                  <TableCell colSpan={7}>
-                    <div className="flex items-center justify-center py-12">
-                      <div className="text-center">
-                        <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto" />
-                        <h3 className="mt-4 text-lg font-semibold">Loading products...</h3>
-                      </div>
-                    </div>
-                  </TableCell>
+                  <TableHead className="min-w-[250px]">Product</TableHead>
+                  <TableHead className="min-w-[120px]">Category</TableHead>
+                  <TableHead className="min-w-[120px]">Price Range</TableHead>
+                  <TableHead className="min-w-[80px]">Stock</TableHead>
+                  <TableHead className="min-w-[100px]">Rating</TableHead>
+                  <TableHead className="min-w-[150px]">Status</TableHead>
+                  <TableHead className="min-w-[180px] text-right">Actions</TableHead>
                 </TableRow>
-              ) : error ? (
-                <TableRow>
-                  <TableCell colSpan={7}>
-                    <div className="flex items-center justify-center py-12">
-                      <div className="text-center">
-                        <Package className="mx-auto h-12 w-12 text-destructive" />
-                        <h3 className="mt-4 text-lg font-semibold">Error loading products</h3>
-                        <p className="text-muted-foreground mb-4">There was an issue fetching the products.</p>
-                        <Button onClick={() => queryClient.invalidateQueries({ queryKey: ['products'] })}>Try Again</Button>
+              </TableHeader>
+              <TableBody>
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={7}>
+                      <div className="flex items-center justify-center py-12">
+                        <div className="text-center">
+                          <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto" />
+                          <h3 className="mt-4 text-lg font-semibold">Loading products...</h3>
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ) : products.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={7}>
-                    <div className="flex items-center justify-center py-12">
-                      <div className="text-center">
-                        <Package className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-semibold">No products found</h3>
-                        <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
+                    </TableCell>
+                  </TableRow>
+                ) : error ? (
+                  <TableRow>
+                    <TableCell colSpan={7}>
+                      <div className="flex items-center justify-center py-12">
+                        <div className="text-center">
+                          <Package className="mx-auto h-12 w-12 text-destructive" />
+                          <h3 className="mt-4 text-lg font-semibold">Error loading products</h3>
+                          <p className="text-muted-foreground mb-4">There was an issue fetching the products.</p>
+                          <Button onClick={() => queryClient.invalidateQueries({ queryKey: ['products'] })}>Try Again</Button>
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ) : (
-                products.map((product) => {
-                  const totalStock = getTotalStock(product.variants);
-                  const minPrice = getMinPrice(product.variants);
-                  const stockStatus = getStockStatus(totalStock);
-                  
-                  return (
-                    <TableRow key={product._id}>
-                      <TableCell>
-                        <div className="flex items-center space-x-3">
-                          <img
-                            src={product.imageUrls[0]}
-                            alt={product.name}
-                            className="h-10 w-10 rounded-lg object-cover"
-                          />
-                          <div>
-                            <div className="font-medium">{product.name}</div>
-                            <div className="text-sm text-muted-foreground truncate max-w-[200px]">
-                              {product.description}
+                    </TableCell>
+                  </TableRow>
+                ) : products.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7}>
+                      <div className="flex items-center justify-center py-12">
+                        <div className="text-center">
+                          <Package className="mx-auto h-12 w-12 text-muted-foreground" />
+                          <h3 className="mt-4 text-lg font-semibold">No products found</h3>
+                          <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  products.map((product) => {
+                    const totalStock = getTotalStock(product.variants);
+                    const minPrice = getMinPrice(product.variants);
+                    const stockStatus = getStockStatus(totalStock);
+                    
+                    return (
+                      <TableRow key={product._id}>
+                        <TableCell className="font-medium">
+                          <div className="flex items-center space-x-3">
+                            <img
+                              src={product.imageUrls[0]}
+                              alt={product.name}
+                              className="h-10 w-10 rounded-md object-cover"
+                            />
+                            <div>
+                              <div className="font-medium">{product.name}</div>
+                              <div className="text-sm text-muted-foreground truncate max-w-[200px]">
+                                {product.description}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{product.category}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-medium">
-                          ${minPrice.toFixed(2)}
-                          {product.variants.length > 1 && <span className="text-muted-foreground">+</span>}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {product.variants.length} variant{product.variants.length !== 1 ? 's' : ''}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="font-medium">{totalStock}</div>
-                        <div className="text-sm text-muted-foreground">units</div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          <span className="font-medium">{product.averageRating.toFixed(1)}</span>
-                          <span className="text-muted-foreground">({product.numberOfReviews})</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <Badge variant={stockStatus.variant}>{stockStatus.status}</Badge>
-                          {product.isFeatured && (
-                            <Badge variant="outline">
-                              <Star className="mr-1 h-3 w-3" />
-                              Featured
-                            </Badge>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => {
-                              setSelectedProduct(product);
-                              setIsViewDialogOpen(true);
-                            }}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => {
-                              setSelectedProduct(product);
-                              setIsEditDialogOpen(true);
-                            }}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleToggleFeatured(product)}
-                            disabled={updateProductMutation.isPending}
-                          >
-                            <Star className={`h-4 w-4 ${product.isFeatured ? 'fill-yellow-400 text-yellow-400' : ''}`} />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => deleteProductMutation.mutate(product._id)}
-                            disabled={deleteProductMutation.isPending}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              )}
-            </TableBody>
-          </Table>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">{product.category}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="font-medium">
+                            ${minPrice.toFixed(2)}
+                            {product.variants.length > 1 && <span className="text-muted-foreground">+</span>}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {product.variants.length} variant{product.variants.length !== 1 ? 's' : ''}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="font-medium">{totalStock}</div>
+                          <div className="text-sm text-muted-foreground">units</div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-1">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-medium">{product.averageRating.toFixed(1)}</span>
+                            <span className="text-muted-foreground">({product.numberOfReviews})</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant={stockStatus.variant}>{stockStatus.status}</Badge>
+                            {product.isFeatured && (
+                              <Badge variant="outline">
+                                <Star className="mr-1 h-3 w-3" />
+                                Featured
+                              </Badge>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end space-x-1">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => {
+                                setSelectedProduct(product);
+                                setIsViewDialogOpen(true);
+                              }}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => {
+                                setSelectedProduct(product);
+                                setIsEditDialogOpen(true);
+                              }}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleToggleFeatured(product)}
+                              disabled={updateProductMutation.isPending}
+                            >
+                              <Star className={`h-4 w-4 ${product.isFeatured ? 'fill-yellow-400 text-yellow-400' : ''}`} />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => deleteProductMutation.mutate(product._id)}
+                              disabled={deleteProductMutation.isPending}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div> {/* End of overflow-x-auto wrapper */}
         </CardContent>
         
         {/* Pagination */}
