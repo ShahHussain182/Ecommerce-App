@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
 import { Product, ProductVariant } from '@/types';
@@ -57,20 +57,48 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
       name: product?.name || '',
       description: product?.description || '',
       category: product?.category || 'Electronics',
-      imageUrls: product?.imageUrls || [''],
+      imageUrls: product?.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
       isFeatured: product?.isFeatured || false,
-      variants: product?.variants || [{ size: '', color: '', price: 0, stock: 0 }],
+      variants: product?.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  // Reset form when product prop changes (for edit mode)
+  useEffect(() => {
+    if (product) {
+      reset({
+        name: product.name,
+        description: product.description,
+        category: product.category,
+        imageUrls: product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
+        isFeatured: product.isFeatured,
+        variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
+      });
+    } else {
+      // Reset to empty for new product form
+      reset({
+        name: '',
+        description: '',
+        category: 'Electronics',
+        imageUrls: [''],
+        isFeatured: false,
+        variants: [{ size: '', color: '', price: 0, stock: 0 }],
+      });
+    }
+  }, [product, reset]);
+
+  const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({
     control,
     name: 'variants',
   });
 
+  const { fields: imageUrlFields, append: appendImageUrl, remove: removeImageUrl } = useFieldArray({
+    control,
+    name: 'imageUrls',
+  });
+
   const handleFormSubmit = (data: ProductFormValues) => {
     onSubmit(data);
-    // Removed reset() here. The form will naturally reset when the dialog closes.
   };
 
   return (
@@ -113,27 +141,48 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
         {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="imageUrls.0">Image URL</Label>
-        <Input
-          id="imageUrls.0"
-          {...register('imageUrls.0')}
-          placeholder="https://example.com/image.jpg"
-          disabled={isSubmitting}
-        />
-        {errors.imageUrls && <p className="text-sm text-destructive">{errors.imageUrls.message}</p>}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <Label>Image URLs</Label>
+          <Button type="button" onClick={() => appendImageUrl('')} size="sm" disabled={isSubmitting}>
+            <Plus className="mr-2 h-3 w-3" />
+            Add Image
+          </Button>
+        </div>
+        {imageUrlFields.map((field, index) => (
+          <div key={field.id} className="flex items-center gap-2">
+            <Input
+              {...register(`imageUrls.${index}`)}
+              placeholder="https://example.com/image.jpg"
+              disabled={isSubmitting}
+            />
+            {imageUrlFields.length > 1 && (
+              <Button
+                type="button"
+                onClick={() => removeImageUrl(index)}
+                variant="ghost"
+                size="icon"
+                disabled={isSubmitting}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+            {errors.imageUrls?.[index] && <p className="text-sm text-destructive">{errors.imageUrls[index]?.message}</p>}
+          </div>
+        ))}
+        {errors.imageUrls?.root && <p className="text-sm text-destructive">{errors.imageUrls.root.message}</p>}
       </div>
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <Label>Product Variants</Label>
-          <Button type="button" onClick={() => append({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting}>
+          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting}>
             <Plus className="mr-2 h-3 w-3" />
             Add Variant
           </Button>
         </div>
         
-        {fields.map((field, index) => (
+        {variantFields.map((field, index) => (
           <div key={field.id} className="grid grid-cols-5 gap-2 items-end">
             <div className="space-y-1">
               <Label className="text-xs">Size</Label>
@@ -176,15 +225,16 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
             </div>
             <Button
               type="button"
-              onClick={() => remove(index)}
+              onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={fields.length === 1 || isSubmitting}
+              disabled={variantFields.length === 1 || isSubmitting}
             >
               <Trash2 className="h-3 w-3" />
             </Button>
           </div>
         ))}
+        {errors.variants?.root && <p className="text-sm text-destructive">{errors.variants.root.message}</p>}
       </div>
 
       <div className="flex items-center space-x-2">
