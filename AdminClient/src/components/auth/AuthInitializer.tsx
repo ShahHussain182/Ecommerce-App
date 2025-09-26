@@ -15,11 +15,13 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
   const { setUser, logout, isAuthenticated, user } = useAuthStore();
   const [isInitialCheckComplete, setIsInitialCheckComplete] = useState(false);
 
-  const { data, isLoading, isError, refetch } = useQuery({
+  // Always run checkAuth on component mount to verify the session with the backend.
+  // The persisted 'isAuthenticated' state is treated as a hint, but not a definitive truth.
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['checkAuth'],
     queryFn: authService.checkAuth,
-    enabled: !isAuthenticated, // Only run if not already authenticated in store
-    retry: false, // Do not retry on initial auth check failure
+    enabled: true, // ALWAYS run this on mount to validate the session
+    retry: false,
   });
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
           // No toast here, as it might be triggered by the login page already
         }
       } else if (isError) {
-        logout(); // Ensure local state is cleared if checkAuth fails
+        logout(); // Server check failed, log out
       }
       setIsInitialCheckComplete(true);
     }
@@ -49,6 +51,7 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
   }
 
   // After initial check, if not authenticated or not admin, redirect to login
+  // isAuthenticated and user?.role are now guaranteed to be in sync with the backend check
   if (!isAuthenticated || user?.role !== 'admin') {
     return <Navigate to="/login" replace />;
   }
