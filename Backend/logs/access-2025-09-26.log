@@ -1207,3 +1207,12 @@
 2025-09-26T11:02:16.914Z [HTTP] [req:93f7c0f5-162c-42e4-90ac-5a7928e9ff9d] ::1 - - [26/Sep/2025:11:02:16 +0000] "GET /api/v1/products/68cf8b4953809e4ca0436f81 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-26T11:02:17.813Z [HTTP] [req:21ee7d57-bd0a-48ed-a0af-cca7ade06d30] ::1 - - [26/Sep/2025:11:02:17 +0000] "GET /api/v1/reviews/product/68cf8b4953809e4ca0436f81?page=1&limit=10 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-26T11:02:20.682Z [HTTP] [req:a7d399a3-c0f1-436e-bafb-321e0bed0a10] ::1 - - [26/Sep/2025:11:02:20 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-26T11:06:22.610Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-26T11:06:25.471Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-26T11:06:25.473Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-26T11:06:26.831Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-26T11:06:27.415Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-26T11:06:27.418Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-26T11:08:12.514Z [HTTP] [req:b0360e65-7db3-4bd1-ba40-04b5884b8ef4] ::1 - - [26/Sep/2025:11:08:12 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-26T11:08:14.170Z [HTTP] [req:a87e4f5b-189f-42d1-aa02-5d2ff357783e] ::1 - - [26/Sep/2025:11:08:14 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 840 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-26T11:08:14.790Z [HTTP] [req:cdbf913a-9a3c-4c7c-8918-669e19c652a3] ::1 - - [26/Sep/2025:11:08:14 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

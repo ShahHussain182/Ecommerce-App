@@ -22,7 +22,7 @@ export function Header() {
       logout();
       navigate('/login');
     }
-  };
+  }; // <-- Added closing parenthesis here
 
   return (
     <header className="flex h-16 items-center justify-between border-b bg-background px-6">
@@ -51,3 +51,4 @@ export function Header() {
       </div>
     </header>
   );
+}
