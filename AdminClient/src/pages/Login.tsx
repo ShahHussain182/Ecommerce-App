@@ -9,10 +9,11 @@ import { Label } from '@/components/ui/label';
 import { authService, loginSchema, LoginData } from '@/services/authService';
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export function Login() {
   const navigate = useNavigate();
-  const { setUser } = useAuthStore();
+  const { setUser, logout } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -29,20 +30,23 @@ export function Login() {
     try {
       const response = await authService.login(data);
       if (response.success && response.user) {
-        // In a real app, you'd check for admin role here
-        // if (response.user.role !== 'admin') {
-        //   throw new Error('You do not have permission to access the admin panel.');
-        // }
-        setUser(response.user);
-        toast.success('Login successful!', { id: toastId });
-        navigate('/');
+        // IMPORTANT: Check for admin role here
+        if (response.user.role === 'admin') {
+          setUser(response.user);
+          toast.success('Login successful!', { id: toastId });
+          navigate('/');
+        } else {
+          // If not admin, log out and show an error
+          logout(); // Clear any partial session data
+          toast.error('You do not have permission to access the admin panel.', { id: toastId });
+        }
       } else {
         throw new Error(response.message || 'Login failed.');
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || error.message || 'An unknown error occurred.';
       toast.error(errorMessage, { id: toastId });
-      setUser(null);
+      logout(); // Ensure local state is cleared on any login failure
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +82,14 @@ export function Login() {
               {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Signing In...' : 'Sign In'}
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </form>
         </CardContent>

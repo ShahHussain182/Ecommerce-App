@@ -1,15 +1,18 @@
 import { Button } from '@/components/ui/button';
-import { Bell, Search, User, LogOut } from 'lucide-react';
+import { Bell, Search, User, LogOut, Loader2 } from 'lucide-react'; // Import Loader2
 import { useAuthStore } from '@/store/authStore';
 import { authService } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'; // Import useState
 
 export function Header() {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false); // State for logout loading
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     const toastId = toast.loading('Logging out...');
     try {
       await authService.logout();
@@ -21,8 +24,10 @@ export function Header() {
       // Force logout on client even if server fails
       logout();
       navigate('/login');
+    } finally {
+      setIsLoggingOut(false);
     }
-  }; // <-- Added closing parenthesis here
+  };
 
   return (
     <header className="flex h-16 items-center justify-between border-b bg-background px-6">
@@ -45,8 +50,12 @@ export function Header() {
           <User className="h-5 w-5" />
           <span className="text-sm font-medium">{user?.userName || 'Admin'}</span>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleLogout}>
-          <LogOut className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={handleLogout} disabled={isLoggingOut}>
+          {isLoggingOut ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <LogOut className="h-5 w-5" />
+          )}
         </Button>
       </div>
     </header>

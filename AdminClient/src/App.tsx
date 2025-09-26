@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { Layout } from '@/components/layout/Layout';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { AuthInitializer } from '@/components/auth/AuthInitializer'; // Import AuthInitializer
 import { Login } from '@/pages/Login';
 import { Dashboard } from '@/pages/Dashboard';
 import { Products } from '@/pages/Products';
@@ -30,7 +31,7 @@ function App() {
         <div className="min-h-screen bg-background text-foreground">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route element={<ProtectedRoute />}>
+            <Route element={<AuthInitializer><ProtectedRoute /></AuthInitializer>}> {/* Wrap ProtectedRoute with AuthInitializer */}
               <Route path="/" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<Products />} />
