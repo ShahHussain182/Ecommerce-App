@@ -53,7 +53,7 @@ export const getProducts = catchErrors(async (req, res) => {
 
   // Build the sorting stage
   const sortStage = {};
-  const sortBy = req.query.sortBy || 'price-asc';
+  const sortBy = req.query.sortBy || 'name-asc'; // Default to name-asc for consistency
   switch (sortBy) {
     case 'price-desc':
       sortStage['variants.0.price'] = -1; // Sort by the first variant's price
@@ -76,6 +76,13 @@ export const getProducts = catchErrors(async (req, res) => {
     { $sort: sortStage },
     { $skip: skip },
     { $limit: limit },
+    // Add default values for averageRating and numberOfReviews if they are missing
+    {
+      $addFields: {
+        averageRating: { $ifNull: ["$averageRating", 0] },
+        numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
+      },
+    },
   ];
 
   // Execute queries in parallel for efficiency
