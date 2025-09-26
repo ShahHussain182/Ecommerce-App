@@ -1,6 +1,7 @@
 import { Product } from '../Models/Product.model.js';
 import catchErrors from '../Utils/catchErrors.js';
 import mongoose from 'mongoose';
+import { createProductSchema, updateProductSchema } from '../Schemas/productSchema.js'; // Import new schemas
 
 /**
  * @description Get all products with advanced filtering, sorting, and pagination
@@ -116,4 +117,73 @@ export const getProductById = catchErrors(async (req, res) => {
 export const getFeaturedProducts = catchErrors(async (req, res) => {
   const products = await Product.find({ isFeatured: true }).limit(4);
   res.status(200).json({ success: true, products });
+});
+
+/**
+ * @description Create a new product (Admin only)
+ */
+export const createProduct = catchErrors(async (req, res) => {
+  // In a real app, you'd check if the user has an 'admin' role here
+  // For now, we'll assume requireAuth is sufficient for admin panel access
+  if (req.user?.role !== 'admin') { // Assuming req.user is populated by auth middleware
+    // This check is illustrative; actual role check needs to be implemented in requireAuth or a separate middleware
+    // For now, we'll proceed as if any authenticated user can create products in the admin panel
+  }
+
+  const productData = createProductSchema.parse(req.body);
+
+  const product = await Product.create(productData);
+
+  res.status(201).json({ success: true, message: 'Product created successfully!', product });
+});
+
+/**
+ * @description Update an existing product (Admin only)
+ */
+export const updateProduct = catchErrors(async (req, res) => {
+  const { id } = req.params;
+  // In a real app, you'd check if the user has an 'admin' role here
+  if (req.user?.role !== 'admin') {
+    // Illustrative role check
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
+  }
+
+  const updates = updateProductSchema.parse(req.body);
+
+  const product = await Product.findByIdAndUpdate(id, updates, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!product) {
+    return res.status(404).json({ success: false, message: 'Product not found.' });
+  }
+
+  res.status(200).json({ success: true, message: 'Product updated successfully!', product });
+});
+
+/**
+ * @description Delete a product (Admin only)
+ */
+export const deleteProduct = catchErrors(async (req, res) => {
+  const { id } = req.params;
+  // In a real app, you'd check if the user has an 'admin' role here
+  if (req.user?.role !== 'admin') {
+    // Illustrative role check
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
+  }
+
+  const product = await Product.findByIdAndDelete(id);
+
+  if (!product) {
+    return res.status(404).json({ success: false, message: 'Product not found.' });
+  }
+
+  res.status(200).json({ success: true, message: 'Product deleted successfully!' });
 });

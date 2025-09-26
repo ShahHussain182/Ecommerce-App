@@ -1,5 +1,11 @@
 import { api } from '@/lib/api';
-import { Product, PaginatedResponse, ApiResponse } from '@/types';
+import { Product, ApiResponse } from '@/types';
+import { createProductSchema, updateProductSchema } from '@/schemas/productSchema'; // Import Zod schemas
+import { z } from 'zod';
+
+// Define types for product creation and update based on Zod schemas
+export type CreateProductData = z.infer<typeof createProductSchema>;
+export type UpdateProductData = z.infer<typeof updateProductSchema>;
 
 interface ProductsParams {
   page?: number;
@@ -14,7 +20,7 @@ interface ProductsParams {
 
 export const productService = {
   // Get all products with filtering and pagination
-  async getProducts(params: ProductsParams = {}) {
+  async getProducts(params: ProductsParams = {}): Promise<{ products: Product[], totalProducts: number, nextPage: number | null }> {
     const queryParams = new URLSearchParams();
     
     Object.entries(params).forEach(([key, value]) => {
@@ -39,44 +45,21 @@ export const productService = {
     return response.data;
   },
 
-  // Create new product (Admin only - we'll mock this for now)
-  async createProduct(productData: any): Promise<ApiResponse<Product>> {
-    // Since the backend doesn't have admin product creation yet,
-    // we'll simulate this with a mock response
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: { ...productData, _id: Date.now().toString() } as Product,
-          message: 'Product created successfully'
-        });
-      }, 1000);
-    });
+  // Create new product (Admin only)
+  async createProduct(productData: CreateProductData): Promise<ApiResponse<Product>> {
+    const response = await api.post('/products', productData);
+    return response.data;
   },
 
-  // Update product (Admin only - mocked)
-  async updateProduct(id: string, productData: any): Promise<ApiResponse<Product>> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: { ...productData, _id: id } as Product,
-          message: 'Product updated successfully'
-        });
-      }, 1000);
-    });
+  // Update product (Admin only)
+  async updateProduct(id: string, productData: UpdateProductData): Promise<ApiResponse<Product>> {
+    const response = await api.put(`/products/${id}`, productData);
+    return response.data;
   },
 
-  // Delete product (Admin only - mocked)
+  // Delete product (Admin only)
   async deleteProduct(id: string): Promise<ApiResponse<null>> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: null,
-          message: 'Product deleted successfully'
-        });
-      }, 500);
-    });
+    const response = await api.delete(`/products/${id}`);
+    return response.data;
   }
 };

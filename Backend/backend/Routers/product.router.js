@@ -1,12 +1,18 @@
 import express from 'express';
-import { getProducts, getProductById, getFeaturedProducts } from '../Controllers/product.controller.js';
+import { getProducts, getProductById, getFeaturedProducts, createProduct, updateProduct, deleteProduct } from '../Controllers/product.controller.js';
+import { requireAuth } from '../Middleware/requireAuth.js'; // Import requireAuth
 
 const productRouter = express.Router();
 
-// Note: More specific routes should be defined before more general ones.
-// '/featured' comes before '/:id' to avoid 'featured' being treated as an ID.
+// Public routes
 productRouter.get('/featured', getFeaturedProducts);
 productRouter.get('/:id', getProductById);
 productRouter.get('/', getProducts);
+
+// Protected routes (Admin only)
+// In a real app, you'd add a specific 'requireAdmin' middleware here
+productRouter.post('/', requireAuth, createProduct);
+productRouter.put('/:id', requireAuth, updateProduct);
+productRouter.delete('/:id', requireAuth, deleteProduct);
 
 export default productRouter;
