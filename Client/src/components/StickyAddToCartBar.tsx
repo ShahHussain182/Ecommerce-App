@@ -43,7 +43,7 @@ export const StickyAddToCartBar = ({
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center">
-              <Button variant="outline" size="icon" onClick={() => onQuantityChange(-1)}>
+              <Button variant="outline" size="icon" onClick={() => onQuantityChange(-1)} disabled={quantity <= 1}>
                 <Minus className="h-4 w-4" />
               </Button>
               <Input type="number" value={quantity} readOnly className="w-16 text-center h-10" />

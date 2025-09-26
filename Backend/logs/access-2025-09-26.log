@@ -1605,3 +1605,10 @@
 2025-09-26T13:11:02.927Z [HTTP] [req:499187fc-3c72-49af-b6e0-e02e6e686cda] ::1 - - [26/Sep/2025:13:11:02 +0000] "GET /api/v1/products/68cf8b4953809e4ca0436f39 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-26T13:11:04.108Z [HTTP] [req:eb83abb7-b976-470e-b336-5eb6ffe7b510] ::1 - - [26/Sep/2025:13:11:04 +0000] "GET /api/v1/reviews/product/68cf8b4953809e4ca0436f39?page=1&limit=10 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-26T13:11:07.157Z [HTTP] [req:b3144023-82e3-4203-b2d4-88eecfa387aa] ::1 - - [26/Sep/2025:13:11:07 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2712 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-26T13:13:51.090Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-26T13:13:54.803Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-26T13:13:54.810Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-26T13:13:59.208Z [INFO] [req:N/A] 40 products already exist in the database. Skipping seeding.
+2025-09-26T13:13:59.389Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-26T13:13:59.396Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-26T13:15:28.429Z [INFO] [req:N/A] MongoClient connected for sessions.

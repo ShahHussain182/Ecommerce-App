@@ -130,8 +130,17 @@ export const getFeaturedProducts = catchErrors(async (req, res) => {
  * @description Create a new product (Admin only)
  */
 export const createProduct = catchErrors(async (req, res) => {
-  // Admin role check is now handled by requireAdmin middleware
   const productData = createProductSchema.parse(req.body);
+
+  // If no variants are provided, add a default one
+  if (!productData.variants || productData.variants.length === 0) {
+    productData.variants = [{
+      size: "N/A",
+      color: "N/A",
+      price: 0, // Default price, can be updated later
+      stock: 0, // Default stock, can be updated later
+    }];
+  }
 
   const product = await Product.create(productData);
 
@@ -143,13 +152,22 @@ export const createProduct = catchErrors(async (req, res) => {
  */
 export const updateProduct = catchErrors(async (req, res) => {
   const { id } = req.params;
-  // Admin role check is now handled by requireAdmin middleware
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
   }
 
   const updates = updateProductSchema.parse(req.body);
+
+  // If variants array is explicitly set to empty, add a default one
+  if (updates.variants && updates.variants.length === 0) {
+    updates.variants = [{
+      size: "N/A",
+      color: "N/A",
+      price: 0, // Default price, can be updated later
+      stock: 0, // Default stock, can be updated later
+    }];
+  }
 
   const product = await Product.findByIdAndUpdate(id, updates, {
     new: true,
@@ -168,7 +186,6 @@ export const updateProduct = catchErrors(async (req, res) => {
  */
 export const deleteProduct = catchErrors(async (req, res) => {
   const { id } = req.params;
-  // Admin role check is now handled by requireAdmin middleware
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });

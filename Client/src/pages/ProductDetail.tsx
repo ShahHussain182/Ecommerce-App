@@ -65,7 +65,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (product && product.variants.length > 0) {
-      setSelectedVariant(product.variants[0]);
+      setSelectedVariant(product.variants[0]); // Always select the first variant by default
     }
   }, [product]);
 
@@ -110,6 +110,8 @@ const ProductDetail = () => {
 
     if (selectedVariant && product) {
       addItemToCart(product, selectedVariant, quantity);
+    } else {
+      toast.error("Product variant information missing."); // Fallback, should not be hit with new backend logic
     }
   };
 
@@ -127,6 +129,8 @@ const ProductDetail = () => {
       } else {
         addWishlistItemMutation.mutate({ productId: product._id, variantId: selectedVariant._id });
       }
+    } else {
+      toast.error("Product variant information missing."); // Fallback, should not be hit with new backend logic
     }
   };
 
@@ -288,10 +292,13 @@ const ProductDetail = () => {
               )}
 
               <div>
-                <p className="text-3xl font-semibold">${selectedVariant?.price.toFixed(2)}</p>
+                <p className="text-3xl font-semibold">
+                  {selectedVariant ? `$${selectedVariant.price.toFixed(2)}` : 'N/A'}
+                </p>
                 {selectedVariant && <StockIndicator stock={selectedVariant.stock} />}
               </div>
               
+              {/* Only render variant selector if there's more than one variant to choose from */}
               {product.variants.length > 1 && (
                 <ProductVariantSelector variants={product.variants} onChange={setSelectedVariant} />
               )}
@@ -302,14 +309,19 @@ const ProductDetail = () => {
                   <Input type="number" value={quantity} readOnly className="w-16 text-center" />
                   <Button variant="outline" size="icon" onClick={() => handleQuantityChange(1)}><Plus className="h-4 w-4" /></Button>
                 </div>
-                <Button size="lg" className="flex-grow" onClick={handleAddToCart} disabled={!selectedVariant || selectedVariant.stock === 0}>
+                <Button 
+                  size="lg" 
+                  className="flex-grow" 
+                  onClick={handleAddToCart} 
+                  disabled={!selectedVariant || selectedVariant.stock === 0}
+                >
                   {selectedVariant?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </Button>
                 <Button 
                   variant="outline" 
                   size="icon" 
                   onClick={handleToggleWishlist}
-                  disabled={!isAuthenticated || isWishlistActionPending}
+                  disabled={!isAuthenticated || isWishlistActionPending || !selectedVariant}
                   className={cn(
                     "h-12 w-12",
                     isInWishlistForRender ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"

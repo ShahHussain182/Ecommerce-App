@@ -21,7 +21,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const addItemToCart = useCartStore((state) => state.addItem);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
-  const defaultVariant = product.variants[0];
+  
+  // Safely get the first variant, which will always exist due to backend logic
+  const defaultVariant = product.variants[0]; 
 
   const addWishlistItemMutation = useAddWishlistItemMutation();
   const removeWishlistItemMutation = useRemoveWishlistItemMutation();
@@ -29,7 +31,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const wishlistItemIdsMap = useWishlistStore((state) => state.wishlistItemIds);
 
   const wishlistItemId = React.useMemo(() => {
-    if (!defaultVariant) return undefined;
+    if (!defaultVariant) return undefined; // Should not happen with new backend logic
     return wishlistItemIdsMap.get(`${product._id}_${defaultVariant._id}`);
   }, [wishlistItemIdsMap, product._id, defaultVariant]);
 
@@ -44,8 +46,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       return;
     }
 
-    if (defaultVariant) {
+    if (defaultVariant) { // defaultVariant will always exist now
       addItemToCart(product, defaultVariant, 1);
+    } else {
+      toast.error("Product variant information missing."); // Fallback, should not be hit
     }
   };
 
@@ -57,12 +61,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       return;
     }
 
-    if (defaultVariant) {
+    if (defaultVariant) { // defaultVariant will always exist now
       if (isInWishlist && wishlistItemId) {
         removeWishlistItemMutation.mutate(wishlistItemId);
       } else {
         addWishlistItemMutation.mutate({ productId: product._id, variantId: defaultVariant._id });
       }
+    } else {
+      toast.error("Product variant information missing."); // Fallback, should not be hit
     }
   };
 
@@ -78,7 +84,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           isInWishlist ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-gray-600"
         )}
         onClick={handleToggleWishlist}
-        disabled={!isAuthenticated || isWishlistActionPending}
+        disabled={!isAuthenticated || isWishlistActionPending || !defaultVariant}
       >
         <Heart className={cn("h-5 w-5", isInWishlist && "fill-red-500")} />
       </Button>
@@ -91,11 +97,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <p className="text-gray-600 text-sm mb-4 h-10 overflow-hidden text-ellipsis">
             {product.description}
           </p>
-          <p className="text-xl font-bold text-gray-900">${defaultVariant?.price.toFixed(2)}</p>
+          <p className="text-xl font-bold text-gray-900">
+            {defaultVariant ? `$${defaultVariant.price.toFixed(2)}` : 'N/A'}
+          </p>
         </CardContent>
       </Link>
       <CardFooter className="p-4 pt-0 mt-auto">
-        <Button className="w-full" onClick={handleAddToCart} disabled={!defaultVariant || defaultVariant.stock === 0}>
+        <Button 
+          className="w-full" 
+          onClick={handleAddToCart} 
+          disabled={!defaultVariant || defaultVariant.stock === 0}
+        >
           {defaultVariant?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
         </Button>
       </CardFooter>
