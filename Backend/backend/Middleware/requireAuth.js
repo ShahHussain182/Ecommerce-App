@@ -1,34 +1,42 @@
 import jwt from "jsonwebtoken";
 import { User } from "../Models/user.model.js"; // Import the User model
+import { logger } from "../Utils/logger.js"; // Import logger
 
 export const requireAuth = async (req, res, next) => {
   const token = req.cookies?.AccessToken || req.headers['authorization']?.replace(/^Bearer\s/i, '');
+  
+  logger.debug(`[requireAuth] Attempting to authenticate for path: ${req.path}`);
+  logger.debug(`[requireAuth] AccessToken from cookies: ${req.cookies?.AccessToken ? 'present' : 'missing'}`);
+  logger.debug(`[requireAuth] Authorization header: ${req.headers['authorization'] ? 'present' : 'missing'}`);
+
   if (!token) {
+    logger.warn(`[requireAuth] Unauthorized: No token provided for path: ${req.path}`);
     return res.status(401).json({ success: false, message: "Unauthorized - no token provided" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    logger.debug(`[requireAuth] Token decoded for userId: ${decoded.userId}`);
     
-    // Attach userId and sessionId from token
     req.userId = decoded.userId;
     req.sessionId = decoded.sessionId;
 
-    // Fetch the user from the database and attach to request
-    const user = await User.findById(decoded.userId).select('-password'); // Exclude password
+    const user = await User.findById(decoded.userId).select('-password');
     if (!user) {
+      logger.warn(`[requireAuth] Unauthorized: User not found for userId: ${decoded.userId}`);
       return res.status(401).json({ success: false, message: "Unauthorized - user not found" });
     }
-    req.user = user; // Attach the full user object to the request
+    req.user = user;
+    logger.debug(`[requireAuth] User ${user.userName} authenticated.`);
 
-    // If session exists, touch it to keep it alive
     if (req.session) {
       req.session.touch();
+      logger.debug(`[requireAuth] Session ${req.sessionID} touched.`);
     }
 
     next();
   } catch (error) {
-    console.error("Error in requireAuth middleware:", error); // Use console.error for errors
+    logger.error(`[requireAuth] Authentication error for path: ${req.path} - ${error.name}: ${error.message}`);
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ success: false, message: "Access token expired" });
     } else if (error.name === "JsonWebTokenError") {

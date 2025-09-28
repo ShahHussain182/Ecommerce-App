@@ -16,10 +16,10 @@ export const setupApiInterceptors = (logoutFn: () => void) => {
   api.interceptors.response.use(
     (response) => response,
     (error) => {
+      console.log("Axios Interceptor: Error caught", error.response); // Add this line
       if (error.response?.status === 401) {
-        // If an API call is unauthorized, log the user out.
+        console.log("Axios Interceptor: 401 Unauthorized, calling logoutFn"); // Add this line
         logoutFn();
-        // The ProtectedRoute component will then redirect to /login
       }
       return Promise.reject(error);
     }

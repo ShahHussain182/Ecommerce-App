@@ -12,16 +12,15 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(`[ProtectedRoute] isAuthenticated: ${isAuthenticated}, path: ${location.pathname}`);
     if (!isAuthenticated) {
       toast.error("Access Denied", {
         description: "Please log in to view this page.",
       });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, location.pathname]); // Added location.pathname to dependencies
 
   if (!isAuthenticated) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to. This allows us to send them along to that page after they log in.
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
