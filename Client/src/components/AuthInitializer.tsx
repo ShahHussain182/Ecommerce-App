@@ -5,20 +5,27 @@ import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { Skeleton } from './ui/skeleton';
 import { useRefreshToken } from '@/hooks/useRefreshToken';
+import { setupApiInterceptors } from '@/lib/api'; // Import the setup function
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { login, logout } = useAuthStore();
   const { initializeCart } = useCartStore();
   const { initializeWishlist } = useWishlistStore();
   const [isLoading, setIsLoading] = useState(true);
-  const { mutateAsync: refreshTokens } = useRefreshToken(); // Destructure mutateAsync directly
+  const { mutateAsync: refreshTokens } = useRefreshToken();
 
-  // Use a ref to ensure the initial check only runs once
   const hasCheckedAuth = useRef(false);
+  const hasSetupInterceptors = useRef(false); // New ref for interceptors
 
   useEffect(() => {
+    // Setup API interceptors once
+    if (!hasSetupInterceptors.current) {
+      setupApiInterceptors(logout); // Pass the logout function
+      hasSetupInterceptors.current = true;
+    }
+
     if (hasCheckedAuth.current) {
-      return; // Already performed initial auth check
+      return;
     }
 
     const checkUserStatus = async () => {
@@ -31,7 +38,6 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
           await initializeCart();
           await initializeWishlist();
         } else {
-          // If check-auth explicitly says not successful (e.g., no user found for session)
           logout();
         }
       } catch (error: any) {
@@ -39,26 +45,24 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
         if (axios.isAxiosError(error) && error.response?.status === 401 && error.response?.data?.message === "Access token expired") {
           console.log("Access token expired, attempting to refresh...");
           try {
-            await refreshTokens(); // Call the stable mutateAsync function
+            await refreshTokens();
             console.log("Tokens refreshed, re-checking auth status...");
-            // After successful refresh, re-run checkUserStatus to get new user data
-            await checkUserStatus(); // Recursive call
+            await checkUserStatus();
           } catch (refreshError) {
             console.error("Refresh token failed, logging out:", refreshError);
             logout();
           }
         } else {
-          // Any other error during check-auth (e.g., network error, invalid token, etc.)
           logout();
         }
       } finally {
         setIsLoading(false);
-        hasCheckedAuth.current = true; // Mark as checked after the first full attempt
+        hasCheckedAuth.current = true;
       }
     };
 
     checkUserStatus();
-  }, [login, logout, initializeCart, initializeWishlist, refreshTokens]); // refreshTokens is a stable function
+  }, [login, logout, initializeCart, initializeWishlist, refreshTokens]);
 
   if (isLoading) {
     return (
