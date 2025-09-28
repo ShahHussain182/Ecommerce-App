@@ -72,13 +72,20 @@ export interface User {
 // Review Types
 export interface Review {
   _id: string;
-  userId: string;
-  productId: string;
+  productId: { // Populated product details
+    _id: string;
+    name: string;
+    imageUrls: string[];
+  };
+  userId: { // Populated user details
+    _id: string;
+    userName: string;
+  };
   rating: number;
+  title?: string;
   comment: string;
   createdAt: string;
   updatedAt: string;
-  user?: User;
 }
 
 // Cart Types

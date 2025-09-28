@@ -94,6 +94,114 @@ export const getProductReviews = catchErrors(async (req, res) => {
 });
 
 /**
+ * @description Get all reviews (for admin panel).
+ * Supports pagination, search by product name, and filtering by rating.
+ */
+export const getAllReviews = catchErrors(async (req, res) => {
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const skip = (page - 1) * limit;
+
+  const matchStage = {};
+  const pipeline = [];
+
+  // Search by product name (requires lookup and then matching)
+  if (req.query.searchTerm) {
+    pipeline.push({
+      $lookup: {
+        from: 'products', // The collection name for Product model
+        localField: 'productId',
+        foreignField: '_id',
+        as: 'productDetails',
+      },
+    });
+    pipeline.push({
+      $unwind: '$productDetails',
+    });
+    matchStage['productDetails.name'] = { $regex: req.query.searchTerm, $options: 'i' };
+  }
+
+  // Filter by rating
+  if (req.query.rating) {
+    const rating = parseInt(req.query.rating, 10);
+    if (!isNaN(rating) && rating >= 1 && rating <= 5) {
+      matchStage.rating = rating;
+    }
+  }
+
+  if (Object.keys(matchStage).length > 0) {
+    pipeline.push({ $match: matchStage });
+  }
+
+  // Add default values for averageRating and numberOfReviews if they are missing
+  pipeline.push({
+    $addFields: {
+      averageRating: { $ifNull: ["$averageRating", 0] },
+      numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
+    },
+  });
+
+  // Count total documents before pagination
+  const countPipeline = [...pipeline];
+  countPipeline.push({ $count: 'total' });
+  const totalResult = await Review.aggregate(countPipeline);
+  const totalReviews = totalResult.length > 0 ? totalResult[0].total : 0;
+
+  // Add sorting, skip, and limit for pagination
+  pipeline.push(
+    { $sort: { createdAt: -1 } }, // Latest reviews first
+    { $skip: skip },
+    { $limit: limit },
+    {
+      $lookup: {
+        from: 'users', // The collection name for User model
+        localField: 'userId',
+        foreignField: '_id',
+        as: 'userDetails',
+      },
+    },
+    {
+      $unwind: '$userDetails',
+    },
+    {
+      $lookup: {
+        from: 'products', // The collection name for Product model
+        localField: 'productId',
+        foreignField: '_id',
+        as: 'productDetails',
+      },
+    },
+    {
+      $unwind: '$productDetails',
+    },
+    {
+      $project: {
+        _id: 1,
+        rating: 1,
+        title: 1,
+        comment: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        'userId._id': '$userDetails._id',
+        'userId.userName': '$userDetails.userName',
+        'productId._id': '$productDetails._id',
+        'productId.name': '$productDetails.name',
+        'productId.imageUrls': '$productDetails.imageUrls',
+      },
+    }
+  );
+
+  const reviews = await Review.aggregate(pipeline);
+
+  res.status(200).json({
+    success: true,
+    reviews,
+    totalReviews,
+    nextPage: totalReviews > skip + reviews.length ? page + 1 : null,
+  });
+});
+
+/**
  * @description Update a user's own review.
  */
 export const updateReview = catchErrors(async (req, res) => {
