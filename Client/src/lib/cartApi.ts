@@ -1,12 +1,5 @@
-import axios from 'axios';
+import { api } from './api'; // Import the shared API instance
 import { Cart, Product, ProductVariant } from "@/types";
-
-const API_BASE_URL = 'http://localhost:3001/api/v1';
-
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: true,
-});
 
 /**
  * Fetches the user's cart from the backend.

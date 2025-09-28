@@ -9,6 +9,7 @@ import { setCookies } from "../Utils/setCookie.js";
 import { sendVerificationEmail, sendWelcomeEmail,sendPasswordResetEmail ,sendResetSuccessEmail} from "../mailtrap/emails.js";
 import { ResetCode } from "../Models/resetCode.model.js";
 import { verifyRefreshToken } from "../Utils/verifyTokens.js";
+import redisClient from "../Utils/redisClient.js";
 export const signup = catchErrors(async (req, res, next) => {
 
 
@@ -59,6 +60,12 @@ export const signup = catchErrors(async (req, res, next) => {
     userId: user._id.toString(),
     sessionId: req.sessionID,
   });
+  await redisClient.set(
+    `rt:${user._id}:${req.sessionID}`,
+    refreshToken,
+    "EX",
+    60 * 60 * 24 * 30 // 30 days
+  );
 
   req.session.userId = user._id;
   req.session.token = accessToken;
@@ -196,7 +203,13 @@ export const login = catchErrors(async (req, res) => {
           userId: user._id.toString(),
           sessionId: req.sessionID,
         });
+        const key = `rt:${user._id}:${req.sessionID}`;
+await redisClient.setex(key, 60 * 60 * 24 * 30, refreshToken);
 
+const stored = await redisClient.get(key);
+const ttl = await redisClient.ttl(key); // returns seconds remaining, -2 = missing, -1 = no TTL
+
+console.log("redis stored:", !!stored, "ttl:", ttl, "valueSample:", stored?.slice(0,10));
         // store session values
         req.session.userId = user._id;
         req.session.token = accessToken;
@@ -230,6 +243,7 @@ export const login = catchErrors(async (req, res) => {
 
 export const logout = catchErrors(async (req, res) => {
   const sessionId = req.sessionID;
+  const refreshToken = req.cookies.RefreshToken;
   req.session.destroy(async (err) => {
     if (err) {
       console.error("❌ Failed to destroy session:", err);
@@ -237,6 +251,12 @@ export const logout = catchErrors(async (req, res) => {
         success: false,
         message: "Internal server error during logout",
       });
+    }
+    if (refreshToken) {
+      // store it in Redis with same expiry (30d)
+      const decoded = jwt.decode(refreshToken);
+      const expiresInSec = decoded?.exp ? decoded.exp - Math.floor(Date.now() / 1000) : 60 * 60 * 24 * 30;
+      await redisClient.setex(`bl_rt:${refreshToken}`, expiresInSec, "blacklisted");
     }
     res.clearCookie("AccessToken", {
       sameSite: "strict",
@@ -350,27 +370,36 @@ export const resetPassword = catchErrors(async (req, res) => {
 	 
 });
 export const refresh = catchErrors(async (req, res) => {
-  const result = verifyRefreshToken(req);
-
+  const refreshToken = req.cookies.RefreshToken;
+  const result = await verifyRefreshToken(refreshToken); // ⬅️ await now
+  
   if (!result.valid) {
     return res.status(result.status).json({ success: false, message: result.message });
   }
+  const stored = await redisClient.get(`rt:${result.userId}:${req.sessionID}`);
+if (!stored || stored !== refreshToken) {
+  return res.status(401).json({ message: "Invalid refresh token" });
+}
+  const blacklisted = await redisClient.get(`bl_rt:${req.cookies.RefreshToken}`);
+  if (blacklisted) {
+    return res.status(401).json({ success: false, message: "Refresh token is revoked" });
+  }
 
-
+  // check session still valid
   const session = await new Promise((resolve, reject) => {
     req.sessionStore.get(result.sessionId, (err, session) => {
       if (err) return reject(err);
       resolve(session);
     });
   });
-  console.log(session)
+
   if (!session) {
     return res.status(401).json({ success: false, message: "Session expired or invalid" });
   }
-  if (result.sessionId !== req.sessionID) {
-    return res.status(401).json({ success: false, message: "Session mismatch" });
-  }
+
   req.session.touch();
+
+  // Issue new tokens
   const newAccessToken = await signAccessToken({
     userId: result.userId.toString(),
     sessionId: req.sessionID,
@@ -379,13 +408,28 @@ export const refresh = catchErrors(async (req, res) => {
     userId: result.userId.toString(),
     sessionId: req.sessionID,
   });
+
+  await redisClient.set(
+    `rt:${result.userId}:${req.sessionID}`,
+    newRefreshToken,
+    "EX",
+    60 * 60 * 24 * 30 // 30 days
+  );
+  
+  // (Optional) blacklist old refresh token for replay detection
+  const oldToken = req.cookies.RefreshToken;
+  if (oldToken) {
+    const decoded = jwt.decode(oldToken);
+    const expiresInSec = decoded?.exp ? decoded.exp - Math.floor(Date.now() / 1000) : 60 * 60 * 24 * 30;
+    await redisClient.setex(`bl_rt:${oldToken}`, expiresInSec, "rotated");
+  }
+
   setCookies(res, newAccessToken, "AccessToken");
   setCookies(res, newRefreshToken, "RefreshToken");
-  console.log(`Refresh token rotated for user: ${result.userId}`);
-  console.log("User ID from refresh token:", result.userId);
-  res.status(200).json({ success: true, message: "Tokens refreshed successfully" });
 
+  res.status(200).json({ success: true, message: "Tokens refreshed successfully" });
 });
+
 export const checkAuth = catchErrors(async (req, res) => {
   // req.user is populated by requireAuth middleware
   if (!req.user) {

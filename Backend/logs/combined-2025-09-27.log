@@ -1,0 +1,121 @@
+2025-09-27T09:38:52.059Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T09:39:04.274Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T09:39:10.337Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T09:39:10.343Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-27T09:39:12.999Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T09:39:13.901Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T09:39:13.907Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T09:39:13.908Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T10:00:19.014Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:00:25.318Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:00:27.612Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T10:00:27.616Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-27T10:00:35.154Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T10:00:35.481Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T10:00:35.484Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T10:00:35.484Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T10:16:34.078Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:16:41.500Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:16:47.408Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:16:56.853Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:17:13.018Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T10:17:13.025Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-27T10:17:15.276Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T10:17:15.453Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T10:17:15.459Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T10:17:15.460Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T10:34:09.988Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:36:26.133Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:38:52.423Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:38:56.083Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:38:57.901Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T10:38:57.907Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-27T10:38:59.116Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-27T10:43:16.113Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:43:19.221Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:43:20.715Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-27T10:47:36.680Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:47:47.946Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:47:53.255Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T10:47:53.261Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-27T10:47:56.492Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T10:48:00.545Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T10:48:00.548Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T10:48:00.549Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T10:51:38.087Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T10:51:44.037Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T10:51:46.050Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T10:51:46.056Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-27T10:51:53.010Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T10:51:53.254Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T10:51:53.258Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T10:51:53.258Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T10:51:59.001Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-27T11:01:37.752Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T11:01:47.243Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T11:25:54.966Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T11:41:27.889Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T11:41:31.155Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T11:41:33.062Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T11:41:33.065Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-27T11:41:35.452Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T11:41:35.645Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T11:41:35.651Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T11:41:35.652Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T11:54:13.916Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-27T11:54:34.351Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T12:04:25.320Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-27T12:04:34.939Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T13:10:43.051Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-27T15:07:40.114Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T15:07:56.735Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T15:08:32.496Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-27T15:08:56.155Z [DEBUG] [req:N/A] Running in development mode
+2025-09-27T15:09:21.146Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-27T15:11:05.922Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-27T15:11:05.929Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-27T15:11:07.182Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-27T15:11:08.692Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-27T15:11:08.696Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-27T15:11:08.696Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-27T15:46:00.440Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-28T05:10:25.896Z [DEBUG] [req:N/A] Running in development mode
+2025-09-28T05:10:37.062Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T05:10:49.504Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T05:10:49.510Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-28T05:10:51.996Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-28T05:10:55.356Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T05:10:55.363Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T05:10:55.364Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-28T05:12:14.967Z [HTTP] [req:ac60e99a-6e8f-49f8-b26c-7995f337e47d] ::1 - - [28/Sep/2025:05:12:14 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:12:15.862Z [HTTP] [req:ed4e9df0-97c7-4f17-beef-c55708057c85] ::1 - - [28/Sep/2025:05:12:15 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 50 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:12:20.706Z [HTTP] [req:2eb6568e-2f49-46a3-bf62-0038f43e45dc] ::1 - - [28/Sep/2025:05:12:20 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:12:22.426Z [HTTP] [req:e4b3ba0b-84b6-4317-82db-90b448a4441d] ::1 - - [28/Sep/2025:05:12:22 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:12:23.413Z [HTTP] [req:7cc24f42-c767-43a0-95ab-5dad1f5a0f53] ::1 - - [28/Sep/2025:05:12:23 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:12:25.031Z [HTTP] [req:3bd15ce1-e1b0-41da-b1e3-7de5560cc5b3] ::1 - - [28/Sep/2025:05:12:25 +0000] "GET /api/v1/products?limit=1 HTTP/1.1" 200 741 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:12:35.177Z [HTTP] [req:fed367ae-58a8-4dad-a079-734218698ab5] ::1 - - [28/Sep/2025:05:12:35 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 5855 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:16:30.432Z [HTTP] [req:adc6b98b-a11e-4321-9499-bcc74b10a607] ::1 - - [28/Sep/2025:05:16:30 +0000] "GET /api/v1/products?page=1&limit=10&categories=Home+Goods&sortBy=name-asc HTTP/1.1" 200 4647 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:19:56.881Z [HTTP] [req:157825c7-e277-407c-94bc-a3e1cf5a689f] ::1 - - [28/Sep/2025:05:19:56 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T05:19:57.660Z [HTTP] [req:d9c1b19e-6ced-4341-a019-539a9334c05f] ::1 - - [28/Sep/2025:05:19:57 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T05:20:00.542Z [HTTP] [req:77380ccd-b8a2-47ef-a0a6-e1e7d24705a9] ::1 - - [28/Sep/2025:05:20:00 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T05:32:29.623Z [DEBUG] [req:N/A] Running in development mode
+2025-09-28T05:32:37.538Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T05:32:46.981Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T05:32:46.988Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-28T05:32:50.768Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-28T05:32:51.558Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T05:32:51.563Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T05:32:51.564Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-28T05:33:17.974Z [HTTP] [req:1bd26c97-5947-4254-8b1d-121ea6fc50e0] ::1 - - [28/Sep/2025:05:33:17 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:33:44.986Z [HTTP] [req:33cde223-1205-4586-81a8-cbd33b7c17bf] ::1 - - [28/Sep/2025:05:33:44 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:33:47.425Z [HTTP] [req:b5b1fe5a-db97-458c-a2a6-d6adbdd1fbba] ::1 - - [28/Sep/2025:05:33:47 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:33:50.215Z [HTTP] [req:89b3ff19-ebc7-468d-8768-a708e7dfd494] ::1 - - [28/Sep/2025:05:33:50 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:33:53.200Z [HTTP] [req:8c2993b8-dc80-4426-9f23-26521fb1b052] ::1 - - [28/Sep/2025:05:33:53 +0000] "GET /api/v1/products?limit=1 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:37:44.364Z [HTTP] [req:815c0171-81eb-4bf0-b529-a1718f4de49b] ::1 - - [28/Sep/2025:05:37:44 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:37:46.223Z [HTTP] [req:d74c2d11-7f7d-419e-92ed-90cc2d7a61b0] ::1 - - [28/Sep/2025:05:37:46 +0000] "GET /api/v1/cart HTTP/1.1" 200 3533 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:37:54.551Z [HTTP] [req:8c079294-d354-4516-8493-d399582d5016] ::1 - - [28/Sep/2025:05:37:54 +0000] "GET /api/v1/wishlist HTTP/1.1" 200 8428 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:37:55.487Z [HTTP] [req:04e1d604-ae62-4e4f-9c0c-5aa6e0dd4750] ::1 - - [28/Sep/2025:05:37:55 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:41:08.042Z [HTTP] [req:2cb3606f-3b23-4c03-8b34-5be1247aea8b] ::1 - - [28/Sep/2025:05:41:08 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:41:09.561Z [HTTP] [req:3b69aa04-0327-4816-ab28-85f07ceef68e] ::1 - - [28/Sep/2025:05:41:09 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:41:47.310Z [HTTP] [req:5421261e-99b7-4fb1-8c00-9c0b8919f964] ::1 - - [28/Sep/2025:05:41:47 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T05:41:50.446Z [HTTP] [req:1349f4e5-986f-450f-bac8-79f400b79aaa] ::1 - - [28/Sep/2025:05:41:50 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"

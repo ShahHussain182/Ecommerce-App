@@ -11,7 +11,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import { requestContextMiddleware } from "./Utils/requestContext.js";
-
+import redisClient from "./Utils/redisClient.js";
 import { connectDB } from "./DB/connectDB.js";
 import authRouter from "./Routers/auth.router.js";
 import productRouter from "./Routers/product.router.js";
@@ -130,7 +130,18 @@ const startServer = async () => {
     } else {
       logger.info(`Order number counter already exists, current sequence: ${orderCounter.seq}`);
     }
+    
 
+    (async () => {
+      try {
+        await redisClient.set("test-key", "hello");
+        const value = await redisClient.get("test-key");
+        console.log("Redis test value:", value); // should log "hello"
+      } catch (err) {
+        console.error("Redis test failed:", err);
+      }
+    })();
+    
   } catch (error) {
     logger.error("❌ Error during database seeding or counter initialization:", error);
   }
