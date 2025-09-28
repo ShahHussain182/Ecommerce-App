@@ -7,19 +7,21 @@ import { Skeleton } from './ui/skeleton';
 import { useRefreshToken } from '@/hooks/useRefreshToken';
 import { setupApiInterceptors } from '@/lib/api'; // Import the setup function
 import { useQuery } from '@tanstack/react-query'; // Import useQuery
+import { useLocation } from 'react-router-dom'; // Import useLocation
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { login, logout, isAuthenticated, user } = useAuthStore();
   const { initializeCart } = useCartStore();
   const { initializeWishlist } = useWishlistStore();
   const { mutateAsync: refreshTokens } = useRefreshToken();
+  const location = useLocation(); // Initialize useLocation
 
   const [isAuthCheckFinished, setIsAuthCheckFinished] = useState(false); // Renamed for clarity
   const hasSetupInterceptors = useRef(false);
 
   // Use TanStack Query for the initial auth check
   const { data, isLoading: isAuthQueryLoading, isError: isAuthQueryError, refetch } = useQuery({
-    queryKey: ['initialAuthCheck'], // Unique key for this specific initial check
+    queryKey: ['authStatus', location.pathname], // Include location.pathname to re-run on route change
     queryFn: async () => {
       try {
         const response = await axios.get('http://localhost:3001/api/v1/auth/check-auth', {
@@ -32,9 +34,9 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
         throw error; 
       }
     },
-    enabled: true, // Always run on mount
+    enabled: true, // Always run on mount and on queryKey change
     retry: false, // Do not retry failed auth checks
-    staleTime: 0, // Always consider this query stale, so it refetches on mount
+    staleTime: 0, // Always consider this query stale, so it refetches on mount/queryKey change
     gcTime: 0, // Don't keep this data in cache
   });
 
@@ -46,7 +48,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   }, [logout]);
 
   useEffect(() => {
-    console.log("[AuthInitializer] Auth Query State:", { isAuthQueryLoading, isAuthQueryError, data });
+    console.log("[AuthInitializer] Auth Query State:", { isAuthQueryLoading, isAuthQueryError, data, path: location.pathname });
 
     if (!isAuthQueryLoading) {
       if (data?.success && data.user) {
@@ -60,7 +62,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
       }
       setIsAuthCheckFinished(true);
     }
-  }, [isAuthQueryLoading, isAuthQueryError, data, login, logout, initializeCart, initializeWishlist]);
+  }, [isAuthQueryLoading, isAuthQueryError, data, login, logout, initializeCart, initializeWishlist, location.pathname]);
 
   // If the initial check is still loading, show a loading skeleton
   if (!isAuthCheckFinished) {
