@@ -100,11 +100,13 @@ const CategoryForm = ({ category, onSubmit, onClose, isSubmitting }: CategoryFor
 
 export function Categories() {
   const queryClient = useQueryClient();
-  const { data: categories, isLoading, error, refetch } = useQuery({
+  const { data: fetchedCategories, isLoading, error, refetch } = useQuery({ // Renamed data to fetchedCategories
     queryKey: ['categories'],
     queryFn: () => categoryService.getAllCategories().then(res => res.categories),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
+
+  const categories = fetchedCategories || []; // Ensure categories is always an array
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -192,45 +194,36 @@ export function Categories() {
             <Table className="min-w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="min-w-[200px]">Name</TableHead>
-                  <TableHead className="min-w-[300px]">Description</TableHead>
-                  <TableHead className="min-w-[150px]">Created At</TableHead>
-                  <TableHead className="min-w-[80px] text-right">Actions</TableHead>
+                  <TableHead className="min-w-[200px]">Name</TableHead><TableHead className="min-w-[300px]">Description</TableHead><TableHead className="min-w-[150px]">Created At</TableHead><TableHead className="min-w-[80px] text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={4} className="text-center py-8">
+                  <TableRow><TableCell colSpan={4} className="text-center py-8">
                       <div className="flex items-center justify-center">
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Loading categories...
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : error ? (
-                  <TableRow>
-                    <TableCell colSpan={4} className="text-center py-8">
+                  <TableRow><TableCell colSpan={4} className="text-center py-8">
                       <div className="flex flex-col items-center justify-center">
                         <XCircle className="h-12 w-12 text-destructive mb-2" />
-                        <h3 className="text-lg font-semibold">Error loading categories</h3>
+                        <h3 className="mt-4 text-lg font-semibold">Error loading categories</h3>
                         <p className="text-muted-foreground mb-4">There was an issue fetching the categories.</p>
                         <Button onClick={() => refetch()}>Try Again</Button>
                       </div>
-                    </TableCell>
-                  </TableRow>
-                ) : categories?.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={4} className="text-center py-8">
+                    </TableCell></TableRow>
+                ) : categories.length === 0 ? ( // Use categories directly
+                  <TableRow><TableCell colSpan={4} className="text-center py-8">
                       <div className="flex flex-col items-center justify-center">
                         <Tag className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">No categories found</h3>
                         <p className="text-muted-foreground">Start by adding a new category.</p>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : (
-                  categories?.map((category) => (
+                  categories.map((category) => ( // Use categories directly
                     <TableRow key={category._id}>
                       <TableCell className="font-medium">{category.name}</TableCell>
                       <TableCell className="text-muted-foreground">{category.description || 'N/A'}</TableCell>

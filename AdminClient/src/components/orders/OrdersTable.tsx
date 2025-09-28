@@ -97,29 +97,19 @@ export const OrdersTable = ({
                 onChange={selectAllOrders}
                 className="h-4 w-4"
               />
-            </TableHead>
-            <TableHead>Order</TableHead>
-            <TableHead>Customer</TableHead>
-            <TableHead>Items</TableHead>
-            <TableHead>Total</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            </TableHead><TableHead>Order</TableHead><TableHead>Customer</TableHead><TableHead>Items</TableHead><TableHead>Total</TableHead><TableHead>Status</TableHead><TableHead>Date</TableHead><TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={8} className="text-center py-8">
+            <TableRow><TableCell colSpan={8} className="text-center py-8">
                 <div className="flex items-center justify-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Loading orders...
                 </div>
-              </TableCell>
-            </TableRow>
+              </TableCell></TableRow>
           ) : error ? (
-            <TableRow>
-              <TableCell colSpan={8} className="text-center py-8">
+            <TableRow><TableCell colSpan={8} className="text-center py-8">
                 <div className="flex flex-col items-center justify-center">
                   <XCircle className="h-12 w-12 text-destructive mb-2" />
                   <h3 className="text-lg font-semibold">Error loading orders</h3>
@@ -128,11 +118,9 @@ export const OrdersTable = ({
                   </p>
                   <Button onClick={() => queryClient.invalidateQueries({ queryKey: ['orders'] })}>Try Again</Button>
                 </div>
-              </TableCell>
-            </TableRow>
+              </TableCell></TableRow>
           ) : orders.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={8} className="text-center py-8">
+            <TableRow><TableCell colSpan={8} className="text-center py-8">
                 <div className="flex flex-col items-center justify-center">
                   <Package className="h-12 w-12 text-muted-foreground mb-2" />
                   <h3 className="mt-4 text-lg font-semibold">No orders found</h3>
@@ -140,8 +128,7 @@ export const OrdersTable = ({
                     No orders match your search criteria.
                   </p>
                 </div>
-              </TableCell>
-            </TableRow>
+              </TableCell></TableRow>
           ) : (
             orders.map((order) => (
               <TableRow 
@@ -155,46 +142,39 @@ export const OrdersTable = ({
                     onChange={() => toggleOrderSelection(order._id)}
                     className="h-4 w-4"
                   />
-                </TableCell>
-                <TableCell>
+                </TableCell><TableCell>
                   <div>
                     <div className="font-medium">#{order.orderNumber}</div>
                     <div className="text-sm text-muted-foreground">ID: {order._id.slice(-8)}</div>
                   </div>
-                </TableCell>
-                <TableCell>
+                </TableCell><TableCell>
                   <div>
                     <div className="font-medium">{order.userId?.userName || order.shippingAddress.fullName}</div>
                     <div className="text-sm text-muted-foreground">
                       {order.shippingAddress.city}, {order.shippingAddress.state}
                     </div>
                   </div>
-                </TableCell>
-                <TableCell>
+                </TableCell><TableCell>
                   <div>
                     <div className="font-medium">{order.items.length} item{order.items.length !== 1 ? 's' : ''}</div>
                     <div className="text-sm text-muted-foreground">
                       {order.items[0]?.nameAtTime}{order.items.length > 1 && ` +${order.items.length - 1} more`}
                     </div>
                   </div>
-                </TableCell>
-                <TableCell>
+                </TableCell><TableCell>
                   <div className="font-medium">${order.totalAmount.toFixed(2)}</div>
                   <div className="text-sm text-muted-foreground">{order.paymentMethod}</div>
-                </TableCell>
-                <TableCell>
+                </TableCell><TableCell>
                   <Badge variant={getStatusBadgeVariant(order.status)} className="flex items-center gap-1 w-fit">
                     {getStatusIcon(order.status)}
                     {order.status}
                   </Badge>
-                </TableCell>
-                <TableCell>
+                </TableCell><TableCell>
                   <div>
                     <div className="font-medium">{format(new Date(order.createdAt), 'MMM dd, yyyy')}</div>
                     <div className="text-sm text-muted-foreground">{format(new Date(order.createdAt), 'HH:mm')}</div>
                   </div>
-                </TableCell>
-                <TableCell className="text-right">
+                </TableCell><TableCell className="text-right">
                   <div className="flex items-center justify-end space-x-2">
                     <TooltipProvider>
                       <Tooltip>

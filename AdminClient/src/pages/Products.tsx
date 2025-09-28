@@ -344,7 +344,7 @@ export function Products() {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            products: oldData.products.map((product) =>
+            products: oldData.data.map((product) =>
               product._id === id ? { ...product, ...data } : product
             ),
           };
@@ -389,7 +389,7 @@ export function Products() {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            products: oldData.products.filter((product) => product._id !== productIdToDelete),
+            products: oldData.data.filter((product) => product._id !== productIdToDelete),
             totalProducts: oldData.totalProducts - 1, // Adjust total count
           };
         }
@@ -530,30 +530,21 @@ export function Products() {
             <Table className="min-w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="min-w-[200px]">Product</TableHead> {/* Adjusted min-width */}
-                  <TableHead className="min-w-[100px]">Category</TableHead>
-                  <TableHead className="min-w-[100px]">Price</TableHead>
-                  <TableHead className="min-w-[80px]">Stock</TableHead>
-                  <TableHead className="min-w-[100px]">Rating</TableHead>
-                  <TableHead className="min-w-[120px]">Status</TableHead> {/* Adjusted min-width */}
-                  <TableHead className="min-w-[80px] text-right">Actions</TableHead> {/* Adjusted min-width */}
+                  <TableHead className="min-w-[200px]">Product</TableHead><TableHead className="min-w-[100px]">Category</TableHead><TableHead className="min-w-[100px]">Price</TableHead><TableHead className="min-w-[80px]">Stock</TableHead><TableHead className="min-w-[100px]">Rating</TableHead><TableHead className="min-w-[120px]">Status</TableHead><TableHead className="min-w-[80px] text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={7}>
+                  <TableRow><TableCell colSpan={7}>
                       <div className="flex items-center justify-center py-12">
                         <div className="text-center">
                           <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto" />
                           <h3 className="mt-4 text-lg font-semibold">Loading products...</h3>
                         </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : error ? (
-                  <TableRow>
-                    <TableCell colSpan={7}>
+                  <TableRow><TableCell colSpan={7}>
                       <div className="flex items-center justify-center py-12">
                         <div className="text-center">
                           <Package className="mx-auto h-12 w-12 text-destructive" />
@@ -562,11 +553,9 @@ export function Products() {
                           <Button onClick={() => queryClient.invalidateQueries({ queryKey: ['products'] })}>Try Again</Button>
                         </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : products.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={7}>
+                  <TableRow><TableCell colSpan={7}>
                       <div className="flex items-center justify-center py-12">
                         <div className="text-center">
                           <Package className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -574,8 +563,7 @@ export function Products() {
                           <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
                         </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : (
                   products.map((product) => {
                     const totalStock = getTotalStock(product.variants);
@@ -593,26 +581,21 @@ export function Products() {
                             />
                             <div className="font-medium">{product.name}</div>
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <Badge variant="outline">{product.category}</Badge>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div className="font-medium">
                             {product.variants && product.variants.length > 0 ? `$${minPrice.toFixed(2)}` : 'N/A'}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div className="font-medium">{totalStock}</div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div className="flex items-center space-x-1">
                             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                             <span className="font-medium">{product.averageRating.toFixed(1)}</span>
                             <span className="text-muted-foreground">({product.numberOfReviews})</span>
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div className="flex items-center space-x-2">
                             <Badge variant={stockStatus.variant}>{stockStatus.status}</Badge>
                             {product.isFeatured && (
@@ -622,8 +605,7 @@ export function Products() {
                               </Badge>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell className="text-right">
+                        </TableCell><TableCell className="text-right">
                           <div className="flex items-center justify-end space-x-1">
                             <Button
                               variant="ghost"

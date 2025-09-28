@@ -267,29 +267,21 @@ export function Reviews() {
             <Table className="min-w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="min-w-[150px]">Product</TableHead>
-                  <TableHead className="min-w-[120px]">Customer</TableHead>
-                  <TableHead className="min-w-[80px]">Rating</TableHead>
-                  <TableHead className="min-w-[250px]">Review</TableHead>
-                  <TableHead className="min-w-[100px]">Date</TableHead>
-                  <TableHead className="min-w-[80px] text-right">Actions</TableHead>
+                  <TableHead className="min-w-[150px]">Product</TableHead><TableHead className="min-w-[120px]">Customer</TableHead><TableHead className="min-w-[80px]">Rating</TableHead><TableHead className="min-w-[250px]">Review</TableHead><TableHead className="min-w-[100px]">Date</TableHead><TableHead className="min-w-[80px] text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={6}>
+                  <TableRow><TableCell colSpan={6}>
                       <div className="flex items-center justify-center py-12">
                         <div className="text-center">
                           <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto" />
                           <h3 className="mt-4 text-lg font-semibold">Loading reviews...</h3>
                         </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : error ? (
-                  <TableRow>
-                    <TableCell colSpan={6}>
+                  <TableRow><TableCell colSpan={6}>
                       <div className="flex items-center justify-center py-12">
                         <div className="text-center">
                           <MessageSquareText className="mx-auto h-12 w-12 text-destructive" />
@@ -298,11 +290,9 @@ export function Reviews() {
                           <Button onClick={() => queryClient.invalidateQueries({ queryKey: ['reviews'] })}>Try Again</Button>
                         </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : reviews.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6}>
+                  <TableRow><TableCell colSpan={6}>
                       <div className="flex items-center justify-center py-12">
                         <div className="text-center">
                           <MessageSquareText className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -310,8 +300,7 @@ export function Reviews() {
                           <p className="text-muted-foreground">No reviews match your search or filter criteria.</p>
                         </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : (
                   reviews.map((review) => (
                     <TableRow key={review._id}>
@@ -324,30 +313,25 @@ export function Reviews() {
                           />
                           <div className="font-medium">{review.productId.name}</div>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </TableCell><TableCell>
                         <div className="flex items-center space-x-2">
                           <UserCircle className="h-5 w-5 text-muted-foreground" />
                           <span className="font-medium">{review.userId.userName}</span>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </TableCell><TableCell>
                         <div className="flex items-center space-x-1">
                           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                           <span className="font-medium">{review.rating}</span>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </TableCell><TableCell>
                         <div className="max-w-[250px] truncate">
                           {review.title && <p className="font-medium">{review.title}</p>}
                           <p className="text-sm text-muted-foreground">{review.comment}</p>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </TableCell><TableCell>
                         <div className="font-medium">{format(new Date(review.createdAt), 'MMM dd, yyyy')}</div>
                         <div className="text-sm text-muted-foreground">{format(new Date(review.createdAt), 'HH:mm')}</div>
-                      </TableCell>
-                      <TableCell className="text-right">
+                      </TableCell><TableCell className="text-right">
                         <div className="flex items-center justify-end space-x-1">
                           <Button
                             variant="ghost"

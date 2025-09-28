@@ -224,46 +224,34 @@ export function Customers() {
             <Table className="min-w-full">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Orders</TableHead>
-                  <TableHead>Total Spent</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Last Login</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>Customer</TableHead><TableHead>Contact</TableHead><TableHead>Orders</TableHead><TableHead>Total Spent</TableHead><TableHead>Type</TableHead><TableHead>Last Login</TableHead><TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
+                  <TableRow><TableCell colSpan={7} className="text-center py-8">
                       <div className="flex items-center justify-center">
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Loading customers...
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : error ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
+                  <TableRow><TableCell colSpan={7} className="text-center py-8">
                       <div className="flex flex-col items-center justify-center">
                         <XCircle className="h-12 w-12 text-destructive mb-2" />
                         <h3 className="text-lg font-semibold">Error loading customers</h3>
                         <p className="text-muted-foreground mb-4">There was an issue fetching the customer data.</p>
                         <Button onClick={() => refetch()}>Try Again</Button>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : customers.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
+                  <TableRow><TableCell colSpan={7} className="text-center py-8">
                       <div className="flex flex-col items-center justify-center">
                         <UsersIcon className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">No customers found</h3>
                         <p className="text-muted-foreground">No customers match your search criteria.</p>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </TableCell></TableRow>
                 ) : (
                   customers.map((customer) => {
                     const customerType = getCustomerType(customer.totalSpent || 0, customer.totalOrders || 0);
@@ -278,8 +266,7 @@ export function Customers() {
                               Joined {format(new Date(customer.createdAt), 'MMM yyyy')}
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div className="space-y-1">
                             <div className="flex items-center text-sm">
                               <Mail className="h-3 w-3 mr-2 text-muted-foreground" />
@@ -290,27 +277,23 @@ export function Customers() {
                               {customer.phoneNumber}
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div>
                             <div className="font-medium">{customer.totalOrders || 0}</div>
                             <div className="text-sm text-muted-foreground">orders</div>
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div>
                             <div className="font-medium">${(customer.totalSpent || 0).toFixed(2)}</div>
                             <div className="text-sm text-muted-foreground">
                               ${((customer.totalSpent || 0) / Math.max(customer.totalOrders || 1, 1)).toFixed(0)} avg
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <Badge variant={getStatusBadgeVariant(customer)}>
                             {customerType}
                           </Badge>
-                        </TableCell>
-                        <TableCell>
+                        </TableCell><TableCell>
                           <div>
                             <div className="font-medium">
                               {format(new Date(customer.lastLogin), 'MMM dd, yyyy')}
@@ -319,8 +302,7 @@ export function Customers() {
                               {format(new Date(customer.lastLogin), 'HH:mm')}
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell className="text-right">
+                        </TableCell><TableCell className="text-right">
                           <div className="flex items-center space-x-2 justify-end">
                             <Button variant="ghost" size="icon">
                               <Eye className="h-4 w-4" />
@@ -361,7 +343,7 @@ export function Customers() {
                 onClick={() => setPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={page === totalPages || isLoading}
               >
-                Next
+              Next
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
