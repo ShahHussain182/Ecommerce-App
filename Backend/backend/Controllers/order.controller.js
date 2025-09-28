@@ -1,7 +1,7 @@
 import { Order } from '../Models/Order.model.js';
 import { Cart } from '../Models/Cart.model.js';
 import { Product } from '../Models/Product.model.js';
-import { Counter } from '../Models/Counter.model.js'; // Import Counter model
+import { Counter } from '../Models/Counter.model.js';
 import catchErrors from '../Utils/catchErrors.js';
 import { createOrderSchema, updateOrderStatusSchema } from '../Schemas/orderSchema.js';
 import mongoose from 'mongoose';
@@ -110,6 +110,33 @@ export const createOrder = catchErrors(async (req, res) => {
 });
 
 /**
+ * @description Get all orders for the admin panel with pagination.
+ */
+export const getAllOrders = catchErrors(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const orders = await Order.find()
+    .populate({
+      path: 'userId',
+      select: 'userName email' // Populate user details
+    })
+    .sort({ createdAt: -1 }) // Latest orders first
+    .skip(skip)
+    .limit(limit);
+
+  const totalOrders = await Order.countDocuments();
+
+  res.status(200).json({
+    success: true,
+    data: orders,
+    totalOrders,
+    nextPage: totalOrders > skip + orders.length ? page + 1 : null,
+  });
+});
+
+/**
  * @description Get all orders for the authenticated user.
  */
 export const getUserOrders = catchErrors(async (req, res) => {
@@ -174,4 +201,32 @@ export const updateOrderStatus = catchErrors(async (req, res) => {
   }
 
   res.status(200).json({ success: true, message: 'Order status updated successfully.', order });
+});
+
+/**
+ * @description Get order metrics for the admin dashboard.
+ */
+export const getOrderMetrics = catchErrors(async (req, res) => {
+  const totalOrders = await Order.countDocuments();
+  
+  const statusCounts = await Order.aggregate([
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  const recentOrders = await Order.find()
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .populate('userId', 'userName');
+
+  res.status(200).json({
+    success: true,
+    totalOrders,
+    statusCounts,
+    recentOrders
+  });
 });

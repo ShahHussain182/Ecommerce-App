@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { Review, ApiResponse } from '@/types';
+import type { Review, ApiResponse } from '@/types';
 import { updateReviewSchema } from '@/schemas/reviewSchema'; // Import Zod schema
 import { z } from 'zod';
 

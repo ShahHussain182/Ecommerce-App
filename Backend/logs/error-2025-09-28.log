@@ -1,0 +1,10 @@
+2025-09-28T11:44:04.102Z [ERROR] [req:26c9d246-6e08-4aaa-b553-a88c66b9db5d] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]

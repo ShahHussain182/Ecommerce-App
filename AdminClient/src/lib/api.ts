@@ -37,6 +37,8 @@ export const endpoints = {
   
   // Orders
   orders: '/orders',
+  adminOrders: '/orders/admin',
+  orderMetrics: '/orders/metrics',
   orderById: (id: string) => `/orders/${id}`,
   updateOrderStatus: (id: string) => `/orders/${id}/status`,
   

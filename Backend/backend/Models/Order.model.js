@@ -76,6 +76,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
       default: 'Pending',
+      index: true, // Add index for faster queries
     },
   },
   {
@@ -84,5 +85,9 @@ const orderSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+// Add indexes for common query patterns
+orderSchema.index({ userId: 1, createdAt: -1 }); // For user order history
+orderSchema.index({ status: 1, createdAt: -1 }); // For admin order management
 
 export const Order = mongoose.model('Order', orderSchema);

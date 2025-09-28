@@ -1,12 +1,18 @@
 import express from 'express';
 import { requireAuth } from '../Middleware/requireAuth.js';
-import { createOrder, getUserOrders, getOrderById, updateOrderStatus } from '../Controllers/order.controller.js';
+import { requireAdmin } from '../Middleware/requireAdmin.js';
+import { createOrder, getUserOrders, getOrderById, updateOrderStatus, getAllOrders, getOrderMetrics } from '../Controllers/order.controller.js';
 
 const orderRouter = express.Router();
 
 // All order routes require authentication
 orderRouter.use(requireAuth);
 
+// Admin routes
+orderRouter.get('/admin', requireAdmin, getAllOrders); // Get all orders (admin)
+orderRouter.get('/metrics', requireAdmin, getOrderMetrics); // Get order metrics (admin)
+
+// User routes
 orderRouter.route('/')
   .post(createOrder) // Create a new order
   .get(getUserOrders); // Get all orders for the authenticated user

@@ -4,13 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Search, Filter, Edit, Trash2, Eye, Star, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, UserCircle, Package, MessageSquareText } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from '@/components/ui/dialog';
+import { Search, Filter, Edit, Trash2, Eye, Star, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, UserCircle,  MessageSquareText } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { reviewService, UpdateReviewData } from '@/services/reviewService';
-import { Review } from '@/types';
+import { reviewService, type UpdateReviewData } from '@/services/reviewService';
+import type { Review } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateReviewSchema } from '@/schemas/reviewSchema';
@@ -35,6 +35,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Separator } from '@radix-ui/react-dropdown-menu';
 
 // Type for the form data, based on updateReviewSchema
 type ReviewFormValues = z.infer<typeof updateReviewSchema>;
@@ -96,7 +97,7 @@ const ReviewForm = ({ review, onSubmit, onClose, isSubmitting }: ReviewFormProps
               key={starValue}
               className={cn(
                 "h-7 w-7 cursor-pointer transition-colors",
-                (hoveredRating >= starValue || currentRating >= starValue)
+                (hoveredRating >= starValue || (currentRating ?? 0) >= starValue)
                   ? "fill-yellow-400 text-yellow-400"
                   : "text-gray-300"
               )}
