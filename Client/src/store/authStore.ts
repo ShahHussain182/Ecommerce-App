@@ -1,8 +1,7 @@
 import { create } from 'zustand';
 import { User } from '@/types';
 import { toast } from 'sonner';
-import { useCartStore } from './cartStore';
-import { useWishlistStore } from './wishlistStore'; // Import wishlist store
+// Removed direct imports for useCartStore and useWishlistStore as their initialization will be handled by AuthInitializer
 
 interface AuthState {
   user: User | null;
@@ -46,8 +45,12 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   },
 
   logout: () => {
-    useCartStore.getState().clearClientCart(); // Clear cart state on logout
-    useWishlistStore.getState().clearClientWishlist(); // Clear wishlist state on logout
+    // These calls are now safe here as they clear client-side state,
+    // and AuthInitializer will re-initialize them on next successful login.
+    // Dynamic import to avoid circular dependency issues if stores are not fully initialized yet.
+    import('./cartStore').then(module => module.useCartStore.getState().clearClientCart());
+    import('./wishlistStore').then(module => module.useWishlistStore.getState().clearClientWishlist());
+    
     set({
       user: null,
       isAuthenticated: false,
