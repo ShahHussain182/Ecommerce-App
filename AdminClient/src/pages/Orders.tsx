@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react'; // Import useEffect
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -89,6 +89,7 @@ const statusConfig = {
 export function Orders() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(''); // New state for debounced search
   const [statusFilter, setStatusFilter] = useState<OrderStatus | 'All'>('All');
   const [sortBy, setSortBy] = useState<'date' | 'total'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -98,10 +99,29 @@ export function Orders() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
+  // Debounce search term
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setPage(1); // Reset to first page on new search term
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
   // Query for orders from API
   const { data: ordersData, isLoading, error, refetch } = useQuery({
-    queryKey: ['orders', page, limit],
-    queryFn: () => orderService.getAllOrders({ page, limit }),
+    queryKey: ['orders', page, limit, debouncedSearchTerm, statusFilter, sortBy, sortOrder], // Include all filters in queryKey
+    queryFn: () => orderService.getAllOrders({ 
+      page, 
+      limit, 
+      searchTerm: debouncedSearchTerm || undefined,
+      statusFilter: statusFilter === 'All' ? undefined : statusFilter,
+      sortBy,
+      sortOrder,
+    }),
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
 
@@ -109,38 +129,8 @@ export function Orders() {
   const totalOrders = ordersData?.totalOrders || 0;
   const totalPages = Math.ceil(totalOrders / limit);
 
-  // Filter and sort orders
-  const filteredAndSortedOrders = useMemo(() => {
-    let result = [...orders];
-    
-    // Apply search filter
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      result = result.filter(order => 
-        order.orderNumber.toString().includes(term) ||
-        order.shippingAddress.fullName.toLowerCase().includes(term) ||
-        order.items.some(item => item.nameAtTime.toLowerCase().includes(term))
-      );
-    }
-    
-    // Apply status filter
-    if (statusFilter !== 'All') {
-      result = result.filter(order => order.status === statusFilter);
-    }
-    
-    // Apply sorting
-    result.sort((a, b) => {
-      if (sortBy === 'date') {
-        const dateA = new Date(a.createdAt).getTime();
-        const dateB = new Date(b.createdAt).getTime();
-        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-      } else {
-        return sortOrder === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount;
-      }
-    });
-    
-    return result;
-  }, [orders, searchTerm, statusFilter, sortBy, sortOrder]);
+  // Filter and sort orders are now handled by the backend, so this memo is simplified
+  const displayedOrders = orders;
 
   const handleUpdateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
     try {
@@ -182,10 +172,10 @@ export function Orders() {
   };
 
   const selectAllOrders = () => {
-    if (selectedOrders.length === filteredAndSortedOrders.length) {
+    if (selectedOrders.length === displayedOrders.length && displayedOrders.length > 0) {
       setSelectedOrders([]);
     } else {
-      setSelectedOrders(filteredAndSortedOrders.map(order => order._id));
+      setSelectedOrders(displayedOrders.map(order => order._id));
     }
   };
 
@@ -278,7 +268,7 @@ export function Orders() {
             />
           </div>
           
-          <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as OrderStatus | 'All')}>
+          <Select value={statusFilter} onValueChange={(value) => {setStatusFilter(value as OrderStatus | 'All'); setPage(1);}}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
@@ -297,7 +287,7 @@ export function Orders() {
         </div>
         
         <div className="flex items-center space-x-2">
-          <Select value={sortBy} onValueChange={(value) => setSortBy(value as 'date' | 'total')}>
+          <Select value={sortBy} onValueChange={(value) => {setSortBy(value as 'date' | 'total'); setPage(1);}}>
             <SelectTrigger className="w-[120px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -310,7 +300,7 @@ export function Orders() {
           <Button 
             variant="outline" 
             size="icon"
-            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+            onClick={() => {setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}
           >
             {sortOrder === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </Button>
@@ -355,7 +345,7 @@ export function Orders() {
       {/* Orders Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Orders ({filteredAndSortedOrders.length})</CardTitle>
+          <CardTitle>Orders ({totalOrders})</CardTitle>
           <CardDescription>
             View and manage all customer orders
           </CardDescription>
@@ -367,7 +357,7 @@ export function Orders() {
                 <TableHead className="w-[50px]">
                   <input
                     type="checkbox"
-                    checked={selectedOrders.length === filteredAndSortedOrders.length && filteredAndSortedOrders.length > 0}
+                    checked={selectedOrders.length === displayedOrders.length && displayedOrders.length > 0}
                     onChange={selectAllOrders}
                     className="h-4 w-4"
                   />
@@ -404,12 +394,12 @@ export function Orders() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ) : filteredAndSortedOrders.length === 0 ? (
+              ) : displayedOrders.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={8} className="text-center py-8">
                     <div className="flex flex-col items-center justify-center">
                       <Package className="h-12 w-12 text-muted-foreground mb-2" />
-                      <h3 className="text-lg font-semibold">No orders found</h3>
+                      <h3 className="mt-4 text-lg font-semibold">No orders found</h3>
                       <p className="text-muted-foreground">
                         No orders match your search criteria.
                       </p>
@@ -417,7 +407,7 @@ export function Orders() {
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredAndSortedOrders.map((order) => {
+                displayedOrders.map((order) => {
                   const config = statusConfig[order.status];
                   const StatusIcon = config.icon;
                   

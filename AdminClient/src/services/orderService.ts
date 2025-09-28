@@ -1,16 +1,27 @@
 import { api } from '@/lib/api';
-import { Order, ApiResponse } from '@/types';
+import { Order, ApiResponse, OrderStatus } from '@/types'; // Import OrderStatus
 
 interface GetAllOrdersParams {
   page?: number;
   limit?: number;
+  searchTerm?: string;
+  statusFilter?: OrderStatus | 'All'; // Add status filter
+  sortBy?: 'date' | 'total'; // Add sort by
+  sortOrder?: 'asc' | 'desc'; // Add sort order
 }
 
 export const orderService = {
-  // Get all orders with pagination
+  // Get all orders with pagination, search, and filters
   async getAllOrders(params: GetAllOrdersParams = {}): Promise<{ data: Order[]; totalOrders: number; nextPage: number | null }> {
-    const { page = 1, limit = 10 } = params;
-    const response = await api.get(`/orders?page=${page}&limit=${limit}`);
+    const queryParams = new URLSearchParams();
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        queryParams.append(key, value.toString());
+      }
+    });
+
+    const response = await api.get(`/orders/admin?${queryParams.toString()}`); // Use /orders/admin endpoint
     return response.data;
   },
 

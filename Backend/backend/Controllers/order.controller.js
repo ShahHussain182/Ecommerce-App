@@ -110,23 +110,51 @@ export const createOrder = catchErrors(async (req, res) => {
 });
 
 /**
- * @description Get all orders for the admin panel with pagination.
+ * @description Get all orders for the admin panel with pagination, search, and sorting.
  */
 export const getAllOrders = catchErrors(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const orders = await Order.find()
+  const { searchTerm, statusFilter, sortBy, sortOrder } = req.query;
+
+  const matchStage = {};
+
+  // Apply status filter
+  if (statusFilter && statusFilter !== 'All') {
+    matchStage.status = statusFilter;
+  }
+
+  // Apply search term (by order number, customer name, or product name in items)
+  if (searchTerm) {
+    const searchRegex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+    matchStage.$or = [
+      { orderNumber: parseInt(searchTerm) || 0 }, // Search by order number if it's a number
+      { 'shippingAddress.fullName': searchRegex },
+      { 'items.nameAtTime': searchRegex },
+    ];
+  }
+
+  const sortStage = {};
+  if (sortBy === 'date') {
+    sortStage.createdAt = sortOrder === 'asc' ? 1 : -1;
+  } else if (sortBy === 'total') {
+    sortStage.totalAmount = sortOrder === 'asc' ? 1 : -1;
+  } else {
+    sortStage.createdAt = -1; // Default sort
+  }
+
+  const orders = await Order.find(matchStage)
     .populate({
       path: 'userId',
       select: 'userName email' // Populate user details
     })
-    .sort({ createdAt: -1 }) // Latest orders first
+    .sort(sortStage)
     .skip(skip)
     .limit(limit);
 
-  const totalOrders = await Order.countDocuments();
+  const totalOrders = await Order.countDocuments(matchStage);
 
   res.status(200).json({
     success: true,
