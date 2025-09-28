@@ -11,7 +11,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow,
-  TableCaption
+  
 } from '@/components/ui/table';
 import { 
   Dialog, 
@@ -19,7 +19,7 @@ import {
   DialogDescription, 
   DialogHeader, 
   DialogTitle, 
-  DialogTrigger 
+  
 } from '@/components/ui/dialog';
 import { 
   DropdownMenu, 
@@ -75,7 +75,7 @@ import {
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 import { orderService } from '@/services/orderService';
-import { Order, OrderStatus } from '@/types';
+import type { Order, OrderStatus } from '@/types';
 import { cn } from '@/lib/utils';
 
 const statusConfig = {

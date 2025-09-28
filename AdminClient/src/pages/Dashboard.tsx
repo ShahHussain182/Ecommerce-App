@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { format } from 'date-fns';
+import { Order } from '@/types'; // Import the Order type
 
 function MetricCard({ 
   title, 
@@ -199,7 +200,7 @@ export function Dashboard() {
             {recentOrders.length === 0 ? (
               <p className="text-muted-foreground text-center py-4">No recent orders.</p>
             ) : (
-              recentOrders.map((order) => (
+              recentOrders.map((order: Order) => (
                 <div key={order._id} className="flex items-center justify-between space-x-4">
                   <div className="flex items-center space-x-4">
                     <div>
