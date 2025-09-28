@@ -256,3 +256,5 @@
 2025-09-28T15:37:29.147Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
 2025-09-28T15:37:29.906Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
 2025-09-28T15:37:29.911Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T15:40:24.540Z [HTTP] [req:5a5c9da6-9cfb-4e8e-ab73-98a05b6670d6] ::1 - - [28/Sep/2025:15:40:24 +0000] "GET /api/v1/categories HTTP/1.1" 200 32 "http://localhost:51191/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T15:40:25.753Z [HTTP] [req:0298a0d8-b502-4252-b03a-58b62e079dbd] ::1 - - [28/Sep/2025:15:40:25 +0000] "GET /api/v1/categories HTTP/1.1" 200 32 "http://localhost:51191/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"

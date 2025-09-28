@@ -33,18 +33,17 @@ const ProductsPage = () => {
   // Effect to read URL parameters and apply filters
   useEffect(() => {
     const categoryParam = searchParams.get('category');
-    if (categoryParam && !filters.categories.includes(categoryParam)) {
-      setFilters(prev => ({
-        ...prev,
-        categories: [...prev.categories, categoryParam],
-      }));
-    } else if (!categoryParam && filters.categories.length > 0) {
-      // If category param is removed from URL, clear category filter
-      setFilters(prev => ({
-        ...prev,
-        categories: [],
-      }));
-    }
+    setFilters(prev => {
+      const newCategories = categoryParam ? [categoryParam] : [];
+      // Only update if the category filter actually changes to avoid unnecessary re-renders
+      if (JSON.stringify(prev.categories) !== JSON.stringify(newCategories)) {
+        return {
+          ...prev,
+          categories: newCategories,
+        };
+      }
+      return prev;
+    });
   }, [searchParams]); // Re-run when searchParams change
 
   const handleFilterChange = (newFilters: Partial<FilterState>) => {

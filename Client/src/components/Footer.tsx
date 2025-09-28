@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { useCategories } from '@/hooks/useCategories'; // Import the new hook
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const Footer = () => {
+  const { data: categories, isLoading, isError } = useCategories();
+  const displayedCategories = categories?.slice(0, 5) || []; // Show up to 5 categories in the footer
+
   return (
     <footer className="bg-gray-100 py-12 border-t border-gray-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -45,10 +50,28 @@ export const Footer = () => {
           <h4 className="font-semibold text-gray-900">Shop</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li><Link to="/products" className="text-gray-600 hover:text-black transition-colors">All Products</Link></li>
-            <li><Link to="products?category=Electronics" className="text-gray-600 hover:text-black transition-colors">Electronics</Link></li>
-            <li><Link to="products?category=Apparel" className="text-gray-600 hover:text-black transition-colors">Clothing</Link></li>
-            <li><Link to="products?category=Home Goods" className="text-gray-600 hover:text-black transition-colors">Home & Kitchen</Link></li>
-            <li><Link to="products?category=Books" className="text-gray-600 hover:text-black transition-colors">Books</Link></li>
+            {isLoading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <li key={i}><Skeleton className="h-4 w-24" /></li>
+              ))
+            ) : isError ? (
+              <li><span className="text-destructive">Error loading categories</span></li>
+            ) : (
+              displayedCategories.map((category) => (
+                <li key={category._id}>
+                  <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 hover:text-black transition-colors">
+                    {category.name}
+                  </Link>
+                </li>
+              ))
+            )}
+            {categories && categories.length > 5 && (
+              <li>
+                <Link to="/products" className="text-gray-600 hover:text-black transition-colors">
+                  More Categories...
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
 
