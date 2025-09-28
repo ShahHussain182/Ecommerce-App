@@ -28,12 +28,20 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   signupEmail: null,
 
   login: (user, showToast = true) => {
-    set({
-      user,
-      isAuthenticated: true,
-      isVerified: user.isVerified,
-      signupInProgress: false,
-      signupEmail: null,
+    set((state) => { // Use functional update to access current state
+      const isUserVerified = user.isVerified;
+      
+      // Only clear signup progress if the user is now verified
+      const newSignupInProgress = isUserVerified ? false : state.signupInProgress;
+      const newSignupEmail = isUserVerified ? null : state.signupEmail;
+
+      return {
+        user,
+        isAuthenticated: true,
+        isVerified: isUserVerified,
+        signupInProgress: newSignupInProgress,
+        signupEmail: newSignupEmail,
+      };
     });
     if (showToast) {
       toast.success("Logged in successfully!", {
