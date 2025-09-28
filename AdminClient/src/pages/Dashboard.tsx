@@ -12,41 +12,6 @@ import {
 import { orderService } from '@/services/orderService';
 import { productService } from '@/services/productService';
 
-// Mock data for dashboard metrics
-const metrics = {
-  totalRevenue: 125000,
-  revenueGrowth: 12.5,
-  totalOrders: 1250,
-  ordersGrowth: 8.2,
-  totalCustomers: 850,
-  customersGrowth: -2.3,
-  totalProducts: 245,
-  productsGrowth: 5.1,
-};
-
-const recentOrders = [
-  { id: '#1234', customer: 'John Doe', amount: 299.99, status: 'Delivered', date: '2024-01-20' },
-  { id: '#1235', customer: 'Jane Smith', amount: 159.50, status: 'Processing', date: '2024-01-20' },
-  { id: '#1236', customer: 'Bob Johnson', amount: 89.99, status: 'Shipped', date: '2024-01-19' },
-  { id: '#1237', customer: 'Alice Brown', amount: 199.99, status: 'Pending', date: '2024-01-19' },
-  { id: '#1238', customer: 'Charlie Wilson', amount: 449.99, status: 'Delivered', date: '2024-01-18' },
-];
-
-const getStatusBadgeVariant = (status: string) => {
-  switch (status) {
-    case 'Delivered':
-      return 'default';
-    case 'Processing':
-      return 'secondary';
-    case 'Shipped':
-      return 'outline';
-    case 'Pending':
-      return 'destructive';
-    default:
-      return 'default';
-  }
-};
-
 function MetricCard({ 
   title, 
   value, 
@@ -96,7 +61,8 @@ export function Dashboard() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Query for product count
+  // Query for product count (this is now redundant as getOrderMetrics provides totalProducts)
+  // Keeping it for now, but ideally, getOrderMetrics would be the single source for all dashboard numbers.
   const { data: productsData } = useQuery({
     queryKey: ['products-count'],
     queryFn: () => productService.getProducts({ limit: 1 }),
@@ -114,7 +80,8 @@ export function Dashboard() {
     productsGrowth: 0,
   };
 
-  const totalProducts = productsData?.totalProducts || 0;
+  // Use totalProducts from metricsData, which is now provided by the backend
+  const totalProducts = metrics.totalProducts; 
   const recentOrders = metricsData?.recentOrders || [];
 
   if (metricsLoading) {
@@ -158,14 +125,14 @@ export function Dashboard() {
         />
         <MetricCard
           title="Customers"
-          value={metrics.totalCustomers || 850}
-          growth={metrics.customersGrowth || -2.3}
+          value={metrics.totalCustomers}
+          growth={metrics.customersGrowth}
           icon={Users}
         />
         <MetricCard
           title="Products"
-          value={totalProducts || metrics.totalProducts || 245}
-          growth={metrics.productsGrowth || 5.1}
+          value={totalProducts}
+          growth={metrics.productsGrowth}
           icon={Package}
         />
       </div>
@@ -181,11 +148,11 @@ export function Dashboard() {
           <CardContent>
             <div className="space-y-4">
               {recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between space-x-4">
+                <div key={order._id} className="flex items-center justify-between space-x-4">
                   <div className="flex items-center space-x-4">
                     <div>
-                      <p className="text-sm font-medium">{order.id}</p>
-                      <p className="text-sm text-muted-foreground">{order.customer}</p>
+                      <p className="text-sm font-medium">#{order.orderNumber}</p>
+                      <p className="text-sm text-muted-foreground">{order.userId?.userName || 'N/A'}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
@@ -193,8 +160,8 @@ export function Dashboard() {
                       {order.status}
                     </Badge>
                     <div className="text-right">
-                      <p className="text-sm font-medium">${order.amount}</p>
-                      <p className="text-sm text-muted-foreground">{order.date}</p>
+                      <p className="text-sm font-medium">${order.totalAmount.toFixed(2)}</p>
+                      <p className="text-sm text-muted-foreground">{format(new Date(order.createdAt), 'yyyy-MM-dd')}</p>
                     </div>
                   </div>
                 </div>
@@ -206,3 +173,20 @@ export function Dashboard() {
     </div>
   );
 }
+
+const getStatusBadgeVariant = (status: string) => {
+  switch (status) {
+    case 'Delivered':
+      return 'default';
+    case 'Processing':
+      return 'secondary';
+    case 'Shipped':
+      return 'outline';
+    case 'Pending':
+      return 'destructive';
+    case 'Cancelled':
+      return 'destructive';
+    default:
+      return 'default';
+  }
+};
