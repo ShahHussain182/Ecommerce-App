@@ -6,65 +6,64 @@ import { useWishlistStore } from '@/store/wishlistStore';
 import { Skeleton } from './ui/skeleton';
 import { useRefreshToken } from '@/hooks/useRefreshToken';
 import { setupApiInterceptors } from '@/lib/api'; // Import the setup function
+import { useQuery } from '@tanstack/react-query'; // Import useQuery
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
-  const { login, logout } = useAuthStore();
+  const { login, logout, isAuthenticated, user } = useAuthStore();
   const { initializeCart } = useCartStore();
   const { initializeWishlist } = useWishlistStore();
-  const [isLoading, setIsLoading] = useState(true);
   const { mutateAsync: refreshTokens } = useRefreshToken();
 
-  const hasCheckedAuth = useRef(false);
-  const hasSetupInterceptors = useRef(false); // New ref for interceptors
+  const [isAuthCheckFinished, setIsAuthCheckFinished] = useState(false); // Renamed for clarity
+  const hasSetupInterceptors = useRef(false);
 
-  useEffect(() => {
-    // Setup API interceptors once
-    if (!hasSetupInterceptors.current) {
-      setupApiInterceptors(logout); // Pass the logout function
-      hasSetupInterceptors.current = true;
-    }
-
-    if (hasCheckedAuth.current) {
-      return;
-    }
-
-    const checkUserStatus = async () => {
+  // Use TanStack Query for the initial auth check
+  const { data, isLoading: isAuthQueryLoading, isError: isAuthQueryError, refetch } = useQuery({
+    queryKey: ['initialAuthCheck'], // Unique key for this specific initial check
+    queryFn: async () => {
       try {
         const response = await axios.get('http://localhost:3001/api/v1/auth/check-auth', {
           withCredentials: true,
         });
-        if (response.data.success) {
-          login(response.data.user, false);
-          await initializeCart();
-          await initializeWishlist();
-        } else {
-          logout();
-        }
-      } catch (error: any) {
-        console.error("Auth check failed:", error);
-        if (axios.isAxiosError(error) && error.response?.status === 401 && error.response?.data?.message === "Access token expired") {
-          console.log("Access token expired, attempting to refresh...");
-          try {
-            await refreshTokens();
-            console.log("Tokens refreshed, re-checking auth status...");
-            await checkUserStatus();
-          } catch (refreshError) {
-            console.error("Refresh token failed, logging out:", refreshError);
-            logout();
-          }
-        } else {
-          logout();
-        }
-      } finally {
-        setIsLoading(false);
-        hasCheckedAuth.current = true;
+        return response.data;
+      } catch (error) {
+        // If check-auth fails, it means the user is not authenticated or token is invalid/expired
+        // We don't re-throw here, just let isAuthQueryError become true
+        throw error; 
       }
-    };
+    },
+    enabled: true, // Always run on mount
+    retry: false, // Do not retry failed auth checks
+    staleTime: 0, // Always consider this query stale, so it refetches on mount
+    gcTime: 0, // Don't keep this data in cache
+  });
 
-    checkUserStatus();
-  }, [login, logout, initializeCart, initializeWishlist, refreshTokens]);
+  useEffect(() => {
+    if (!hasSetupInterceptors.current) {
+      setupApiInterceptors(logout);
+      hasSetupInterceptors.current = true;
+    }
+  }, [logout]);
 
-  if (isLoading) {
+  useEffect(() => {
+    console.log("[AuthInitializer] Auth Query State:", { isAuthQueryLoading, isAuthQueryError, data });
+
+    if (!isAuthQueryLoading) {
+      if (data?.success && data.user) {
+        console.log("[AuthInitializer] User authenticated:", data.user.userName);
+        login(data.user, false); // Login without showing toast
+        initializeCart();
+        initializeWishlist();
+      } else {
+        console.log("[AuthInitializer] User not authenticated or check failed.");
+        logout(); // Ensure logout if check fails
+      }
+      setIsAuthCheckFinished(true);
+    }
+  }, [isAuthQueryLoading, isAuthQueryError, data, login, logout, initializeCart, initializeWishlist]);
+
+  // If the initial check is still loading, show a loading skeleton
+  if (!isAuthCheckFinished) {
     return (
       <div className="flex flex-col min-h-screen">
         <header className="border-b">
@@ -83,6 +82,8 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
+  // After the initial check is finished, render children.
+  // ProtectedRoute will then handle further redirection if isAuthenticated is false.
   return <>{children}</>;
 };
 

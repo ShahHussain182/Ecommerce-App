@@ -130,3 +130,53 @@
 2025-09-28T05:55:50.548Z [HTTP] [req:40b68207-4874-41fc-8b21-ff8c74e8dd07] ::1 - - [28/Sep/2025:05:55:50 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-28T05:57:54.705Z [DEBUG] [req:N/A] Running in development mode
 2025-09-28T05:58:00.134Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T05:58:10.332Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T05:58:10.335Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-28T05:58:12.804Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-28T05:58:20.926Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T05:58:20.929Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T05:58:20.930Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-28T05:58:26.823Z [DEBUG] [req:49067e19-d302-4bac-81e4-dc76a35cac86] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T05:58:26.823Z [DEBUG] [req:49067e19-d302-4bac-81e4-dc76a35cac86] [requireAuth] AccessToken from cookies: missing
+2025-09-28T05:58:26.824Z [DEBUG] [req:49067e19-d302-4bac-81e4-dc76a35cac86] [requireAuth] Authorization header: missing
+2025-09-28T05:58:26.824Z [WARN] [req:49067e19-d302-4bac-81e4-dc76a35cac86] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-28T05:58:26.831Z [HTTP] [req:49067e19-d302-4bac-81e4-dc76a35cac86] ::ffff:127.0.0.1 - - [28/Sep/2025:05:58:26 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:58:27.206Z [HTTP] [req:d01eb664-b673-460e-aeef-9a4566470772] ::ffff:127.0.0.1 - - [28/Sep/2025:05:58:27 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:59:11.367Z [HTTP] [req:a59b43d5-1781-43bd-bca0-b5ddfb1ecfa4] ::1 - - [28/Sep/2025:05:59:11 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:59:13.775Z [HTTP] [req:50111535-cca9-4f1a-bedc-49a060b1ca56] ::1 - - [28/Sep/2025:05:59:13 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:59:40.317Z [DEBUG] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T05:59:40.317Z [DEBUG] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] [requireAuth] AccessToken from cookies: present
+2025-09-28T05:59:40.319Z [DEBUG] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] [requireAuth] Authorization header: missing
+2025-09-28T05:59:40.325Z [DEBUG] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T05:59:40.506Z [DEBUG] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T05:59:40.508Z [DEBUG] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] [requireAuth] Session d4BmLDiCTcpOQ6-NTlPqaojs3-eJQNIs touched.
+2025-09-28T05:59:40.690Z [HTTP] [req:3c38c2e9-aa01-42dc-9865-1914f277f2de] ::1 - - [28/Sep/2025:05:59:40 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:59:40.870Z [DEBUG] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] [requireAuth] Attempting to authenticate for path: /
+2025-09-28T05:59:40.870Z [DEBUG] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] [requireAuth] AccessToken from cookies: present
+2025-09-28T05:59:40.872Z [DEBUG] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] [requireAuth] Authorization header: missing
+2025-09-28T05:59:40.876Z [DEBUG] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T05:59:41.156Z [DEBUG] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T05:59:41.157Z [DEBUG] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] [requireAuth] Session d4BmLDiCTcpOQ6-NTlPqaojs3-eJQNIs touched.
+2025-09-28T05:59:44.321Z [HTTP] [req:b8539b03-a6aa-41af-aeb2-a547406bc1cd] ::1 - - [28/Sep/2025:05:59:44 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T05:59:44.504Z [DEBUG] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] [requireAuth] Attempting to authenticate for path: /
+2025-09-28T05:59:44.505Z [DEBUG] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] [requireAuth] AccessToken from cookies: present
+2025-09-28T05:59:44.507Z [DEBUG] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] [requireAuth] Authorization header: missing
+2025-09-28T05:59:44.510Z [DEBUG] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T05:59:44.683Z [DEBUG] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T05:59:44.684Z [DEBUG] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] [requireAuth] Session d4BmLDiCTcpOQ6-NTlPqaojs3-eJQNIs touched.
+2025-09-28T05:59:46.788Z [HTTP] [req:bb38ca9a-c475-4278-bcbe-245f0b7567a0] ::1 - - [28/Sep/2025:05:59:46 +0000] "GET /api/v1/wishlist HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T06:01:09.720Z [DEBUG] [req:b122b4fa-f224-4294-b314-8ad24abfed03] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T06:01:09.721Z [DEBUG] [req:b122b4fa-f224-4294-b314-8ad24abfed03] [requireAuth] AccessToken from cookies: missing
+2025-09-28T06:01:09.722Z [DEBUG] [req:b122b4fa-f224-4294-b314-8ad24abfed03] [requireAuth] Authorization header: missing
+2025-09-28T06:01:09.722Z [WARN] [req:b122b4fa-f224-4294-b314-8ad24abfed03] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-28T06:01:09.903Z [HTTP] [req:b122b4fa-f224-4294-b314-8ad24abfed03] ::1 - - [28/Sep/2025:06:01:09 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T06:07:43.235Z [DEBUG] [req:23448703-dfd0-40e8-b0dd-ff43ea0bdc6e] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T06:07:43.236Z [DEBUG] [req:23448703-dfd0-40e8-b0dd-ff43ea0bdc6e] [requireAuth] AccessToken from cookies: missing
+2025-09-28T06:07:43.236Z [DEBUG] [req:23448703-dfd0-40e8-b0dd-ff43ea0bdc6e] [requireAuth] Authorization header: missing
+2025-09-28T06:07:43.237Z [WARN] [req:23448703-dfd0-40e8-b0dd-ff43ea0bdc6e] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-28T06:07:43.240Z [HTTP] [req:23448703-dfd0-40e8-b0dd-ff43ea0bdc6e] ::1 - - [28/Sep/2025:06:07:43 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T06:07:45.061Z [DEBUG] [req:e35871df-0357-4cdd-a04a-5f0ee79b44ff] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T06:07:45.062Z [DEBUG] [req:e35871df-0357-4cdd-a04a-5f0ee79b44ff] [requireAuth] AccessToken from cookies: missing
+2025-09-28T06:07:45.064Z [DEBUG] [req:e35871df-0357-4cdd-a04a-5f0ee79b44ff] [requireAuth] Authorization header: missing
+2025-09-28T06:07:45.064Z [WARN] [req:e35871df-0357-4cdd-a04a-5f0ee79b44ff] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-28T06:07:45.319Z [HTTP] [req:e35871df-0357-4cdd-a04a-5f0ee79b44ff] ::1 - - [28/Sep/2025:06:07:45 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
