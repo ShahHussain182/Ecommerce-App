@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'; // Import useEffect
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'; // Import useMutation
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -70,7 +70,8 @@ import {
   ChevronUp,
   ChevronLeft,
   ChevronRight,
-  Loader2
+  Loader2,
+  Trash2 // Import Trash2 icon
 } from 'lucide-react';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
@@ -155,6 +156,49 @@ export function Orders() {
     } catch (error) {
       toast.error('Failed to update orders');
     }
+  };
+
+  // Mutation for deleting an order
+  const deleteOrderMutation = useMutation({
+    mutationFn: (orderId: string) => orderService.updateOrderStatus(orderId, 'Cancelled'), // Assuming delete means cancelling for now
+    onMutate: async (orderIdToDelete) => {
+      await queryClient.cancelQueries({ queryKey: ['orders'] });
+      const previousOrders = queryClient.getQueryData(['orders', page, limit, debouncedSearchTerm, statusFilter, sortBy, sortOrder]);
+
+      queryClient.setQueryData(
+        ['orders', page, limit, debouncedSearchTerm, statusFilter, sortBy, sortOrder],
+        (oldData: { data: Order[], totalOrders: number, nextPage: number | null } | undefined) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: oldData.data.map(order => 
+              order._id === orderIdToDelete ? { ...order, status: 'Cancelled' } : order
+            ),
+          };
+        }
+      );
+      toast.loading('Cancelling order...', { id: orderIdToDelete });
+      return { previousOrders };
+    },
+    onSuccess: (data, orderIdToDelete) => {
+      toast.success(`Order #${data.data.orderNumber} cancelled successfully`, { id: orderIdToDelete });
+    },
+    onError: (err: any, orderIdToDelete, context) => {
+      toast.error(err.response?.data?.message || 'Failed to cancel order', { id: orderIdToDelete });
+      if (context?.previousOrders) {
+        queryClient.setQueryData(
+          ['orders', page, limit, debouncedSearchTerm, statusFilter, sortBy, sortOrder],
+          context.previousOrders
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+  });
+
+  const handleDeleteOrder = (orderId: string) => {
+    deleteOrderMutation.mutate(orderId);
   };
 
   const getStatusIcon = (status: OrderStatus) => {
@@ -519,6 +563,28 @@ export function Orders() {
                                   </div>
                                 </DropdownMenuItem>
                               ))}
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}> {/* Prevent dropdown from closing */}
+                                    <Trash2 className="mr-2 h-4 w-4 text-red-500" /> Cancel Order
+                                  </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      This action cannot be undone. This will permanently cancel this order.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>No, keep order</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => handleDeleteOrder(order._id)} disabled={deleteOrderMutation.isPending}>
+                                      {deleteOrderMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                      Yes, cancel order
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </div>
