@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchProducts } from '@/lib/api';
+import { fetchProducts } from '@/lib/productApi'; // Updated import
 import { FilterState } from '@/types';
 
 export const useProducts = (filters: Partial<FilterState>) => {
