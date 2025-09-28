@@ -1,0 +1,18 @@
+2025-09-28T07:00:23.379Z [HTTP] [req:49b08aaa-f71e-4048-b2be-c6817b309869] ::1 - - [28/Sep/2025:07:00:23 +0000] "OPTIONS /api/v1/auth/resend-verification-code HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:00:25.151Z [HTTP] [req:d3d3a1d4-1e70-46d8-b7cb-247e4e6c32f2] ::1 - - [28/Sep/2025:07:00:25 +0000] "POST /api/v1/auth/resend-verification-code HTTP/1.1" 200 81 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:00:57.094Z [HTTP] [req:fcd63924-8884-435f-89ea-336f5968d019] ::1 - - [28/Sep/2025:07:00:57 +0000] "OPTIONS /api/v1/auth/verify-email HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:00:58.524Z [HTTP] [req:3f1cba1f-2256-4d78-9372-9f874a1c7891] ::1 - - [28/Sep/2025:07:00:58 +0000] "POST /api/v1/auth/verify-email HTTP/1.1" 200 841 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:00:58.877Z [DEBUG] [req:cbf35921-5201-40ec-874e-0543265ccf50] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:00:58.878Z [DEBUG] [req:cbf35921-5201-40ec-874e-0543265ccf50] [requireAuth] AccessToken from cookies: present
+2025-09-28T07:00:58.879Z [DEBUG] [req:cbf35921-5201-40ec-874e-0543265ccf50] [requireAuth] Authorization header: missing
+2025-09-28T07:00:58.881Z [DEBUG] [req:cbf35921-5201-40ec-874e-0543265ccf50] [requireAuth] Token decoded for userId: 68d8dcc333b2b90f0e56ef76
+2025-09-28T07:00:59.179Z [DEBUG] [req:cbf35921-5201-40ec-874e-0543265ccf50] [requireAuth] User Ali Ama as authenticated.
+2025-09-28T07:00:59.180Z [DEBUG] [req:cbf35921-5201-40ec-874e-0543265ccf50] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
+2025-09-28T07:00:59.490Z [HTTP] [req:cbf35921-5201-40ec-874e-0543265ccf50] ::1 - - [28/Sep/2025:07:00:59 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 298 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:00:59.843Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:00:59.843Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] AccessToken from cookies: present
+2025-09-28T07:00:59.845Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] Authorization header: missing
+2025-09-28T07:00:59.848Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] Token decoded for userId: 68d8dcc333b2b90f0e56ef76
+2025-09-28T07:01:00.126Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] User Ali Ama as authenticated.
+2025-09-28T07:01:00.127Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
+2025-09-28T07:01:00.410Z [HTTP] [req:73566f39-173d-493e-a372-4c0cd3220dbf] ::1 - - [28/Sep/2025:07:01:00 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

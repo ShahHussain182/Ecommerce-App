@@ -30,6 +30,7 @@ const VerifyEmailPage = () => {
 
   const [serverError, setServerError] = useState<string | null>(null);
   const [isResending, setIsResending] = useState(false);
+  const [isVerificationSuccessful, setIsVerificationSuccessful] = useState(false); // New state
 
   const form = useForm<z.infer<typeof verifyEmailSchema>>({
     resolver: zodResolver(verifyEmailSchema),
@@ -40,12 +41,21 @@ const VerifyEmailPage = () => {
 
   // Restrict access and manage auth store state
   useEffect(() => {
+    // If verification was successful, navigate to home. This takes precedence.
+    if (isVerificationSuccessful) {
+      navigate('/', { replace: true });
+      return;
+    }
+
+    // If already authenticated and verified (e.g., user refreshed after verification), go home.
     if (isAuthenticated && isVerified) {
       navigate('/', { replace: true });
       toast.info("You are already logged in and verified.");
       return;
     }
     
+    // If no email context and not in signup flow, redirect to signup.
+    // This handles cases where user lands on /verify-email without proper context.
     if (!signupInProgress || !email) {
       toast.error("Access Denied", {
         description: "Please sign up to verify your email.",
@@ -53,7 +63,7 @@ const VerifyEmailPage = () => {
       navigate('/signup', { replace: true });
       return;
     }
-  }, [email, navigate, isAuthenticated, isVerified, signupInProgress]);
+  }, [email, navigate, isAuthenticated, isVerified, signupInProgress, isVerificationSuccessful]); // Add isVerificationSuccessful to dependencies
 
   async function onSubmit(values: z.infer<typeof verifyEmailSchema>) {
     setServerError(null);
@@ -65,11 +75,12 @@ const VerifyEmailPage = () => {
       });
 
       if (response.data.success) {
+        setIsVerificationSuccessful(true); // Set success flag
         toast.success("Email verified successfully!", {
           description: "You can now access your account.",
         });
         login(response.data.user); 
-        navigate('/', { replace: true }); // Redirect to home page
+        // The useEffect will now handle the navigation to '/'
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred during verification. Please try again.";
@@ -119,7 +130,7 @@ const VerifyEmailPage = () => {
   };
 
   // If email is not present or already verified, the useEffect will handle redirection, so we don't render the form
-  if (!email || (isAuthenticated && isVerified)) {
+  if (!email && !signupInProgress) { // Ensure we don't render if no context
     return null; 
   }
 
