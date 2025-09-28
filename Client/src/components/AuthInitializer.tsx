@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { Loader2 } from 'lucide-react'; // Import Loader2 for a better loading indicator
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
-  const { login, logout, isAuthenticated, user } = useAuthStore();
+  const { login, logout, isAuthenticated, user, signupInProgress } = useAuthStore(); // Get signupInProgress
   const { initializeCart } = useCartStore();
   const { initializeWishlist } = useWishlistStore();
   const location = useLocation();
@@ -60,14 +60,20 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
           console.log("[AuthInitializer] Cart and Wishlist initialized.");
         } else {
           console.log("[AuthInitializer] User not authenticated or check failed.");
-          logout(); // Ensure logout if check fails
+          // IMPORTANT: Only call logout if not in signup progress.
+          // If signupInProgress is true, it means the user is in the verification flow,
+          // and check-auth *should* fail because they're not fully logged in yet.
+          // Calling logout here would prematurely clear signupInProgress.
+          if (!signupInProgress) {
+            logout(); // Ensure logout if check fails and not in signup flow
+          }
         }
         setIsAuthAndDataLoaded(true);
       }
     };
 
     loadUserData();
-  }, [isAuthQueryLoading, data, isAuthQueryError, login, logout, initializeCart, initializeWishlist, location.pathname]);
+  }, [isAuthQueryLoading, data, isAuthQueryError, login, logout, initializeCart, initializeWishlist, location.pathname, signupInProgress]); // Add signupInProgress to dependencies
 
   // If the initial check or data loading is still in progress, show a loading skeleton
   if (!isAuthAndDataLoaded) {

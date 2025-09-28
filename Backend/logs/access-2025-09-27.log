@@ -275,3 +275,14 @@
 2025-09-28T06:45:06.463Z [HTTP] [req:92c8c956-2e6e-4c33-beb0-da973dc1d18f] ::1 - - [28/Sep/2025:06:45:06 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-28T06:46:59.565Z [WARN] [req:5daf0ae6-2e17-4808-9b2d-fc9006f49ce4] [requireAuth] Unauthorized: No token provided for path: /check-auth
 2025-09-28T06:46:59.567Z [HTTP] [req:5daf0ae6-2e17-4808-9b2d-fc9006f49ce4] ::1 - - [28/Sep/2025:06:46:59 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T06:48:22.914Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T06:48:27.995Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T06:48:28.001Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-28T06:48:29.700Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-28T06:48:30.579Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T06:48:30.582Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T06:49:07.566Z [WARN] [req:582ea448-3061-4185-85ac-e6683e2c5b9b] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-28T06:49:07.572Z [HTTP] [req:582ea448-3061-4185-85ac-e6683e2c5b9b] ::1 - - [28/Sep/2025:06:49:07 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T06:49:08.442Z [HTTP] [req:d0ee5473-e082-4cfa-a00e-2c17cc81515a] ::1 - - [28/Sep/2025:06:49:08 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T06:49:09.447Z [HTTP] [req:12cd3e40-539d-47c1-9101-102bd339d800] ::1 - - [28/Sep/2025:06:49:09 +0000] "GET /api/v1/cart HTTP/1.1" 200 265 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T06:49:10.639Z [HTTP] [req:686517cd-f77b-4314-a771-d80369a41fb0] ::1 - - [28/Sep/2025:06:49:10 +0000] "GET /api/v1/wishlist HTTP/1.1" 200 242 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
