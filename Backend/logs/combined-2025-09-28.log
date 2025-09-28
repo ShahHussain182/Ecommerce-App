@@ -16,3 +16,36 @@
 2025-09-28T07:01:00.126Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] User Ali Ama as authenticated.
 2025-09-28T07:01:00.127Z [DEBUG] [req:73566f39-173d-493e-a372-4c0cd3220dbf] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
 2025-09-28T07:01:00.410Z [HTTP] [req:73566f39-173d-493e-a372-4c0cd3220dbf] ::1 - - [28/Sep/2025:07:01:00 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:11:14.041Z [DEBUG] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:11:14.042Z [DEBUG] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] [requireAuth] AccessToken from cookies: present
+2025-09-28T07:11:14.044Z [DEBUG] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] [requireAuth] Authorization header: missing
+2025-09-28T07:11:14.046Z [DEBUG] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] [requireAuth] Token decoded for userId: 68d8dcc333b2b90f0e56ef76
+2025-09-28T07:11:14.327Z [DEBUG] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] [requireAuth] User Ali Ama as authenticated.
+2025-09-28T07:11:14.328Z [DEBUG] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
+2025-09-28T07:11:14.617Z [HTTP] [req:c3ed650f-3bc1-4b6f-b191-28a6a4801c89] ::1 - - [28/Sep/2025:07:11:14 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:11:14.905Z [DEBUG] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:11:14.906Z [DEBUG] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] [requireAuth] AccessToken from cookies: present
+2025-09-28T07:11:14.907Z [DEBUG] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] [requireAuth] Authorization header: missing
+2025-09-28T07:11:14.908Z [DEBUG] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] [requireAuth] Token decoded for userId: 68d8dcc333b2b90f0e56ef76
+2025-09-28T07:11:15.142Z [DEBUG] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] [requireAuth] User Ali Ama as authenticated.
+2025-09-28T07:11:15.143Z [DEBUG] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
+2025-09-28T07:11:15.383Z [HTTP] [req:9cc09441-c58f-4900-b9d9-4b94b9a7b687] ::1 - - [28/Sep/2025:07:11:15 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:11:15.820Z [DEBUG] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:11:15.821Z [DEBUG] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] [requireAuth] AccessToken from cookies: present
+2025-09-28T07:11:15.821Z [DEBUG] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] [requireAuth] Authorization header: missing
+2025-09-28T07:11:15.823Z [DEBUG] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] [requireAuth] Token decoded for userId: 68d8dcc333b2b90f0e56ef76
+2025-09-28T07:11:16.022Z [DEBUG] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] [requireAuth] User Ali Ama as authenticated.
+2025-09-28T07:11:16.023Z [DEBUG] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
+2025-09-28T07:11:16.220Z [HTTP] [req:6dd2ca64-dfcb-40ab-a1da-92b15b7ba348] ::1 - - [28/Sep/2025:07:11:16 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T07:15:06.338Z [DEBUG] [req:358354ab-6ac3-4a73-8403-df8178f1dd59] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:15:06.339Z [DEBUG] [req:358354ab-6ac3-4a73-8403-df8178f1dd59] [requireAuth] AccessToken from cookies: missing
+2025-09-28T07:15:06.340Z [DEBUG] [req:358354ab-6ac3-4a73-8403-df8178f1dd59] [requireAuth] Authorization header: missing
+2025-09-28T07:15:06.340Z [WARN] [req:358354ab-6ac3-4a73-8403-df8178f1dd59] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-28T07:15:06.343Z [HTTP] [req:358354ab-6ac3-4a73-8403-df8178f1dd59] ::1 - - [28/Sep/2025:07:15:06 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51498/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T07:15:06.975Z [DEBUG] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T07:15:06.976Z [DEBUG] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] [requireAuth] AccessToken from cookies: present
+2025-09-28T07:15:06.976Z [DEBUG] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] [requireAuth] Authorization header: missing
+2025-09-28T07:15:06.979Z [DEBUG] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] [requireAuth] Token decoded for userId: 68d8dcc333b2b90f0e56ef76
+2025-09-28T07:15:07.148Z [DEBUG] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] [requireAuth] User Ali Ama as authenticated.
+2025-09-28T07:15:07.149Z [DEBUG] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] [requireAuth] Session _fW4-XlLv4fzp9tvqFZgABrfT0FjWUCL touched.
+2025-09-28T07:15:07.332Z [HTTP] [req:c914e84d-5b40-4a66-8bbe-2c1240f63dff] ::1 - - [28/Sep/2025:07:15:07 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

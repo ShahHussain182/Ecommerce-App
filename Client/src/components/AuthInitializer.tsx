@@ -38,6 +38,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
     gcTime: 0,
   });
 
+  // This effect runs once to set up interceptors
   useEffect(() => {
     if (!hasSetupInterceptors.current) {
       setupApiInterceptors(logout);
@@ -45,35 +46,34 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
     }
   }, [logout]);
 
+  // This effect handles the result of the auth query
   useEffect(() => {
-    const loadUserData = async () => {
-      if (!isAuthQueryLoading) {
-        if (data?.success && data.user) {
-          console.log("[AuthInitializer] User authenticated:", data.user.userName);
+    // Only proceed if the auth query has finished loading
+    if (!isAuthQueryLoading) {
+      // If data is successfully fetched and user is present
+      if (data?.success && data.user) {
+        console.log("[AuthInitializer] User authenticated:", data.user.userName);
+        // Check if the user is already set in the store to prevent redundant calls
+        if (!isAuthenticated || user?._id !== data.user._id) {
           login(data.user, false); // Login without showing toast
-          
-          // Wait for both cart and wishlist to initialize
-          await Promise.all([
-            initializeCart(),
-            initializeWishlist(),
-          ]);
-          console.log("[AuthInitializer] Cart and Wishlist initialized.");
-        } else {
-          console.log("[AuthInitializer] User not authenticated or check failed.");
-          // IMPORTANT: Only call logout if not in signup progress.
-          // If signupInProgress is true, it means the user is in the verification flow,
-          // and check-auth *should* fail because they're not fully logged in yet.
-          // Calling logout here would prematurely clear signupInProgress.
-          if (!signupInProgress) {
-            logout(); // Ensure logout if check fails and not in signup flow
-          }
         }
-        setIsAuthAndDataLoaded(true);
+        // Initialize cart and wishlist only if not already initialized
+        initializeCart();
+        initializeWishlist();
+        console.log("[AuthInitializer] Cart and Wishlist initialization triggered.");
+      } else {
+        console.log("[AuthInitializer] User not authenticated or check failed.");
+        // Only call logout if not in signup progress AND currently authenticated
+        // This prevents clearing signupInProgress if the user is in the verification flow
+        // and prevents redundant logout calls if already logged out.
+        if (!signupInProgress && isAuthenticated) {
+          logout();
+        }
       }
-    };
-
-    loadUserData();
-  }, [isAuthQueryLoading, data, isAuthQueryError, login, logout, initializeCart, initializeWishlist, location.pathname, signupInProgress]); // Add signupInProgress to dependencies
+      // Mark initial check as complete regardless of success or failure
+      setIsAuthAndDataLoaded(true);
+    }
+  }, [isAuthQueryLoading, data, isAuthQueryError, login, logout, initializeCart, initializeWishlist, isAuthenticated, user, signupInProgress]);
 
   // If the initial check or data loading is still in progress, show a loading skeleton
   if (!isAuthAndDataLoaded) {
@@ -85,12 +85,20 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
             <div className="flex items-center space-x-4">
               <Skeleton className="h-8 w-8 rounded-full" />
               <Skeleton className="h-8 w-8 rounded-full" />
+              <Skeleton className="h-8 w-8 rounded-full" />
             </div>
           </div>
         </header>
-        <main className="flex-grow container mx-auto p-8 flex items-center justify-center">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="ml-4 text-lg text-gray-700">Loading your session...</p>
+        <main className="flex-grow container mx-auto p-8">
+          <div className="flex flex-col items-center justify-center h-full">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <p className="text-xl text-gray-700">Loading your session...</p>
+            <div className="mt-8 w-full max-w-3xl space-y-4">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-40 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          </div>
         </main>
       </div>
     );
