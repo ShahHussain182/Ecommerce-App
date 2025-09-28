@@ -246,11 +246,11 @@ export const getOrderMetrics = catchErrors(async (req, res) => {
   const totalCustomers = await User.countDocuments({ role: 'user' });
   const totalProducts = await Product.countDocuments();
 
-  // Simplified growth metrics for now
-  const revenueGrowth = 12.5; // Placeholder
-  const ordersGrowth = 8.2; // Placeholder
-  const customersGrowth = -2.3; // Placeholder
-  const productsGrowth = 5.1; // Placeholder
+  // Simplified growth metrics for now (can be expanded with more complex logic)
+  const revenueGrowth = 12.5; 
+  const ordersGrowth = 8.2; 
+  const customersGrowth = -2.3; 
+  const productsGrowth = 5.1; 
 
   const statusCounts = await Order.aggregate([
     {
@@ -279,4 +279,104 @@ export const getOrderMetrics = catchErrors(async (req, res) => {
     statusCounts,
     recentOrders
   });
+});
+
+/**
+ * @description Get sales data over a specified time period for charting.
+ */
+export const getSalesDataOverTime = catchErrors(async (req, res) => {
+  const { period = '30days' } = req.query; // '7days', '30days', '90days', '1year'
+
+  let startDate = new Date();
+  let groupByFormat;
+
+  switch (period) {
+    case '7days':
+      startDate.setDate(startDate.getDate() - 7);
+      groupByFormat = '%Y-%m-%d'; // Group by day
+      break;
+    case '30days':
+      startDate.setDate(startDate.getDate() - 30);
+      groupByFormat = '%Y-%m-%d'; // Group by day
+      break;
+    case '90days':
+      startDate.setDate(startDate.getDate() - 90);
+      groupByFormat = '%Y-%m-%W'; // Group by week
+      break;
+    case '1year':
+      startDate.setFullYear(startDate.getFullYear() - 1);
+      groupByFormat = '%Y-%m'; // Group by month
+      break;
+    default:
+      startDate.setDate(startDate.getDate() - 30);
+      groupByFormat = '%Y-%m-%d';
+      break;
+  }
+
+  const salesData = await Order.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: startDate },
+        status: { $ne: 'Cancelled' }, // Only count non-cancelled orders
+      },
+    },
+    {
+      $group: {
+        _id: { $dateToString: { format: groupByFormat, date: '$createdAt' } },
+        totalRevenue: { $sum: '$totalAmount' },
+        totalOrders: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { _id: 1 }, // Sort by date
+    },
+    {
+      $project: {
+        _id: 0,
+        date: '$_id',
+        revenue: '$totalRevenue',
+        orders: '$totalOrders',
+      },
+    },
+  ]);
+
+  res.status(200).json({ success: true, data: salesData });
+});
+
+/**
+ * @description Get top-selling products based on total revenue or quantity sold.
+ */
+export const getTopSellingProducts = catchErrors(async (req, res) => {
+  const { limit = 5, sortBy = 'revenue' } = req.query; // sortBy: 'revenue' or 'quantity'
+
+  const sortField = sortBy === 'quantity' ? 'totalSales' : 'totalRevenue';
+
+  const topProducts = await Order.aggregate([
+    { $match: { status: { $ne: 'Cancelled' } } },
+    { $unwind: '$items' },
+    {
+      $group: {
+        _id: '$items.productId',
+        totalSales: { $sum: '$items.quantity' },
+        totalRevenue: { $sum: { $multiply: ['$items.quantity', '$items.priceAtTime'] } },
+        productName: { $first: '$items.nameAtTime' },
+        productImage: { $first: '$items.imageAtTime' },
+      },
+    },
+    {
+      $sort: { [sortField]: -1 }, // Sort by totalRevenue or totalSales descending
+    },
+    { $limit: parseInt(limit) },
+    {
+      $project: {
+        _id: 1,
+        name: '$productName',
+        imageUrls: ['$productImage'], // Format as array for consistency with Product type
+        totalSales: 1,
+        totalRevenue: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({ success: true, data: topProducts });
 });

@@ -121,18 +121,25 @@ export interface DashboardMetrics {
   ordersGrowth: number;
   customersGrowth: number;
   productsGrowth: number;
+  statusCounts: { _id: OrderStatus; count: number }[];
+  recentOrders: Order[];
 }
 
-export interface SalesData {
-  date: string;
+// New: Sales data point for charts
+export interface SalesDataPoint {
+  date: string; // e.g., "YYYY-MM-DD"
   revenue: number;
   orders: number;
 }
 
-export interface TopProduct {
-  product: Product;
-  salesCount: number;
-  revenue: number;
+// New: Top Product data
+export interface TopProductData {
+  _id: string; // Product ID
+  name: string;
+  imageUrls: string[];
+  category: string;
+  totalSales: number; // Total quantity sold
+  totalRevenue: number; // Total revenue generated
 }
 
 // API Response Types

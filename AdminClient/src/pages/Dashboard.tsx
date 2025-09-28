@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,10 +8,21 @@ import {
   Users, 
   Package,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Loader2
 } from 'lucide-react';
 import { orderService } from '@/services/orderService';
 import { productService } from '@/services/productService';
+import SalesChart from '@/components/charts/SalesChart'; // New import
+import TopSellingProducts from '@/components/dashboard/TopSellingProducts'; // New import
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { format } from 'date-fns';
 
 function MetricCard({ 
   title, 
@@ -54,6 +66,8 @@ function MetricCard({
 }
 
 export function Dashboard() {
+  const [salesPeriod, setSalesPeriod] = useState<'7days' | '30days' | '90days' | '1year'>('30days');
+
   // Query for dashboard metrics
   const { data: metricsData, isLoading: metricsLoading } = useQuery({
     queryKey: ['dashboard-metrics'],
@@ -61,12 +75,18 @@ export function Dashboard() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Query for product count (this is now redundant as getOrderMetrics provides totalProducts)
-  // Keeping it for now, but ideally, getOrderMetrics would be the single source for all dashboard numbers.
-  const { data: productsData } = useQuery({
-    queryKey: ['products-count'],
-    queryFn: () => productService.getProducts({ limit: 1 }),
-    staleTime: 10 * 60 * 1000, // 10 minutes
+  // Query for sales data over time
+  const { data: salesChartData, isLoading: salesChartLoading } = useQuery({
+    queryKey: ['sales-over-time', salesPeriod],
+    queryFn: () => orderService.getSalesDataOverTime({ period: salesPeriod }),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Query for top selling products
+  const { data: topSellingProductsData, isLoading: topSellingProductsLoading } = useQuery({
+    queryKey: ['top-selling-products'],
+    queryFn: () => orderService.getTopSellingProducts({ limit: 5, sortBy: 'revenue' }),
+    staleTime: 5 * 60 * 1000,
   });
 
   const metrics = metricsData || {
@@ -78,11 +98,10 @@ export function Dashboard() {
     customersGrowth: 0,
     totalProducts: 0,
     productsGrowth: 0,
+    recentOrders: [],
   };
 
-  // Use totalProducts from metricsData, which is now provided by the backend
-  const totalProducts = metrics.totalProducts; 
-  const recentOrders = metricsData?.recentOrders || [];
+  const recentOrders = metrics.recentOrders || [];
 
   if (metricsLoading) {
     return (
@@ -92,7 +111,7 @@ export function Dashboard() {
         </div>
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto" />
+            <Loader2 className="h-8 w-8 animate-spin border-2 border-primary border-t-transparent rounded-full mx-auto" />
             <h3 className="mt-4 text-lg font-semibold">Loading dashboard...</h3>
           </div>
         </div>
@@ -131,23 +150,56 @@ export function Dashboard() {
         />
         <MetricCard
           title="Products"
-          value={totalProducts}
+          value={metrics.totalProducts}
           growth={metrics.productsGrowth}
           icon={Package}
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Card className="col-span-2">
-          <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>
-              Latest orders from your store
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentOrders.map((order) => (
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {/* Sales Over Time Chart */}
+        <div className="lg:col-span-2">
+          <div className="flex justify-end mb-4">
+            <Select value={salesPeriod} onValueChange={(value) => setSalesPeriod(value as typeof salesPeriod)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select period" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7days">Last 7 Days</SelectItem>
+                <SelectItem value="30days">Last 30 Days</SelectItem>
+                <SelectItem value="90days">Last 90 Days</SelectItem>
+                <SelectItem value="1year">Last Year</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {salesChartLoading ? (
+            <Card className="h-[380px] flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </Card>
+          ) : (
+            <SalesChart data={salesChartData?.data || []} period={salesPeriod} />
+          )}
+        </div>
+
+        {/* Top Selling Products */}
+        <div>
+          <TopSellingProducts data={topSellingProductsData?.data || []} isLoading={topSellingProductsLoading} />
+        </div>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Orders</CardTitle>
+          <CardDescription>
+            Latest orders from your store
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {recentOrders.length === 0 ? (
+              <p className="text-muted-foreground text-center py-4">No recent orders.</p>
+            ) : (
+              recentOrders.map((order) => (
                 <div key={order._id} className="flex items-center justify-between space-x-4">
                   <div className="flex items-center space-x-4">
                     <div>
@@ -165,11 +217,11 @@ export function Dashboard() {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              ))
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

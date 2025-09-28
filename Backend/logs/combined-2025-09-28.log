@@ -586,3 +586,4 @@
 2025-09-28T15:05:47.717Z [DEBUG] [req:5e7fedd3-576f-4ddb-aa73-dad651e25b45] [requireAuth] Session GersfmO7vS5u1TOBjr0C3_VkHScQm0-4 touched.
 2025-09-28T15:05:47.969Z [HTTP] [req:5e7fedd3-576f-4ddb-aa73-dad651e25b45] ::1 - - [28/Sep/2025:15:05:47 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-28T15:05:56.937Z [HTTP] [req:56c68a86-1878-49ee-a952-5d9261b243c3] ::1 - - [28/Sep/2025:15:05:56 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T15:07:59.986Z [DEBUG] [req:N/A] Running in development mode

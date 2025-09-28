@@ -1,7 +1,7 @@
 import express from 'express';
 import { requireAuth } from '../Middleware/requireAuth.js';
 import { requireAdmin } from '../Middleware/requireAdmin.js';
-import { createOrder, getUserOrders, getOrderById, updateOrderStatus, getAllOrders, getOrderMetrics } from '../Controllers/order.controller.js';
+import { createOrder, getUserOrders, getOrderById, updateOrderStatus, getAllOrders, getOrderMetrics, getSalesDataOverTime, getTopSellingProducts } from '../Controllers/order.controller.js';
 
 const orderRouter = express.Router();
 
@@ -11,6 +11,8 @@ orderRouter.use(requireAuth);
 // Admin routes
 orderRouter.get('/admin', requireAdmin, getAllOrders); // Get all orders (admin)
 orderRouter.get('/metrics', requireAdmin, getOrderMetrics); // Get order metrics (admin)
+orderRouter.get('/sales-over-time', requireAdmin, getSalesDataOverTime); // New: Get sales data over time (admin)
+orderRouter.get('/top-selling-products', requireAdmin, getTopSellingProducts); // New: Get top-selling products (admin)
 
 // User routes
 orderRouter.route('/')

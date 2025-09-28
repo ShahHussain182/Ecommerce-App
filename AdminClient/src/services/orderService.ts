@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { Order, ApiResponse, OrderStatus } from '@/types'; // Import OrderStatus
+import { Order, ApiResponse, OrderStatus, SalesDataPoint, TopProductData } from '@/types'; // Import OrderStatus, SalesDataPoint, TopProductData
 
 interface GetAllOrdersParams {
   page?: number;
@@ -8,6 +8,15 @@ interface GetAllOrdersParams {
   statusFilter?: OrderStatus | 'All'; // Add status filter
   sortBy?: 'date' | 'total'; // Add sort by
   sortOrder?: 'asc' | 'desc'; // Add sort order
+}
+
+interface GetSalesDataParams {
+  period?: '7days' | '30days' | '90days' | '1year';
+}
+
+interface GetTopSellingProductsParams {
+  limit?: number;
+  sortBy?: 'revenue' | 'quantity';
 }
 
 export const orderService = {
@@ -41,5 +50,28 @@ export const orderService = {
   async getOrderMetrics(): Promise<any> {
     const response = await api.get('/orders/metrics');
     return response.data;
-  }
+  },
+
+  // New: Get sales data over time for charting
+  async getSalesDataOverTime(params: GetSalesDataParams = {}): Promise<{ data: SalesDataPoint[] }> {
+    const queryParams = new URLSearchParams();
+    if (params.period) {
+      queryParams.append('period', params.period);
+    }
+    const response = await api.get(`/orders/sales-over-time?${queryParams.toString()}`);
+    return response.data;
+  },
+
+  // New: Get top-selling products
+  async getTopSellingProducts(params: GetTopSellingProductsParams = {}): Promise<{ data: TopProductData[] }> {
+    const queryParams = new URLSearchParams();
+    if (params.limit) {
+      queryParams.append('limit', params.limit.toString());
+    }
+    if (params.sortBy) {
+      queryParams.append('sortBy', params.sortBy);
+    }
+    const response = await api.get(`/orders/top-selling-products?${queryParams.toString()}`);
+    return response.data;
+  },
 };
