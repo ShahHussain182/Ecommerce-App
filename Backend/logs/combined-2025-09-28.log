@@ -422,3 +422,11 @@
 2025-09-28T12:04:00.851Z [DEBUG] [req:489267b2-88cc-4f35-a7f6-ecd662e2f826] [requireAuth] Session a2bB0nRcCPCxC0yUhoUYIB8dY9L8vI0o touched.
 2025-09-28T12:04:01.531Z [HTTP] [req:489267b2-88cc-4f35-a7f6-ecd662e2f826] ::1 - - [28/Sep/2025:12:04:01 +0000] "GET /api/v1/reviews?page=1&limit=10 HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-28T12:11:42.537Z [DEBUG] [req:N/A] Running in development mode
+2025-09-28T12:11:46.642Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T12:11:48.543Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T12:11:48.546Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-28T12:11:51.097Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-28T12:11:52.264Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T12:11:52.268Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T12:11:52.268Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-28T12:16:57.846Z [DEBUG] [req:N/A] Running in development mode

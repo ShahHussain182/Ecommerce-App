@@ -63,10 +63,15 @@ export interface Order {
 export interface User {
   _id: string;
   email: string;
-  userName: string; // Changed from 'name' to 'userName' to match backend
+  userName: string;
+  phoneNumber: string; // Added phone number
+  isVerified: boolean; // Added verification status
+  lastLogin: string; // Added last login date
   role?: 'admin' | 'user';
   createdAt: string;
   updatedAt: string;
+  totalOrders?: number; // Aggregated from backend
+  totalSpent?: number; // Aggregated from backend
 }
 
 // Review Types

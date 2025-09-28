@@ -1,103 +1,94 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Eye, Mail, Phone, MapPin, Calendar, Users as UsersIcon } from 'lucide-react';
+import { Search, Filter, Eye, Mail, Phone, MapPin, Calendar, Users as UsersIcon, RefreshCw, ChevronLeft, ChevronRight, Loader2, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { customerService } from '@/services/customerService';
+import { User } from '@/types';
+import toast from 'react-hot-toast';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-// Mock customer data
-const mockCustomers = [
-  {
-    _id: '1',
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    address: 'New York, NY',
-    totalOrders: 5,
-    totalSpent: 1250.00,
-    lastOrderDate: '2024-01-20T10:00:00Z',
-    joinDate: '2023-06-15T14:30:00Z',
-    status: 'Active'
-  },
-  {
-    _id: '2',
-    name: 'Jane Smith',
-    email: 'jane.smith@example.com',
-    phone: '+1 (555) 987-6543',
-    address: 'Los Angeles, CA',
-    totalOrders: 12,
-    totalSpent: 3200.00,
-    lastOrderDate: '2024-01-19T14:30:00Z',
-    joinDate: '2023-03-22T09:15:00Z',
-    status: 'VIP'
-  },
-  {
-    _id: '3',
-    name: 'Bob Johnson',
-    email: 'bob.johnson@example.com',
-    phone: '+1 (555) 456-7890',
-    address: 'Chicago, IL',
-    totalOrders: 2,
-    totalSpent: 450.00,
-    lastOrderDate: '2024-01-18T16:45:00Z',
-    joinDate: '2023-11-08T11:20:00Z',
-    status: 'Active'
-  },
-  {
-    _id: '4',
-    name: 'Alice Brown',
-    email: 'alice.brown@example.com',
-    phone: '+1 (555) 321-0987',
-    address: 'Miami, FL',
-    totalOrders: 8,
-    totalSpent: 1800.00,
-    lastOrderDate: '2024-01-21T12:20:00Z',
-    joinDate: '2023-08-10T16:45:00Z',
-    status: 'Active'
-  },
-  {
-    _id: '5',
-    name: 'Charlie Wilson',
-    email: 'charlie.wilson@example.com',
-    phone: '+1 (555) 654-3210',
-    address: 'Seattle, WA',
-    totalOrders: 1,
-    totalSpent: 89.99,
-    lastOrderDate: '2023-12-15T08:30:00Z',
-    joinDate: '2023-12-10T13:25:00Z',
-    status: 'Inactive'
-  }
-];
-
-const getCustomerTypeVariant = (status: string, totalSpent: number) => {
-  if (status === 'VIP' || totalSpent > 2000) return 'default';
-  if (status === 'Inactive') return 'secondary';
-  return 'outline';
+const getCustomerTypeVariant = (totalSpent: number, totalOrders: number) => {
+  if (totalSpent > 2000) return 'default'; // VIP
+  if (totalOrders === 0) return 'secondary'; // New
+  if (totalSpent < 100 && totalOrders > 0) return 'outline'; // Potential
+  return 'default'; // Regular/Active
 };
 
 const getCustomerType = (totalSpent: number, totalOrders: number) => {
   if (totalSpent > 2000) return 'VIP';
   if (totalOrders === 0) return 'New';
-  if (totalSpent < 100) return 'Potential';
-  return 'Regular';
+  if (totalSpent < 100 && totalOrders > 0) return 'Potential';
+  return 'Active';
 };
 
 export function Customers() {
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'Active' | 'Inactive' | 'VIP' | 'New' | 'Potential' | 'All'>('All');
+  const [sortBy, setSortBy] = useState<'userName' | 'email' | 'createdAt' | 'lastLogin' | 'totalOrders' | 'totalSpent'>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
-  const filteredCustomers = mockCustomers.filter(customer => {
-    const matchesSearch = 
-      customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.address.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = !statusFilter || customer.status === statusFilter;
-    
-    return matchesSearch && matchesStatus;
+  // Debounce search term
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setPage(1); // Reset to first page on new search term
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  // Query for customers from API
+  const { data: customersData, isLoading, error, refetch } = useQuery({
+    queryKey: ['customers', page, limit, debouncedSearchTerm, statusFilter, sortBy, sortOrder],
+    queryFn: () => customerService.getAllCustomers({
+      page,
+      limit,
+      searchTerm: debouncedSearchTerm || undefined,
+      statusFilter: statusFilter === 'All' ? undefined : statusFilter,
+      sortBy,
+      sortOrder,
+    }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
+
+  const customers = customersData?.data || [];
+  const totalCustomers = customersData?.totalCustomers || 0;
+  const totalPages = Math.ceil(totalCustomers / limit);
+
+  const getStatusBadgeVariant = (customer: User) => {
+    const type = getCustomerType(customer.totalSpent || 0, customer.totalOrders || 0);
+    switch (type) {
+      case 'VIP': return 'default';
+      case 'New': return 'secondary';
+      case 'Potential': return 'outline';
+      case 'Active': return 'default';
+      case 'Inactive': return 'destructive'; // Assuming inactive is a status we want to highlight
+      default: return 'default';
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -106,6 +97,9 @@ export function Customers() {
           <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
           <p className="text-muted-foreground">Manage your customer relationships and insights</p>
         </div>
+        <Button variant="outline" onClick={() => refetch()} disabled={isLoading}>
+          <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -116,8 +110,8 @@ export function Customers() {
             <UsersIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{mockCustomers.length}</div>
-            <p className="text-xs text-muted-foreground">+12% from last month</p>
+            <div className="text-2xl font-bold">{totalCustomers}</div>
+            <p className="text-xs text-muted-foreground">+12% from last month</p> {/* Placeholder */}
           </CardContent>
         </Card>
         
@@ -128,7 +122,7 @@ export function Customers() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {mockCustomers.filter(c => c.totalSpent > 2000).length}
+              {customers.filter(c => (c.totalSpent || 0) > 2000).length}
             </div>
             <p className="text-xs text-muted-foreground">High-value customers</p>
           </CardContent>
@@ -140,8 +134,10 @@ export function Customers() {
             <UsersIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$275</div>
-            <p className="text-xs text-muted-foreground">+8% from last month</p>
+            <div className="text-2xl font-bold">
+              ${(customers.reduce((sum, c) => sum + (c.totalSpent || 0), 0) / Math.max(1, customers.reduce((sum, c) => sum + (c.totalOrders || 0), 0))).toFixed(0)}
+            </div>
+            <p className="text-xs text-muted-foreground">+8% from last month</p> {/* Placeholder */}
           </CardContent>
         </Card>
         
@@ -152,7 +148,7 @@ export function Customers() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {mockCustomers.filter(c => c.status === 'Active' || c.status === 'VIP').length}
+              {customers.filter(c => (c.totalOrders || 0) > 0 && new Date(c.lastLogin).getMonth() === new Date().getMonth()).length}
             </div>
             <p className="text-xs text-muted-foreground">Users who made orders</p>
           </CardContent>
@@ -160,7 +156,7 @@ export function Customers() {
       </div>
 
       {/* Search and Filter */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 flex-wrap gap-y-2">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -171,139 +167,206 @@ export function Customers() {
           />
         </div>
         
-        <div className="flex items-center space-x-2">
-          {['Active', 'VIP', 'Inactive'].map((status) => (
-            <Button
-              key={status}
-              variant={statusFilter === status ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
-            >
-              {status}
+        <Select value={statusFilter} onValueChange={(value) => {setStatusFilter(value as typeof statusFilter); setPage(1);}}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All Statuses</SelectItem>
+            <SelectItem value="Active">Active</SelectItem>
+            <SelectItem value="VIP">VIP</SelectItem>
+            <SelectItem value="New">New</SelectItem>
+            <SelectItem value="Potential">Potential</SelectItem>
+            <SelectItem value="Inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              <Filter className="mr-2 h-4 w-4" />
+              Sort By
             </Button>
-          ))}
-          <Button
-            variant={statusFilter === '' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setStatusFilter('')}
-          >
-            All
-          </Button>
-        </div>
-        
-        <Button variant="outline">
-          <Filter className="mr-2 h-4 w-4" />
-          Export
-        </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => {setSortBy('userName'); setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}>
+              Username {sortBy === 'userName' && (sortOrder === 'asc' ? '↑' : '↓')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {setSortBy('email'); setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}>
+              Email {sortBy === 'email' && (sortOrder === 'asc' ? '↑' : '↓')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {setSortBy('createdAt'); setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}>
+              Join Date {sortBy === 'createdAt' && (sortOrder === 'asc' ? '↑' : '↓')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {setSortBy('lastLogin'); setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}>
+              Last Login {sortBy === 'lastLogin' && (sortOrder === 'asc' ? '↑' : '↓')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {setSortBy('totalOrders'); setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}>
+              Total Orders {sortBy === 'totalOrders' && (sortOrder === 'asc' ? '↑' : '↓')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {setSortBy('totalSpent'); setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); setPage(1);}}>
+              Total Spent {sortBy === 'totalSpent' && (sortOrder === 'asc' ? '↑' : '↓')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Customers Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Customer List ({filteredCustomers.length})</CardTitle>
+          <CardTitle>Customer List ({totalCustomers})</CardTitle>
           <CardDescription>
             Complete customer information and purchase history
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Customer</TableHead>
-                <TableHead>Contact</TableHead>
-                <TableHead>Orders</TableHead>
-                <TableHead>Total Spent</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Last Order</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredCustomers.map((customer) => {
-                const customerType = getCustomerType(customer.totalSpent, customer.totalOrders);
-                
-                return (
-                  <TableRow key={customer._id}>
-                    <TableCell>
-                      <div>
-                        <div className="font-medium">{customer.name}</div>
-                        <div className="text-sm text-muted-foreground flex items-center mt-1">
-                          <Calendar className="h-3 w-3 mr-1" />
-                          Joined {format(new Date(customer.joinDate), 'MMM yyyy')}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <div className="flex items-center text-sm">
-                          <Mail className="h-3 w-3 mr-2 text-muted-foreground" />
-                          {customer.email}
-                        </div>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Phone className="h-3 w-3 mr-2" />
-                          {customer.phone}
-                        </div>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <MapPin className="h-3 w-3 mr-2" />
-                          {customer.address}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <div className="font-medium">{customer.totalOrders}</div>
-                        <div className="text-sm text-muted-foreground">orders</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <div className="font-medium">${customer.totalSpent.toFixed(2)}</div>
-                        <div className="text-sm text-muted-foreground">
-                          ${(customer.totalSpent / Math.max(customer.totalOrders, 1)).toFixed(0)} avg
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getCustomerTypeVariant(customer.status, customer.totalSpent)}>
-                        {customerType}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <div className="font-medium">
-                          {format(new Date(customer.lastOrderDate), 'MMM dd, yyyy')}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {format(new Date(customer.lastOrderDate), 'HH:mm')}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button variant="ghost" size="icon">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon">
-                          <Mail className="h-4 w-4" />
-                        </Button>
+          <div className="overflow-x-auto">
+            <Table className="min-w-full">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Contact</TableHead>
+                  <TableHead>Orders</TableHead>
+                  <TableHead>Total Spent</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Last Login</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      <div className="flex items-center justify-center">
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Loading customers...
                       </div>
                     </TableCell>
                   </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-          
-          {filteredCustomers.length === 0 && (
-            <div className="flex items-center justify-center py-12">
-              <div className="text-center">
-                <UsersIcon className="mx-auto h-12 w-12 text-muted-foreground" />
-                <h3 className="mt-4 text-lg font-semibold">No customers found</h3>
-                <p className="text-muted-foreground">No customers match your search criteria.</p>
-              </div>
-            </div>
-          )}
+                ) : error ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      <div className="flex flex-col items-center justify-center">
+                        <XCircle className="h-12 w-12 text-destructive mb-2" />
+                        <h3 className="text-lg font-semibold">Error loading customers</h3>
+                        <p className="text-muted-foreground mb-4">There was an issue fetching the customer data.</p>
+                        <Button onClick={() => refetch()}>Try Again</Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : customers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      <div className="flex flex-col items-center justify-center">
+                        <UsersIcon className="mx-auto h-12 w-12 text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-semibold">No customers found</h3>
+                        <p className="text-muted-foreground">No customers match your search criteria.</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  customers.map((customer) => {
+                    const customerType = getCustomerType(customer.totalSpent || 0, customer.totalOrders || 0);
+                    
+                    return (
+                      <TableRow key={customer._id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{customer.userName}</div>
+                            <div className="text-sm text-muted-foreground flex items-center mt-1">
+                              <Calendar className="h-3 w-3 mr-1" />
+                              Joined {format(new Date(customer.createdAt), 'MMM yyyy')}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="space-y-1">
+                            <div className="flex items-center text-sm">
+                              <Mail className="h-3 w-3 mr-2 text-muted-foreground" />
+                              {customer.email}
+                            </div>
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Phone className="h-3 w-3 mr-2" />
+                              {customer.phoneNumber}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{customer.totalOrders || 0}</div>
+                            <div className="text-sm text-muted-foreground">orders</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">${(customer.totalSpent || 0).toFixed(2)}</div>
+                            <div className="text-sm text-muted-foreground">
+                              ${((customer.totalSpent || 0) / Math.max(customer.totalOrders || 1, 1)).toFixed(0)} avg
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={getStatusBadgeVariant(customer)}>
+                            {customerType}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">
+                              {format(new Date(customer.lastLogin), 'MMM dd, yyyy')}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              {format(new Date(customer.lastLogin), 'HH:mm')}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center space-x-2 justify-end">
+                            <Button variant="ghost" size="icon">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon">
+                              <Mail className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
+        
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-2 py-4">
+            <div className="text-sm text-muted-foreground">
+              Showing page {page} of {totalPages}
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage(prev => Math.max(1, prev - 1))}
+                disabled={page === 1 || isLoading}
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={page === totalPages || isLoading}
+              >
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </Card>
     </div>
   );
