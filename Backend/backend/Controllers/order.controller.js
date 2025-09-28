@@ -2,6 +2,7 @@ import { Order } from '../Models/Order.model.js';
 import { Cart } from '../Models/Cart.model.js';
 import { Product } from '../Models/Product.model.js';
 import { Counter } from '../Models/Counter.model.js';
+import { User } from '../Models/user.model.js'; // Import User model
 import catchErrors from '../Utils/catchErrors.js';
 import { createOrderSchema, updateOrderStatusSchema } from '../Schemas/orderSchema.js';
 import mongoose from 'mongoose';
@@ -236,7 +237,21 @@ export const updateOrderStatus = catchErrors(async (req, res) => {
  */
 export const getOrderMetrics = catchErrors(async (req, res) => {
   const totalOrders = await Order.countDocuments();
-  
+  const totalRevenueResult = await Order.aggregate([
+    { $match: { status: { $ne: 'Cancelled' } } }, // Only count non-cancelled orders for revenue
+    { $group: { _id: null, total: { $sum: '$totalAmount' } } }
+  ]);
+  const totalRevenue = totalRevenueResult.length > 0 ? totalRevenueResult[0].total : 0;
+
+  const totalCustomers = await User.countDocuments({ role: 'user' });
+  const totalProducts = await Product.countDocuments();
+
+  // Simplified growth metrics for now
+  const revenueGrowth = 12.5; // Placeholder
+  const ordersGrowth = 8.2; // Placeholder
+  const customersGrowth = -2.3; // Placeholder
+  const productsGrowth = 5.1; // Placeholder
+
   const statusCounts = await Order.aggregate([
     {
       $group: {
@@ -254,6 +269,13 @@ export const getOrderMetrics = catchErrors(async (req, res) => {
   res.status(200).json({
     success: true,
     totalOrders,
+    totalRevenue,
+    revenueGrowth,
+    ordersGrowth,
+    totalCustomers,
+    customersGrowth,
+    totalProducts,
+    productsGrowth,
     statusCounts,
     recentOrders
   });
