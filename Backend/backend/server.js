@@ -27,6 +27,8 @@ import { logger } from "./Utils/logger.js";
 import { Product } from "./Models/Product.model.js";
 import { mockProducts } from "./Utils/mockProducts.js";
 import { Counter } from "./Models/Counter.model.js";
+import { Category } from "./Models/Category.model.js"; // Import Category model
+import { mockCategories } from "./Utils/mockCategories.js"; // Import mock categories
 
 dotenv.config();
 
@@ -117,13 +119,24 @@ const startServer = async () => {
 
   // --- Database Seeding Logic ---
   try {
+    // Seed Products
     const productCount = await Product.countDocuments();
     if (productCount === 0) {
       logger.info("No products found. Seeding database with mock data...");
       await Product.insertMany(mockProducts);
       logger.info("✅ Database seeded successfully with mock products.");
     } else {
-      logger.info(`${productCount} products already exist in the database. Skipping seeding.`);
+      logger.info(`${productCount} products already exist in the database. Skipping product seeding.`);
+    }
+
+    // Seed Categories
+    const categoryCount = await Category.countDocuments();
+    if (categoryCount === 0) {
+      logger.info("No categories found. Seeding database with mock categories...");
+      await Category.insertMany(mockCategories);
+      logger.info("✅ Database seeded successfully with mock categories.");
+    } else {
+      logger.info(`${categoryCount} categories already exist in the database. Skipping category seeding.`);
     }
 
     // Initialize order number counter if it doesn't exist
