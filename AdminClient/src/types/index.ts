@@ -48,7 +48,10 @@ export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | '
 
 export interface Order {
   _id: string;
-  userId: string;
+  userId: { // Updated to reflect populated user data
+    _id: string;
+    userName: string;
+  };
   orderNumber: number;
   items: OrderItem[];
   shippingAddress: ShippingAddress;
