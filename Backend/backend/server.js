@@ -19,13 +19,14 @@ import cartRouter from "./Routers/cart.router.js";
 import orderRouter from "./Routers/order.router.js";
 import wishlistRouter from "./Routers/wishlist.router.js";
 import reviewRouter from "./Routers/review.router.js";
-import customerRouter from "./Routers/customer.router.js"; // New import for customer router
+import customerRouter from "./Routers/customer.router.js";
+import categoryRouter from "./Routers/category.router.js"; // New import for category router
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
 import { Product } from "./Models/Product.model.js";
 import { mockProducts } from "./Utils/mockProducts.js";
-import { Counter } from "./Models/Counter.model.js"; // Import Counter model
+import { Counter } from "./Models/Counter.model.js";
 
 dotenv.config();
 
@@ -102,7 +103,8 @@ app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/wishlist", wishlistRouter);
 app.use("/api/v1/reviews", reviewRouter);
-app.use("/api/v1/customers", customerRouter); // New customer router
+app.use("/api/v1/customers", customerRouter);
+app.use("/api/v1/categories", categoryRouter); // New category router
 
 app.use(notFoundHandler);
 app.use(errorHandler);
