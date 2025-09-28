@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
-import { Product, ProductVariant } from '@/types';
+import type { Product, ProductVariant, Category } from '@/types'; // Import Category type
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
@@ -21,11 +21,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCategories } from '@/hooks/useCategories'; // Import useCategories hook
 
 // Type for the form data, combining create and update schemas
 type ProductFormValues = z.infer<typeof createProductSchema>;
-
-const categories = ['All', 'Electronics', 'Apparel', 'Accessories', 'Home Goods', 'Wearables'];
 
 const getTotalStock = (variants?: ProductVariant[]) => {
   return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
@@ -46,9 +45,10 @@ interface ProductFormProps {
   onSubmit: (data: ProductFormValues) => void;
   onClose: () => void;
   isSubmitting: boolean;
+  categories: Category[]; // Pass categories as a prop
 }
 
-const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormProps) => {
+const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: ProductFormProps) => {
   const formSchema = product ? updateProductSchema : createProductSchema;
 
   const {
@@ -62,7 +62,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
     defaultValues: {
       name: product?.name || '',
       description: product?.description || '',
-      category: product?.category || 'Electronics',
+      category: product?.category || (categories.length > 0 ? categories[0].name : ''), // Default to first category
       imageUrls: product?.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
       isFeatured: product?.isFeatured || false,
       variants: product?.variants && product.variants.length > 0 
@@ -71,7 +71,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
     },
   });
 
-  // Reset form when product prop changes (for edit mode)
+  // Reset form when product prop changes (for edit mode) or categories load
   useEffect(() => {
     if (product) {
       reset({
@@ -87,13 +87,13 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
       reset({
         name: '',
         description: '',
-        category: 'Electronics',
+        category: categories.length > 0 ? categories[0].name : '', // Default to first category
         imageUrls: [''],
         isFeatured: false,
         variants: [{ size: '', color: '', price: 0, stock: 0 }],
       });
     }
-  }, [product, reset]);
+  }, [product, reset, categories]);
 
   const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({
     control,
@@ -131,11 +131,15 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting }: ProductFormPr
             id="category"
             {...register('category')}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            disabled={isSubmitting}
+            disabled={isSubmitting || categories.length === 0}
           >
-            {categories.filter(c => c !== 'All').map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
+            {categories.length === 0 ? (
+              <option value="">No categories available</option>
+            ) : (
+              categories.map(cat => (
+                <option key={cat._id} value={cat.name}>{cat.name}</option>
+              ))
+            )}
           </select>
           {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
         </div>
@@ -278,6 +282,9 @@ export function Products() {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10; // Number of items per page
+
+  const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategories();
+  const categoryNames = categories?.map(cat => cat.name) || [];
 
   // Debounce search term
   useEffect(() => {
@@ -426,7 +433,7 @@ export function Products() {
         
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button disabled={categoriesLoading || categoriesError || categoryNames.length === 0}>
               <Plus className="mr-2 h-4 w-4" />
               Add Product
             </Button>
@@ -438,11 +445,22 @@ export function Products() {
                 Create a new product with variants, pricing, and inventory details. Variants are optional.
               </DialogDescription>
             </DialogHeader>
-            <ProductForm
-              onSubmit={(data) => createProductMutation.mutate(data)}
-              onClose={() => setIsAddDialogOpen(false)}
-              isSubmitting={createProductMutation.isPending}
-            />
+            {categoriesLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading categories...
+              </div>
+            ) : categoriesError ? (
+              <p className="text-destructive text-center py-8">Error loading categories: {categoriesError.message}</p>
+            ) : categoryNames.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">No categories available. Please create categories first.</p>
+            ) : (
+              <ProductForm
+                onSubmit={(data) => createProductMutation.mutate(data)}
+                onClose={() => setIsAddDialogOpen(false)}
+                isSubmitting={createProductMutation.isPending}
+                categories={categories || []}
+              />
+            )}
           </DialogContent>
         </Dialog>
       </div>
@@ -462,19 +480,35 @@ export function Products() {
         </div>
         
         <div className="flex items-center space-x-2 flex-wrap">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category || (category === 'All' && selectedCategory === '') ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setSelectedCategory(category === 'All' ? '' : category);
-                setPage(1); // Reset to first page on category change
-              }}
-            >
-              {category}
-            </Button>
-          ))}
+          <Button
+            variant={selectedCategory === '' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setSelectedCategory('');
+              setPage(1);
+            }}
+          >
+            All
+          </Button>
+          {categoriesLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          ) : categoriesError ? (
+            <span className="text-destructive text-sm">Error loading categories</span>
+          ) : (
+            categories?.map((category) => (
+              <Button
+                key={category._id}
+                variant={selectedCategory === category.name ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setSelectedCategory(category.name);
+                  setPage(1); // Reset to first page on category change
+                }}
+              >
+                {category.name}
+              </Button>
+            ))
+          )}
         </div>
         
         <Button variant="outline" className="ml-auto">
@@ -678,16 +712,27 @@ export function Products() {
               Update product details, variants, and inventory.
             </DialogDescription>
           </DialogHeader>
-          <ProductForm
-            product={selectedProduct || undefined}
-            onSubmit={(data) => {
-              if (selectedProduct) {
-                updateProductMutation.mutate({ id: selectedProduct._id, data });
-              }
-            }}
-            onClose={() => setIsEditDialogOpen(false)}
-            isSubmitting={updateProductMutation.isPending}
-          />
+          {categoriesLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading categories...
+            </div>
+          ) : categoriesError ? (
+            <p className="text-destructive text-center py-8">Error loading categories: {categoriesError.message}</p>
+          ) : categoryNames.length === 0 ? (
+            <p className="text-muted-foreground text-center py-8">No categories available. Please create categories first.</p>
+          ) : (
+            <ProductForm
+              product={selectedProduct || undefined}
+              onSubmit={(data) => {
+                if (selectedProduct) {
+                  updateProductMutation.mutate({ id: selectedProduct._id, data });
+                }
+              }}
+              onClose={() => setIsEditDialogOpen(false)}
+              isSubmitting={updateProductMutation.isPending}
+              categories={categories || []}
+            />
+          )}
         </DialogContent>
       </Dialog>
 

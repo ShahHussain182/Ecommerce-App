@@ -823,3 +823,11 @@
 2025-09-28T15:35:21.237Z [HTTP] [req:f6a147b7-3389-468c-8418-3a6790db0bd7] ::1 - - [28/Sep/2025:15:35:21 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51191/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
 2025-09-28T15:35:22.255Z [HTTP] [req:88e6c361-8417-4f24-aa3d-efef192809fb] ::1 - - [28/Sep/2025:15:35:22 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:51191/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
 2025-09-28T15:36:28.802Z [HTTP] [req:7fa70437-276e-43c7-8d53-331de8eb4e3a] ::1 - - [28/Sep/2025:15:36:28 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:51191/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-28T15:37:20.749Z [DEBUG] [req:N/A] Running in development mode
+2025-09-28T15:37:25.377Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T15:37:27.591Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T15:37:27.595Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-28T15:37:29.147Z [INFO] [req:N/A] 41 products already exist in the database. Skipping seeding.
+2025-09-28T15:37:29.906Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T15:37:29.911Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T15:37:29.912Z [DEBUG] [req:N/A] http://localhost:3001

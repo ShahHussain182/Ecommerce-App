@@ -6,9 +6,10 @@ import {
   ShoppingCart,
   Users,
   Star,
-  Settings, // This icon was already imported
+  Settings,
   BarChart3,
   FileText,
+  Tag, // New import for Category icon
 } from 'lucide-react';
 
 const navigation = [
@@ -21,6 +22,11 @@ const navigation = [
     name: 'Products',
     href: '/products',
     icon: Package,
+  },
+  {
+    name: 'Categories', // New navigation item
+    href: '/categories',
+    icon: Tag,
   },
   {
     name: 'Orders',
@@ -50,7 +56,7 @@ const navigation = [
   {
     name: 'Settings',
     href: '/settings',
-    icon: Settings, // Added the missing icon here
+    icon: Settings,
   },
 ];
 

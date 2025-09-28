@@ -128,14 +128,14 @@ export interface DashboardMetrics {
   recentOrders: Order[];
 }
 
-// New: Sales data point for charts
+// Sales data point for charts
 export interface SalesDataPoint {
   date: string; // e.g., "YYYY-MM-DD"
   revenue: number;
   orders: number;
 }
 
-// New: Top Product data
+// Top Product data
 export interface TopProductData {
   _id: string; // Product ID
   name: string;
@@ -143,6 +143,15 @@ export interface TopProductData {
   category: string;
   totalSales: number; // Total quantity sold
   totalRevenue: number; // Total revenue generated
+}
+
+// New: Category Type
+export interface Category {
+  _id: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // API Response Types
