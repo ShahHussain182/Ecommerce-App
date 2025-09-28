@@ -6,7 +6,7 @@ import {
   ShoppingCart,
   Users,
   Star,
-  Settings,
+  Settings, // This icon was already imported
   BarChart3,
   FileText,
 } from 'lucide-react';
@@ -50,6 +50,7 @@ const navigation = [
   {
     name: 'Settings',
     href: '/settings',
+    icon: Settings, // Added the missing icon here
   },
 ];
 

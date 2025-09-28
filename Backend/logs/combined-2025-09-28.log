@@ -686,3 +686,30 @@
 2025-09-28T15:23:06.834Z [DEBUG] [req:3382b884-773d-43e9-8f9a-d25202dbcc14] [requireAuth] User SHAH HUSSAIN authenticated.
 2025-09-28T15:23:06.835Z [DEBUG] [req:3382b884-773d-43e9-8f9a-d25202dbcc14] [requireAuth] Session GersfmO7vS5u1TOBjr0C3_VkHScQm0-4 touched.
 2025-09-28T15:23:07.518Z [HTTP] [req:3382b884-773d-43e9-8f9a-d25202dbcc14] ::1 - - [28/Sep/2025:15:23:07 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T15:23:21.670Z [DEBUG] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-28T15:23:21.671Z [DEBUG] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] [requireAuth] AccessToken from cookies: present
+2025-09-28T15:23:21.671Z [DEBUG] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] [requireAuth] Authorization header: missing
+2025-09-28T15:23:21.672Z [DEBUG] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T15:23:21.884Z [DEBUG] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T15:23:21.885Z [DEBUG] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] [requireAuth] Session GersfmO7vS5u1TOBjr0C3_VkHScQm0-4 touched.
+2025-09-28T15:23:22.057Z [HTTP] [req:33ecbd44-e713-48fb-a53d-2e9dacb6ead5] ::1 - - [28/Sep/2025:15:23:22 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-28T15:24:28.537Z [DEBUG] [req:9ea46110-3d8f-4862-9d1b-14840fcd9244] [requireAuth] Attempting to authenticate for path: /metrics
+2025-09-28T15:24:28.538Z [DEBUG] [req:9ea46110-3d8f-4862-9d1b-14840fcd9244] [requireAuth] AccessToken from cookies: present
+2025-09-28T15:24:28.538Z [DEBUG] [req:9ea46110-3d8f-4862-9d1b-14840fcd9244] [requireAuth] Authorization header: missing
+2025-09-28T15:24:28.540Z [DEBUG] [req:9ea46110-3d8f-4862-9d1b-14840fcd9244] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T15:24:28.544Z [DEBUG] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] [requireAuth] Attempting to authenticate for path: /sales-over-time
+2025-09-28T15:24:28.544Z [DEBUG] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] [requireAuth] AccessToken from cookies: present
+2025-09-28T15:24:28.545Z [DEBUG] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] [requireAuth] Authorization header: missing
+2025-09-28T15:24:28.546Z [DEBUG] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T15:24:28.550Z [DEBUG] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] [requireAuth] Attempting to authenticate for path: /top-selling-products
+2025-09-28T15:24:28.551Z [DEBUG] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] [requireAuth] AccessToken from cookies: present
+2025-09-28T15:24:28.552Z [DEBUG] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] [requireAuth] Authorization header: missing
+2025-09-28T15:24:28.554Z [DEBUG] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-28T15:24:28.715Z [DEBUG] [req:9ea46110-3d8f-4862-9d1b-14840fcd9244] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T15:24:28.716Z [DEBUG] [req:9ea46110-3d8f-4862-9d1b-14840fcd9244] [requireAuth] Session GersfmO7vS5u1TOBjr0C3_VkHScQm0-4 touched.
+2025-09-28T15:24:28.719Z [DEBUG] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T15:24:28.720Z [DEBUG] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] [requireAuth] Session GersfmO7vS5u1TOBjr0C3_VkHScQm0-4 touched.
+2025-09-28T15:24:28.724Z [DEBUG] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-28T15:24:28.724Z [DEBUG] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] [requireAuth] Session GersfmO7vS5u1TOBjr0C3_VkHScQm0-4 touched.
+2025-09-28T15:24:29.070Z [HTTP] [req:dcdf7d68-6fd2-4d41-a9c5-037d0a9c6a5e] ::1 - - [28/Sep/2025:15:24:29 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T15:24:29.607Z [HTTP] [req:2d346d37-b0d7-4e66-a6c0-5ca6d919f9d3] ::1 - - [28/Sep/2025:15:24:29 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
