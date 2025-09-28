@@ -50,7 +50,6 @@ const navigation = [
   {
     name: 'Settings',
     href: '/settings',
-    icon: Settings,
   },
 ];
 
