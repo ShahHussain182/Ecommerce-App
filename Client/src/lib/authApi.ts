@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '@/types';
 import { z } from 'zod';
-import { signupSchema, loginSchema1, codeSchema, forgotPasswordSchema, resetPasswordSchema, updateUserSchema, changePasswordSchema } from '../../../Backend/backend/Schemas/authSchema'; // Adjust path as needed
+import { signupSchema, loginSchema1, codeSchema, forgotPasswordSchema, resetPasswordSchema, updateUserSchema, changePasswordSchema, resendVerificationCodeSchema } from '../../../Backend/backend/Schemas/authSchema'; // Adjust path as needed
 
 const API_BASE_URL = 'http://localhost:3001/api/v1/auth';
 
@@ -18,6 +18,7 @@ type ForgotPasswordPayload = z.infer<typeof forgotPasswordSchema>;
 type ResetPasswordPayload = z.infer<typeof resetPasswordSchema>;
 type UpdateUserPayload = z.infer<typeof updateUserSchema>;
 type ChangePasswordPayload = z.infer<typeof changePasswordSchema>; // New type
+type ResendVerificationCodePayload = z.infer<typeof resendVerificationCodeSchema>; // New type
 
 interface AuthResponse {
   success: boolean;
@@ -78,5 +79,10 @@ export const changePassword = async (payload: ChangePasswordPayload): Promise<Ge
 
 export const refreshToken = async (): Promise<GenericSuccessResponse> => {
   const response = await authApi.get('/refresh');
+  return response.data;
+};
+
+export const resendVerificationCode = async (payload: ResendVerificationCodePayload): Promise<GenericSuccessResponse> => {
+  const response = await authApi.post('/resend-verification-code', payload);
   return response.data;
 };

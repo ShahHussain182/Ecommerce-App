@@ -101,3 +101,7 @@ export const signupSchema = z
     currentPassword: passwordSchema,
     newPassword: passwordSchema,
   }).strict();
+
+  export const resendVerificationCodeSchema = z.object({
+    email: emailSchema,
+  }).strict();

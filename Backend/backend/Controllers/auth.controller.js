@@ -1,5 +1,5 @@
 import { User } from "../Models/user.model.js";
-import { codeSchema, forgotPasswordSchema, loginSchema, loginSchema1, resetPasswordSchema, resetPasswordSchema1, signupSchema, updateUserSchema, changePasswordSchema } from "../Schemas/authSchema.js";
+import { codeSchema, forgotPasswordSchema, loginSchema, loginSchema1, resetPasswordSchema, resetPasswordSchema1, signupSchema, updateUserSchema, changePasswordSchema, resendVerificationCodeSchema } from "../Schemas/authSchema.js";
 import { VerificationCodeModel } from "../Models/verificationCode.model.js";
 import catchErrors from "../Utils/catchErrors.js";
 import verificationCodeType from "../Constants/verificationCodeType.js";
@@ -10,6 +10,7 @@ import { sendVerificationEmail, sendWelcomeEmail,sendPasswordResetEmail ,sendRes
 import { ResetCode } from "../Models/resetCode.model.js";
 import { verifyRefreshToken } from "../Utils/verifyTokens.js";
 import redisClient from "../Utils/redisClient.js";
+import jwt from "jsonwebtoken";
 export const signup = catchErrors(async (req, res, next) => {
 
 
@@ -512,4 +513,36 @@ export const changePassword = catchErrors(async (req, res) => {
   await user.save();
 
   res.status(200).json({ success: true, message: "Password updated successfully." });
+});
+
+export const resendVerificationCode = catchErrors(async (req, res) => {
+  const { email } = resendVerificationCodeSchema.parse(req.body);
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  if (user.isVerified) {
+    return res.status(400).json({ success: false, message: "Email is already verified." });
+  }
+
+  // Delete any existing unexpired verification codes for this user
+  await VerificationCodeModel.deleteMany({
+    userId: user._id,
+    type: verificationCodeType.EmailVerification,
+    expiresAt: { $gt: Date.now() },
+  });
+
+  // Generate a new verification code
+  const newVerificationCode = await VerificationCodeModel.create({
+    userId: user._id,
+    type: verificationCodeType.EmailVerification,
+    expiresAt: oneHourFromNow(),
+  });
+
+  /* await sendVerificationEmail(user.email, newVerificationCode.code); */
+  console.log(`New verification code for ${user.email}: ${newVerificationCode.code}`);
+
+  res.status(200).json({ success: true, message: "New verification code sent. Please check your email." });
 });

@@ -10,10 +10,10 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal } from "lucide-react";
+import { Terminal, Loader2 } from "lucide-react"; // Import Loader2
 import { FormErrorMessage } from "@/components/FormErrorMessage";
 import { useAuthStore } from '@/store/authStore'; // Import the auth store
-
+import * as authApi from '@/lib/authApi'; // Import authApi for resend code
 
 const verifyEmailSchema = z.object({
   code: z.string().min(6, { message: "Please enter the 6-digit code." }).max(6, { message: "Code must be 6 digits." }),
@@ -25,10 +25,11 @@ const VerifyEmailPage = () => {
   const emailFromState = location.state?.email;
   
   // Use auth store state and actions
-  const { isAuthenticated, isVerified, signupInProgress, signupEmail, login } = useAuthStore(); // Removed clearSignupProgress and markEmailVerified
+  const { isAuthenticated, isVerified, signupInProgress, signupEmail, login } = useAuthStore();
   const email = emailFromState || signupEmail; // Prioritize state, then store
 
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isResending, setIsResending] = useState(false);
 
   const form = useForm<z.infer<typeof verifyEmailSchema>>({
     resolver: zodResolver(verifyEmailSchema),
@@ -67,8 +68,6 @@ const VerifyEmailPage = () => {
         toast.success("Email verified successfully!", {
           description: "You can now access your account.",
         });
-        // The login action in authStore already handles setting isVerified,
-        // isAuthenticated, and clearing signupInProgress/signupEmail.
         login(response.data.user); 
         navigate('/', { replace: true }); // Redirect to home page
       }
@@ -83,6 +82,34 @@ const VerifyEmailPage = () => {
       });
     }
   }
+
+  const handleResendCode = async () => {
+    if (!email) {
+      toast.error("Error", { description: "No email found to resend code." });
+      return;
+    }
+    setIsResending(true);
+    setServerError(null);
+    try {
+      const response = await authApi.resendVerificationCode({ email });
+      if (response.success) {
+        toast.success("Code Resent", {
+          description: "A new verification code has been sent to your email.",
+        });
+      }
+    } catch (error: any) {
+      let errorMessage = "Failed to resend code. Please try again.";
+      if (axios.isAxiosError(error) && error.response) {
+        errorMessage = error.response.data.message || errorMessage;
+      }
+      setServerError(errorMessage);
+      toast.error("Resend Failed", {
+        description: errorMessage,
+      });
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   const onError = (errors: any) => {
     if (Object.keys(errors).length > 0) {
@@ -140,8 +167,15 @@ const VerifyEmailPage = () => {
         </Form>
         <div className="mt-6 text-center text-sm">
           <p className="text-gray-600">Didn't receive the code?</p>
-          <Button variant="link" className="p-0 h-auto">
-            Resend Code
+          <Button variant="link" className="p-0 h-auto" onClick={handleResendCode} disabled={isResending}>
+            {isResending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Resending...
+              </>
+            ) : (
+              "Resend Code"
+            )}
           </Button>
         </div>
       </div>
