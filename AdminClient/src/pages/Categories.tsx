@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
+import { useCategories } from '@/hooks/useCategories'; // Import the useCategories hook
 
 interface CategoryFormProps {
   category?: Category;
@@ -100,13 +101,7 @@ const CategoryForm = ({ category, onSubmit, onClose, isSubmitting }: CategoryFor
 
 export function Categories() {
   const queryClient = useQueryClient();
-  const { data: fetchedCategories, isLoading, error, refetch } = useQuery({ // Renamed data to fetchedCategories
-    queryKey: ['categories'],
-    queryFn: () => categoryService.getAllCategories().then(res => res.categories),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-
-  const categories = fetchedCategories || []; // Ensure categories is always an array
+  const { data: categories, isLoading, error, refetch } = useCategories(); // Use the hook directly
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);

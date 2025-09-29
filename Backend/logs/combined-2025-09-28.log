@@ -981,3 +981,91 @@
 2025-09-28T15:48:41.814Z [HTTP] [req:2f9e5a90-caa9-427c-8cd9-c60dc3e5a21b] ::1 - - [28/Sep/2025:15:48:41 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-28T15:48:41.857Z [HTTP] [req:e7ad787e-96e5-4a94-bba2-38b3ba2b5a06] ::1 - - [28/Sep/2025:15:48:41 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-28T15:56:45.164Z [DEBUG] [req:N/A] Running in development mode
+2025-09-28T15:56:53.477Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T15:56:56.311Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T15:56:56.318Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-28T15:56:57.620Z [INFO] [req:N/A] 41 products already exist in the database. Skipping product seeding.
+2025-09-28T15:56:58.160Z [INFO] [req:N/A] 5 categories already exist in the database. Skipping category seeding.
+2025-09-28T15:56:58.363Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T15:56:58.367Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T15:56:58.368Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-28T15:57:04.039Z [HTTP] [req:889e9d34-9076-4430-9110-7d473b256733] ::1 - - [28/Sep/2025:15:57:04 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T15:57:18.507Z [HTTP] [req:48fab3fc-f986-4b38-a948-fbc85af615b5] ::1 - - [28/Sep/2025:15:57:18 +0000] "POST /api/v1/auth/login HTTP/1.1" 500 51 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-28T15:57:40.322Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-28T15:57:46.301Z [DEBUG] [req:N/A] Running in development mode
+2025-09-28T15:57:48.028Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-28T15:57:50.544Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-28T15:57:50.550Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-28T15:57:52.217Z [INFO] [req:N/A] 41 products already exist in the database. Skipping product seeding.
+2025-09-28T15:57:52.752Z [INFO] [req:N/A] 5 categories already exist in the database. Skipping category seeding.
+2025-09-28T15:57:53.111Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-28T15:57:53.116Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-28T15:57:53.116Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-28T15:59:15.971Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-28T15:59:21.449Z [DEBUG] [req:N/A] Running in development mode
+2025-09-29T05:27:23.019Z [DEBUG] [req:N/A] Running in development mode
+2025-09-29T05:27:31.722Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-29T05:27:36.008Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-29T05:27:36.014Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-29T05:27:37.971Z [INFO] [req:N/A] 41 products already exist in the database. Skipping product seeding.
+2025-09-29T05:27:39.504Z [INFO] [req:N/A] 5 categories already exist in the database. Skipping category seeding.
+2025-09-29T05:27:40.498Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-29T05:27:40.507Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-29T05:27:40.508Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-29T05:28:15.015Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-29T05:28:26.671Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-29T05:28:55.093Z [DEBUG] [req:820b842e-f1e7-4ced-8957-9a931c456b60] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-29T05:28:55.094Z [DEBUG] [req:820b842e-f1e7-4ced-8957-9a931c456b60] [requireAuth] AccessToken from cookies: missing
+2025-09-29T05:28:55.094Z [DEBUG] [req:820b842e-f1e7-4ced-8957-9a931c456b60] [requireAuth] Authorization header: missing
+2025-09-29T05:28:55.095Z [WARN] [req:820b842e-f1e7-4ced-8957-9a931c456b60] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-29T05:28:55.108Z [HTTP] [req:820b842e-f1e7-4ced-8957-9a931c456b60] ::1 - - [29/Sep/2025:05:28:55 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-29T05:28:57.745Z [HTTP] [req:ff37c4c6-ab91-4cad-bb37-d5a70c2ad507] ::1 - - [29/Sep/2025:05:28:57 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-29T05:29:00.320Z [HTTP] [req:61ec1f9b-4c75-4325-8ccd-ed1a16e358d8] ::1 - - [29/Sep/2025:05:29:00 +0000] "GET /api/v1/categories HTTP/1.1" 200 1062 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-29T05:30:16.609Z [HTTP] [req:13ff0f4f-5b94-436a-9871-61d588cd5cba] ::1 - - [29/Sep/2025:05:30:16 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-29T05:30:16.626Z [HTTP] [req:ec84b275-32a3-42be-bf93-eef993cf2a3a] ::1 - - [29/Sep/2025:05:30:16 +0000] "GET /api/v1/categories HTTP/1.1" 200 1062 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-29T05:30:37.583Z [DEBUG] [req:ec6fc33e-a780-4ab5-b13d-c0776df567ad] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-29T05:30:37.583Z [DEBUG] [req:ec6fc33e-a780-4ab5-b13d-c0776df567ad] [requireAuth] AccessToken from cookies: missing
+2025-09-29T05:30:37.584Z [DEBUG] [req:ec6fc33e-a780-4ab5-b13d-c0776df567ad] [requireAuth] Authorization header: missing
+2025-09-29T05:30:37.584Z [WARN] [req:ec6fc33e-a780-4ab5-b13d-c0776df567ad] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-29T05:30:37.805Z [HTTP] [req:ec6fc33e-a780-4ab5-b13d-c0776df567ad] ::1 - - [29/Sep/2025:05:30:37 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:20.439Z [DEBUG] [req:21989ec9-9679-48b4-bfb7-eda0dc72a009] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-29T05:31:20.440Z [DEBUG] [req:21989ec9-9679-48b4-bfb7-eda0dc72a009] [requireAuth] AccessToken from cookies: missing
+2025-09-29T05:31:20.440Z [DEBUG] [req:21989ec9-9679-48b4-bfb7-eda0dc72a009] [requireAuth] Authorization header: missing
+2025-09-29T05:31:20.441Z [WARN] [req:21989ec9-9679-48b4-bfb7-eda0dc72a009] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-29T05:31:21.457Z [HTTP] [req:21989ec9-9679-48b4-bfb7-eda0dc72a009] ::1 - - [29/Sep/2025:05:31:21 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:22.191Z [HTTP] [req:090c0b48-054a-49e2-9839-8c4c2e4c31c9] ::1 - - [29/Sep/2025:05:31:22 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:24.017Z [HTTP] [req:b2ea2c74-40b3-4b90-b76b-d78981290532] ::1 - - [29/Sep/2025:05:31:24 +0000] "GET /api/v1/categories HTTP/1.1" 200 1062 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:46.832Z [HTTP] [req:ad1a1828-d6f1-4895-b6f5-a878bfce3ea1] ::1 - - [29/Sep/2025:05:31:46 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:52.263Z [HTTP] [req:a68d3161-806b-461f-b6ef-b633b365af92] ::1 - - [29/Sep/2025:05:31:52 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:52.537Z [DEBUG] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-29T05:31:52.538Z [DEBUG] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] [requireAuth] AccessToken from cookies: present
+2025-09-29T05:31:52.538Z [DEBUG] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] [requireAuth] Authorization header: missing
+2025-09-29T05:31:52.541Z [DEBUG] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-29T05:31:52.716Z [DEBUG] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-29T05:31:52.716Z [DEBUG] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] [requireAuth] Session gyuP7dbmgJOCXmuZmR1TIrnQ9bB34X2C touched.
+2025-09-29T05:31:52.907Z [HTTP] [req:ee4e47e1-ec86-408a-ab3d-e8dd0701049e] ::1 - - [29/Sep/2025:05:31:52 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:53.096Z [DEBUG] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] [requireAuth] Attempting to authenticate for path: /metrics
+2025-09-29T05:31:53.096Z [DEBUG] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] [requireAuth] AccessToken from cookies: present
+2025-09-29T05:31:53.097Z [DEBUG] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] [requireAuth] Authorization header: missing
+2025-09-29T05:31:53.098Z [DEBUG] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-29T05:31:53.527Z [DEBUG] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] [requireAuth] Attempting to authenticate for path: /sales-over-time
+2025-09-29T05:31:53.528Z [DEBUG] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] [requireAuth] AccessToken from cookies: present
+2025-09-29T05:31:53.529Z [DEBUG] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] [requireAuth] Authorization header: missing
+2025-09-29T05:31:53.532Z [DEBUG] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-29T05:31:53.698Z [DEBUG] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-29T05:31:53.699Z [DEBUG] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] [requireAuth] Session gyuP7dbmgJOCXmuZmR1TIrnQ9bB34X2C touched.
+2025-09-29T05:31:53.710Z [DEBUG] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-29T05:31:53.710Z [DEBUG] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] [requireAuth] Session gyuP7dbmgJOCXmuZmR1TIrnQ9bB34X2C touched.
+2025-09-29T05:31:54.050Z [HTTP] [req:735dc08c-6df1-42a7-8c72-c2cedd070174] ::1 - - [29/Sep/2025:05:31:54 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 200 75 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:55.146Z [DEBUG] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] [requireAuth] Attempting to authenticate for path: /top-selling-products
+2025-09-29T05:31:55.148Z [DEBUG] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] [requireAuth] AccessToken from cookies: present
+2025-09-29T05:31:55.148Z [DEBUG] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] [requireAuth] Authorization header: missing
+2025-09-29T05:31:55.151Z [DEBUG] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-29T05:31:55.737Z [DEBUG] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-29T05:31:55.738Z [DEBUG] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] [requireAuth] Session gyuP7dbmgJOCXmuZmR1TIrnQ9bB34X2C touched.
+2025-09-29T05:31:56.075Z [HTTP] [req:933c7da8-7a86-4602-bab8-c050c2eb916f] ::1 - - [29/Sep/2025:05:31:56 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 200 166 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:31:58.037Z [HTTP] [req:f65e79c4-cf4f-4c23-bdf0-b81d76c68823] ::1 - - [29/Sep/2025:05:31:58 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 1809 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:32:09.221Z [HTTP] [req:f9bfcc58-a6f0-435b-b848-a5051a76a45f] ::1 - - [29/Sep/2025:05:32:09 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:32:10.200Z [HTTP] [req:5b1cf516-aef9-4dbf-957c-f2bf6f74b97b] ::1 - - [29/Sep/2025:05:32:10 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 5855 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-29T05:34:43.528Z [HTTP] [req:5967aa8b-c71a-44fd-a1b9-b5d72fc8d8cb] ::1 - - [29/Sep/2025:05:34:43 +0000] "GET /api/v1/categories HTTP/1.1" 200 1062 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-09-29T05:34:44.724Z [HTTP] [req:2a6919f4-4158-4cf5-a3a8-1bdbd65b2fc6] ::1 - - [29/Sep/2025:05:34:44 +0000] "GET /api/v1/categories HTTP/1.1" 200 1062 "http://localhost:51928/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.21.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"

@@ -23,7 +23,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { format } from 'date-fns';
-import { Order } from '@/types'; // Import the Order type
+import type { Order } from '@/types'; // Import the Order type
+ // Import the Order type
 
 function MetricCard({ 
   title, 
