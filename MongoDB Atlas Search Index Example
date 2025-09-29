@@ -1,0 +1,29 @@
+{
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "name": {
+        "type": "string",
+        "analyzer": "lucene.standard",
+        "searchAnalyzer": "lucene.standard",
+        "indexFeatures": {
+          "autocomplete": true,
+          "fuzzy": {
+            "maxEdits": 1,
+            "prefixLength": 2
+          }
+        }
+      },
+      "description": {
+        "type": "string",
+        "analyzer": "lucene.standard",
+        "searchAnalyzer": "lucene.standard",
+        "indexFeatures": {
+          "fuzzy": {
+            "maxEdits": 1
+          }
+        }
+      }
+    }
+  }
+}

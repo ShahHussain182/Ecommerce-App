@@ -15,9 +15,13 @@ export const getProducts = catchErrors(async (req, res) => {
   // Build the initial matching stage of the aggregation pipeline
   const matchStage = {};
 
-  // 1. Text Search Filter
+  // 1. Text Search Filter (now using regex for partial and case-insensitive matching)
   if (req.query.searchTerm) {
-    matchStage.$text = { $search: req.query.searchTerm };
+    const searchRegex = new RegExp(req.query.searchTerm, 'i'); // 'i' for case-insensitive
+    matchStage.$or = [
+      { name: { $regex: searchRegex } },
+      { description: { $regex: searchRegex } },
+    ];
   }
 
   // 2. Category Filter

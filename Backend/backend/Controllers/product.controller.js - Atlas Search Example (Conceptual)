@@ -1,0 +1,32 @@
+// This is a conceptual example for Atlas Search.
+// You would replace the existing $match stage for searchTerm with this.
+// This code is NOT being written to your files, it's for illustration.
+
+// const pipeline = [
+//   {
+//     $search: {
+//       index: 'default', // or the name of your search index
+//       autocomplete: {
+//         query: req.query.searchTerm,
+//         path: 'name',
+//         tokenOrder: 'any',
+//         fuzzy: {
+//           maxEdits: 1,
+//           prefixLength: 2
+//         }
+//       },
+//       highlight: {
+//         path: ['name', 'description'],
+//         maxCharsToExamine: 200,
+//         maxNumPassages: 1
+//       }
+//     }
+//   },
+//   {
+//     $addFields: {
+//       score: { $meta: 'searchScore' }, // To sort by relevance
+//       highlight: { $meta: 'searchHighlights' } // To show highlighted results
+//     }
+//   },
+//   // ... other stages like $match for categories/price, $sort, $skip, $limit
+// ];

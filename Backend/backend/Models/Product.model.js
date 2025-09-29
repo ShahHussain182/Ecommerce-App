@@ -81,7 +81,6 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-// Create a text index for more efficient searching on name and description
-productSchema.index({ name: 'text', description: 'text' });
+// Removed the text index: productSchema.index({ name: 'text', description: 'text' });
 
 export const Product = mongoose.model('Product', productSchema);
