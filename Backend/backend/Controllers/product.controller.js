@@ -14,14 +14,48 @@ export const getProducts = catchErrors(async (req, res) => {
 
   // Build the initial matching stage of the aggregation pipeline
   const matchStage = {};
+  const pipeline = [];
 
-  // 1. Text Search Filter (now using regex for partial and case-insensitive matching)
+  // 1. Multi-Keyword Search Filter with Basic Relevance Scoring
   if (req.query.searchTerm) {
-    const searchRegex = new RegExp(req.query.searchTerm, 'i'); // 'i' for case-insensitive
-    matchStage.$or = [
-      { name: { $regex: searchRegex } },
-      { description: { $regex: searchRegex } },
-    ];
+    const searchWords = req.query.searchTerm.split(/\s+/).filter(Boolean); // Split by spaces, remove empty strings
+    const searchConditions = searchWords.map(word => {
+      const regex = new RegExp(word, 'i'); // Case-insensitive partial match for each word
+      return {
+        $or: [
+          { name: { $regex: regex } },
+          { description: { $regex: regex } },
+        ],
+      };
+    });
+
+    if (searchConditions.length > 0) {
+      matchStage.$and = searchConditions;
+    }
+
+    // Add a temporary field for relevance scoring
+    pipeline.push({
+      $addFields: {
+        searchRelevanceScore: {
+          $sum: searchWords.map(word => {
+            const regex = new RegExp(word, 'i');
+            return {
+              $cond: [
+                { $regexMatch: { input: "$name", regex: regex } },
+                2, // Higher score for name match
+                {
+                  $cond: [
+                    { $regexMatch: { input: "$description", regex: regex } },
+                    1, // Lower score for description match
+                    0
+                  ]
+                }
+              ]
+            };
+          })
+        }
+      }
+    });
   }
 
   // 2. Category Filter
@@ -55,9 +89,12 @@ export const getProducts = catchErrors(async (req, res) => {
     matchStage.variants = { $elemMatch: elemMatchFilters };
   }
 
+  // Add the main match stage to the pipeline
+  pipeline.unshift({ $match: matchStage });
+
   // Build the sorting stage
   const sortStage = {};
-  const sortBy = req.query.sortBy || 'name-asc'; // Default to name-asc for consistency
+  const sortBy = req.query.sortBy || 'relevance-desc'; // Default to relevance-desc
   switch (sortBy) {
     case 'price-desc':
       sortStage['variants.0.price'] = -1; // Sort by the first variant's price
@@ -68,31 +105,35 @@ export const getProducts = catchErrors(async (req, res) => {
     case 'name-desc':
       sortStage.name = -1;
       break;
+    case 'relevance-desc':
+      sortStage.searchRelevanceScore = -1; // Sort by custom relevance score
+      sortStage.name = 1; // Secondary sort for consistent ordering
+      break;
     case 'price-asc':
     default:
       sortStage['variants.0.price'] = 1; // Default sort
       break;
   }
 
-  // Aggregation Pipeline
-  const pipeline = [
-    { $match: matchStage },
+  // Add default values for averageRating and numberOfReviews if they are missing
+  pipeline.push({
+    $addFields: {
+      averageRating: { $ifNull: ["$averageRating", 0] },
+      numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
+    },
+  });
+
+  // Add the sorting, skip, and limit stages
+  pipeline.push(
     { $sort: sortStage },
     { $skip: skip },
-    { $limit: limit },
-    // Add default values for averageRating and numberOfReviews if they are missing
-    {
-      $addFields: {
-        averageRating: { $ifNull: ["$averageRating", 0] },
-        numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
-      },
-    },
-  ];
+    { $limit: limit }
+  );
 
   // Execute queries in parallel for efficiency
   const [products, totalProducts] = await Promise.all([
     Product.aggregate(pipeline),
-    Product.countDocuments(matchStage)
+    Product.countDocuments(matchStage) // Count based on the initial match stage
   ]);
 
   res.status(200).json({
