@@ -8,3 +8,31 @@
     ]
   }
 ]
+2025-09-29T05:39:24.711Z [ERROR] [req:d99d9e46-99a5-42a2-bbe4-34f98babfd0b] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Size is required.",
+    "path": [
+      "variants",
+      0,
+      "size"
+    ]
+  },
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Color is required.",
+    "path": [
+      "variants",
+      0,
+      "color"
+    ]
+  }
+]
