@@ -130,12 +130,12 @@ export const Footer = () => {
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <a href="#" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Privacy Policy</a>
+                <Link to="/privacy-policy" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Privacy Policy</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <a href="#" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Terms of Service</a>
+                <Link to="/terms-of-service" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Terms of Service</Link>
               </motion.div>
             </li>
           </ul>

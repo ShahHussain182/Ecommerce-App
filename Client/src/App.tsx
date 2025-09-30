@@ -27,7 +27,9 @@ import EditProfilePage from "./pages/EditProfilePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import WishlistPage from "./pages/WishlistPage"; // New import
+import WishlistPage from "./pages/WishlistPage";
+import TermsOfServicePage from "./pages/TermsOfServicePage"; // New import
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"; // New import
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -101,7 +103,7 @@ const App = () => {
                   path="wishlist" 
                   element={
                     <ProtectedRoute>
-                      <WishlistPage /> {/* New protected route */}
+                      <WishlistPage />
                     </ProtectedRoute>
                   } 
                 />
@@ -109,6 +111,8 @@ const App = () => {
                 <Route path="contact" element={<ContactUs />} />
                 <Route path="search" element={<SearchPage />} />
                 <Route path="/shipping-returns" element={<ShippingReturnsPage />}/> 
+                <Route path="/terms-of-service" element={<TermsOfServicePage />} /> {/* New route */}
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} /> {/* New route */}
                 <Route 
                   path="/profile" 
                   element={
