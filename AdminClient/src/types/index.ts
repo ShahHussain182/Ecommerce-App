@@ -145,6 +145,12 @@ export interface TopProductData {
   totalRevenue: number; // Total revenue generated
 }
 
+// New: Customer Growth data point for charts
+export interface CustomerGrowthDataPoint {
+  date: string;
+  newCustomers: number;
+}
+
 // New: Category Type
 export interface Category {
   _id: string;
@@ -175,7 +181,6 @@ export interface ProductFormData {
   description: string;
   category: string;
   imageUrls: string[];
-  isFeatured: boolean;
   variants: {
     size: string;
     color: string;

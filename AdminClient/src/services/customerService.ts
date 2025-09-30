@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { User } from '@/types';
+import { User, CustomerGrowthDataPoint } from '@/types';
 
 interface GetAllCustomersParams {
   page?: number;
@@ -16,6 +16,10 @@ interface PaginatedCustomersResponse {
   nextPage: number | null;
 }
 
+interface GetCustomerGrowthParams {
+  period?: '7days' | '30days' | '1year';
+}
+
 export const customerService = {
   /**
    * Fetches all customers (users with role 'user') with pagination, search, and filters.
@@ -30,6 +34,18 @@ export const customerService = {
     });
 
     const response = await api.get(`/customers?${queryParams.toString()}`);
+    return response.data;
+  },
+
+  /**
+   * New: Get customer growth data over time for charting.
+   */
+  async getCustomerGrowthOverTime(params: GetCustomerGrowthParams = {}): Promise<{ data: CustomerGrowthDataPoint[] }> {
+    const queryParams = new URLSearchParams();
+    if (params.period) {
+      queryParams.append('period', params.period);
+    }
+    const response = await api.get(`/customers/growth-over-time?${queryParams.toString()}`);
     return response.data;
   },
 };

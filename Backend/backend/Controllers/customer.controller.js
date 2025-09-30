@@ -106,3 +106,59 @@ export const getAllCustomers = catchErrors(async (req, res) => {
     nextPage: totalCustomers > skip + customers.length ? page + 1 : null,
   });
 });
+
+/**
+ * @description Get customer growth data over a specified time period for charting.
+ */
+export const getCustomerGrowthOverTime = catchErrors(async (req, res) => {
+  const { period = '30days' } = req.query; // '7days', '30days', '1year'
+
+  let startDate = new Date();
+  let groupByFormat;
+
+  switch (period) {
+    case '7days':
+      startDate.setDate(startDate.getDate() - 7);
+      groupByFormat = '%Y-%m-%d'; // Group by day
+      break;
+    case '30days':
+      startDate.setDate(startDate.getDate() - 30);
+      groupByFormat = '%Y-%m-%d'; // Group by day
+      break;
+    case '1year':
+      startDate.setFullYear(startDate.getFullYear() - 1);
+      groupByFormat = '%Y-%m'; // Group by month
+      break;
+    default:
+      startDate.setDate(startDate.getDate() - 30);
+      groupByFormat = '%Y-%m-%d';
+      break;
+  }
+
+  const customerGrowthData = await User.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: startDate },
+        role: 'user', // Only count regular users
+      },
+    },
+    {
+      $group: {
+        _id: { $dateToString: { format: groupByFormat, date: '$createdAt' } },
+        newCustomers: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { _id: 1 }, // Sort by date
+    },
+    {
+      $project: {
+        _id: 0,
+        date: '$_id',
+        newCustomers: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({ success: true, data: customerGrowthData });
+});
