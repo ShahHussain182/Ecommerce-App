@@ -9,8 +9,8 @@ export const Footer = () => {
   const displayedCategories = categories?.slice(0, 5) || [];
 
   const linkVariants = {
-    hover: { x: 8, color: "hsl(var(--primary))", transition: { duration: 0.2 } }, // Increased x for more noticeable shift, added color change
-    initial: { x: 0, color: "hsl(var(--gray-600))", transition: { duration: 0.2 } }, // Default color for initial state
+    initial: { x: 0, color: "hsl(var(--gray-600))", backgroundColor: "transparent", transition: { duration: 0.2 } },
+    hover: { x: 8, color: "hsl(var(--primary))", backgroundColor: "hsl(var(--accent))", transition: { duration: 0.2 } },
   };
 
   return (
@@ -44,28 +44,28 @@ export const Footer = () => {
           <h4 className="font-semibold text-gray-900 dark:text-gray-50">Quick Links</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/" className="text-gray-600 dark:text-gray-400 transition-colors">Home</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Home</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/about" className="text-gray-600 dark:text-gray-400 transition-colors">About Us</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/about" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">About Us</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/contact" className="text-gray-600 dark:text-gray-400 transition-colors">Contact Us</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/contact" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Contact Us</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/cart" className="text-gray-600 dark:text-gray-400 transition-colors">Cart</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/cart" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Cart</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/profile" className="text-gray-600 dark:text-gray-400 transition-colors">My Account</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/profile" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">My Account</Link>
               </motion.div>
             </li>
           </ul>
@@ -76,8 +76,8 @@ export const Footer = () => {
           <h4 className="font-semibold text-gray-900 dark:text-gray-50">Shop</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/products" className="text-gray-600 dark:text-gray-400 transition-colors">All Products</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/products" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">All Products</Link>
               </motion.div>
             </li>
             {isLoading ? (
@@ -89,8 +89,8 @@ export const Footer = () => {
             ) : (
               displayedCategories.map((category) => (
                 <li key={category._id}>
-                  <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 dark:text-gray-400 transition-colors">
+                  <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">
                       {category.name}
                     </Link>
                   </motion.div>
@@ -99,8 +99,8 @@ export const Footer = () => {
             )}
             {categories && categories.length > 5 && (
               <li>
-                <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                  <Link to="/products" className="text-gray-600 dark:text-gray-400 transition-colors">
+                <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                  <Link to="/products" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">
                     More Categories...
                   </Link>
                 </motion.div>
@@ -114,28 +114,28 @@ export const Footer = () => {
           <h4 className="font-semibold text-gray-900 dark:text-gray-50">Customer Service</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/contact#faq" className="text-gray-600 dark:text-gray-400 transition-colors">FAQ</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/contact#faq" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">FAQ</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/shipping-returns" className="text-gray-600 dark:text-gray-400 transition-colors">Shipping & Returns</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/shipping-returns" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Shipping & Returns</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/press" className="text-gray-600 dark:text-gray-400 transition-colors">Press</Link>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <Link to="/press" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Press</Link>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <a href="#" className="text-gray-600 dark:text-gray-400 transition-colors">Privacy Policy</a>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <a href="#" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Privacy Policy</a>
               </motion.div>
             </li>
             <li>
-              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <a href="#" className="text-gray-600 dark:text-gray-400 transition-colors">Terms of Service</a>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
+                <a href="#" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Terms of Service</a>
               </motion.div>
             </li>
           </ul>
