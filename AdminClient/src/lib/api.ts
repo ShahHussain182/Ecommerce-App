@@ -33,21 +33,21 @@ export const endpoints = {
   
   // Products
   products: '/products',
-  productById: (id: string) => `/products/${id}`,
+  productById: '/products', // Changed to string
   
   // Orders
   orders: '/orders',
   adminOrders: '/orders/admin',
   orderMetrics: '/orders/metrics',
-  orderById: (id: string) => `/orders/${id}`,
-  updateOrderStatus: (id: string) => `/orders/${id}/status',
+  orderById: '/orders', // Changed to string
+  updateOrderStatus: '/orders', // Changed to string
   
   // Cart
   cart: '/cart',
   
   // Reviews
   reviews: '/reviews',
-  productReviews: (productId: string) => `/reviews/product/${productId}`,
+  productReviews: '/reviews/product', // Changed to string
   
   // Wishlist
   wishlist: '/wishlist',
