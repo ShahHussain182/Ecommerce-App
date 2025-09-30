@@ -9,8 +9,8 @@ export const Footer = () => {
   const displayedCategories = categories?.slice(0, 5) || [];
 
   const linkVariants = {
-    hover: { scale: 1.05, x: 5, transition: { duration: 0.2 } },
-    initial: { scale: 1, x: 0 },
+    hover: { x: 8, color: "hsl(var(--primary))", transition: { duration: 0.2 } }, // Increased x for more noticeable shift, added color change
+    initial: { x: 0, color: "hsl(var(--gray-600))", transition: { duration: 0.2 } }, // Default color for initial state
   };
 
   return (
@@ -45,27 +45,27 @@ export const Footer = () => {
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Home</Link>
+                <Link to="/" className="text-gray-600 dark:text-gray-400 transition-colors">Home</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">About Us</Link>
+                <Link to="/about" className="text-gray-600 dark:text-gray-400 transition-colors">About Us</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/contact" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Contact Us</Link>
+                <Link to="/contact" className="text-gray-600 dark:text-gray-400 transition-colors">Contact Us</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/cart" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Cart</Link>
+                <Link to="/cart" className="text-gray-600 dark:text-gray-400 transition-colors">Cart</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/profile" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">My Account</Link>
+                <Link to="/profile" className="text-gray-600 dark:text-gray-400 transition-colors">My Account</Link>
               </motion.div>
             </li>
           </ul>
@@ -77,7 +77,7 @@ export const Footer = () => {
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/products" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">All Products</Link>
+                <Link to="/products" className="text-gray-600 dark:text-gray-400 transition-colors">All Products</Link>
               </motion.div>
             </li>
             {isLoading ? (
@@ -90,7 +90,7 @@ export const Footer = () => {
               displayedCategories.map((category) => (
                 <li key={category._id}>
                   <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">
+                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 dark:text-gray-400 transition-colors">
                       {category.name}
                     </Link>
                   </motion.div>
@@ -100,7 +100,7 @@ export const Footer = () => {
             {categories && categories.length > 5 && (
               <li>
                 <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                  <Link to="/products" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">
+                  <Link to="/products" className="text-gray-600 dark:text-gray-400 transition-colors">
                     More Categories...
                   </Link>
                 </motion.div>
@@ -115,27 +115,27 @@ export const Footer = () => {
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/contact#faq" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">FAQ</Link>
+                <Link to="/contact#faq" className="text-gray-600 dark:text-gray-400 transition-colors">FAQ</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/shipping-returns" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Shipping & Returns</Link>
+                <Link to="/shipping-returns" className="text-gray-600 dark:text-gray-400 transition-colors">Shipping & Returns</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <Link to="/press" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Press</Link>
+                <Link to="/press" className="text-gray-600 dark:text-gray-400 transition-colors">Press</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Privacy Policy</a>
+                <a href="#" className="text-gray-600 dark:text-gray-400 transition-colors">Privacy Policy</a>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
-                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Terms of Service</a>
+                <a href="#" className="text-gray-600 dark:text-gray-400 transition-colors">Terms of Service</a>
               </motion.div>
             </li>
           </ul>
