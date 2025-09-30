@@ -1122,3 +1122,43 @@
 2025-09-30T13:45:59.911Z [HTTP] [req:b86759ac-5ac6-4fba-b8ae-56334f93c1b3] ::1 - - [30/Sep/2025:13:45:59 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-30T13:46:00.083Z [HTTP] [req:44714018-18af-4bdd-841f-dc76f5018570] ::1 - - [30/Sep/2025:13:46:00 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-30T13:46:03.499Z [HTTP] [req:859e127d-ddf5-4d5f-98d1-3cd668c14582] ::1 - - [30/Sep/2025:13:46:03 +0000] "GET /api/v1/wishlist HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T13:54:21.838Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T13:54:22.498Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T13:57:07.894Z [DEBUG] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-30T13:57:07.894Z [DEBUG] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] [requireAuth] AccessToken from cookies: present
+2025-09-30T13:57:07.914Z [DEBUG] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] [requireAuth] Authorization header: missing
+2025-09-30T13:57:07.917Z [DEBUG] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T13:57:09.277Z [DEBUG] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T13:57:09.278Z [DEBUG] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] [requireAuth] Session f0C9rYyuMe-sPIYSp-9vK8uhlVwsM6lC touched.
+2025-09-30T13:57:09.546Z [HTTP] [req:4de17192-4bc3-4272-b9c0-1084a344dd26] ::1 - - [30/Sep/2025:13:57:09 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T13:57:11.422Z [DEBUG] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] [requireAuth] Attempting to authenticate for path: /
+2025-09-30T13:57:11.423Z [DEBUG] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] [requireAuth] AccessToken from cookies: present
+2025-09-30T13:57:11.424Z [DEBUG] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] [requireAuth] Authorization header: missing
+2025-09-30T13:57:11.427Z [DEBUG] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T13:57:11.613Z [DEBUG] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T13:57:11.614Z [DEBUG] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] [requireAuth] Session f0C9rYyuMe-sPIYSp-9vK8uhlVwsM6lC touched.
+2025-09-30T13:57:14.861Z [HTTP] [req:55a3a729-b128-4320-afb3-4684aedb2462] ::1 - - [30/Sep/2025:13:57:14 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T13:57:14.968Z [HTTP] [req:6be2adb0-de6d-4f41-b35c-9c6605a5cb03] ::1 - - [30/Sep/2025:13:57:14 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T13:57:15.901Z [HTTP] [req:b9dd70d0-f14d-4f75-9147-5b77f7f72e80] ::1 - - [30/Sep/2025:13:57:15 +0000] "GET /api/v1/wishlist HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T13:57:16.545Z [DEBUG] [req:2937afd8-9498-4193-aa27-91103548faf1] [requireAuth] Attempting to authenticate for path: /
+2025-09-30T13:57:16.546Z [DEBUG] [req:2937afd8-9498-4193-aa27-91103548faf1] [requireAuth] AccessToken from cookies: present
+2025-09-30T13:57:16.546Z [DEBUG] [req:2937afd8-9498-4193-aa27-91103548faf1] [requireAuth] Authorization header: missing
+2025-09-30T13:57:16.549Z [DEBUG] [req:2937afd8-9498-4193-aa27-91103548faf1] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T13:57:16.775Z [DEBUG] [req:2937afd8-9498-4193-aa27-91103548faf1] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T13:57:16.776Z [DEBUG] [req:2937afd8-9498-4193-aa27-91103548faf1] [requireAuth] Session f0C9rYyuMe-sPIYSp-9vK8uhlVwsM6lC touched.
+2025-09-30T13:57:25.177Z [HTTP] [req:2937afd8-9498-4193-aa27-91103548faf1] ::1 - - [30/Sep/2025:13:57:25 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T13:57:25.438Z [DEBUG] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] [requireAuth] Attempting to authenticate for path: /
+2025-09-30T13:57:25.438Z [DEBUG] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] [requireAuth] AccessToken from cookies: present
+2025-09-30T13:57:25.440Z [DEBUG] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] [requireAuth] Authorization header: missing
+2025-09-30T13:57:25.444Z [DEBUG] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T13:57:27.083Z [DEBUG] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T13:57:27.084Z [DEBUG] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] [requireAuth] Session f0C9rYyuMe-sPIYSp-9vK8uhlVwsM6lC touched.
+2025-09-30T13:57:28.038Z [HTTP] [req:24ad4845-cc68-4ca4-beff-6d1a1f8000b9] ::1 - - [30/Sep/2025:13:57:28 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T13:58:46.133Z [DEBUG] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-30T13:58:46.134Z [DEBUG] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] [requireAuth] AccessToken from cookies: present
+2025-09-30T13:58:46.135Z [DEBUG] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] [requireAuth] Authorization header: missing
+2025-09-30T13:58:46.137Z [DEBUG] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T13:58:46.417Z [DEBUG] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T13:58:46.418Z [DEBUG] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] [requireAuth] Session f0C9rYyuMe-sPIYSp-9vK8uhlVwsM6lC touched.
+2025-09-30T13:58:46.690Z [HTTP] [req:7a576cb0-1261-4940-b06b-da8c7d56c012] ::1 - - [30/Sep/2025:13:58:46 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T13:58:47.623Z [HTTP] [req:7fb4dd32-7e24-4bae-a5ba-3566180861eb] ::1 - - [30/Sep/2025:13:58:47 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"

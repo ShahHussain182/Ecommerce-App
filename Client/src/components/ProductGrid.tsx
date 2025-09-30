@@ -23,7 +23,7 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
   } = queryResult;
 
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(loadMoreRef.current); // Initialize with current ref
+  const loadMoreRef = useRef<HTMLDivElement | null>(null); // Corrected: Initialize with null
 
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
