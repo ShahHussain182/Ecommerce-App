@@ -23,7 +23,7 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
   } = queryResult;
 
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(loadMoreRef.current); // Initialize with current ref
 
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
@@ -49,11 +49,11 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {Array.from({ length: 12 }).map((_, index) => (
-          <div key={index} className="flex flex-col space-y-3">
-            <Skeleton className="h-[192px] w-full rounded-xl bg-gray-200" />
+          <div key={index} className="flex flex-col space-y-3 p-4 border rounded-lg shadow-sm bg-card dark:bg-gray-800">
+            <Skeleton className="h-[192px] w-full rounded-md bg-gray-200 dark:bg-gray-700" />
             <div className="space-y-2">
-              <Skeleton className="h-4 w-3/4 bg-gray-200" />
-              <Skeleton className="h-4 w-1/2 bg-gray-200" />
+              <Skeleton className="h-4 w-3/4 bg-gray-200 dark:bg-gray-700" />
+              <Skeleton className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700" />
             </div>
           </div>
         ))}
@@ -78,9 +78,9 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
   if (products.length === 0) {
     return (
       <div className="text-center py-16">
-        <ShoppingBag className="mx-auto h-12 w-12 text-gray-400" />
-        <h3 className="mt-2 text-sm font-semibold text-gray-900">No products found</h3>
-        <p className="mt-1 text-sm text-gray-500">Try adjusting your filters.</p>
+        <ShoppingBag className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600" />
+        <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-gray-50">No products found</h3>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Try adjusting your filters.</p>
       </div>
     );
   }
@@ -110,7 +110,7 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
             Load More
           </Button>
         ) : products.length > 0 && (
-          <p className="text-gray-500 py-4">You've reached the end of the list.</p>
+          <p className="text-gray-500 dark:text-gray-400 py-4">You've reached the end of the list.</p>
         )}
       </div>
     </div>

@@ -80,13 +80,13 @@ const ProductsPage = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50"> {/* Changed background here */}
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900"> {/* Enhanced background */}
       <Header />
       <main className="flex-grow flex flex-col">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold">Our Products</h1>
-            <p className="text-gray-600 mt-2">Explore our curated collection of high-quality items.</p>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-50">Our Products</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">Explore our curated collection of high-quality items.</p>
           </div>
 
           {isMobile ? (
@@ -120,7 +120,7 @@ const ProductsPage = () => {
               </div>
             </div>
           ) : (
-            <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border flex-1 bg-white"> {/* Added bg-white here */}
+            <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border bg-card dark:bg-card flex-1"> {/* Added bg-card for consistency */}
               <ResizablePanel defaultSize={25} minSize={20} maxSize={30}>
                 <div className="p-6 h-full overflow-y-auto">{sidebar}</div>
               </ResizablePanel>
@@ -128,7 +128,7 @@ const ProductsPage = () => {
               <ResizablePanel defaultSize={75}>
                 <div className="p-6 h-full overflow-y-auto">
                   <div className="flex justify-between items-center mb-6">
-                    <p className="text-sm text-gray-600">Showing {totalProducts} products</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Showing {totalProducts} products</p>
                     <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange({ sortBy: value as FilterState['sortBy'] })}>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Sort by" />
