@@ -3,8 +3,9 @@ import { useInfiniteQuery, InfiniteData, UseInfiniteQueryResult } from '@tanstac
 import { ProductCard } from './ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, ShoppingBag } from "lucide-react";
+import { Terminal, ShoppingBag, Loader2 } from "lucide-react"; // Import Loader2
 import { Product, PaginatedProductsResponse } from '@/types'; // Import PaginatedProductsResponse
+import { Button } from '@/components/ui/button'; // Import Button
 
 interface ProductGridProps {
   queryResult: UseInfiniteQueryResult<InfiniteData<PaginatedProductsResponse>, Error>; // Corrected type definition
@@ -31,6 +32,8 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
       if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
         fetchNextPage();
       }
+    }, {
+      rootMargin: '100px', // Start loading when 100px from bottom
     });
 
     if (loadMoreRef.current) {
@@ -90,18 +93,24 @@ export const ProductGrid = ({ queryResult }: ProductGridProps) => {
         ))}
       </div>
 
-      <div ref={loadMoreRef} className="h-10 mt-8">
-        {isFetchingNextPage && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="flex flex-col space-y-3">
-                <Skeleton className="h-[192px] w-full rounded-xl bg-gray-200" />
-              </div>
-            ))}
+      {/* Infinite scroll trigger and feedback */}
+      <div ref={loadMoreRef} className="mt-8 text-center">
+        {isFetchingNextPage ? (
+          <div className="flex items-center justify-center py-4">
+            <Loader2 className="mr-2 h-5 w-5 animate-spin text-primary" />
+            <span className="text-muted-foreground">Loading more products...</span>
           </div>
-        )}
-        {!hasNextPage && !isFetchingNextPage && (
-          <p className="text-center text-gray-500">You've reached the end of the list.</p>
+        ) : hasNextPage ? (
+          <Button 
+            onClick={() => fetchNextPage()} 
+            disabled={isFetchingNextPage}
+            variant="outline"
+            className="w-full sm:w-auto"
+          >
+            Load More
+          </Button>
+        ) : products.length > 0 && (
+          <p className="text-gray-500 py-4">You've reached the end of the list.</p>
         )}
       </div>
     </div>
