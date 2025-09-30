@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { useAutocompleteSuggestions } from '@/hooks/useAutocompleteSuggestions';
@@ -34,6 +34,7 @@ export const Header = () => {
 
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation(); // Initialize useLocation
   const [searchQuery, setSearchQuery] = React.useState('');
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false); // New state for scroll
@@ -69,10 +70,18 @@ export const Header = () => {
 
   const navLinks = (
     <>
-      <Link to="/" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">Home</Link>
-      <Link to="/products" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">Shop</Link>
-      <Link to="/about" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">About</Link>
-      <Link to="/contact" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">Contact</Link>
+      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname === "/" ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
+        <Link to="/">Home</Link>
+      </Button>
+      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname.startsWith("/products") ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
+        <Link to="/products">Shop</Link>
+      </Button>
+      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname === "/about" ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
+        <Link to="/about">About</Link>
+      </Button>
+      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname === "/contact" ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
+        <Link to="/contact">Contact</Link>
+      </Button>
     </>
   );
 
@@ -92,7 +101,7 @@ export const Header = () => {
           </div>
           
           {!isMobile && (
-            <nav className="hidden md:flex md:items-center md:space-x-6">
+            <nav className="hidden md:flex md:items-center md:space-x-2"> {/* Reduced space-x for better fit */}
               {navLinks}
             </nav>
           )}
