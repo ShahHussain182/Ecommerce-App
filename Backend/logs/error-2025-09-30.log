@@ -18,3 +18,8 @@
 1:6 price >= 0 AND price <= 500
 2025-09-30T12:20:30.155Z [ERROR] [req:5d339de9-a4b5-4a39-9560-d9af8af34cf9] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
 1:6 price >= 0 AND price <= 500
+2025-09-30T12:57:15.178Z [ERROR] [req:N/A] MongooseServerSelectionError: Server selection timed out after 30000 ms
+    at _handleConnectionErrors (C:\Users\Administrator\dyad-apps\Ecommerce App\Backend\node_modules\.pnpm\mongoose@8.18.1\node_modules\mongoose\lib\connection.js:1165:11)
+    at NativeConnection.openUri (C:\Users\Administrator\dyad-apps\Ecommerce App\Backend\node_modules\.pnpm\mongoose@8.18.1\node_modules\mongoose\lib\connection.js:1096:11)
+    at async connectDB (file:///C:/Users/Administrator/dyad-apps/Ecommerce%20App/Backend/backend/DB/connectDB.js:20:18)
+    at async startServer (file:///C:/Users/Administrator/dyad-apps/Ecommerce%20App/Backend/backend/server.js:118:3)

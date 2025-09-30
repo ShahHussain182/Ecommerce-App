@@ -20,8 +20,36 @@ async function syncProducts() {
     // ✅ Configure index before syncing
     await productsIndex.updateSettings({
       searchableAttributes: ['name', 'description', 'category'],
-      filterableAttributes: ['category', 'price', 'colors', 'sizes', 'isFeatured'],
-      sortableAttributes: ['price', 'name', 'averageRating', 'numberOfReviews', 'createdAt'],
+      filterableAttributes: ['category', 'price', 'colors', 'sizes', 'isFeatured', 'averageRating', 'numberOfReviews'], // Added averageRating, numberOfReviews
+      sortableAttributes: ['price', 'name', 'averageRating', 'numberOfReviews', 'createdAt'], // Added averageRating, numberOfReviews
+      rankingRules: [ // Custom ranking rules for better relevance
+        'words',
+        'typo',
+        'proximity',
+        'attribute',
+        'sort',
+        'exactness',
+        'isFeatured:desc', // Prioritize featured products
+        'averageRating:desc', // Prioritize higher-rated products
+        'numberOfReviews:desc', // Prioritize products with more reviews
+      ],
+      synonyms: { // Example synonyms
+        'phone': ['smartphone', 'mobile'],
+        'tv': ['television'],
+        'laptop': ['notebook', 'computer'],
+        'shirt': ['t-shirt', 'tee'],
+      },
+      stopWords: ['a', 'an', 'the', 'is', 'are', 'and', 'or', 'for', 'with'], // Example stop words
+      typoTolerance: { // Explicitly enable typo tolerance (default is usually true)
+        enabled: true,
+        minWordSizeForTypos: {
+          '1': false,
+          '2': false,
+          '3': true,
+          '4': true,
+        },
+        disableOnAttributes: ['_id'], // Don't apply typo tolerance to IDs
+      },
     });
 
     // 3. Get all products from MongoDB
@@ -38,9 +66,8 @@ async function syncProducts() {
       name: String(p.name ?? ''),
       description: String(p.description ?? ''),
       category: String(p.category ?? ''),
-      imageUrls: p.imageUrls || [], // ADDED: imageUrls
+      imageUrls: p.imageUrls || [], 
       isFeatured: Boolean(p.isFeatured),
-      // ADDED: Full variants array for ProductCard to use
       variants: (p.variants || []).map(v => ({
         _id: v._id.toString(),
         size: String(v.size ?? ''),
@@ -48,7 +75,7 @@ async function syncProducts() {
         price: Number(v.price ?? 0),
         stock: Number(v.stock ?? 0),
       })),
-      price: Number(p.variants?.[0]?.price ?? 0), // Keep for filterable/sortable
+      price: Number(p.variants?.[0]?.price ?? 0), 
       colors: (p.variants || []).map(v => v.color).filter(Boolean),
       sizes: (p.variants || []).map(v => v.size).filter(Boolean),
       averageRating: Number(p.averageRating ?? 0),
