@@ -5,6 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, Tag } from "lucide-react";
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion'; // Import motion
 
 // Placeholder images for categories without specific images
 const DEFAULT_CATEGORY_IMAGE = "/placeholder.svg";
@@ -71,21 +72,28 @@ export const CategoryShowcase = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-10">Shop by Category</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {displayedCategories.map((category) => (
-            <Link to={`/products?category=${encodeURIComponent(category.name)}`} key={category._id}>
-              <Card className="overflow-hidden group hover:shadow-lg transition-shadow duration-300">
-                {/* Using a generic placeholder image for now, as category model doesn't have imageUrl */}
-                <img
-                  src={DEFAULT_CATEGORY_IMAGE} 
-                  alt={category.name}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <CardContent className="p-4 text-center">
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary">{category.name}</h3>
-                  <p className="text-gray-600 text-sm">{category.description || "Explore products in this category."}</p>
-                </CardContent>
-              </Card>
-            </Link>
+          {displayedCategories.map((category, index) => (
+            <motion.div
+              key={category._id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Link to={`/products?category=${encodeURIComponent(category.name)}`}>
+                <Card className="overflow-hidden group hover:shadow-lg transition-shadow duration-300">
+                  <img
+                    src={DEFAULT_CATEGORY_IMAGE} 
+                    alt={category.name}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <CardContent className="p-4 text-center">
+                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary">{category.name}</h3>
+                    <p className="text-gray-600 text-sm">{category.description || "Explore products in this category."}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </motion.div>
           ))}
         </div>
         {categories.length > 4 && (

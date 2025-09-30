@@ -3,6 +3,7 @@ import { ProductCard } from './ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Terminal } from "lucide-react"
+import { motion } from 'framer-motion'; // Import motion
 
 export const FeaturedProducts = () => {
   const { data: products, isLoading, isError, error } = useFeaturedProducts();
@@ -10,7 +11,15 @@ export const FeaturedProducts = () => {
   return (
     <section className="py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-8">Featured Products</h2>
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl font-bold text-center mb-8"
+        >
+          Featured Products
+        </motion.h2>
         
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -34,8 +43,16 @@ export const FeaturedProducts = () => {
           </Alert>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products?.map((product) => (
-              <ProductCard key={product._id} product={product} />
+            {products?.map((product, index) => (
+              <motion.div
+                key={product._id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
             ))}
           </div>
         )}
