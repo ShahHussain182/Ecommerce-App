@@ -1,4 +1,4 @@
-import { ShoppingCart, User, Search, Menu, Heart } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, Heart, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCartStore } from '@/store/cartStore';
@@ -21,10 +21,10 @@ import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
-// No longer need shallow for these selectors as they return primitives directly
+import { cn } from '@/lib/utils';
+import { useAutocompleteSuggestions } from '@/hooks/useAutocompleteSuggestions'; // New import
 
 export const Header = () => {
-  // Optimized: Select primitive values directly
   const totalCartItems = useCartStore((state) => state.cart?.totalItems || 0);
   const totalWishlistItems = useWishlistStore((state) => state.wishlist?.totalItems || 0);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -34,6 +34,9 @@ export const Header = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false);
 
+  // New: Autocomplete suggestions hook
+  const { data: suggestions, isLoading: isLoadingSuggestions } = useAutocompleteSuggestions(searchQuery);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -41,6 +44,13 @@ export const Header = () => {
       setSearchQuery('');
       setIsSearchDialogOpen(false);
     }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion); // Set the search query to the suggestion
+    navigate(`/search?query=${encodeURIComponent(suggestion)}`);
+    setSearchQuery('');
+    setIsSearchDialogOpen(false);
   };
 
   const navLinks = (
@@ -90,6 +100,29 @@ export const Header = () => {
                   />
                   <Button type="submit">Search</Button>
                 </form>
+                {isLoadingSuggestions && searchQuery.length >= 2 && (
+                  <div className="flex items-center justify-center text-sm text-muted-foreground">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading suggestions...
+                  </div>
+                )}
+                {suggestions && suggestions.length > 0 && (
+                  <div className="mt-2 border-t pt-2">
+                    <p className="text-sm font-semibold mb-1">Suggestions:</p>
+                    <ul className="space-y-1">
+                      {suggestions.map((suggestion, index) => (
+                        <li key={index}>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start h-auto py-1 px-2 text-sm"
+                            onClick={() => handleSuggestionClick(suggestion)}
+                          >
+                            {suggestion}
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </DialogContent>
             </Dialog>
 

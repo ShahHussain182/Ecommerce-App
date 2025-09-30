@@ -1,0 +1,42 @@
+2025-09-30T05:57:34.009Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T05:57:40.197Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T05:57:40.203Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T05:57:43.029Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T05:57:44.134Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T05:57:44.698Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T05:57:44.704Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T06:01:01.950Z [WARN] [req:b0ff98f2-d454-4fcc-8c2e-33f3b991a9b0] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T06:01:02.254Z [HTTP] [req:b0ff98f2-d454-4fcc-8c2e-33f3b991a9b0] ::1 - - [30/Sep/2025:06:01:02 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:11.258Z [HTTP] [req:db77cd59-e2b5-4bbf-b473-41e21051affc] ::1 - - [30/Sep/2025:06:01:11 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:13.883Z [HTTP] [req:a689d212-3330-4551-992d-3d8209a41589] ::1 - - [30/Sep/2025:06:01:13 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:14.692Z [HTTP] [req:5c53cafa-49b0-4507-bd6a-172d04039bcc] ::1 - - [30/Sep/2025:06:01:14 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:18.408Z [HTTP] [req:ece9341c-87c2-4ba5-9049-ddaef34640c5] ::1 - - [30/Sep/2025:06:01:18 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 1809 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:21.896Z [HTTP] [req:8a8ef430-28fd-4dcd-8e26-aaaac9a62f6b] ::1 - - [30/Sep/2025:06:01:21 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 200 75 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:28.922Z [HTTP] [req:40c97960-4e25-4d6a-8022-3d0cf708014e] ::1 - - [30/Sep/2025:06:01:28 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 200 166 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:36.635Z [HTTP] [req:405a9186-d3d0-4885-afeb-2611580c671c] ::1 - - [30/Sep/2025:06:01:36 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=desc HTTP/1.1" 200 1687 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:01:58.612Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-30T06:01:58.613Z [INFO] [req:N/A] Starting cleanup process...
+2025-09-30T06:01:58.613Z [INFO] [req:N/A] Starting cleanup process...
+2025-09-30T06:01:58.614Z [INFO] [req:N/A] HTTP server closed.
+2025-09-30T06:01:58.621Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T06:01:58.622Z [INFO] [req:N/A] Mongoose disconnected.
+2025-09-30T06:01:58.629Z [INFO] [req:N/A] MongoStore client disconnected.
+2025-09-30T06:01:58.630Z [INFO] [req:N/A] All connections closed successfully.
+2025-09-30T06:01:58.630Z [INFO] [req:N/A] ✅ Cleanup complete, exiting.
+2025-09-30T06:01:58.631Z [INFO] [req:N/A] Flushing logs...
+2025-09-30T06:03:10.884Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T06:03:16.015Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T06:03:16.020Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T06:03:17.917Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T06:03:21.439Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T06:03:21.674Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T06:03:21.677Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T06:07:34.499Z [HTTP] [req:f9eff548-691c-490a-af7c-4ba386e342b6] ::1 - - [30/Sep/2025:06:07:34 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:07:36.257Z [HTTP] [req:a662f90a-302e-4728-bd8c-1db5e2de493b] ::1 - - [30/Sep/2025:06:07:36 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:11:05.044Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T06:11:06.158Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T06:14:25.237Z [HTTP] [req:85f29ad9-40fa-45fd-aacd-13132edb70fc] ::1 - - [30/Sep/2025:06:14:25 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:14:27.193Z [HTTP] [req:c6beb5c4-8d01-4e49-a4dd-680f91d1615c] ::1 - - [30/Sep/2025:06:14:27 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:17:06.753Z [HTTP] [req:21c95525-1450-41fa-94fd-30eaa5e6ce75] ::1 - - [30/Sep/2025:06:17:06 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T06:18:30.773Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T06:18:31.042Z [INFO] [req:N/A] ✅ Mongoose connected to DB

@@ -1,103 +1,125 @@
 import { Product } from '../Models/Product.model.js';
 import catchErrors from '../Utils/catchErrors.js';
 import mongoose from 'mongoose';
-import { createProductSchema, updateProductSchema } from '../Schemas/productSchema.js'; // Import new schemas
+import { createProductSchema, updateProductSchema } from '../Schemas/productSchema.js';
 
 /**
- * @description Get all products with advanced filtering, sorting, and pagination
- * This function uses a MongoDB aggregation pipeline for powerful and efficient querying.
+ * @description Get all products with advanced filtering, sorting, and pagination using Atlas Search.
  */
 export const getProducts = catchErrors(async (req, res) => {
   const page = parseInt(req.query.page, 10) || 1;
   const limit = parseInt(req.query.limit, 10) || 12;
   const skip = (page - 1) * limit;
 
-  // Build the initial matching stage of the aggregation pipeline
-  const matchStage = {};
-  const pipeline = [];
+  const { searchTerm, categories, priceRange, colors, sizes, sortBy } = req.query;
 
-  // 1. Multi-Keyword Search Filter with Basic Relevance Scoring
-  if (req.query.searchTerm) {
-    const searchWords = req.query.searchTerm.split(/\s+/).filter(Boolean); // Split by spaces, remove empty strings
-    const searchConditions = searchWords.map(word => {
-      const regex = new RegExp(word, 'i'); // Case-insensitive partial match for each word
-      return {
-        $or: [
-          { name: { $regex: regex } },
-          { description: { $regex: regex } },
-        ],
-      };
-    });
+  const searchPipeline = [];
+  const compoundClauses = [];
 
-    if (searchConditions.length > 0) {
-      matchStage.$and = searchConditions;
-    }
-
-    // Add a temporary field for relevance scoring
-    pipeline.push({
-      $addFields: {
-        searchRelevanceScore: {
-          $sum: searchWords.map(word => {
-            const regex = new RegExp(word, 'i');
-            return {
-              $cond: [
-                { $regexMatch: { input: "$name", regex: regex } },
-                2, // Higher score for name match
-                {
-                  $cond: [
-                    { $regexMatch: { input: "$description", regex: regex } },
-                    1, // Lower score for description match
-                    0
-                  ]
-                }
-              ]
-            };
-          })
-        }
+  // 1. Search Term (Text and Fuzzy)
+  if (searchTerm) {
+    compoundClauses.push({
+      text: {
+        query: searchTerm,
+        path: ["name", "description"],
+        fuzzy: {
+          maxEdits: 1,
+          prefixLength: 2
+        },
+        score: { boost: { value: 2 } } // Boost relevance for text matches
       }
     });
   }
 
   // 2. Category Filter
-  if (req.query.categories) {
-    const categories = req.query.categories.split(',');
-    matchStage.category = { $in: categories };
+  if (categories) {
+    const categoryArray = categories.split(',');
+    compoundClauses.push({
+      filter: {
+        text: {
+          query: categoryArray,
+          path: "category",
+          score: { boost: { value: 1.5 } } // Boost relevance for category matches
+        }
+      }
+    });
   }
 
-  // 3. Variant-level Filters (Price, Color, Size)
-  const elemMatchFilters = {};
-  
-  // Price Range Filter
-  if (req.query.priceRange) {
-    const [min, max] = req.query.priceRange.split(',').map(Number);
+  // 3. Price Range Filter
+  if (priceRange) {
+    const [min, max] = priceRange.split(',').map(Number);
     if (!isNaN(min) && !isNaN(max)) {
-      elemMatchFilters.price = { $gte: min, $lte: max };
+      compoundClauses.push({
+        filter: {
+          range: {
+            path: "variants.price",
+            gte: min,
+            lte: max
+          }
+        }
+      });
     }
   }
-  
-  // Color Filter
-  if (req.query.colors) {
-    elemMatchFilters.color = { $in: req.query.colors.split(',') };
+
+  // 4. Color Filter
+  if (colors) {
+    const colorArray = colors.split(',');
+    compoundClauses.push({
+      filter: {
+        text: {
+          query: colorArray,
+          path: "variants.color"
+        }
+      }
+    });
   }
 
-  // Size Filter
-  if (req.query.sizes) {
-    elemMatchFilters.size = { $in: req.query.sizes.split(',') };
+  // 5. Size Filter
+  if (sizes) {
+    const sizeArray = sizes.split(',');
+    compoundClauses.push({
+      filter: {
+        text: {
+          query: sizeArray,
+          path: "variants.size"
+        }
+      }
+    });
   }
 
-  if (Object.keys(elemMatchFilters).length > 0) {
-    matchStage.variants = { $elemMatch: elemMatchFilters };
+  // Construct the $search stage if there are any clauses
+  if (compoundClauses.length > 0) {
+    searchPipeline.push({
+      $search: {
+        index: "default", // Use your Atlas Search index name here
+        compound: {
+          must: compoundClauses.filter(clause => clause.text), // Must match search term/category
+          filter: compoundClauses.filter(clause => clause.filter), // Filters that don't affect score
+        },
+        highlight: {
+          path: ["name", "description"] // Enable highlighting for search terms
+        }
+      }
+    });
+  } else {
+    // If no search term or filters, perform a basic match to get all products
+    // This ensures the pipeline still works for /products without search
+    searchPipeline.push({ $match: {} });
   }
 
-  // Add the main match stage to the pipeline
-  pipeline.unshift({ $match: matchStage });
+  // Add default values for averageRating and numberOfReviews if they are missing
+  searchPipeline.push({
+    $addFields: {
+      averageRating: { $ifNull: ["$averageRating", 0] },
+      numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
+    },
+  });
 
   // Build the sorting stage
   const sortStage = {};
-  const sortBy = req.query.sortBy || 'relevance-desc'; // Default to relevance-desc
   switch (sortBy) {
     case 'price-desc':
-      sortStage['variants.0.price'] = -1; // Sort by the first variant's price
+      sortStage['variants.0.price'] = -1;
       break;
     case 'name-asc':
       sortStage.name = 1;
@@ -105,36 +127,36 @@ export const getProducts = catchErrors(async (req, res) => {
     case 'name-desc':
       sortStage.name = -1;
       break;
-    case 'relevance-desc':
-      sortStage.searchRelevanceScore = -1; // Sort by custom relevance score
-      sortStage.name = 1; // Secondary sort for consistent ordering
+    case 'relevance-desc': // Default sort when searchTerm is present
+      if (searchTerm) {
+        sortStage.score = { $meta: "searchScore" }; // Sort by Atlas Search relevance score
+      } else {
+        sortStage['variants.0.price'] = 1; // Fallback if no search term
+      }
       break;
     case 'price-asc':
     default:
-      sortStage['variants.0.price'] = 1; // Default sort
+      sortStage['variants.0.price'] = 1;
       break;
   }
 
-  // Add default values for averageRating and numberOfReviews if they are missing
-  pipeline.push({
-    $addFields: {
-      averageRating: { $ifNull: ["$averageRating", 0] },
-      numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
-    },
-  });
-
   // Add the sorting, skip, and limit stages
-  pipeline.push(
+  searchPipeline.push(
     { $sort: sortStage },
     { $skip: skip },
     { $limit: limit }
   );
 
-  // Execute queries in parallel for efficiency
-  const [products, totalProducts] = await Promise.all([
-    Product.aggregate(pipeline),
-    Product.countDocuments(matchStage) // Count based on the initial match stage
-  ]);
+  // Execute the aggregation pipeline
+  const products = await Product.aggregate(searchPipeline);
+
+  // For total count, we need to run a separate aggregation without skip/limit
+  const countPipeline = [...searchPipeline];
+  countPipeline.pop(); // Remove $limit
+  countPipeline.pop(); // Remove $skip
+  countPipeline.push({ $count: 'total' });
+  const totalResult = await Product.aggregate(countPipeline);
+  const totalProducts = totalResult.length > 0 ? totalResult[0].total : 0;
 
   res.status(200).json({
     success: true,
@@ -143,6 +165,39 @@ export const getProducts = catchErrors(async (req, res) => {
     nextPage: totalProducts > skip + products.length ? page + 1 : null,
   });
 });
+
+/**
+ * @description Get autocomplete suggestions using Atlas Search.
+ */
+export const getAutocompleteSuggestions = catchErrors(async (req, res) => {
+  const { query } = req.query;
+
+  if (!query || query.length < 2) { // Require at least 2 characters for suggestions
+    return res.status(200).json({ success: true, suggestions: [] });
+  }
+
+  const suggestions = await Product.aggregate([
+    {
+      $search: {
+        index: "default", // Use your Atlas Search index name here
+        autocomplete: {
+          query: query,
+          path: "name_autocomplete", // The dedicated autocomplete field
+          tokenOrder: "any",
+          fuzzy: {
+            maxEdits: 1,
+            prefixLength: 1
+          }
+        }
+      }
+    },
+    { $limit: 5 }, // Limit the number of suggestions
+    { $project: { _id: 0, name: "$name" } } // Return just the product name
+  ]);
+
+  res.status(200).json({ success: true, suggestions: suggestions.map(s => s.name) });
+});
+
 
 /**
  * @description Get a single product by its ID

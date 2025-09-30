@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query'; // Import InfiniteData and UseInfiniteQueryResult
 import { ProductCard } from './ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, ShoppingBag } from "lucide-react";
-import { Product } from '@/types';
+import { Product, PaginatedProductsResponse } from '@/types'; // Import PaginatedProductsResponse
 
 interface ProductGridProps {
-  queryResult: ReturnType<typeof useInfiniteQuery<{ pages: { products: Product[] }[] }>>;
+  queryResult: UseInfiniteQueryResult<InfiniteData<PaginatedProductsResponse>, Error>; // Corrected type definition
 }
 
 export const ProductGrid = ({ queryResult }: ProductGridProps) => {

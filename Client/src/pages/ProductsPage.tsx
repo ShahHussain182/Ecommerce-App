@@ -21,6 +21,7 @@ const INITIAL_FILTERS: FilterState = {
   colors: [],
   sizes: [],
   sortBy: 'price-asc',
+  searchTerm: '', // Initialize searchTerm
 };
 
 const ProductsPage = () => {
@@ -33,16 +34,32 @@ const ProductsPage = () => {
   // Effect to read URL parameters and apply filters
   useEffect(() => {
     const categoryParam = searchParams.get('category');
+    const searchTermParam = searchParams.get('query'); // Get search term from URL
+
     setFilters(prev => {
       const newCategories = categoryParam ? [categoryParam] : [];
-      // Only update if the category filter actually changes to avoid unnecessary re-renders
+      const newSearchTerm = searchTermParam || '';
+
+      let updatedFilters = { ...prev };
+      let changed = false;
+
       if (JSON.stringify(prev.categories) !== JSON.stringify(newCategories)) {
-        return {
-          ...prev,
-          categories: newCategories,
-        };
+        updatedFilters.categories = newCategories;
+        changed = true;
       }
-      return prev;
+      if (prev.searchTerm !== newSearchTerm) {
+        updatedFilters.searchTerm = newSearchTerm;
+        // When a search term is present, default to relevance sorting
+        if (newSearchTerm && updatedFilters.sortBy !== 'relevance-desc') {
+          updatedFilters.sortBy = 'relevance-desc';
+        } else if (!newSearchTerm && updatedFilters.sortBy === 'relevance-desc') {
+          // If search term is cleared, revert to default price sort
+          updatedFilters.sortBy = 'price-asc';
+        }
+        changed = true;
+      }
+      
+      return changed ? updatedFilters : prev;
     });
   }, [searchParams]); // Re-run when searchParams change
 
@@ -88,6 +105,7 @@ const ProductsPage = () => {
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
+                    {filters.searchTerm && <SelectItem value="relevance-desc">Relevance</SelectItem>}
                     <SelectItem value="price-asc">Price: Low to High</SelectItem>
                     <SelectItem value="price-desc">Price: High to Low</SelectItem>
                     <SelectItem value="name-asc">Name: A-Z</SelectItem>
@@ -112,6 +130,7 @@ const ProductsPage = () => {
                         <SelectValue placeholder="Sort by" />
                       </SelectTrigger>
                       <SelectContent>
+                        {filters.searchTerm && <SelectItem value="relevance-desc">Relevance</SelectItem>}
                         <SelectItem value="price-asc">Price: Low to High</SelectItem>
                         <SelectItem value="price-desc">Price: High to Low</SelectItem>
                         <SelectItem value="name-asc">Name: A-Z</SelectItem>
