@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { useAddWishlistItemMutation, useRemoveWishlistItemMutation } from '@/hooks/useWishlistMutations';
+import { motion } from 'framer-motion'; // Import motion
 
 interface ProductCardProps {
   product: Product;
@@ -75,7 +76,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const isWishlistActionPending = addWishlistItemMutation.isPending || removeWishlistItemMutation.isPending;
 
   return (
-    <Card className="overflow-hidden flex flex-col relative">
+    <motion.div
+      whileHover={{ scale: 1.03, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)" }}
+      transition={{ duration: 0.2 }}
+      className="overflow-hidden flex flex-col relative rounded-lg border bg-card text-card-foreground shadow-sm"
+    >
       <Button
         variant="ghost"
         size="icon"
@@ -118,6 +123,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {defaultVariant?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
         </Button>
       </CardFooter>
-    </Card>
+    </motion.div>
   );
 };

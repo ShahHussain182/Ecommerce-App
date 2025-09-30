@@ -1,3 +1,5 @@
+"use client";
+
 import { ShoppingCart, User, Search, Menu, Heart, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -22,7 +24,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { useAutocompleteSuggestions } from '@/hooks/useAutocompleteSuggestions'; // New import
+import { useAutocompleteSuggestions } from '@/hooks/useAutocompleteSuggestions';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'; // Import motion and hooks
 
 export const Header = () => {
   const totalCartItems = useCartStore((state) => state.cart?.totalItems || 0);
@@ -33,6 +36,17 @@ export const Header = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = React.useState(false); // New state for scroll
+
+  const { scrollY } = useScroll(); // Hook to track scroll position
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 0 && !isScrolled) {
+      setIsScrolled(true);
+    } else if (latest === 0 && isScrolled) {
+      setIsScrolled(false);
+    }
+  });
 
   // New: Autocomplete suggestions hook
   const { data: suggestions, isLoading: isLoadingSuggestions } = useAutocompleteSuggestions(searchQuery);
@@ -63,7 +77,14 @@ export const Header = () => {
   );
 
   return (
-    <header className="bg-white border-b sticky top-0 z-50">
+    <motion.header
+      className="bg-white border-b sticky top-0 z-50"
+      animate={{
+        boxShadow: isScrolled ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" : "none",
+        borderColor: isScrolled ? "hsl(var(--border))" : "transparent",
+      }}
+      transition={{ duration: 0.2 }}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -169,6 +190,6 @@ export const Header = () => {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };

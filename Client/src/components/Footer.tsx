@@ -37,11 +37,11 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold text-gray-900">Quick Links</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/" className="text-gray-600 hover:text-black transition-colors">Home</Link></li>
-            <li><Link to="/about" className="text-gray-600 hover:text-black transition-colors">About Us</Link></li>
-            <li><Link to="/contact" className="text-gray-600 hover:text-black transition-colors">Contact Us</Link></li>
-            <li><Link to="/cart" className="text-gray-600 hover:text-black transition-colors">Cart</Link></li>
-            <li><Link to="/profile" className="text-gray-600 hover:text-black transition-colors">My Account</Link></li>
+            <li><Link to="/" className="text-gray-600 hover:text-primary transition-colors">Home</Link></li>
+            <li><Link to="/about" className="text-gray-600 hover:text-primary transition-colors">About Us</Link></li>
+            <li><Link to="/contact" className="text-gray-600 hover:text-primary transition-colors">Contact Us</Link></li>
+            <li><Link to="/cart" className="text-gray-600 hover:text-primary transition-colors">Cart</Link></li>
+            <li><Link to="/profile" className="text-gray-600 hover:text-primary transition-colors">My Account</Link></li>
           </ul>
         </div>
 
@@ -49,7 +49,7 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold text-gray-900">Shop</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/products" className="text-gray-600 hover:text-black transition-colors">All Products</Link></li>
+            <li><Link to="/products" className="text-gray-600 hover:text-primary transition-colors">All Products</Link></li>
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <li key={i}><Skeleton className="h-4 w-24" /></li>
@@ -59,7 +59,7 @@ export const Footer = () => {
             ) : (
               displayedCategories.map((category) => (
                 <li key={category._id}>
-                  <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 hover:text-black transition-colors">
+                  <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 hover:text-primary transition-colors">
                     {category.name}
                   </Link>
                 </li>
@@ -67,7 +67,7 @@ export const Footer = () => {
             )}
             {categories && categories.length > 5 && (
               <li>
-                <Link to="/products" className="text-gray-600 hover:text-black transition-colors">
+                <Link to="/products" className="text-gray-600 hover:text-primary transition-colors">
                   More Categories...
                 </Link>
               </li>
@@ -79,11 +79,11 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold text-gray-900">Customer Service</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/contact#faq" className="text-gray-600 hover:text-black transition-colors">FAQ</Link></li>
-            <li><Link to="/shipping-returns" className="text-gray-600 hover:text-black transition-colors">Shipping & Returns</Link></li>
-            <li><Link to="/press" className="text-gray-600 hover:text-black transition-colors">Press</Link></li>
-            <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
-            <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Terms of Service</a></li>
+            <li><Link to="/contact#faq" className="text-gray-600 hover:text-primary transition-colors">FAQ</Link></li>
+            <li><Link to="/shipping-returns" className="text-gray-600 hover:text-primary transition-colors">Shipping & Returns</Link></li>
+            <li><Link to="/press" className="text-gray-600 hover:text-primary transition-colors">Press</Link></li>
+            <li><a href="#" className="text-gray-600 hover:text-primary transition-colors">Privacy Policy</a></li>
+            <li><a href="#" className="text-gray-600 hover:text-primary transition-colors">Terms of Service</a></li>
           </ul>
         </div>
       </div>
