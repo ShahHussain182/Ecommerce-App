@@ -78,7 +78,7 @@ export const Header = () => {
             "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
             location.pathname === "/" 
               ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50"
           )}
         >
           Home
@@ -92,7 +92,7 @@ export const Header = () => {
             "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
             location.pathname.startsWith("/products") 
               ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50"
           )}
         >
           Shop
@@ -106,7 +106,7 @@ export const Header = () => {
             "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
             location.pathname === "/about" 
               ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50"
           )}
         >
           About
@@ -120,7 +120,7 @@ export const Header = () => {
             "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
             location.pathname === "/contact" 
               ? "bg-primary text-primary-foreground shadow-sm" 
-              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50"
           )}
         >
           Contact
@@ -131,17 +131,17 @@ export const Header = () => {
 
   return (
     <motion.header
-      className="bg-white border-b sticky top-0 z-50"
+      className="bg-white dark:bg-background border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50"
       animate={{
         boxShadow: isScrolled ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" : "none",
-        borderColor: isScrolled ? "hsl(var(--border))" : "transparent",
+        borderColor: isScrolled ? "hsl(var(--border))" : "hsl(var(--border))", // Keep border visible
       }}
       transition={{ duration: 0.2 }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-gray-900">E-Store</Link>
+            <Link to="/" className="text-2xl font-bold text-gray-900 dark:text-gray-50">E-Store</Link>
           </div>
           
           {!isMobile && (
@@ -153,11 +153,11 @@ export const Header = () => {
           <div className="flex items-center space-x-2"> {/* Adjusted space-x for icons */}
             <Dialog open={isSearchDialogOpen} onOpenChange={setIsSearchDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Search">
+                <Button variant="ghost" size="icon" aria-label="Search" className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50">
                   <Search className="h-5 w-5" />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px] bg-card dark:bg-card text-card-foreground">
                 <DialogHeader>
                   <DialogTitle>Search Products</DialogTitle>
                   <DialogDescription>
@@ -170,10 +170,10 @@ export const Header = () => {
                     placeholder="Search for products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="col-span-3"
+                    className="col-span-3 bg-input dark:bg-input text-foreground dark:text-foreground"
                     aria-label="Product search input"
                   />
-                  <Button type="submit">Search</Button>
+                  <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">Search</Button>
                 </form>
                 {isLoadingSuggestions && searchQuery.length >= 2 && (
                   <div className="flex items-center justify-center text-sm text-muted-foreground">
@@ -181,14 +181,14 @@ export const Header = () => {
                   </div>
                 )}
                 {suggestions && suggestions.length > 0 && (
-                  <div className="mt-2 border-t pt-2">
-                    <p className="text-sm font-semibold mb-1">Suggestions:</p>
+                  <div className="mt-2 border-t border-border pt-2">
+                    <p className="text-sm font-semibold mb-1 text-foreground">Suggestions:</p>
                     <ul className="space-y-1">
                       {suggestions.map((suggestion, index) => (
                         <li key={index}>
                           <Button
                             variant="ghost"
-                            className="w-full justify-start h-auto py-1 px-2 text-sm"
+                            className="w-full justify-start h-auto py-1 px-2 text-sm text-muted-foreground hover:bg-accent dark:hover:bg-accent hover:text-accent-foreground dark:hover:text-accent-foreground"
                             onClick={() => handleSuggestionClick(suggestion)}
                           >
                             {suggestion}
@@ -201,7 +201,7 @@ export const Header = () => {
               </DialogContent>
             </Dialog>
 
-            <Button variant="ghost" size="icon" asChild aria-label="Wishlist">
+            <Button variant="ghost" size="icon" asChild aria-label="Wishlist" className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50">
               <Link to="/wishlist" className="relative">
                 <Heart className="h-5 w-5" />
                 {totalWishlistItems > 0 && (
@@ -212,12 +212,12 @@ export const Header = () => {
               </Link>
             </Button>
 
-            <Button variant="ghost" size="icon" asChild aria-label={isAuthenticated ? "Profile" : "Login"}>
+            <Button variant="ghost" size="icon" asChild aria-label={isAuthenticated ? "Profile" : "Login"} className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50">
               <Link to={isAuthenticated ? "/profile" : "/login"}>
                 <User className="h-5 w-5" />
               </Link>
             </Button>
-            <Button variant="ghost" size="icon" asChild aria-label="Shopping Cart">
+            <Button variant="ghost" size="icon" asChild aria-label="Shopping Cart" className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50">
               <Link to="/cart" className="relative">
                 <ShoppingCart className="h-5 w-5" />
                 {totalCartItems > 0 && (
@@ -230,11 +230,11 @@ export const Header = () => {
             {isMobile && (
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Open navigation menu">
+                  <Button variant="ghost" size="icon" aria-label="Open navigation menu" className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-50">
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent>
+                <SheetContent className="bg-card dark:bg-card text-card-foreground">
                   <nav className="flex flex-col space-y-4 mt-8">
                     {navLinks}
                   </nav>

@@ -5,10 +5,13 @@ export const Hero = () => {
   return (
     <section className="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 md:py-32 overflow-hidden">
       {/* Background Image with Overlay */}
-      <div 
+      <motion.div 
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 5, ease: "easeOut" }}
         className="absolute inset-0 opacity-30 bg-cover bg-center" 
         style={{ backgroundImage: "url('/placeholder.svg')" }} // Replace with a suitable hero image
-      ></div>
+      ></motion.div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <motion.h1 

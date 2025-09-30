@@ -21,7 +21,7 @@ export const Newsletter = () => {
             <Input 
               type="email" 
               placeholder="Enter your email" 
-              className="flex-grow bg-white/90 text-gray-900 placeholder:text-gray-500 border-none focus:ring-2 focus:ring-white" 
+              className="flex-grow bg-white/90 text-gray-900 placeholder:text-gray-500 border-none focus:ring-2 focus:ring-white dark:bg-gray-700/90 dark:text-gray-50 dark:placeholder:text-gray-400" 
             />
             <Button type="submit" className="bg-white text-indigo-600 hover:bg-gray-100 hover:text-indigo-700 shadow-md hover:shadow-lg transition-all duration-300">
               Subscribe
