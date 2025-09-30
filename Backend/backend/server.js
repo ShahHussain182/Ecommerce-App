@@ -20,15 +20,16 @@ import orderRouter from "./Routers/order.router.js";
 import wishlistRouter from "./Routers/wishlist.router.js";
 import reviewRouter from "./Routers/review.router.js";
 import customerRouter from "./Routers/customer.router.js";
-import categoryRouter from "./Routers/category.router.js"; // New import for category router
+import categoryRouter from "./Routers/category.router.js";
+import reportRouter from "./Routers/report.router.js"; // New import for report router
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
 import { Product } from "./Models/Product.model.js";
 import { mockProducts } from "./Utils/mockProducts.js";
 import { Counter } from "./Models/Counter.model.js";
-import { Category } from "./Models/Category.model.js"; // Import Category model
-import { mockCategories } from "./Utils/mockCategories.js"; // Import mock categories
+import { Category } from "./Models/Category.model.js";
+import { mockCategories } from "./Utils/mockCategories.js";
 
 dotenv.config();
 
@@ -106,7 +107,8 @@ app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/wishlist", wishlistRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/customers", customerRouter);
-app.use("/api/v1/categories", categoryRouter); // New category router
+app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/reports", reportRouter); // New report router
 
 app.use(notFoundHandler);
 app.use(errorHandler);

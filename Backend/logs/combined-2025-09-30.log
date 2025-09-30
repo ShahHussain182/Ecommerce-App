@@ -1441,3 +1441,70 @@
 2025-09-30T14:40:59.013Z [HTTP] [req:fcbd5911-8995-4ca2-8d7c-b4934b5fb4d4] ::1 - - [30/Sep/2025:14:40:59 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=relevance-desc&searchTerm=Air+Purifier HTTP/1.1" 200 551 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-30T14:41:00.711Z [HTTP] [req:f6d0d729-9805-4208-a967-f1c0d4906766] ::1 - - [30/Sep/2025:14:41:00 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-30T14:44:21.674Z [HTTP] [req:3af7f0b0-9ff5-4097-a17e-db9754127a31] ::1 - - [30/Sep/2025:14:44:21 +0000] "POST /api/v1/auth/logout HTTP/1.1" 200 46 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T14:49:34.940Z [DEBUG] [req:N/A] Running in development mode
+2025-09-30T14:49:43.935Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T14:49:51.662Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T14:49:51.670Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T14:49:53.810Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T14:49:55.568Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T14:49:56.163Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T14:49:56.170Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T14:49:56.172Z [DEBUG] [req:N/A] http://localhost:3001
+2025-09-30T15:07:38.308Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T15:07:51.065Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T15:13:13.254Z [DEBUG] [req:4b9d29de-ebfc-42b9-bc29-d85fca802668] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-30T15:13:13.255Z [DEBUG] [req:4b9d29de-ebfc-42b9-bc29-d85fca802668] [requireAuth] AccessToken from cookies: missing
+2025-09-30T15:13:13.255Z [DEBUG] [req:4b9d29de-ebfc-42b9-bc29-d85fca802668] [requireAuth] Authorization header: missing
+2025-09-30T15:13:13.256Z [WARN] [req:4b9d29de-ebfc-42b9-bc29-d85fca802668] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T15:13:13.267Z [HTTP] [req:4b9d29de-ebfc-42b9-bc29-d85fca802668] ::1 - - [30/Sep/2025:15:13:13 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T15:14:06.882Z [HTTP] [req:5a46b19e-0626-4c72-ae62-0c719edf25cb] ::1 - - [30/Sep/2025:15:14:06 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:14:17.265Z [HTTP] [req:5c8bc419-4889-46bf-8075-069760292b40] ::1 - - [30/Sep/2025:15:14:17 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:14:21.395Z [DEBUG] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-09-30T15:14:21.397Z [DEBUG] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:14:21.398Z [DEBUG] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] [requireAuth] Authorization header: missing
+2025-09-30T15:14:21.405Z [DEBUG] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:14:22.356Z [DEBUG] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:14:22.357Z [DEBUG] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:14:22.596Z [HTTP] [req:13b8b5ac-6724-4c88-b0f0-9d79f059bbee] ::1 - - [30/Sep/2025:15:14:22 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:14:22.858Z [DEBUG] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] [requireAuth] Attempting to authenticate for path: /metrics
+2025-09-30T15:14:22.858Z [DEBUG] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:14:22.859Z [DEBUG] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] [requireAuth] Authorization header: missing
+2025-09-30T15:14:22.861Z [DEBUG] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:14:23.095Z [DEBUG] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:14:23.095Z [DEBUG] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:14:24.344Z [DEBUG] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] [requireAuth] Attempting to authenticate for path: /top-selling-products
+2025-09-30T15:14:24.345Z [DEBUG] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:14:24.347Z [DEBUG] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] [requireAuth] Authorization header: missing
+2025-09-30T15:14:24.349Z [DEBUG] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:14:26.328Z [DEBUG] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:14:26.329Z [DEBUG] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:14:26.502Z [HTTP] [req:7366698d-dfa9-4082-8b9d-b752d6a8e707] ::1 - - [30/Sep/2025:15:14:26 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:14:27.597Z [HTTP] [req:5c4c3e78-2b14-45cf-a63e-438b30cd9a3e] ::1 - - [30/Sep/2025:15:14:27 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:14:28.776Z [DEBUG] [req:e9292245-bfb5-4789-a34a-81d83923275b] [requireAuth] Attempting to authenticate for path: /sales-over-time
+2025-09-30T15:14:28.777Z [DEBUG] [req:e9292245-bfb5-4789-a34a-81d83923275b] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:14:28.779Z [DEBUG] [req:e9292245-bfb5-4789-a34a-81d83923275b] [requireAuth] Authorization header: missing
+2025-09-30T15:14:28.783Z [DEBUG] [req:e9292245-bfb5-4789-a34a-81d83923275b] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:14:29.029Z [DEBUG] [req:e9292245-bfb5-4789-a34a-81d83923275b] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:14:29.030Z [DEBUG] [req:e9292245-bfb5-4789-a34a-81d83923275b] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:14:31.114Z [HTTP] [req:e9292245-bfb5-4789-a34a-81d83923275b] ::1 - - [30/Sep/2025:15:14:31 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:19:29.039Z [DEBUG] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] [requireAuth] Attempting to authenticate for path: /top-selling-products
+2025-09-30T15:19:29.039Z [DEBUG] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:19:29.041Z [DEBUG] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] [requireAuth] Authorization header: missing
+2025-09-30T15:19:29.043Z [DEBUG] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:19:29.046Z [DEBUG] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] [requireAuth] Attempting to authenticate for path: /growth-over-time
+2025-09-30T15:19:29.047Z [DEBUG] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:19:29.048Z [DEBUG] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] [requireAuth] Authorization header: missing
+2025-09-30T15:19:29.050Z [DEBUG] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:19:29.284Z [DEBUG] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:19:29.285Z [DEBUG] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:19:29.289Z [DEBUG] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:19:29.289Z [DEBUG] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:19:30.297Z [HTTP] [req:2fabbe8e-aac0-4030-ac93-7661d45f7f51] ::1 - - [30/Sep/2025:15:19:30 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:19:30.728Z [HTTP] [req:52442516-5aad-4a94-8df7-6a18fbd0a58b] ::1 - - [30/Sep/2025:15:19:30 +0000] "GET /api/v1/customers/growth-over-time?period=30days HTTP/1.1" 200 64 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T15:19:52.261Z [DEBUG] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] [requireAuth] Attempting to authenticate for path: /sales-over-time
+2025-09-30T15:19:52.261Z [DEBUG] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] [requireAuth] AccessToken from cookies: present
+2025-09-30T15:19:52.262Z [DEBUG] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] [requireAuth] Authorization header: missing
+2025-09-30T15:19:52.264Z [DEBUG] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-09-30T15:19:52.511Z [DEBUG] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-09-30T15:19:52.512Z [DEBUG] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] [requireAuth] Session UUtSnywfKqDc5b3fLYRjpjZtFU4F9-bZ touched.
+2025-09-30T15:19:53.549Z [HTTP] [req:d4e1680b-8752-4841-809c-d8fe0a4fe945] ::1 - - [30/Sep/2025:15:19:53 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

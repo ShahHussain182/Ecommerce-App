@@ -40,7 +40,7 @@ export const endpoints = {
   adminOrders: '/orders/admin',
   orderMetrics: '/orders/metrics',
   orderById: (id: string) => `/orders/${id}`,
-  updateOrderStatus: (id: string) => `/orders/${id}/status`,
+  updateOrderStatus: (id: string) => `/orders/${id}/status',
   
   // Cart
   cart: '/cart',
@@ -51,4 +51,11 @@ export const endpoints = {
   
   // Wishlist
   wishlist: '/wishlist',
+
+  // Reports
+  salesReport: '/reports/sales',
+  customerReport: '/reports/customers',
+  inventoryReport: '/reports/inventory',
+  orderHistoryReport: '/reports/order-history',
+  reviewSummaryReport: '/reports/review-summary',
 } as const;

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Download, FileText, Users, Package, DollarSign } from 'lucide-react';
+import { Download, FileText, Users, Package, DollarSign, Loader2 } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -10,18 +10,91 @@ import {
 } from "@/components/ui/select";
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Label } from '@/components/ui/label'; // Import Label
+import { Label } from '@/components/ui/label';
+import { reportService } from '@/services/reportService'; // Import reportService
+import { useMutation } from '@tanstack/react-query'; // Import useMutation
 
 export function Reports() {
   const [salesReportPeriod, setSalesReportPeriod] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('monthly');
-  const [customerReportType, setCustomerReportType] = useState<'all' | 'new' | 'vip'>('all');
+  const [customerReportType, setCustomerReportType] = useState<'all' | 'new' | 'vip' | 'potential' | 'inactive'>('all');
   const [inventoryReportType, setInventoryReportType] = useState<'all' | 'low_stock' | 'top_selling'>('all');
 
-  const handleGenerateReport = (reportType: string) => {
-    toast.success(`Generating ${reportType} report... (Placeholder)`);
-    console.log(`Generating ${reportType} report with period: ${salesReportPeriod}, type: ${customerReportType}, inventory type: ${inventoryReportType}`);
-    // In a real application, this would trigger a backend API call to generate and download a CSV/PDF.
+  // Helper function to trigger file download
+  const downloadFile = (blob: Blob, filename: string) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   };
+
+  // Sales Report Mutation
+  const salesReportMutation = useMutation({
+    mutationFn: reportService.generateSalesReport,
+    onSuccess: (blob, variables) => {
+      const filename = `sales_report_${variables.period}_${new Date().toISOString().slice(0, 10)}.csv`;
+      downloadFile(blob, filename);
+      toast.success('Sales report generated successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Failed to generate sales report.');
+    },
+  });
+
+  // Customer Report Mutation
+  const customerReportMutation = useMutation({
+    mutationFn: reportService.generateCustomerReport,
+    onSuccess: (blob, variables) => {
+      const filename = `customer_report_${variables.type}_${new Date().toISOString().slice(0, 10)}.csv`;
+      downloadFile(blob, filename);
+      toast.success('Customer report generated successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Failed to generate customer report.');
+    },
+  });
+
+  // Inventory Report Mutation
+  const inventoryReportMutation = useMutation({
+    mutationFn: reportService.generateInventoryReport,
+    onSuccess: (blob, variables) => {
+      const filename = `inventory_report_${variables.type}_${new Date().toISOString().slice(0, 10)}.csv`;
+      downloadFile(blob, filename);
+      toast.success('Inventory report generated successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Failed to generate inventory report.');
+    },
+  });
+
+  // Order History Report Mutation
+  const orderHistoryReportMutation = useMutation({
+    mutationFn: reportService.generateOrderHistoryReport,
+    onSuccess: (blob) => {
+      const filename = `order_history_report_${new Date().toISOString().slice(0, 10)}.csv`;
+      downloadFile(blob, filename);
+      toast.success('Order history report generated successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Failed to generate order history report.');
+    },
+  });
+
+  // Review Summary Report Mutation
+  const reviewSummaryReportMutation = useMutation({
+    mutationFn: reportService.generateReviewSummaryReport,
+    onSuccess: (blob) => {
+      const filename = `review_summary_report_${new Date().toISOString().slice(0, 10)}.csv`;
+      downloadFile(blob, filename);
+      toast.success('Review summary report generated successfully!');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Failed to generate review summary report.');
+    },
+  });
 
   return (
     <div className="space-y-6">
@@ -52,8 +125,17 @@ export function Reports() {
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full" onClick={() => handleGenerateReport('Sales')}>
-              <Download className="mr-2 h-4 w-4" /> Generate Sales Report
+            <Button
+              className="w-full"
+              onClick={() => salesReportMutation.mutate({ period: salesReportPeriod })}
+              disabled={salesReportMutation.isPending}
+            >
+              {salesReportMutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
+              Generate Sales Report
             </Button>
           </CardContent>
         </Card>
@@ -77,11 +159,22 @@ export function Reports() {
                   <SelectItem value="all">All Customers</SelectItem>
                   <SelectItem value="new">New Customers</SelectItem>
                   <SelectItem value="vip">VIP Customers</SelectItem>
+                  <SelectItem value="potential">Potential Customers</SelectItem>
+                  <SelectItem value="inactive">Inactive Customers</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full" onClick={() => handleGenerateReport('Customer')}>
-              <Download className="mr-2 h-4 w-4" /> Generate Customer Report
+            <Button
+              className="w-full"
+              onClick={() => customerReportMutation.mutate({ type: customerReportType })}
+              disabled={customerReportMutation.isPending}
+            >
+              {customerReportMutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
+              Generate Customer Report
             </Button>
           </CardContent>
         </Card>
@@ -108,8 +201,17 @@ export function Reports() {
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full" onClick={() => handleGenerateReport('Inventory')}>
-              <Download className="mr-2 h-4 w-4" /> Generate Inventory Report
+            <Button
+              className="w-full"
+              onClick={() => inventoryReportMutation.mutate({ type: inventoryReportType })}
+              disabled={inventoryReportMutation.isPending}
+            >
+              {inventoryReportMutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
+              Generate Inventory Report
             </Button>
           </CardContent>
         </Card>
@@ -124,11 +226,29 @@ export function Reports() {
           <CardDescription>Other useful reports for your business.</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Button variant="outline" onClick={() => handleGenerateReport('Order History')}>
-            <Download className="mr-2 h-4 w-4" /> Order History Report
+          <Button
+            variant="outline"
+            onClick={() => orderHistoryReportMutation.mutate()}
+            disabled={orderHistoryReportMutation.isPending}
+          >
+            {orderHistoryReportMutation.isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="mr-2 h-4 w-4" />
+            )}
+            Order History Report
           </Button>
-          <Button variant="outline" onClick={() => handleGenerateReport('Review Summary')}>
-            <Download className="mr-2 h-4 w-4" /> Review Summary Report
+          <Button
+            variant="outline"
+            onClick={() => reviewSummaryReportMutation.mutate()}
+            disabled={reviewSummaryReportMutation.isPending}
+          >
+            {reviewSummaryReportMutation.isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="mr-2 h-4 w-4" />
+            )}
+            Review Summary Report
           </Button>
         </CardContent>
       </Card>
