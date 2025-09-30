@@ -70,18 +70,62 @@ export const Header = () => {
 
   const navLinks = (
     <>
-      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname === "/" ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
-        <Link to="/">Home</Link>
-      </Button>
-      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname.startsWith("/products") ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
-        <Link to="/products">Shop</Link>
-      </Button>
-      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname === "/about" ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
-        <Link to="/about">About</Link>
-      </Button>
-      <Button variant="ghost" asChild className={cn("text-sm font-medium", location.pathname === "/contact" ? "text-primary bg-accent" : "text-gray-700 hover:text-black")}>
-        <Link to="/contact">Contact</Link>
-      </Button>
+      {/* Home Link */}
+      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+        <Link 
+          to="/" 
+          className={cn(
+            "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+            location.pathname === "/" 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          )}
+        >
+          Home
+        </Link>
+      </motion.div>
+      {/* Shop Link */}
+      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+        <Link 
+          to="/products" 
+          className={cn(
+            "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+            location.pathname.startsWith("/products") 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          )}
+        >
+          Shop
+        </Link>
+      </motion.div>
+      {/* About Link */}
+      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+        <Link 
+          to="/about" 
+          className={cn(
+            "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+            location.pathname === "/about" 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          )}
+        >
+          About
+        </Link>
+      </motion.div>
+      {/* Contact Link */}
+      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+        <Link 
+          to="/contact" 
+          className={cn(
+            "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+            location.pathname === "/contact" 
+              ? "bg-primary text-primary-foreground shadow-sm" 
+              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          )}
+        >
+          Contact
+        </Link>
+      </motion.div>
     </>
   );
 
@@ -101,12 +145,12 @@ export const Header = () => {
           </div>
           
           {!isMobile && (
-            <nav className="hidden md:flex md:items-center md:space-x-2"> {/* Reduced space-x for better fit */}
+            <nav className="hidden md:flex md:items-center md:space-x-1"> {/* Adjusted space-x for better fit */}
               {navLinks}
             </nav>
           )}
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2"> {/* Adjusted space-x for icons */}
             <Dialog open={isSearchDialogOpen} onOpenChange={setIsSearchDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="ghost" size="icon" aria-label="Search">
