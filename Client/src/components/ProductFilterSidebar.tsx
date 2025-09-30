@@ -24,7 +24,8 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useCategories();
   const [showAllCategories, setShowAllCategories] = useState(false);
 
-  const availableCategories = categories; // categories is now guaranteed to be an array
+  // Ensure availableCategories is always an array, even if categories is null/undefined initially
+  const availableCategories = categories || []; 
   const displayedCategories = showAllCategories
     ? availableCategories
     : availableCategories.slice(0, INITIAL_DISPLAY_CATEGORIES);
