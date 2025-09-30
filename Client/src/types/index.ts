@@ -140,7 +140,7 @@ export interface UpdateReviewPayload {
 export interface FilterState {
   categories?: string[];
   priceRange?: [number, number];
-  colors?: [number, number];
+  colors?: string[]; // Corrected from [number, number] to string[]
   sizes?: string[];
   sortBy?: string;
   searchTerm?: string;
