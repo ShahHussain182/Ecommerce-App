@@ -51,8 +51,14 @@ export const getProducts = catchErrors(async (req, res) => {
     case 'name-desc':
       sort = ['name:desc'];
       break;
+    case 'averageRating-desc': // New sorting option
+      sort = ['averageRating:desc'];
+      break;
+    case 'numberOfReviews-desc': // New sorting option
+      sort = ['numberOfReviews:desc'];
+      break;
     case 'relevance-desc':
-      // Relevance is default in Meilisearch when query is present
+      // Relevance is default in Meilisearch when query is present, no explicit sort needed
       break;
     case 'price-asc':
     default:
@@ -149,9 +155,9 @@ export const createProduct = catchErrors(async (req, res) => {
     name: product.name,
     description: product.description,
     category: product.category,
-    imageUrls: product.imageUrls || [], // ADDED
+    imageUrls: product.imageUrls || [],
     isFeatured: Boolean(product.isFeatured),
-    variants: (product.variants || []).map(v => ({ // ADDED
+    variants: (product.variants || []).map(v => ({
       _id: v._id.toString(),
       size: String(v.size ?? ''),
       color: String(v.color ?? ''),
@@ -206,9 +212,9 @@ export const updateProduct = catchErrors(async (req, res) => {
     name: product.name,
     description: product.description,
     category: product.category,
-    imageUrls: product.imageUrls || [], // ADDED
+    imageUrls: product.imageUrls || [],
     isFeatured: Boolean(product.isFeatured),
-    variants: (product.variants || []).map(v => ({ // ADDED
+    variants: (product.variants || []).map(v => ({
       _id: v._id.toString(),
       size: String(v.size ?? ''),
       color: String(v.color ?? ''),

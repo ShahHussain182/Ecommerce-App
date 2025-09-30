@@ -43,11 +43,10 @@ async function syncProducts() {
       typoTolerance: { // Explicitly enable typo tolerance (default is usually true)
         enabled: true,
         minWordSizeForTypos: {
-          '1': false,
-          '2': false,
-          '3': true,
-          '4': true,
+          oneTypo: 3,   // minimum word length before 1 typo is allowed
+          twoTypos: 7,  // minimum word length before 2 typos are allowed
         },
+      
         disableOnAttributes: ['_id'], // Don't apply typo tolerance to IDs
       },
     });

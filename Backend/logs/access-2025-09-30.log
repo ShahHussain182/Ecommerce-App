@@ -308,3 +308,24 @@
 2025-09-30T12:59:27.235Z [HTTP] [req:ef411a8e-4fff-4c22-a58a-20eb4f22c628] ::1 - - [30/Sep/2025:12:59:27 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=relevance-desc&searchTerm=Ai HTTP/1.1" 200 551 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-30T12:59:27.745Z [HTTP] [req:b1a1802a-0dfb-4895-bac8-da6f71de5b62] ::1 - - [30/Sep/2025:12:59:27 +0000] "GET /api/v1/products/suggestions?query=Ai HTTP/1.1" 200 47 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-09-30T12:59:27.878Z [HTTP] [req:b33f02fd-9ee8-40e0-8722-05d4696ba7f9] ::1 - - [30/Sep/2025:12:59:27 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T13:05:31.296Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T13:05:35.634Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T13:05:35.638Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T13:05:53.545Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T13:05:54.664Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T13:05:54.903Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T13:05:54.907Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T13:09:12.256Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T13:09:15.061Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T13:09:15.068Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T13:09:17.156Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T13:09:18.242Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T13:09:19.190Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T13:09:19.197Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T13:09:41.221Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T13:09:46.034Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T13:09:46.039Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T13:09:48.532Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T13:09:49.248Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T13:09:49.720Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T13:09:49.727Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
