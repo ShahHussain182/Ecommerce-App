@@ -1,11 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
-import { useCategories } from '@/hooks/useCategories'; // Import the new hook
+import { useCategories } from '@/hooks/useCategories';
 import { Skeleton } from '@/components/ui/skeleton';
+import { motion } from 'framer-motion'; // Import motion
 
 export const Footer = () => {
   const { data: categories, isLoading, isError } = useCategories();
-  const displayedCategories = categories?.slice(0, 5) || []; // Show up to 5 categories in the footer
+  const displayedCategories = categories?.slice(0, 5) || [];
+
+  const linkVariants = {
+    hover: { scale: 1.05, x: 5, transition: { duration: 0.2 } },
+    initial: { scale: 1, x: 0 },
+  };
 
   return (
     <footer className="bg-gray-100 dark:bg-gray-900 py-12 border-t border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200">
@@ -37,11 +43,31 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold text-gray-900 dark:text-gray-50">Quick Links</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Home</Link></li>
-            <li><Link to="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">About Us</Link></li>
-            <li><Link to="/contact" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Contact Us</Link></li>
-            <li><Link to="/cart" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Cart</Link></li>
-            <li><Link to="/profile" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">My Account</Link></li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Home</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">About Us</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/contact" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Contact Us</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/cart" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Cart</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/profile" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">My Account</Link>
+              </motion.div>
+            </li>
           </ul>
         </div>
 
@@ -49,7 +75,11 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold text-gray-900 dark:text-gray-50">Shop</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/products" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">All Products</Link></li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/products" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">All Products</Link>
+              </motion.div>
+            </li>
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <li key={i}><Skeleton className="h-4 w-24 bg-gray-200 dark:bg-gray-700" /></li>
@@ -59,17 +89,21 @@ export const Footer = () => {
             ) : (
               displayedCategories.map((category) => (
                 <li key={category._id}>
-                  <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                    {category.name}
-                  </Link>
+                  <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">
+                      {category.name}
+                    </Link>
+                  </motion.div>
                 </li>
               ))
             )}
             {categories && categories.length > 5 && (
               <li>
-                <Link to="/products" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                  More Categories...
-                </Link>
+                <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                  <Link to="/products" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">
+                    More Categories...
+                  </Link>
+                </motion.div>
               </li>
             )}
           </ul>
@@ -79,11 +113,31 @@ export const Footer = () => {
         <div>
           <h4 className="font-semibold text-gray-900 dark:text-gray-50">Customer Service</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/contact#faq" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">FAQ</Link></li>
-            <li><Link to="/shipping-returns" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Shipping & Returns</Link></li>
-            <li><Link to="/press" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Press</Link></li>
-            <li><a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Privacy Policy</a></li>
-            <li><a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Terms of Service</a></li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/contact#faq" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">FAQ</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/shipping-returns" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Shipping & Returns</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <Link to="/press" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Press</Link>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Privacy Policy</a>
+              </motion.div>
+            </li>
+            <li>
+              <motion.div whileHover="hover" initial="initial" variants={linkVariants}>
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors hover:underline hover:underline-offset-4">Terms of Service</a>
+              </motion.div>
+            </li>
           </ul>
         </div>
       </div>
