@@ -30,7 +30,7 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
     : availableCategories.slice(0, INITIAL_DISPLAY_CATEGORIES);
 
   return (
-    <aside className="space-y-6">
+    <aside className="space-y-6 bg-white p-6 rounded-lg shadow-sm"> {/* Added bg-white, p-6, rounded-lg, shadow-sm */}
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">Filters</h3>
         <Button variant="ghost" size="sm" onClick={onClearFilters}>Clear all</Button>

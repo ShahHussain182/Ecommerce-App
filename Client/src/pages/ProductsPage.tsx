@@ -80,17 +80,17 @@ const ProductsPage = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-gray-50"> {/* Changed background here */}
       <Header />
-      <main className="flex-grow flex flex-col"> {/* Added flex flex-col here */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1"> {/* Added flex-1 here */}
+      <main className="flex-grow flex flex-col">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold">Our Products</h1>
             <p className="text-gray-600 mt-2">Explore our curated collection of high-quality items.</p>
           </div>
 
           {isMobile ? (
-            <div className="flex flex-col h-full"> {/* Added flex flex-col h-full for mobile container */}
+            <div className="flex flex-col h-full">
               <div className="flex justify-between items-center mb-4">
                 <Sheet>
                   <SheetTrigger asChild>
@@ -115,12 +115,12 @@ const ProductsPage = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex-1 overflow-y-auto"> {/* Make product grid area scrollable on mobile */}
+              <div className="flex-1 overflow-y-auto">
                 <ProductGrid queryResult={queryResult} />
               </div>
             </div>
           ) : (
-            <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border flex-1"> {/* Added flex-1 here */}
+            <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border flex-1 bg-white"> {/* Added bg-white here */}
               <ResizablePanel defaultSize={25} minSize={20} maxSize={30}>
                 <div className="p-6 h-full overflow-y-auto">{sidebar}</div>
               </ResizablePanel>
