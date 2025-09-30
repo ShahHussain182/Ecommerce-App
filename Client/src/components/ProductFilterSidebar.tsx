@@ -32,15 +32,15 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
     : availableCategories.slice(0, INITIAL_DISPLAY_CATEGORIES);
 
   return (
-    <aside className="space-y-6 bg-card p-6 rounded-lg shadow-sm border dark:border-gray-700"> {/* Enhanced card styling */}
-      <div className="flex justify-between items-center pb-4 border-b dark:border-gray-700">
+    <aside className="space-y-6 bg-card p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700"> {/* Enhanced card styling */}
+      <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-700">
         <h3 className="text-xl font-bold text-foreground">Filters</h3>
-        <Button variant="ghost" size="sm" onClick={onClearFilters} className="text-muted-foreground hover:text-primary">Clear all</Button>
+        <Button variant="ghost" size="sm" onClick={onClearFilters} className="text-muted-foreground hover:text-primary hover:bg-transparent">Clear all</Button>
       </div>
       <Accordion type="multiple" defaultValue={['category', 'price', 'colors', 'sizes']} className="w-full"> {/* Expanded default open items */}
-        <AccordionItem value="category" className="border-b dark:border-gray-800">
-          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors">Category</AccordionTrigger>
-          <AccordionContent className="space-y-3 pt-2">
+        <AccordionItem value="category" className="border-b border-gray-100 dark:border-gray-800">
+          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors py-4">Category</AccordionTrigger>
+          <AccordionContent className="space-y-3 pt-2 pb-4">
             {categoriesLoading ? (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -53,7 +53,7 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
             ) : (
               <>
                 {displayedCategories.map(category => (
-                  <div key={category._id} className="flex items-center space-x-2">
+                  <div key={category._id} className="flex items-center space-x-2 group">
                     <Checkbox
                       id={`cat-${category.name}`}
                       checked={filters.categories?.includes(category.name) || false}
@@ -63,9 +63,9 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
                           : (filters.categories || []).filter(c => c !== category.name);
                         onFilterChange({ categories: newCategories });
                       }}
-                      className="border-gray-300 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                      className="border-gray-300 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground transition-colors duration-200"
                     />
-                    <Label htmlFor={`cat-${category.name}`} className="font-normal text-muted-foreground cursor-pointer hover:text-foreground transition-colors">{category.name}</Label>
+                    <Label htmlFor={`cat-${category.name}`} className="font-normal text-muted-foreground cursor-pointer group-hover:text-foreground transition-colors duration-200">{category.name}</Label>
                   </div>
                 ))}
                 {availableCategories.length > INITIAL_DISPLAY_CATEGORIES && (
@@ -82,9 +82,9 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
             )}
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="price" className="border-b dark:border-gray-800">
-          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors">Price</AccordionTrigger>
-          <AccordionContent className="pt-4">
+        <AccordionItem value="price" className="border-b border-gray-100 dark:border-gray-800">
+          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors py-4">Price</AccordionTrigger>
+          <AccordionContent className="pt-4 pb-4">
             <RangeSlider
               min={0}
               max={500}
@@ -99,9 +99,9 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
             </div>
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="colors" className="border-b dark:border-gray-800">
-          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors">Colors</AccordionTrigger>
-          <AccordionContent>
+        <AccordionItem value="colors" className="border-b border-gray-100 dark:border-gray-800">
+          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors py-4">Colors</AccordionTrigger>
+          <AccordionContent className="pt-2 pb-4">
             <ToggleGroup
               type="multiple"
               value={filters.colors}
@@ -114,20 +114,24 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
                   value={color} 
                   aria-label={`Toggle ${color}`} 
                   className={cn(
-                    "h-8 w-8 rounded-full border-2 transition-all duration-200",
-                    "data-[state=on]:border-primary data-[state=on]:ring-2 data-[state=on]:ring-primary data-[state=on]:ring-offset-2",
+                    "h-8 w-8 rounded-full border-2 transition-all duration-200 relative",
+                    "data-[state=on]:border-primary data-[state=on]:ring-2 data-[state=on]:ring-primary data-[state=on]:ring-offset-2 data-[state=on]:shadow-md",
                     "hover:scale-110",
                     color.toLowerCase() === 'white' && 'border-gray-300' // Add a visible border for white color
                   )}
                   style={{ backgroundColor: color.toLowerCase() }} 
-                />
+                >
+                  {filters.colors?.includes(color) && (
+                    <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-bold opacity-80">✓</span>
+                  )}
+                </ToggleGroupItem>
               ))}
             </ToggleGroup>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="sizes">
-          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors">Sizes</AccordionTrigger>
-          <AccordionContent>
+          <AccordionTrigger className="text-lg font-semibold text-foreground hover:no-underline hover:text-primary transition-colors py-4">Sizes</AccordionTrigger>
+          <AccordionContent className="pt-2 pb-4">
             <ToggleGroup
               type="multiple"
               value={filters.sizes}
@@ -140,8 +144,8 @@ export const ProductFilterSidebar = ({ filters, onFilterChange, onClearFilters }
                   value={size} 
                   aria-label={`Toggle ${size}`} 
                   className="px-4 py-2 rounded-md border-2 text-sm font-medium transition-all duration-200
-                             data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:border-primary
-                             hover:bg-accent hover:text-accent-foreground"
+                             data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:border-primary data-[state=on]:shadow-md
+                             hover:bg-accent hover:text-accent-foreground hover:border-accent"
                 >
                   {size}
                 </ToggleGroupItem>
