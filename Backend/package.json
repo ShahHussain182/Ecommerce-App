@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "main": "backend/server.js",
   "scripts": {
+  
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "kill-port 3001 && cross-env NODE_ENV=development nodemon backend/server.js ",
-    "start": "cross-env NODE_ENV=production node backend/server.js"
+    "start": "cross-env NODE_ENV=production node backend/server.js",
+    "sync:meili": "node backend/scripts/syncMeili.js"
+
   },
   "keywords": [],
   "author": "",
@@ -29,6 +32,7 @@
     "jsonwebtoken": "^9.0.2",
     "kill-port": "^2.0.1",
     "mailtrap": "^3.4.0",
+    "meilisearch": "^0.53.0",
     "mongodb": "^6.19.0",
     "mongoose": "^8.5.2",
     "morgan": "^1.10.0",

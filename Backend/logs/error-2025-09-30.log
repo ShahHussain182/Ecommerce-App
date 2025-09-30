@@ -1,0 +1,20 @@
+2025-09-30T07:04:25.768Z [ERROR] [req:ec97c310-2edc-44d5-bb85-1774bdaa06b2] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-09-30T08:49:11.267Z [ERROR] [req:1dc72b84-bbbd-4589-8947-b69b3edab4e4] ❌ Path: /api/v1/products | Error: sorting by searchScore, vectorSearchScore, or score is not allowed in the current feature compatibility version. See https://docs.mongodb.com/master/release-notes/7.0-compatibility/#feature-compatibility for more information.
+2025-09-30T08:49:13.783Z [ERROR] [req:fd3db643-e747-4b6d-960c-327116c6de75] ❌ Path: /api/v1/products | Error: sorting by searchScore, vectorSearchScore, or score is not allowed in the current feature compatibility version. See https://docs.mongodb.com/master/release-notes/7.0-compatibility/#feature-compatibility for more information.
+2025-09-30T10:31:34.709Z [ERROR] [req:0de7347c-779f-473c-9771-724fb93fd6d2] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T10:31:36.219Z [ERROR] [req:22c54b53-bf88-473e-afe7-ee497d7e40c5] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T12:20:27.797Z [ERROR] [req:3cf05b29-5d6b-4e37-91b5-1fe2c7f6f66b] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T12:20:30.155Z [ERROR] [req:5d339de9-a4b5-4a39-9560-d9af8af34cf9] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500

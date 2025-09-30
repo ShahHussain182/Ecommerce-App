@@ -1,0 +1,279 @@
+2025-09-30T07:01:21.347Z [HTTP] [req:f5f840f0-a16a-41e1-84b3-50095f20b078] ::1 - - [30/Sep/2025:07:01:21 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 403 64 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:01:23.071Z [HTTP] [req:d8de9f92-0d2b-444a-aafd-f7f49254bb03] ::1 - - [30/Sep/2025:07:01:23 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 403 64 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:03:54.006Z [WARN] [req:b926c9ab-fcda-498b-8b8c-1aa155eb4d4c] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T07:03:54.007Z [HTTP] [req:b926c9ab-fcda-498b-8b8c-1aa155eb4d4c] ::1 - - [30/Sep/2025:07:03:54 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:25.665Z [HTTP] [req:02ed2660-3cd6-4506-b5d9-d6121d38597b] ::1 - - [30/Sep/2025:07:04:25 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:25.768Z [ERROR] [req:ec97c310-2edc-44d5-bb85-1774bdaa06b2] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-09-30T07:04:25.772Z [HTTP] [req:ec97c310-2edc-44d5-bb85-1774bdaa06b2] ::1 - - [30/Sep/2025:07:04:25 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 144 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:32.506Z [HTTP] [req:4a4690ef-7a29-4e53-9bd6-c4effa8c5784] ::1 - - [30/Sep/2025:07:04:32 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:32.782Z [HTTP] [req:9e7f53fc-eda2-404d-9b73-52d166de4f2a] ::1 - - [30/Sep/2025:07:04:32 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 50 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:38.774Z [HTTP] [req:59bc8016-aadc-448c-b247-691b70ef4e83] ::1 - - [30/Sep/2025:07:04:38 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:39.321Z [HTTP] [req:8f4b7c8e-9ccd-4f60-887e-191125c4a753] ::1 - - [30/Sep/2025:07:04:39 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:39.472Z [WARN] [req:7a74c421-4e6f-4c03-83e2-2da07ec4d3b4] Rate limit exceeded for IP: ::1
+2025-09-30T07:04:39.473Z [HTTP] [req:7a74c421-4e6f-4c03-83e2-2da07ec4d3b4] ::1 - - [30/Sep/2025:07:04:39 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 429 43 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:39.475Z [WARN] [req:2d7be071-f84a-4093-904d-b19207d12229] Rate limit exceeded for IP: ::1
+2025-09-30T07:04:39.476Z [HTTP] [req:2d7be071-f84a-4093-904d-b19207d12229] ::1 - - [30/Sep/2025:07:04:39 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 429 43 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:40.489Z [WARN] [req:5a983aac-ab48-4821-9974-0db6cd434882] Rate limit exceeded for IP: ::1
+2025-09-30T07:04:40.491Z [HTTP] [req:5a983aac-ab48-4821-9974-0db6cd434882] ::1 - - [30/Sep/2025:07:04:40 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 429 43 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:40.493Z [WARN] [req:9f7d4b43-ebc0-4e31-8f90-63409ff2afac] Rate limit exceeded for IP: ::1
+2025-09-30T07:04:40.497Z [HTTP] [req:9f7d4b43-ebc0-4e31-8f90-63409ff2afac] ::1 - - [30/Sep/2025:07:04:40 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 429 43 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:42.611Z [HTTP] [req:fe69e017-a21d-4f80-906f-a1a95c3af3f8] ::1 - - [30/Sep/2025:07:04:42 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:54.226Z [WARN] [req:e89be0f3-af9a-4d26-9fc7-c25a2d58aeb1] Rate limit exceeded for IP: ::1
+2025-09-30T07:04:54.227Z [HTTP] [req:e89be0f3-af9a-4d26-9fc7-c25a2d58aeb1] ::1 - - [30/Sep/2025:07:04:54 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 429 43 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T07:04:55.261Z [WARN] [req:c05259ff-4ca3-4ad8-9406-16c17deec7f1] Rate limit exceeded for IP: ::1
+2025-09-30T07:04:55.263Z [HTTP] [req:c05259ff-4ca3-4ad8-9406-16c17deec7f1] ::1 - - [30/Sep/2025:07:04:55 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 429 43 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:39:17.080Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T08:39:32.565Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T08:39:32.568Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T08:39:39.636Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T08:39:40.689Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T08:39:40.992Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T08:39:40.995Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T08:42:18.752Z [WARN] [req:c8fbd1af-4446-48d3-9bf9-6c1112ade7d5] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T08:42:19.043Z [HTTP] [req:c8fbd1af-4446-48d3-9bf9-6c1112ade7d5] ::1 - - [30/Sep/2025:08:42:19 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:42:19.864Z [HTTP] [req:85ed7672-c2c0-464e-9ccd-e5cda432186b] ::1 - - [30/Sep/2025:08:42:19 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:42:24.213Z [HTTP] [req:7b89fe20-c85b-4649-a7ba-5f5f733576e3] ::1 - - [30/Sep/2025:08:42:24 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:42:38.928Z [WARN] [req:fbe18d70-60cf-40b1-9866-48af623d215b] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T08:42:39.182Z [HTTP] [req:fbe18d70-60cf-40b1-9866-48af623d215b] ::1 - - [30/Sep/2025:08:42:39 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:42:40.525Z [WARN] [req:7073e67f-8586-4060-a2bc-98c72df9454c] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T08:42:40.704Z [HTTP] [req:7073e67f-8586-4060-a2bc-98c72df9454c] ::1 - - [30/Sep/2025:08:42:40 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:42:40.834Z [HTTP] [req:35a0dd37-9fad-4a41-bfe7-28c4abf82d7d] ::1 - - [30/Sep/2025:08:42:40 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:45:00.580Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T08:45:01.654Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T08:45:05.110Z [WARN] [req:fb5bf798-dffe-44f8-8fe1-7823e5520711] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T08:45:05.287Z [HTTP] [req:fb5bf798-dffe-44f8-8fe1-7823e5520711] ::1 - - [30/Sep/2025:08:45:05 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:06.114Z [HTTP] [req:4bced9f4-d738-4bf7-84ed-1c4e0bcc09fe] ::1 - - [30/Sep/2025:08:45:06 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:20.411Z [HTTP] [req:e27ff931-39be-4a66-90ff-cc72a1986c28] ::1 - - [30/Sep/2025:08:45:20 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:21.134Z [HTTP] [req:79ce0f96-7970-471a-acc0-d39862a634c1] ::1 - - [30/Sep/2025:08:45:21 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:26.265Z [HTTP] [req:74e00781-2ff8-4983-a6b1-7f4f9965733a] ::1 - - [30/Sep/2025:08:45:26 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:31.286Z [HTTP] [req:843d5bdf-5890-4289-97f6-570e49e3821b] ::1 - - [30/Sep/2025:08:45:31 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:32.250Z [HTTP] [req:ceb64abc-17bc-4733-ab7c-9e03902b2e7e] ::1 - - [30/Sep/2025:08:45:32 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:34.680Z [HTTP] [req:38a8e106-ce94-4d2d-ae58-6dcc6ff87c1d] ::1 - - [30/Sep/2025:08:45:34 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:35.557Z [HTTP] [req:dbe3cd12-ec7a-4120-bc87-dd4d2dc8c81f] ::1 - - [30/Sep/2025:08:45:35 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:35.741Z [HTTP] [req:3304092f-f681-4aba-9a4f-83d6444a20a4] ::1 - - [30/Sep/2025:08:45:35 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:37.718Z [HTTP] [req:4c9635ba-bfc8-4865-a0dc-5c9d4d065986] ::1 - - [30/Sep/2025:08:45:37 +0000] "GET /api/v1/cart HTTP/1.1" 200 3533 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:41.935Z [HTTP] [req:4ad7d69b-f2af-4b5b-b920-899db90d7712] ::1 - - [30/Sep/2025:08:45:41 +0000] "GET /api/v1/wishlist HTTP/1.1" 200 8428 "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:44.501Z [HTTP] [req:b6f2f4dc-4c08-4245-836b-4f3b7eeed135] ::1 - - [30/Sep/2025:08:45:44 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:47.216Z [HTTP] [req:96b387cf-cc27-4e5c-a721-685e9a15d8ba] ::1 - - [30/Sep/2025:08:45:47 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:50.401Z [HTTP] [req:589f5bb8-6237-45b1-bb22-df8a14a7ee1c] ::1 - - [30/Sep/2025:08:45:50 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:50.551Z [HTTP] [req:4f6b5c10-b7ef-4d6b-944a-78934feca5f1] ::1 - - [30/Sep/2025:08:45:50 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:45:51.608Z [HTTP] [req:4a209f93-61e1-482f-877d-a5b0fe9ad39b] ::1 - - [30/Sep/2025:08:45:51 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:45:52.134Z [HTTP] [req:bc597779-1541-4d50-8971-a3b6e1cec3d5] ::1 - - [30/Sep/2025:08:45:52 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:45:52.490Z [HTTP] [req:a9d52a23-c593-4d05-9105-d33769d59425] ::1 - - [30/Sep/2025:08:45:52 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-09-30T08:45:52.561Z [HTTP] [req:c39693c3-5ac7-44dc-8a5a-8f58310eb64e] ::1 - - [30/Sep/2025:08:45:52 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:45:53.066Z [HTTP] [req:aa9ec499-dec0-4d49-9572-6534883ab015] ::1 - - [30/Sep/2025:08:45:53 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:45:54.903Z [HTTP] [req:ff0cb46d-fb0c-43a4-8b7f-9170c39d6b26] ::1 - - [30/Sep/2025:08:45:54 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:46:10.476Z [HTTP] [req:9bd175c2-6bb6-4a12-b240-588f91d36fe2] ::1 - - [30/Sep/2025:08:46:10 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:46:11.650Z [HTTP] [req:8ce4de52-c73b-4d2d-8c48-1903c0719b53] ::1 - - [30/Sep/2025:08:46:11 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 200 166 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:46:12.180Z [HTTP] [req:1dc2c9b8-903d-49dd-be26-6ad12c086e91] ::1 - - [30/Sep/2025:08:46:12 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 200 75 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:46:15.373Z [HTTP] [req:afeb1844-70ac-4fe3-8cbd-84151252a2d6] ::1 - - [30/Sep/2025:08:46:15 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 1809 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:46:46.301Z [HTTP] [req:da15ea0a-a08b-4452-9ba6-ab505e88ac9a] ::1 - - [30/Sep/2025:08:46:46 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 200 372 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:47:16.842Z [HTTP] [req:75a54483-1b66-47c1-a81b-1f0c4fa44235] ::1 - - [30/Sep/2025:08:47:16 +0000] "GET /api/v1/reviews?page=1&limit=10 HTTP/1.1" 200 753 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:47:28.442Z [HTTP] [req:c4ac6013-21d1-424d-b8ab-6885a40d5209] ::1 - - [30/Sep/2025:08:47:28 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=desc HTTP/1.1" 200 1687 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:47:51.410Z [HTTP] [req:011487d5-3299-4951-b7ff-14b9c2a09378] ::1 - - [30/Sep/2025:08:47:51 +0000] "GET /api/v1/products/suggestions?query=Ai HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:47:55.306Z [HTTP] [req:2922c6f9-a4cd-4658-b6f0-f2b621919e1b] ::1 - - [30/Sep/2025:08:47:55 +0000] "GET /api/v1/products/suggestions?query=Air HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:47:58.829Z [HTTP] [req:3f94b12a-6b6a-4e7a-b762-a7e5b7fb9ee6] ::1 - - [30/Sep/2025:08:47:58 +0000] "GET /api/v1/products/suggestions?query=Air%20 HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:48:02.312Z [HTTP] [req:7ba68ca5-9780-47ab-bcb6-402511e4fdf9] ::1 - - [30/Sep/2025:08:48:02 +0000] "GET /api/v1/products/suggestions?query=Air%20Puri HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:48:04.683Z [HTTP] [req:1847bd53-19eb-4c38-b3dd-4a1d04891a5e] ::1 - - [30/Sep/2025:08:48:04 +0000] "GET /api/v1/products/suggestions?query=Air%20Purifier HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:48:06.961Z [HTTP] [req:47daac3e-61ee-4adc-b16e-46eb35f5be3c] ::1 - - [30/Sep/2025:08:48:06 +0000] "GET /api/v1/products/suggestions?query=Air%20Pur HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:48:10.863Z [HTTP] [req:8262d943-96c5-4dcf-9658-f00fa86e8316] ::1 - - [30/Sep/2025:08:48:10 +0000] "GET /api/v1/products/suggestions?query=Air%20Purifie HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:48:15.772Z [HTTP] [req:518ee79f-72cb-4818-98e0-f1855d2dc242] ::1 - - [30/Sep/2025:08:48:15 +0000] "GET /api/v1/products/suggestions?query=Air%20P HTTP/1.1" 200 33 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:49:07.345Z [HTTP] [req:b51d3435-755f-4a6c-968b-d1f09fec5918] ::1 - - [30/Sep/2025:08:49:07 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:49:08.093Z [HTTP] [req:a9672408-10e3-462d-9c38-474556785ff7] ::1 - - [30/Sep/2025:08:49:08 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:49:11.267Z [ERROR] [req:1dc72b84-bbbd-4589-8947-b69b3edab4e4] ❌ Path: /api/v1/products | Error: sorting by searchScore, vectorSearchScore, or score is not allowed in the current feature compatibility version. See https://docs.mongodb.com/master/release-notes/7.0-compatibility/#feature-compatibility for more information.
+2025-09-30T08:49:11.515Z [HTTP] [req:1dc72b84-bbbd-4589-8947-b69b3edab4e4] ::1 - - [30/Sep/2025:08:49:11 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=relevance-desc&searchTerm=Air+Purifier HTTP/1.1" 500 307 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T08:49:13.783Z [ERROR] [req:fd3db643-e747-4b6d-960c-327116c6de75] ❌ Path: /api/v1/products | Error: sorting by searchScore, vectorSearchScore, or score is not allowed in the current feature compatibility version. See https://docs.mongodb.com/master/release-notes/7.0-compatibility/#feature-compatibility for more information.
+2025-09-30T08:49:14.033Z [HTTP] [req:fd3db643-e747-4b6d-960c-327116c6de75] ::1 - - [30/Sep/2025:08:49:14 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=relevance-desc&searchTerm=Air+Purifier HTTP/1.1" 500 307 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T09:02:53.681Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T09:03:02.041Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T09:40:59.204Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T09:41:07.875Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T09:44:38.972Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T09:44:39.521Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T09:55:53.982Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T09:55:57.044Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T09:55:57.052Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T09:55:58.777Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T09:55:59.504Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T09:55:59.917Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T09:55:59.924Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T09:59:21.860Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T09:59:23.733Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T09:59:23.738Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T09:59:26.725Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T09:59:27.008Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T09:59:27.276Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T09:59:27.283Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:01:42.635Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:01:44.519Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:01:44.526Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T10:01:45.941Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:01:46.410Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:01:46.734Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:01:46.740Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:01:58.341Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:02:00.317Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:02:00.323Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T10:02:02.699Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:02:03.545Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:02:04.149Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:02:04.156Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:03:00.296Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-09-30T10:03:00.334Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:11:53.922Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:11:55.987Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:11:55.994Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T10:11:57.427Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:11:58.149Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:12:01.003Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:12:01.006Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:12:12.716Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:12:14.584Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:12:14.588Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T10:12:15.847Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:12:16.407Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:12:16.650Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:12:16.654Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:12:50.618Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:12:53.954Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:12:53.961Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T10:12:57.479Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:12:58.489Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:12:58.861Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:12:58.865Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:13:35.130Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:13:46.227Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:13:46.234Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T10:13:51.369Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:13:52.094Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:13:52.419Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:13:52.428Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:13:57.406Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:13:59.173Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:13:59.176Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T10:14:00.412Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:14:00.940Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:14:01.187Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:14:01.193Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:15:10.607Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:15:17.400Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:15:17.411Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T10:15:20.721Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:15:21.357Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:15:21.723Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:15:21.727Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:16:27.216Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:16:32.066Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:16:32.069Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T10:16:33.378Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:16:33.863Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:16:34.139Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:16:34.147Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:18:06.934Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:18:11.492Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:18:11.496Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T10:18:14.762Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:18:23.103Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:18:24.762Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:18:24.769Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:19:33.874Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:19:40.982Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:19:40.989Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T10:19:43.301Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:19:43.472Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:19:43.653Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:19:43.661Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:27:13.353Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-09-30T10:30:05.830Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T10:30:07.634Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T10:30:07.637Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T10:30:09.982Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T10:30:10.150Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T10:30:10.327Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T10:30:10.334Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T10:30:37.346Z [WARN] [req:b6c941e2-635a-4fba-aaee-5a078ecf0690] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T10:30:37.582Z [HTTP] [req:b6c941e2-635a-4fba-aaee-5a078ecf0690] ::1 - - [30/Sep/2025:10:30:37 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:13.374Z [WARN] [req:83ed5843-bf85-42d3-8f92-bae31850ed64] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T10:31:13.545Z [HTTP] [req:83ed5843-bf85-42d3-8f92-bae31850ed64] ::1 - - [30/Sep/2025:10:31:13 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:14.119Z [HTTP] [req:6ec14879-35be-424b-8b49-edfa269d4404] ::1 - - [30/Sep/2025:10:31:14 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:15.323Z [HTTP] [req:999a3c95-f096-42f2-a42b-b6131ff179da] ::1 - - [30/Sep/2025:10:31:15 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:15.925Z [WARN] [req:03a9fd88-b388-4ab5-8145-c6cceaf1a779] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T10:31:16.105Z [HTTP] [req:03a9fd88-b388-4ab5-8145-c6cceaf1a779] ::1 - - [30/Sep/2025:10:31:16 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:17.850Z [WARN] [req:bb5b04f9-1872-43dc-b900-24a693802094] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T10:31:18.019Z [HTTP] [req:bb5b04f9-1872-43dc-b900-24a693802094] ::1 - - [30/Sep/2025:10:31:18 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:18.182Z [HTTP] [req:f5324ee6-2ea2-4a9d-8bc8-1ad219fed70f] ::1 - - [30/Sep/2025:10:31:18 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:34.128Z [HTTP] [req:125571eb-d016-49b1-881c-d1c4f4fd2ce5] ::1 - - [30/Sep/2025:10:31:34 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:34.709Z [ERROR] [req:0de7347c-779f-473c-9771-724fb93fd6d2] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T10:31:34.873Z [WARN] [req:39ab6253-adef-49da-8eec-a8b69a413025] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T10:31:34.880Z [HTTP] [req:0de7347c-779f-473c-9771-724fb93fd6d2] ::1 - - [30/Sep/2025:10:31:34 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 500 228 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:35.070Z [HTTP] [req:39ab6253-adef-49da-8eec-a8b69a413025] ::1 - - [30/Sep/2025:10:31:35 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T10:31:36.219Z [ERROR] [req:22c54b53-bf88-473e-afe7-ee497d7e40c5] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T10:31:36.407Z [HTTP] [req:22c54b53-bf88-473e-afe7-ee497d7e40c5] ::1 - - [30/Sep/2025:10:31:36 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 500 228 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:11:44.130Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T12:11:56.652Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T12:11:56.656Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T12:12:02.383Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T12:12:04.407Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T12:12:05.725Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T12:12:05.728Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T12:17:34.475Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T12:17:49.726Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T12:17:49.730Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-09-30T12:18:02.803Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T12:18:03.034Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T12:18:03.288Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T12:18:03.292Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T12:19:36.275Z [WARN] [req:c7e97056-1945-4737-a1b3-89bf312f9bd3] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:19:36.581Z [HTTP] [req:c7e97056-1945-4737-a1b3-89bf312f9bd3] ::1 - - [30/Sep/2025:12:19:36 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:19:39.677Z [HTTP] [req:ca0cfed0-c6c0-4f2a-88cc-db3990776780] ::1 - - [30/Sep/2025:12:19:39 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:19:46.561Z [HTTP] [req:5bf6112f-85d7-458a-84bd-224b627ef541] ::1 - - [30/Sep/2025:12:19:46 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:21.400Z [WARN] [req:1bbdefd6-a2e2-457e-88cb-a88e20644a37] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:20:22.644Z [HTTP] [req:1bbdefd6-a2e2-457e-88cb-a88e20644a37] ::1 - - [30/Sep/2025:12:20:22 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:22.804Z [WARN] [req:3be458c5-5dd2-4e41-bfa4-0743a7a43710] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:20:23.039Z [HTTP] [req:3be458c5-5dd2-4e41-bfa4-0743a7a43710] ::1 - - [30/Sep/2025:12:20:23 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:24.656Z [WARN] [req:139e3e5d-e3cb-42d3-a20f-4334fa10f1d5] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:20:24.839Z [HTTP] [req:139e3e5d-e3cb-42d3-a20f-4334fa10f1d5] ::1 - - [30/Sep/2025:12:20:24 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:26.489Z [WARN] [req:5766d7b5-c7df-44e1-85dd-fba4f27b3c53] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:20:26.739Z [HTTP] [req:5766d7b5-c7df-44e1-85dd-fba4f27b3c53] ::1 - - [30/Sep/2025:12:20:26 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:27.621Z [HTTP] [req:3675bc3c-5d79-4be4-a9d0-61bc37969f8c] ::1 - - [30/Sep/2025:12:20:27 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:27.797Z [ERROR] [req:3cf05b29-5d6b-4e37-91b5-1fe2c7f6f66b] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T12:20:28.659Z [HTTP] [req:3cf05b29-5d6b-4e37-91b5-1fe2c7f6f66b] ::1 - - [30/Sep/2025:12:20:28 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 500 228 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:20:30.155Z [ERROR] [req:5d339de9-a4b5-4a39-9560-d9af8af34cf9] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `price` is not filterable. This index does not have configured filterable attributes.
+1:6 price >= 0 AND price <= 500
+2025-09-30T12:20:30.431Z [HTTP] [req:5d339de9-a4b5-4a39-9560-d9af8af34cf9] ::1 - - [30/Sep/2025:12:20:30 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 500 228 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:25:13.082Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T12:25:25.474Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T12:25:25.478Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-09-30T12:25:28.818Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T12:25:30.925Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T12:25:31.461Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T12:25:31.465Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T12:42:24.527Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-09-30T12:42:30.475Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-09-30T12:42:30.479Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-09-30T12:42:32.153Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-09-30T12:42:33.054Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-09-30T12:42:33.669Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-09-30T12:42:33.675Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-09-30T12:44:26.734Z [WARN] [req:fc8d8d09-f0f6-4857-838f-99eaadfbca9a] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:44:27.004Z [HTTP] [req:fc8d8d09-f0f6-4857-838f-99eaadfbca9a] ::1 - - [30/Sep/2025:12:44:27 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:44:59.281Z [WARN] [req:7517423b-b351-496a-bed2-e277c9c7d5e7] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:44:59.478Z [HTTP] [req:7517423b-b351-496a-bed2-e277c9c7d5e7] ::1 - - [30/Sep/2025:12:44:59 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:45:00.148Z [HTTP] [req:c8df6a31-c59c-418e-8890-fb70ccd890d2] ::1 - - [30/Sep/2025:12:45:00 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:45:01.154Z [HTTP] [req:48034d1f-fe58-48ec-bf8a-45872788261d] ::1 - - [30/Sep/2025:12:45:01 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:45:04.973Z [HTTP] [req:75451710-dbb0-464d-9cf7-8b088e81ddcd] ::1 - - [30/Sep/2025:12:45:04 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:45:05.677Z [HTTP] [req:a47b93c6-0091-4df5-8422-14614e4e93df] ::1 - - [30/Sep/2025:12:45:05 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 200 4245 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-09-30T12:45:07.075Z [WARN] [req:72794207-304f-4a18-b682-359b1db75977] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-09-30T12:45:07.318Z [HTTP] [req:72794207-304f-4a18-b682-359b1db75977] ::1 - - [30/Sep/2025:12:45:07 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

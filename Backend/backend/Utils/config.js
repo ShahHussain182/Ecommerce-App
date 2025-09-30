@@ -12,6 +12,9 @@ const envSchema = z.object({
   REDIS_PORT: z.string().optional(),
   REDIS_USERNAME: z.string().optional(),
   REDIS_PASSWORD: z.string().optional(),
+  MEILI_HOST: z.string().url().optional(),
+  MEILI_MASTER_KEY: z.string().optional(),
+  
 });
 
 export const config = envSchema.parse(process.env);
