@@ -7,7 +7,7 @@ import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Heart } from 'lucide-react';
+import { Heart, Star } from 'lucide-react'; // Import Star icon
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
@@ -94,9 +94,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </CardHeader>
         <CardContent className="p-4 flex-grow">
           <CardTitle className="text-lg font-semibold mb-2 hover:text-primary">{product.name}</CardTitle>
-          <p className="text-gray-600 text-sm mb-4 h-10 overflow-hidden text-ellipsis">
+          <p className="text-gray-600 text-sm mb-2 h-10 overflow-hidden text-ellipsis">
             {product.description}
           </p>
+          {product.numberOfReviews > 0 && (
+            <div className="flex items-center gap-1 mb-2">
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <span className="text-sm font-medium">{product.averageRating.toFixed(1)}</span>
+              <span className="text-xs text-gray-500">({product.numberOfReviews})</span>
+            </div>
+          )}
           <p className="text-xl font-bold text-gray-900">
             {defaultVariant ? `$${defaultVariant.price.toFixed(2)}` : 'N/A'}
           </p>
