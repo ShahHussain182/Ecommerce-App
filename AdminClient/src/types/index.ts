@@ -15,8 +15,8 @@ export interface Product {
   imageUrls: string[];
   isFeatured: boolean;
   variants: ProductVariant[];
-  averageRating: number;
-  numberOfReviews: number;
+  averageRating: number; // New: Average rating of the product
+  numberOfReviews: number; // New: Total number of reviews
   createdAt: string;
   updatedAt: string;
 }
@@ -186,4 +186,17 @@ export interface ProductFormData {
 
 export interface OrderUpdateData {
   status: OrderStatus;
+}
+
+// New: FilterState for products in AdminClient
+export interface ProductsFilterState {
+  page?: number;
+  limit?: number;
+  searchTerm?: string;
+  categories?: string;
+  priceRange?: string;
+  colors?: string;
+  sizes?: string;
+  sortBy?: 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc';
+  sortOrder?: 'asc' | 'desc'; // Added sortOrder for consistency, though sortBy handles direction
 }

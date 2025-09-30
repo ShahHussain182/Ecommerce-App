@@ -7,10 +7,10 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X } from 'lucide-react';
+import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X, ChevronDown, ChevronUp } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
-import type { Product, ProductVariant, Category } from '@/types'; // Import Category type
+import type { Product, ProductVariant, Category, ProductsFilterState } from '@/types'; // Import Category and ProductsFilterState
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
@@ -22,6 +22,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCategories } from '@/hooks/useCategories'; // Import useCategories hook
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Type for the form data, combining create and update schemas
 type ProductFormValues = z.infer<typeof createProductSchema>;
@@ -282,6 +289,8 @@ export function Products() {
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10; // Number of items per page
+  const [sortBy, setSortBy] = useState<ProductsFilterState['sortBy']>('name-asc'); // New state for sorting
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc'); // New state for sort order
 
   const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategories();
   const categoryNames = categories?.map(cat => cat.name) || [];
@@ -300,13 +309,15 @@ export function Products() {
 
   // Query for products from API
   const { data: productsData, isLoading, error } = useQuery({
-    queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+    queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
     queryFn: () => productService.getProducts({
       page,
       limit,
       searchTerm: debouncedSearchTerm || undefined,
       categories: selectedCategory === 'All' ? undefined : selectedCategory || undefined,
-      sortBy: 'name-asc'
+      sortBy: sortBy,
+      // Note: Meilisearch handles sort direction within 'sortBy' string (e.g., 'name:asc').
+      // The 'sortOrder' state is primarily for UI toggle and can be used for other sortBy values if needed.
     }),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
@@ -335,16 +346,16 @@ export function Products() {
       await queryClient.cancelQueries({ queryKey: ['products'] });
 
       // Snapshot the previous value
-      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }]);
+      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }]);
 
       // Optimistically update the product in the cache
       queryClient.setQueryData(
-        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
         (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            products: oldData.data.map((product) =>
+            products: oldData.products.map((product) =>
               product._id === id ? { ...product, ...data } : product
             ),
           };
@@ -362,7 +373,7 @@ export function Products() {
       // Rollback to the previous cache state
       if (context?.previousProducts) {
         queryClient.setQueryData(
-          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
           context.previousProducts
         );
       }
@@ -380,16 +391,16 @@ export function Products() {
       await queryClient.cancelQueries({ queryKey: ['products'] });
 
       // Snapshot the previous value
-      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }]);
+      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }]);
 
       // Optimistically remove the product from the cache
       queryClient.setQueryData(
-        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
         (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            products: oldData.data.filter((product) => product._id !== productIdToDelete),
+            products: oldData.products.filter((product) => product._id !== productIdToDelete),
             totalProducts: oldData.totalProducts - 1, // Adjust total count
           };
         }
@@ -405,7 +416,7 @@ export function Products() {
       // Rollback to the previous cache state
       if (context?.previousProducts) {
         queryClient.setQueryData(
-          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit }],
+          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
           context.previousProducts
         );
       }
@@ -421,6 +432,16 @@ export function Products() {
       id: product._id,
       data: { isFeatured: !product.isFeatured },
     });
+  };
+
+  const handleSortChange = (value: ProductsFilterState['sortBy']) => {
+    setSortBy(value);
+    setPage(1);
+  };
+
+  const handleSortOrderToggle = () => {
+    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    setPage(1);
   };
 
   return (
@@ -511,10 +532,28 @@ export function Products() {
           )}
         </div>
         
-        <Button variant="outline" className="ml-auto">
-          <Filter className="mr-2 h-4 w-4" />
-          More Filters
-        </Button>
+        <Select value={sortBy} onValueChange={handleSortChange}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="name-asc">Name (A-Z)</SelectItem>
+            <SelectItem value="name-desc">Name (Z-A)</SelectItem>
+            <SelectItem value="price-asc">Price (Low to High)</SelectItem>
+            <SelectItem value="price-desc">Price (High to Low)</SelectItem>
+            <SelectItem value="averageRating-desc">Top Rated</SelectItem>
+            <SelectItem value="numberOfReviews-desc">Most Reviewed</SelectItem>
+          </SelectContent>
+        </Select>
+        
+        {/* Removed explicit sort order toggle as Meilisearch handles it in sortBy string */}
+        {/* <Button 
+          variant="outline" 
+          size="icon"
+          onClick={handleSortOrderToggle}
+        >
+          {sortOrder === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </Button> */}
       </div>
 
       {/* Products Table */}
