@@ -69,10 +69,10 @@ export const Header = () => {
 
   const navLinks = (
     <>
-      <Link to="/" className="text-sm font-medium text-gray-700 hover:text-black">Home</Link>
-      <Link to="/products" className="text-sm font-medium text-gray-700 hover:text-black">Shop</Link>
-      <Link to="/about" className="text-sm font-medium text-gray-700 hover:text-black">About</Link>
-      <Link to="/contact" className="text-sm font-medium text-gray-700 hover:text-black">Contact</Link>
+      <Link to="/" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">Home</Link>
+      <Link to="/products" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">Shop</Link>
+      <Link to="/about" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">About</Link>
+      <Link to="/contact" className="text-sm font-medium text-gray-700 hover:text-black transition-colors duration-200">Contact</Link>
     </>
   );
 
@@ -100,7 +100,7 @@ export const Header = () => {
           <div className="flex items-center space-x-4">
             <Dialog open={isSearchDialogOpen} onOpenChange={setIsSearchDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Search">
                   <Search className="h-5 w-5" />
                 </Button>
               </DialogTrigger>
@@ -118,6 +118,7 @@ export const Header = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="col-span-3"
+                    aria-label="Product search input"
                   />
                   <Button type="submit">Search</Button>
                 </form>
@@ -147,7 +148,7 @@ export const Header = () => {
               </DialogContent>
             </Dialog>
 
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild aria-label="Wishlist">
               <Link to="/wishlist" className="relative">
                 <Heart className="h-5 w-5" />
                 {totalWishlistItems > 0 && (
@@ -158,12 +159,12 @@ export const Header = () => {
               </Link>
             </Button>
 
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild aria-label={isAuthenticated ? "Profile" : "Login"}>
               <Link to={isAuthenticated ? "/profile" : "/login"}>
                 <User className="h-5 w-5" />
               </Link>
             </Button>
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild aria-label="Shopping Cart">
               <Link to="/cart" className="relative">
                 <ShoppingCart className="h-5 w-5" />
                 {totalCartItems > 0 && (
@@ -176,7 +177,7 @@ export const Header = () => {
             {isMobile && (
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" aria-label="Open navigation menu">
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
