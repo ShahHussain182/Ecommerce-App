@@ -142,7 +142,7 @@ export interface FilterState {
   priceRange?: [number, number];
   colors?: string[]; // Corrected from [number, number] to string[]
   sizes?: string[];
-  sortBy?: string;
+  sortBy?: 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc'; // Added new sort options
   searchTerm?: string;
 }
 

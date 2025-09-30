@@ -100,7 +100,7 @@ const ProductsPage = () => {
                     <div className="p-4">{sidebar}</div>
                   </SheetContent>
                 </Sheet>
-                <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange({ sortBy: value })}>
+                <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange({ sortBy: value as FilterState['sortBy'] })}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
@@ -110,6 +110,8 @@ const ProductsPage = () => {
                     <SelectItem value="price-desc">Price: High to Low</SelectItem>
                     <SelectItem value="name-asc">Name: A-Z</SelectItem>
                     <SelectItem value="name-desc">Name: Z-A</SelectItem>
+                    <SelectItem value="averageRating-desc">Top Rated</SelectItem>
+                    <SelectItem value="numberOfReviews-desc">Most Reviewed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -125,7 +127,7 @@ const ProductsPage = () => {
                 <div className="p-6 h-full overflow-y-auto">
                   <div className="flex justify-between items-center mb-6">
                     <p className="text-sm text-gray-600">Showing {totalProducts} products</p>
-                    <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange({ sortBy: value })}>
+                    <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange({ sortBy: value as FilterState['sortBy'] })}>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Sort by" />
                       </SelectTrigger>
@@ -135,6 +137,8 @@ const ProductsPage = () => {
                         <SelectItem value="price-desc">Price: High to Low</SelectItem>
                         <SelectItem value="name-asc">Name: A-Z</SelectItem>
                         <SelectItem value="name-desc">Name: Z-A</SelectItem>
+                        <SelectItem value="averageRating-desc">Top Rated</SelectItem>
+                        <SelectItem value="numberOfReviews-desc">Most Reviewed</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
