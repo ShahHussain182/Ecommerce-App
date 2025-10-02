@@ -1,162 +1,140 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const sectionVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeInOut", // Changed from "ease"
+    },
+  },
 };
 
-const TermsOfServicePage = () => {
+export function TermsOfServicePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header />
-      <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 md:py-32 overflow-hidden">
-          <motion.div 
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 5, ease: "easeOut" }}
-            className="absolute inset-0 opacity-30 bg-cover bg-center" 
-            style={{ backgroundImage: "url('/placeholder.svg')" }}
-          ></motion.div>
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4"
-            >
-              Terms of Service
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="mt-4 max-w-2xl mx-auto text-lg text-white/90"
-            >
-              Your agreement to use our services.
-            </motion.p>
-          </div>
-        </section>
+    <div className="min-h-screen bg-background dark:bg-gray-900 text-foreground dark:text-gray-100">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-12">
+        <motion.h1
+          className="text-5xl font-extrabold text-center text-gray-900 dark:text-white mb-12"
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        >
+          Terms of Service
+        </motion.h1>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-12">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">1. Acceptance of Terms</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>By accessing and using the E-Store website and services, you agree to be bound by these Terms of Service and all terms incorporated by reference. If you do not agree to all of these terms, do not use our website or services.</p>
-                <p>These Terms of Service apply to all visitors, users, and others who access or use the Service.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">1. Acceptance of Terms</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>By accessing and using our website and services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.1 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">2. Changes to Terms</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
-                <p>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.1 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">2. Use License</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>Permission is granted to temporarily download one copy of the materials (information or software) on our website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+              <ul className="list-disc list-inside ml-4 space-y-2">
+                <li>Modify or copy the materials;</li>
+                <li>Use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
+                <li>Attempt to decompile or reverse engineer any software contained on our website;</li>
+                <li>Remove any copyright or other proprietary notations from the materials; or</li>
+                <li>Transfer the materials to another person or "mirror" the materials on any other server.</li>
+              </ul>
+              <p>This license shall automatically terminate if you violate any of these restrictions and may be terminated by us at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.2 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">3. Your Account</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>When you create an account with us, you must provide us with information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</p>
-                <p>You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password, whether your password is with our Service or a third-party service.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.2 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">3. Disclaimer</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>The materials on our website are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+              <p>Further, we do not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on our website or otherwise relating to such materials or on any sites linked to this site.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.3 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">4. Prohibited Conduct</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>You agree not to engage in any of the following prohibited activities:</p>
-                <ul className="list-disc list-inside space-y-2">
-                  <li>Using the Service for any illegal purpose or in violation of any local, state, national, or international law.</li>
-                  <li>Violating, or encouraging others to violate, any right of a third party, including by infringing or misappropriating any third-party intellectual property right.</li>
-                  <li>Interfering with security-related features of the Service, including by (a) disabling or circumventing features that prevent or limit use or copying of any content; or (b) reverse engineering or otherwise attempting to discover the source code of the Service or any part thereof except to the extent that such activity is expressly permitted by applicable law.</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.3 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">4. Limitations</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>In no event shall we or our suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on our website, even if we or an authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.4 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">5. Intellectual Property</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive property of E-Store and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.</p>
-                <p>Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of E-Store.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.4 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">5. Accuracy of Materials</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>The materials appearing on our website could include technical, typographical, or photographic errors. We do not warrant that any of the materials on its website are accurate, complete or current. We may make changes to the materials contained on its website at any time without notice. However we do not make any commitment to update the materials.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.5 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">6. Disclaimer of Warranties</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
-                <p>E-Store does not warrant that a) the Service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the Service is free of viruses or other harmful components; or d) the results of using the Service will meet your requirements.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.5 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">6. Links</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>We have not reviewed all of the sites linked to its website and are not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by us of the site. Use of any such linked website is at the user's own risk.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.6 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">7. Limitation of Liability</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>In no event shall E-Store, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.6 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">7. Modifications</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>We may revise these Terms of Service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these Terms of Service.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.7 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">8. Governing Law</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>These Terms shall be governed and construed in accordance with the laws of [Your Country/State], without regard to its conflict of law provisions.</p>
-                <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.7 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">8. Governing Law</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>These terms and conditions are governed by and construed in accordance with the laws of [Your Country/State] and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.8 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">9. Contact Information</CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
-                <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@e-store.com" className="text-blue-600 hover:underline">support@e-store.com</a>.</p>
-              </CardContent>
-            </Card>
-          </motion.section>
-        </div>
-      </main>
-      <Footer />
+        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.8 }}>
+          <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">9. Contact Information</CardTitle>
+            </CardHeader>
+            <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <p>If you have any questions about these Terms, please contact us at support@example.com.</p>
+            </CardContent>
+          </Card>
+        </motion.section>
+      </div>
     </div>
   );
-};
-
-export default TermsOfServicePage;
+}

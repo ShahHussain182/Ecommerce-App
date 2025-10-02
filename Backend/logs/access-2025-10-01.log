@@ -1,0 +1,21 @@
+2025-10-01T09:17:40.538Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-01T09:17:42.325Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-01T09:17:42.328Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-01T09:17:43.753Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-01T09:17:44.316Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-01T09:17:45.615Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-10-01T09:17:45.618Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-01T09:27:40.421Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-10-01T11:10:48.091Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-01T11:11:10.961Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-01T11:11:10.968Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-01T11:11:13.382Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-01T11:11:13.550Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-01T11:11:13.729Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1001
+2025-10-01T11:11:13.736Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-01T11:12:05.795Z [WARN] [req:dfcf98d5-c1a2-42e7-9234-414f7ff5ca92] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-01T11:12:05.972Z [HTTP] [req:dfcf98d5-c1a2-42e7-9234-414f7ff5ca92] ::1 - - [01/Oct/2025:11:12:05 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-01T11:12:06.535Z [HTTP] [req:52549ac0-4d1d-4446-b47c-868f88c2e97f] ::1 - - [01/Oct/2025:11:12:06 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-01T11:12:07.624Z [HTTP] [req:ccadab4a-1b82-4dc9-b674-98c679fc5c13] ::1 - - [01/Oct/2025:11:12:07 +0000] "GET /api/v1/products/featured HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-01T12:29:03.826Z [WARN] [req:eafcecfa-6753-48ab-8b7b-45153ca77626] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-01T12:29:04.004Z [HTTP] [req:eafcecfa-6753-48ab-8b7b-45153ca77626] ::1 - - [01/Oct/2025:12:29:04 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

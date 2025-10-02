@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "main": "backend/server.js",
   "scripts": {
-  
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "kill-port 3001 && cross-env NODE_ENV=development nodemon backend/server.js ",
     "start": "cross-env NODE_ENV=production node backend/server.js",
     "sync:meili": "node backend/scripts/syncMeili.js"
-
   },
   "keywords": [],
   "author": "",
@@ -23,8 +21,11 @@
     "connect-redis": "^9.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
     "express": "^4.19.2",
+    "express-oauth2-jwt-bearer": "^1.7.1",
     "express-rate-limit": "^8.1.0",
     "express-session": "^1.18.0",
     "helmet": "^8.1.0",
@@ -33,9 +34,13 @@
     "kill-port": "^2.0.1",
     "mailtrap": "^3.4.0",
     "meilisearch": "^0.53.0",
+    "minio": "8.0.2",
     "mongodb": "^6.19.0",
     "mongoose": "^8.5.2",
     "morgan": "^1.10.0",
+    "nodemailer": "^7.0.6",
+    "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.17.2",
     "uuid": "^13.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",

@@ -1,10 +1,4 @@
-packages:
-  - Client
-  - Backend
-  - AdminClient
-
 onlyBuiltDependencies:
   - '@swc/core'
   - '@tailwindcss/oxide'
-  - bcrypt
   - esbuild
