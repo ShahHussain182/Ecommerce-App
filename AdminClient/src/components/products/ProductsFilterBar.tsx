@@ -80,7 +80,8 @@ export const ProductsFilterBar = ({
         )}
       </div>
 
-      <Select value={sortBy} onValueChange={handleSortChange}>
+      <Select value={sortBy} onValueChange={(value) => handleSortChange(value as ProductsFilterState["sortBy"])}>
+
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Sort by" />
         </SelectTrigger>

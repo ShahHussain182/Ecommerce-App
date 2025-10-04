@@ -6,11 +6,11 @@ import { Label } from '@/components/ui/label';
 import { DialogFooter } from '@/components/ui/dialog';
 import { Plus, Trash2, Loader2, X, Image as ImageIcon, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { productService, CreateProductData, UpdateProductData } from '../../services/productService'; // Corrected import path
-import type { Product, ProductVariant, Category, ApiResponse } from '../../types'; // Corrected import path
+import { productService, CreateProductData, UpdateProductData } from '../../services/productService';
+import type { Product, ProductVariant, Category, ApiResponse } from '../../types'; 
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createProductSchema, updateProductSchema } from '../../schemas/productSchema'; // Corrected import path
+import { createProductSchema, updateProductSchema } from '../../schemas/productSchema';
 import { z } from 'zod';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -21,7 +21,8 @@ type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof up
 
 interface ProductFormProps {
   product?: Product;
-  onSubmit: (data: ProductFormValues | FormData) => void;
+  // Updated onSubmit type to correctly reflect what is passed for updates vs. creation
+  onSubmit: (data: UpdateProductData | FormData) => void; 
   onClose: () => void;
   isSubmitting: boolean;
   categories: Category[];
@@ -187,6 +188,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
 
     if (product) {
       const { imageFiles, ...rest } = data;
+      // Cast to UpdateProductData as this is an update operation
       onSubmit({ ...rest, variants: cleanedVariants, imageUrls: existingImageUrls } as UpdateProductData);
     } else {
       const formData = new FormData();
@@ -295,8 +297,8 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
             At least one image is required.
           </p>
         )}
-        {errors.imageFiles?.message && <p className="text-sm text-destructive">{errors.imageFiles.message}</p>}
-        {errors.imageUrls?.message && <p className="text-sm text-destructive">{errors.imageUrls.message}</p>}
+        {errors.imageFiles?.message && <p className="text-sm text-destructive">{String(errors.imageFiles.message)}</p>}
+        {errors.imageUrls?.message && <p className="text-sm text-destructive">{String(errors.imageUrls.message)}</p>}
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {allImagePreviews.map((url, index) => (
@@ -350,7 +352,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                 placeholder="S, M, L"
                 disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
-              {errors.variants?.[index]?.size && <p className="text-sm text-destructive">{errors.variants[index]?.size?.message}</p>}
+              {errors.variants?.[index]?.size && <p className="text-sm text-destructive">{String(errors.variants[index]?.size?.message)}</p>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs">Color (Optional)</Label>
@@ -359,7 +361,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                 placeholder="Black, White"
                 disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
-              {errors.variants?.[index]?.color && <p className="text-sm text-destructive">{errors.variants[index]?.color?.message}</p>}
+              {errors.variants?.[index]?.color && <p className="text-sm text-destructive">{String(errors.variants[index]?.color?.message)}</p>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs">Price</Label>
@@ -370,7 +372,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                 min="0"
                 disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
-              {errors.variants?.[index]?.price && <p className="text-sm text-destructive">{errors.variants[index]?.price?.message}</p>}
+              {errors.variants?.[index]?.price && <p className="text-sm text-destructive">{String(errors.variants[index]?.price?.message)}</p>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs">Stock</Label>
@@ -380,7 +382,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                 min="0"
                 disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
-              {errors.variants?.[index]?.stock && <p className="text-sm text-destructive">{errors.variants[index]?.stock?.message}</p>}
+              {errors.variants?.[index]?.stock && <p className="text-sm text-destructive">{String(errors.variants[index]?.stock?.message)}</p>}
             </div>
             <Button
               type="button"
@@ -393,7 +395,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
             </Button>
           </div>
         ))}
-        {errors.variants?.root && <p className="text-sm text-destructive">{errors.variants.root.message}</p>}
+        {errors.variants?.root && <p className="text-sm text-destructive">{String(errors.variants.root.message)}</p>}
       </div>
 
       <div className="flex items-center space-x-2">
