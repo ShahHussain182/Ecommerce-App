@@ -2,7 +2,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Star } from 'lucide-react';
-import type { Product, ProductVariant } from '../../types'; // Corrected import path
+import type { Product, ProductVariant } from '../../types';
+import { useEffect } from 'react';
 
 const getTotalStock = (variants?: ProductVariant[]) => {
   return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
@@ -21,6 +22,12 @@ interface ProductViewDialogProps {
 }
 
 export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDialogProps) => {
+  useEffect(() => {
+    if (isOpen && product) {
+      console.log(`[ProductViewDialog] Viewing product: ${product.name}, Image URLs:`, product.imageUrls);
+    }
+  }, [isOpen, product]);
+
   if (!product) return null;
 
   const totalStock = getTotalStock(product.variants);
@@ -28,21 +35,39 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-3xl"> {/* Increased max-width for more images */}
         <DialogHeader>
           <DialogTitle>{product.name}</DialogTitle>
           <DialogDescription>{product.description}</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <img
-                src={product.imageUrls[0] || '/placeholder.svg'}
-                alt={product.name}
-                className="w-full h-48 object-cover rounded-lg"
-              />
+        <div className="space-y-6">
+          {/* Product Images Gallery */}
+          <div>
+            <Label className="text-sm font-medium mb-2 block">Product Images</Label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"> {/* Responsive grid for images */}
+              {product.imageUrls && product.imageUrls.length > 0 ? (
+                product.imageUrls.map((imageUrl, index) => (
+                  <img
+                    key={index}
+                    src={imageUrl || '/placeholder.svg'}
+                    alt={`${product.name} - Image ${index + 1}`}
+                    className="w-full h-24 object-cover rounded-lg border"
+                    onError={(e) => {
+                      e.currentTarget.src = '/placeholder.svg'; // Fallback image
+                      e.currentTarget.onerror = null; // Prevent infinite loop
+                    }}
+                  />
+                ))
+              ) : (
+                <div className="col-span-full text-center text-muted-foreground py-4 border rounded-lg">
+                  No images available.
+                </div>
+              )}
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-3">
               <div>
                 <Label className="text-sm font-medium">Category</Label>

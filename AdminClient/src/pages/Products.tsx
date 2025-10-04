@@ -61,6 +61,17 @@ export function Products() {
   const totalProducts = productsData?.totalProducts || 0;
   const totalPages = Math.ceil(totalProducts / limit);
 
+  // Log product data when it changes
+  useEffect(() => {
+    console.log("[Products Page] Fetched products:", products);
+  }, [products]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      console.log("[Products Page] Selected product for view/edit:", selectedProduct);
+    }
+  }, [selectedProduct]);
+
   const createProductMutation = useMutation({
     mutationFn: productService.createProduct,
     onSuccess: (response: ApiResponse<Product>) => {

@@ -244,3 +244,5 @@
     "message": "Required"
   }
 ]
+2025-10-04T08:42:20.324Z [ERROR] [req:N/A] ❌ Upload failed: The specified bucket does not exist
+2025-10-04T08:42:20.325Z [ERROR] [req:N/A] Failed to upload file team-working.jpg during product creation: Failed to upload image: The specified bucket does not exist

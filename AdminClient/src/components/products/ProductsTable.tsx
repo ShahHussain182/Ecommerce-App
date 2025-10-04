@@ -195,6 +195,9 @@ export const ProductsTable = ({
                   const minPrice = getMinPrice(product.variants);
                   const stockStatus = getStockStatus(totalStock);
 
+                  // Log image URLs for each product in the table
+                  console.log(`[ProductsTable] Product: ${product.name}, Image URLs:`, product.imageUrls);
+
                   return (
                     <TableRow key={product._id}>
                       <TableCell className="font-medium">
