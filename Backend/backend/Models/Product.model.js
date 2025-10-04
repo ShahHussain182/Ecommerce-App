@@ -47,8 +47,10 @@ const productSchema = new mongoose.Schema(
     },
     imageUrls: {
       type: [String],
-      required: true,
-      validate: [v => Array.isArray(v) && v.length > 0, 'At least one image URL is required.']
+      required: true, // Now required for creation
+      minlength: [1, 'At least one image URL is required.'], // Enforce minimum 1
+      maxlength: [5, 'Maximum of 5 images allowed.'], // Enforce maximum 5
+      validate: [v => Array.isArray(v) && v.length > 0, 'At least one image URL is required.'] // Adjusted validation
     },
     isFeatured: {
       type: Boolean,
@@ -57,7 +59,6 @@ const productSchema = new mongoose.Schema(
     },
     variants: {
       type: [variantSchema],
-      // Removed 'required: true' and 'validate' to make variants optional
       default: [], // Default to an empty array if not provided
     },
     // New fields for reviews
@@ -80,7 +81,5 @@ const productSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
-
-// Removed the text index: productSchema.index({ name: 'text', description: 'text' });
 
 export const Product = mongoose.model('Product', productSchema);

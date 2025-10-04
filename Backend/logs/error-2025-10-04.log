@@ -1,0 +1,30 @@
+2025-10-04T07:33:27.583Z [ERROR] [req:7bd00b1a-0a20-4e63-a7c9-e3f725fb8fb6] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Size is required.",
+    "path": [
+      "variants",
+      0,
+      "size"
+    ]
+  },
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Color is required.",
+    "path": [
+      "variants",
+      0,
+      "color"
+    ]
+  }
+]
+2025-10-04T07:33:55.964Z [ERROR] [req:1deacfaf-8582-4f8c-b8e2-f1f0ffd3390a] ❌ Path: /api/v1/products | Error: Product validation failed: imageUrls: At least one image URL is required.
+2025-10-04T07:34:21.604Z [ERROR] [req:f3e9de24-7553-483a-ba63-59defae1c212] ❌ Path: /api/v1/products | Error: Product validation failed: imageUrls: At least one image URL is required.

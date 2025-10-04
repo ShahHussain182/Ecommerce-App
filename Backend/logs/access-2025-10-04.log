@@ -18,3 +18,47 @@
 2025-10-04T07:31:32.726Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:07:31:32 +0000] "GET /api/v1/categories HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-04T07:31:32.973Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:07:31:32 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-04T07:31:38.222Z [HTTP] [req:a1bbd9eb-b4d4-48bc-a68a-3d7545a6dbcb] ::1 - - [04/Oct/2025:07:31:38 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:31:38.927Z [HTTP] [req:cd55cc62-3782-4b77-94d2-a1e65cfb0e41] ::1 - - [04/Oct/2025:07:31:38 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:31:39.232Z [HTTP] [req:ab255831-31ef-4c3d-a796-e112bf8d8adf] ::1 - - [04/Oct/2025:07:31:39 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 6023 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:31:51.204Z [WARN] [req:4d9e05d0-ad2e-4560-a90d-41a407c157ff] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-04T07:31:51.207Z [HTTP] [req:4d9e05d0-ad2e-4560-a90d-41a407c157ff] ::1 - - [04/Oct/2025:07:31:51 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T07:31:54.663Z [HTTP] [req:d1481471-0d65-4d9a-bf0f-49f6619a1ebf] ::1 - - [04/Oct/2025:07:31:54 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T07:31:54.680Z [HTTP] [req:7416fa20-a816-49e5-a23e-a8a9b6e45580] ::1 - - [04/Oct/2025:07:31:54 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T07:32:29.431Z [HTTP] [req:f87c5f57-9c2a-469e-9196-6e8390893e6b] ::1 - - [04/Oct/2025:07:32:29 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T07:32:29.452Z [HTTP] [req:e47285bf-2766-4368-9460-eb6a0336517b] ::1 - - [04/Oct/2025:07:32:29 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T07:33:27.107Z [HTTP] [req:19176736-843d-4cb1-919a-c609d0e139e5] ::1 - - [04/Oct/2025:07:33:27 +0000] "OPTIONS /api/v1/products HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:33:27.583Z [ERROR] [req:7bd00b1a-0a20-4e63-a7c9-e3f725fb8fb6] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Size is required.",
+    "path": [
+      "variants",
+      0,
+      "size"
+    ]
+  },
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Color is required.",
+    "path": [
+      "variants",
+      0,
+      "color"
+    ]
+  }
+]
+2025-10-04T07:33:27.854Z [HTTP] [req:7bd00b1a-0a20-4e63-a7c9-e3f725fb8fb6] ::1 - - [04/Oct/2025:07:33:27 +0000] "POST /api/v1/products HTTP/1.1" 400 181 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:33:55.439Z [HTTP] [req:8ea79f31-b4ed-46e2-90a1-5946a47fafed] ::1 - - [04/Oct/2025:07:33:55 +0000] "OPTIONS /api/v1/products HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:33:55.964Z [ERROR] [req:1deacfaf-8582-4f8c-b8e2-f1f0ffd3390a] ❌ Path: /api/v1/products | Error: Product validation failed: imageUrls: At least one image URL is required.
+2025-10-04T07:33:56.294Z [HTTP] [req:1deacfaf-8582-4f8c-b8e2-f1f0ffd3390a] ::1 - - [04/Oct/2025:07:33:56 +0000] "POST /api/v1/products HTTP/1.1" 500 155 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:34:21.115Z [HTTP] [req:326072b3-24a4-464e-9972-933fcc4e284e] ::1 - - [04/Oct/2025:07:34:21 +0000] "OPTIONS /api/v1/products HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:34:21.604Z [ERROR] [req:f3e9de24-7553-483a-ba63-59defae1c212] ❌ Path: /api/v1/products | Error: Product validation failed: imageUrls: At least one image URL is required.
+2025-10-04T07:34:21.946Z [HTTP] [req:f3e9de24-7553-483a-ba63-59defae1c212] ::1 - - [04/Oct/2025:07:34:21 +0000] "POST /api/v1/products HTTP/1.1" 500 155 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

@@ -32,7 +32,9 @@ export const createProductSchema = z.object({
   name: z.string().min(3, "Product name is required and must be at least 3 characters."),
   description: z.string().min(10, "Product description is required and must be at least 10 characters."),
   category: z.string().min(1, "Category is required."),
-  imageUrls: z.array(imageUrlSchema).optional().default([]), // Made optional and default to empty array
+  imageUrls: z.array(imageUrlSchema)
+    .min(1, "At least one image URL is required.") // Enforce minimum 1 image
+    .max(5, "Maximum of 5 images allowed."), // Enforce maximum 5 images
   isFeatured: z.boolean().default(false),
   variants: z.array(variantSchema).optional(), // Made optional
 }).strict();
@@ -41,7 +43,9 @@ export const updateProductSchema = z.object({
   name: z.string().min(3, "Product name must be at least 3 characters.").optional(),
   description: z.string().min(10, "Product description must be at least 10 characters.").optional(),
   category: z.string().min(1, "Category is required.").optional(),
-  imageUrls: z.array(imageUrlSchema).optional(), // Made optional for updates
+  imageUrls: z.array(imageUrlSchema)
+    .max(5, "Maximum of 5 images allowed.") // Enforce maximum 5 images for updates
+    .optional(), // Still optional for updates, as you might not update images every time
   isFeatured: z.boolean().optional(),
   variants: z.array(variantSchema).optional(), // Made optional
 }).partial(); // Allow partial updates
