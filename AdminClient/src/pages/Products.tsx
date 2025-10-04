@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X, Image as ImageIcon, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
-import type { Product, ProductVariant, Category, ProductsFilterState, ApiResponse } from '@/types'; // Added ApiResponse to types import
+import type { Product, ProductVariant, Category, ProductsFilterState, ApiResponse } from '@/types'; 
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
@@ -247,7 +247,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
         <div className="flex items-center justify-between">
           <Label>Product Images</Label>
           <div className="flex space-x-2">
-            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isSubmitting || isUploadingImages || !product?._id}>
+            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isSubmitting || isUploadingImages}>
               <ImageIcon className="mr-2 h-3 w-3" />
               Select Files
             </Button>
@@ -258,7 +258,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
-              disabled={isSubmitting || isUploadingImages || !product?._id}
+              disabled={isSubmitting || isUploadingImages}
             />
             <Button type="button" onClick={handleUploadNewImages} size="sm" disabled={isSubmitting || isUploadingImages || selectedFiles.length === 0 || !product?._id}>
               {isUploadingImages ? (
@@ -270,6 +270,12 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
             </Button>
           </div>
         </div>
+        {/* Conditional message for adding images */}
+        {!product?._id && (
+          <p className="text-sm text-muted-foreground text-center py-2">
+            Images can be uploaded after the product is created.
+          </p>
+        )}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {allImagePreviews.map((url, index) => (
             <div key={index} className="relative w-24 h-24 rounded-md overflow-hidden border">
