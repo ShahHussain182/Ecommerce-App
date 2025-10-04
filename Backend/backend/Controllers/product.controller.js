@@ -6,7 +6,12 @@ import { createProductSchema, updateProductSchema } from '../Schemas/productSche
 import { productIndex } from '../Utils/meilisearchClient.js'; // <-- import Meilisearch client
 import { uploadFileToS3 } from '../Utils/s3Upload.js';
 import {logger} from '../Utils/logger.js';
+import { DeleteObjectCommand } from "@aws-sdk/client-s3"; // Import DeleteObjectCommand
+import s3Client from "../Utils/s3Client.js"; // Import s3Client
 
+const S3_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || "e-store-images";
+const MINIO_URL = process.env.MINIO_URL || "http://localhost:9000";
+const MAX_IMAGES = 5; // Define max images here
 
 /**
  * @description Get all products with advanced filtering, sorting, and pagination using Meilisearch.
@@ -252,10 +257,25 @@ export const deleteProduct = catchErrors(async (req, res) => {
     return res.status(404).json({ success: false, message: 'Product not found.' });
   }
 
+  // Optionally, delete all associated images from S3
+  if (product.imageUrls && product.imageUrls.length > 0) {
+    const deletePromises = product.imageUrls.map(async (imageUrl) => {
+      try {
+        const s3Key = imageUrl.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
+        await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }));
+        logger.info(`Deleted S3 object: ${s3Key}`);
+      } catch (s3Error) {
+        logger.error(`Failed to delete S3 object ${imageUrl}: ${s3Error.message}`);
+      }
+    });
+    await Promise.all(deletePromises);
+  }
+
   await productIndex.deleteDocument(id.toString());
 
   res.status(200).json({ success: true, message: 'Product deleted successfully!' });
 });
+
 /**
  * @description Upload product images to S3 and update the product document.
  */
@@ -273,6 +293,15 @@ export const uploadProductImages = catchErrors(async (req, res) => {
   const product = await Product.findById(id);
   if (!product) {
     return res.status(404).json({ success: false, message: 'Product not found.' });
+  }
+
+  // Check if adding new images would exceed the MAX_IMAGES limit
+  const currentImageCount = product.imageUrls ? product.imageUrls.length : 0;
+  if (currentImageCount + req.files.length > MAX_IMAGES) {
+    return res.status(400).json({ 
+      success: false, 
+      message: `Cannot upload more than ${MAX_IMAGES} images. You currently have ${currentImageCount} and are trying to add ${req.files.length}.` 
+    });
   }
 
   const uploadedUrls = [];
@@ -321,5 +350,80 @@ export const uploadProductImages = catchErrors(async (req, res) => {
     success: true,
     message: `${uploadedUrls.length} image(s) uploaded and product updated successfully.`,
     product: product, // Return the full updated product document
+  });
+});
+
+/**
+ * @description Delete a specific product image from S3 and update the product document.
+ */
+export const deleteProductImage = catchErrors(async (req, res) => {
+  const { id } = req.params; // Product ID
+  const { imageUrl } = req.query; // Image URL to delete
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
+  }
+  if (!imageUrl) {
+    return res.status(400).json({ success: false, message: 'Image URL is required.' });
+  }
+
+  const product = await Product.findById(id);
+  if (!product) {
+    return res.status(404).json({ success: false, message: 'Product not found.' });
+  }
+
+  // Ensure the image exists in the product's imageUrls
+  const imageIndex = product.imageUrls.indexOf(imageUrl);
+  if (imageIndex === -1) {
+    return res.status(404).json({ success: false, message: 'Image not found in product\'s image list.' });
+  }
+
+  // Enforce minimum 1 image rule
+  if (product.imageUrls.length <= 1) {
+    return res.status(400).json({ success: false, message: 'A product must have at least one image.' });
+  }
+
+  // Remove image from S3
+  try {
+    const s3Key = imageUrl.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
+    await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }));
+    logger.info(`Deleted S3 object: ${s3Key}`);
+  } catch (s3Error) {
+    logger.error(`Failed to delete S3 object ${imageUrl}: ${s3Error.message}`);
+    // Decide whether to proceed or return error. For now, we'll proceed with DB update.
+    // In a real app, you might want to retry or alert admin.
+  }
+
+  // Remove image URL from product document
+  product.imageUrls.splice(imageIndex, 1);
+  await product.save();
+
+  // Update Meilisearch
+  await productIndex.addDocuments([{
+    _id: product._id.toString(),
+    name: product.name,
+    description: product.description,
+    category: product.category,
+    imageUrls: product.imageUrls,
+    isFeatured: Boolean(product.isFeatured),
+    variants: (product.variants || []).map(v => ({
+      _id: v._id.toString(),
+      size: String(v.size ?? ''),
+      color: String(v.color ?? ''),
+      price: Number(v.price ?? 0),
+      stock: Number(v.stock ?? 0),
+    })),
+    price: product.variants[0]?.price ?? 0,
+    colors: product.variants.map(v => v.color),
+    sizes: product.variants.map(v => v.size),
+    averageRating: product.averageRating ?? 0,
+    numberOfReviews: product.numberOfReviews ?? 0,
+    createdAt: product.createdAt ? new Date(product.createdAt).toISOString() : null,
+  }]);
+
+  res.status(200).json({
+    success: true,
+    message: 'Image deleted successfully.',
+    product: product,
   });
 });
