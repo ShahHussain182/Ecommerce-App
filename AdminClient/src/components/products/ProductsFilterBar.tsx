@@ -9,8 +9,8 @@ interface ProductsFilterBarProps {
   setSearchTerm: (term: string) => void;
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
-  sortBy: ProductsFilterState['sortBy'];
-  setSortBy: (sortBy: ProductsFilterState['sortBy']) => void;
+  sortBy: NonNullable<ProductsFilterState['sortBy']>; // Explicitly state that sortBy will not be undefined
+  setSortBy: (sortBy: NonNullable<ProductsFilterState['sortBy']>) => void; // Explicitly state that sortBy will not be undefined
   categories: Category[];
   categoriesLoading: boolean;
   categoriesError: Error | null;
@@ -29,7 +29,7 @@ export const ProductsFilterBar = ({
   categoriesError,
   setPage,
 }: ProductsFilterBarProps) => {
-  const handleSortChange = (value: ProductsFilterState['sortBy']) => {
+  const handleSortChange = (value: NonNullable<ProductsFilterState['sortBy']>) => { // Changed parameter type
     setSortBy(value);
     setPage(1);
   };
@@ -80,7 +80,7 @@ export const ProductsFilterBar = ({
         )}
       </div>
 
-      <Select value={sortBy} onValueChange={(value) => handleSortChange(value as ProductsFilterState["sortBy"])}>
+      <Select value={sortBy} onValueChange={(value: NonNullable<ProductsFilterState['sortBy']>) => handleSortChange(value)}>
 
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Sort by" />
