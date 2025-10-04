@@ -537,3 +537,55 @@
 2025-10-04T08:38:45.246Z [DEBUG] [req:05aa8143-50c1-4d55-a4b6-20fb3f8ecdd1] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
 2025-10-04T08:38:45.413Z [DEBUG] [req:05aa8143-50c1-4d55-a4b6-20fb3f8ecdd1] [requireAuth] User SHAH HUSSAIN authenticated.
 2025-10-04T08:38:45.414Z [DEBUG] [req:05aa8143-50c1-4d55-a4b6-20fb3f8ecdd1] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T08:38:45.839Z [HTTP] [req:811462c1-b022-4ae1-bd0f-a9f156357ee5] ::1 - - [04/Oct/2025:08:38:45 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 3401 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:38:45.847Z [HTTP] [req:05aa8143-50c1-4d55-a4b6-20fb3f8ecdd1] ::1 - - [04/Oct/2025:08:38:45 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:38:48.767Z [HTTP] [req:b5fa9efb-c174-4838-bf6b-900f96b9206e] ::1 - - [04/Oct/2025:08:38:48 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:38:49.108Z [HTTP] [req:7c976a4d-4924-4b86-a9a1-b954bcaebbe8] ::1 - - [04/Oct/2025:08:38:49 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:39:14.335Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [requireAuth] Attempting to authenticate for path: /
+2025-10-04T08:39:14.336Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [requireAuth] AccessToken from cookies: present
+2025-10-04T08:39:14.337Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [requireAuth] Authorization header: missing
+2025-10-04T08:39:14.339Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T08:39:14.596Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T08:39:14.597Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T08:39:14.598Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [createProduct] Raw req.body: {}
+2025-10-04T08:39:14.599Z [DEBUG] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] [createProduct] Parsed body before Zod: {"isFeatured":false}
+2025-10-04T08:39:14.602Z [ERROR] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "name"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "description"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "category"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "undefined",
+    "path": [
+      "imageUrls"
+    ],
+    "message": "Required"
+  }
+]
+2025-10-04T08:39:14.858Z [HTTP] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] ::1 - - [04/Oct/2025:08:39:14 +0000] "POST /api/v1/products HTTP/1.1" 400 229 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:41:25.529Z [DEBUG] [req:N/A] Running in development mode

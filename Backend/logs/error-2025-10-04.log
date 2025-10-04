@@ -206,3 +206,41 @@
     "message": "Expected array, received string"
   }
 ]
+2025-10-04T08:39:14.602Z [ERROR] [req:ffdb95f3-e34d-477c-a3be-9298e7933ca5] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "name"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "description"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "category"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "undefined",
+    "path": [
+      "imageUrls"
+    ],
+    "message": "Required"
+  }
+]

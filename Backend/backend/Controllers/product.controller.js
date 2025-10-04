@@ -144,6 +144,7 @@ export const getFeaturedProducts = catchErrors(async (req, res) => {
  */
 export const createProduct = catchErrors(async (req, res) => {
   logger.debug(`[createProduct] Raw req.body: ${JSON.stringify(req.body)}`);
+  logger.debug(`[createProduct] Raw req.files: ${JSON.stringify(req.files?.map(f => f.originalname))}`);
 
   // Manually parse stringified boolean and array from FormData
   const parsedBody = {
@@ -153,8 +154,36 @@ export const createProduct = catchErrors(async (req, res) => {
   };
   logger.debug(`[createProduct] Parsed body before Zod: ${JSON.stringify(parsedBody)}`);
 
+  // Handle image uploads from req.files
+  const uploadedImageUrls = [];
+  if (req.files && req.files.length > 0) {
+    if (req.files.length > MAX_IMAGES) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Cannot upload more than ${MAX_IMAGES} images. You are trying to add ${req.files.length}.` 
+      });
+    }
+    for (const file of req.files) {
+      try {
+        // For initial product creation, we don't have a product ID yet for the folder.
+        // We'll use a generic 'temp' folder or just 'products' and rely on S3's flat structure.
+        // A more robust solution might involve updating the image path after product creation.
+        const url = await uploadFileToS3(file.buffer, file.mimetype, 'products'); 
+        uploadedImageUrls.push(url);
+      } catch (error) {
+        logger.error(`Failed to upload file ${file.originalname} during product creation: ${error.message}`);
+        return res.status(500).json({ success: false, message: `Failed to upload image: ${error.message}` });
+      }
+    }
+  }
 
-  const productData = createProductSchema.parse(parsedBody);
+  // Combine parsed body with uploaded image URLs for Zod validation
+  const productDataForValidation = {
+    ...parsedBody,
+    imageUrls: uploadedImageUrls, // Add the generated image URLs
+  };
+
+  const productData = createProductSchema.parse(productDataForValidation);
 
   if (!productData.variants || productData.variants.length === 0) {
     productData.variants = [{

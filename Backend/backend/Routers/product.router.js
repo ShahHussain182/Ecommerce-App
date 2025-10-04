@@ -14,7 +14,7 @@ productRouter.get('/', getProducts); // This now uses Atlas Search
 
 // Protected routes (Admin only)
 // These routes now require both authentication and admin role
-productRouter.post('/', requireAuth, requireAdmin, createProduct);
+productRouter.post('/', requireAuth, requireAdmin, upload.array('images', 5), createProduct); // Added upload.array middleware
 productRouter.put('/:id', requireAuth, requireAdmin, updateProduct);
 productRouter.delete('/:id', requireAuth, requireAdmin, deleteProduct);
 
