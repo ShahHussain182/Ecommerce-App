@@ -1,12 +1,8 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ProductForm } from './ProductForm'; // Corrected import path
+import { ProductForm } from './ProductForm';
 import type { Product, Category } from '@/types';
 import { Loader2 } from 'lucide-react';
-import type { CreateProductData, UpdateProductData } from '../../services/productService'; // Corrected import path
-import { z } from 'zod';
-import { createProductSchema, updateProductSchema } from '../../schemas/productSchema'; // Corrected import path
-
-type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof updateProductSchema>;
+import { ProductFormValues } from '../../schemas/productSchema'; // Import ProductFormValues
 
 interface ProductFormDialogProps {
   isOpen: boolean;
@@ -15,7 +11,7 @@ interface ProductFormDialogProps {
   categories: Category[];
   categoriesLoading: boolean;
   categoriesError: Error | null;
-  onSubmit: (data: ProductFormValues | FormData) => void;
+  onSubmit: (data: ProductFormValues) => void; // Changed type to ProductFormValues
   isSubmitting: boolean;
   onProductUpdated?: (updatedProduct: Product) => void;
 }

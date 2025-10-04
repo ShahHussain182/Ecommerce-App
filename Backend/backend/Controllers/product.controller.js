@@ -1,4 +1,3 @@
-// controllers/products.controller.js
 import { Product } from '../Models/Product.model.js';
 import catchErrors from '../Utils/catchErrors.js';
 import mongoose from 'mongoose';
@@ -144,7 +143,18 @@ export const getFeaturedProducts = catchErrors(async (req, res) => {
  * @description Create a new product (Admin only) — also index in Meilisearch.
  */
 export const createProduct = catchErrors(async (req, res) => {
-  const productData = createProductSchema.parse(req.body);
+  logger.debug(`[createProduct] Raw req.body: ${JSON.stringify(req.body)}`);
+
+  // Manually parse stringified boolean and array from FormData
+  const parsedBody = {
+    ...req.body,
+    isFeatured: req.body.isFeatured === 'true', // Convert string "true"/"false" to boolean
+    variants: req.body.variants ? JSON.parse(req.body.variants) : undefined, // Parse JSON string to array
+  };
+  logger.debug(`[createProduct] Parsed body before Zod: ${JSON.stringify(parsedBody)}`);
+
+
+  const productData = createProductSchema.parse(parsedBody);
 
   if (!productData.variants || productData.variants.length === 0) {
     productData.variants = [{

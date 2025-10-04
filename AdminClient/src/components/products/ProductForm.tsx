@@ -6,23 +6,19 @@ import { Label } from '@/components/ui/label';
 import { DialogFooter } from '@/components/ui/dialog';
 import { Plus, Trash2, Loader2, X, Image as ImageIcon, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { productService, CreateProductData, UpdateProductData } from '../../services/productService';
+import { productService } from '../../services/productService';
 import type { Product, ProductVariant, Category, ApiResponse } from '../../types'; 
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createProductSchema, updateProductSchema } from '../../schemas/productSchema';
+import { createProductSchema, updateProductSchema, ProductFormValues } from '../../schemas/productSchema'; // Import ProductFormValues
 import { z } from 'zod';
 import { Textarea } from '@/components/ui/textarea';
 
 const MAX_IMAGES = 5;
 
-// Type for the form data, combining create and update schemas
-type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof updateProductSchema>;
-
 interface ProductFormProps {
   product?: Product;
-  // Updated onSubmit type to correctly reflect what is passed for updates vs. creation
-  onSubmit: (data: UpdateProductData | FormData) => void; 
+  onSubmit: (data: ProductFormValues) => void; // Changed type to ProductFormValues
   onClose: () => void;
   isSubmitting: boolean;
   categories: Category[];
@@ -48,7 +44,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
       description: product?.description || '',
       category: product?.category || (categories.length > 0 ? categories[0].name : ''),
       imageUrls: product?.imageUrls || [],
-      imageFiles: undefined,
+      imageFiles: [], // Initialize as empty array of Files
       isFeatured: product?.isFeatured || false,
       variants: product?.variants && product.variants.length > 0
         ? product.variants
@@ -69,7 +65,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         description: product.description,
         category: product.category,
         imageUrls: product.imageUrls || [],
-        imageFiles: undefined,
+        imageFiles: [], // Reset to empty array
         isFeatured: product.isFeatured,
         variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
       });
@@ -80,7 +76,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         description: '',
         category: categories.length > 0 ? categories[0].name : '',
         imageUrls: [],
-        imageFiles: undefined,
+        imageFiles: [], // Reset to empty array
         isFeatured: false,
         variants: [{ size: '', color: '', price: 0, stock: 0 }],
       });
@@ -104,8 +100,9 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         return;
       }
 
-      setSelectedFiles(prev => [...prev, ...filesArray]);
-      setValue('imageFiles', [...selectedFiles, ...filesArray], { shouldValidate: true });
+      const updatedSelectedFiles = [...selectedFiles, ...filesArray];
+      setSelectedFiles(updatedSelectedFiles);
+      setValue('imageFiles', updatedSelectedFiles, { shouldValidate: true }); // Now compatible with File[]
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -115,7 +112,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
   const handleRemoveSelectedFile = (indexToRemove: number) => {
     setSelectedFiles(prev => {
       const updatedFiles = prev.filter((_, index) => index !== indexToRemove);
-      setValue('imageFiles', updatedFiles, { shouldValidate: true });
+      setValue('imageFiles', updatedFiles, { shouldValidate: true }); // Now compatible with File[]
       return updatedFiles;
     });
   };
@@ -182,31 +179,9 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
   };
 
   const handleFormSubmit = async (data: ProductFormValues) => {
-    const cleanedVariants = data.variants?.filter(
-      (v) => v.size || v.color || v.price > 0 || v.stock > 0
-    );
-
-    if (product) {
-      const { imageFiles, ...rest } = data;
-      // Cast to UpdateProductData as this is an update operation
-      onSubmit({ ...rest, variants: cleanedVariants, imageUrls: existingImageUrls } as UpdateProductData);
-    } else {
-      const formData = new FormData();
-      formData.append('name', data.name);
-      formData.append('description', data.description);
-      formData.append('category', data.category);
-      formData.append('isFeatured', String(data.isFeatured));
-      
-      if (cleanedVariants && cleanedVariants.length > 0) {
-        formData.append('variants', JSON.stringify(cleanedVariants));
-      }
-
-      selectedFiles.forEach(file => {
-        formData.append('images', file);
-      });
-
-      onSubmit(formData);
-    }
+    // The parent component (Products.tsx) will now handle the transformation
+    // to FormData or UpdateProductData and call the respective API service.
+    onSubmit(data);
   };
 
   const allImagePreviews = [

@@ -8,7 +8,7 @@ export type CreateProductData = z.infer<typeof createProductSchema>;
 export type UpdateProductData = z.infer<typeof updateProductSchema>;
 
 export const productService = {
-  // Get all products with filtering and pagination
+  // Get all products with pagination, search, and filters
   async getProducts(params: ProductsFilterState = {}): Promise<{ products: Product[], totalProducts: number, nextPage: number | null }> {
     const queryParams = new URLSearchParams();
     

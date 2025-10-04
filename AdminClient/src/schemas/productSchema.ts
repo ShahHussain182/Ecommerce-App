@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+// Custom validation for MongoDB ObjectId strings (frontend-safe regex)
+const objectIdSchema = z.string().refine(
+  (val) => /^[0-9a-fA-F]{24}$/.test(val),
+  {
+    message: "Invalid ObjectId format",
+  }
+);
+
 export const variantSchema = z.object({
   _id: z.string().optional(), // Optional for new variants, required for existing ones
   size: z.string().optional(), // Made optional
@@ -25,9 +33,9 @@ export const createProductSchema = z.object({
   category: z.string().min(1, "Category is required."),
   // For creation, we'll use a separate field for files, and then map them to imageUrls on backend
   // Frontend validation for files will be handled manually in the component
-  imageFiles: z.any() // This will hold the FileList or File[] from the input
-    .refine((files) => files?.length > 0, "At least one image is required.")
-    .refine((files) => files?.length <= 5, "Maximum of 5 images allowed."),
+  imageFiles: z.array(z.instanceof(File)) // Changed to z.array(z.instanceof(File))
+    .refine((files) => files.length > 0, "At least one image is required.")
+    .refine((files) => files.length <= 5, "Maximum of 5 images allowed."),
   isFeatured: z.boolean().default(false),
   variants: z.array(variantSchema).optional(), // Made optional
 });
@@ -43,3 +51,5 @@ export const updateProductSchema = z.object({
   isFeatured: z.boolean().optional(),
   variants: z.array(variantSchema).optional(), // Made optional
 }).partial(); // Allow partial updates
+
+export type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof typeof updateProductSchema>;

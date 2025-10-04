@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Dialog } from '@/components/ui/dialog'; // Keep Dialog for the main wrapper
 import toast from 'react-hot-toast';
-import { productService, CreateProductData, UpdateProductData } from '../services/productService'; // Corrected import path
-import type { Product, ProductsFilterState, ApiResponse } from '../types'; // Corrected import path
+import { productService, CreateProductData, UpdateProductData } from '../services/productService';
+import type { Product, ProductsFilterState, ApiResponse } from '../types';
 import { useCategories } from '@/hooks/useCategories';
 
 // Import the new modular components
@@ -12,20 +12,18 @@ import {
   ProductsFilterBar,
   ProductsTable,
   ProductFormDialog,
-  ProductViewDialog,
   ProductForm, // Keep ProductForm type for onSubmit
-} from '../components/products'; // Corrected import path
+  ProductViewDialog, // Added ProductViewDialog import
+} from '../components/products';
 import { z } from 'zod';
-import { createProductSchema, updateProductSchema } from '../schemas/productSchema'; // Corrected import path
-
-type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof updateProductSchema>;
+import { createProductSchema, updateProductSchema, ProductFormValues } from '../schemas/productSchema'; // Import ProductFormValues
 
 export function Products() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false); // State for add dialog
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
@@ -114,14 +112,41 @@ export function Products() {
     },
   });
 
-  const handleProductFormSubmit = (data: ProductFormValues | FormData) => {
+  const handleProductFormSubmit = (data: ProductFormValues) => {
+    const cleanedVariants = data.variants?.filter(
+      (v) => v.size || v.color || v.price > 0 || v.stock > 0
+    );
+
     if (selectedProduct) {
       // This is an update operation
-      const { imageFiles, ...rest } = data as ProductFormValues; // Exclude imageFiles from the update payload
-      updateProductMutation.mutate({ id: selectedProduct._id, data: rest as UpdateProductData });
+      const updateData: UpdateProductData = {
+        name: data.name,
+        description: data.description,
+        category: data.category,
+        imageUrls: data.imageUrls, // Existing image URLs
+        isFeatured: data.isFeatured,
+        variants: cleanedVariants,
+      };
+      updateProductMutation.mutate({ id: selectedProduct._id, data: updateData });
     } else {
       // This is a create operation
-      createProductMutation.mutate(data as FormData);
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+      formData.append('category', data.category);
+      formData.append('isFeatured', String(data.isFeatured)); // Ensure boolean is stringified for FormData
+      
+      if (cleanedVariants && cleanedVariants.length > 0) {
+        formData.append('variants', JSON.stringify(cleanedVariants)); // Ensure array is stringified for FormData
+      }
+
+      // Append new image files
+      if (data.imageFiles) {
+        Array.from(data.imageFiles).forEach(file => {
+          formData.append('images', file);
+        });
+      }
+      createProductMutation.mutate(formData);
     }
   };
 
@@ -135,8 +160,11 @@ export function Products() {
       <ProductsHeader
         categoriesLoading={categoriesLoading}
         categoriesError={categoriesError}
-        categoryNames={categoryNames}
+        categories={categories || []} // Pass categories directly
+        isAddDialogOpen={isAddDialogOpen}
         setIsAddDialogOpen={setIsAddDialogOpen}
+        onSubmit={handleProductFormSubmit} // This onSubmit now expects ProductFormValues
+        isSubmitting={createProductMutation.isPending}
       />
 
       <ProductsFilterBar
@@ -173,17 +201,7 @@ export function Products() {
         sortBy={sortBy || 'name-asc'}
       />
 
-      <ProductFormDialog
-        isOpen={isAddDialogOpen}
-        setIsOpen={setIsAddDialogOpen}
-        product={null} // No product for creation
-        categories={categories || []}
-        categoriesLoading={categoriesLoading}
-        categoriesError={categoriesError}
-        onSubmit={handleProductFormSubmit}
-        isSubmitting={createProductMutation.isPending}
-      />
-
+      {/* ProductFormDialog for editing remains here */}
       <ProductFormDialog
         isOpen={isEditDialogOpen}
         setIsOpen={setIsEditDialogOpen}
@@ -191,7 +209,7 @@ export function Products() {
         categories={categories || []}
         categoriesLoading={categoriesLoading}
         categoriesError={categoriesError}
-        onSubmit={handleProductFormSubmit}
+        onSubmit={handleProductFormSubmit} // This onSubmit now expects ProductFormValues
         isSubmitting={updateProductMutation.isPending}
         onProductUpdated={handleProductUpdated}
       />

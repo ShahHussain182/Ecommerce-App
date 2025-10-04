@@ -66,3 +66,143 @@
     "message": "Required"
   }
 ]
+2025-10-04T08:28:59.606Z [ERROR] [req:e9f898c3-1d50-4b07-aa61-e368d9d3fd9a] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:29:01.509Z [ERROR] [req:475345c8-146f-44ef-bd31-f953eb59b4aa] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:29:02.007Z [ERROR] [req:70fdff47-d222-409f-96dc-d5d531909ab8] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:31:19.093Z [ERROR] [req:0c416c2d-57e4-479f-ab01-e63db142b21c] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:31:19.414Z [ERROR] [req:794866e6-d89a-403b-ba4b-082a0a8ea588] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:31:24.009Z [ERROR] [req:949f5c0f-e8b4-416b-b7d4-4d06ac8fe490] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:33:39.502Z [ERROR] [req:9f9a1c35-a353-45ee-85a8-7f264e60e818] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]

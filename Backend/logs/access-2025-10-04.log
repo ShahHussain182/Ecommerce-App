@@ -116,3 +116,184 @@
   }
 ]
 2025-10-04T07:51:40.482Z [HTTP] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] ::1 - - [04/Oct/2025:07:51:40 +0000] "POST /api/v1/products HTTP/1.1" 400 229 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:25.576Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:08:07:25 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:07:25.577Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:08:07:25 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:07:25.578Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:08:07:25 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:25.579Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:08:07:25 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:25.579Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:08:07:25 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" - - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:27.574Z [HTTP] [req:3e672d44-fc15-48eb-9c46-fdc76904e557] ::1 - - [04/Oct/2025:08:07:27 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:28.398Z [HTTP] [req:214b7dea-ea0c-40b6-ad14-eaa3cf4dfdeb] ::1 - - [04/Oct/2025:08:07:28 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:28.416Z [HTTP] [req:9fd9489e-d840-4f0f-ab10-6d81401b65a6] ::1 - - [04/Oct/2025:08:07:28 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:07:29.735Z [HTTP] [req:e33fac5e-bfc6-4446-9587-4716d203e38c] ::1 - - [04/Oct/2025:08:07:29 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 3401 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:14:35.498Z [HTTP] [req:dbebecc9-9036-44cd-8e74-b7faa86f18b1] ::1 - - [04/Oct/2025:08:14:35 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:16:06.544Z [HTTP] [req:29ede510-1fd7-4c7e-918e-58420c1c140d] ::1 - - [04/Oct/2025:08:16:06 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:16:06.989Z [HTTP] [req:21fd414c-18ee-47b5-8dc7-7a5449459580] ::1 - - [04/Oct/2025:08:16:06 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:20:55.641Z [HTTP] [req:4d55b6ef-1060-4a6a-b7bf-ab476ae1bff3] ::1 - - [04/Oct/2025:08:20:55 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:28:08.837Z [HTTP] [req:5d784ed5-417f-4e07-8010-8e4bfdb60794] ::1 - - [04/Oct/2025:08:28:08 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:28:09.713Z [HTTP] [req:4142a598-35fe-4350-a15e-298b616b4a9a] ::1 - - [04/Oct/2025:08:28:09 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:28:10.046Z [HTTP] [req:41ab139f-b4d7-446f-88f5-a95229c2f47a] ::1 - - [04/Oct/2025:08:28:10 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-04T08:28:33.876Z [HTTP] [req:5ed7ef4d-0b0c-4e24-a473-a76d9cdcddb7] ::1 - - [04/Oct/2025:08:28:33 +0000] "GET /api/v1/products?page=1&limit=10&categories=Accessories&sortBy=name-asc HTTP/1.1" 200 4309 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:28:58.993Z [HTTP] [req:178a4148-f3ce-4df6-a308-4ce36d53db3a] ::1 - - [04/Oct/2025:08:28:58 +0000] "OPTIONS /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:28:59.606Z [ERROR] [req:e9f898c3-1d50-4b07-aa61-e368d9d3fd9a] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:28:59.955Z [HTTP] [req:e9f898c3-1d50-4b07-aa61-e368d9d3fd9a] ::1 - - [04/Oct/2025:08:28:59 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:29:01.509Z [ERROR] [req:475345c8-146f-44ef-bd31-f953eb59b4aa] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:29:01.849Z [HTTP] [req:475345c8-146f-44ef-bd31-f953eb59b4aa] ::1 - - [04/Oct/2025:08:29:01 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:29:02.007Z [ERROR] [req:70fdff47-d222-409f-96dc-d5d531909ab8] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:29:02.138Z [HTTP] [req:1bb9e6e9-4fdb-4319-b08b-c8d03ccb5eca] ::1 - - [04/Oct/2025:08:29:02 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:29:02.353Z [HTTP] [req:70fdff47-d222-409f-96dc-d5d531909ab8] ::1 - - [04/Oct/2025:08:29:02 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:29:03.126Z [HTTP] [req:72031336-8303-4630-9328-5f4c7cc2394c] ::1 - - [04/Oct/2025:08:29:03 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:29:04.481Z [HTTP] [req:331224cf-2854-40be-abf6-c7294a86e067] ::1 - - [04/Oct/2025:08:29:04 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:17.900Z [HTTP] [req:5ce4ef80-7ffc-4c2c-9d3f-6871506813bb] ::1 - - [04/Oct/2025:08:31:17 +0000] "OPTIONS /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:19.093Z [ERROR] [req:0c416c2d-57e4-479f-ab01-e63db142b21c] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:31:19.414Z [ERROR] [req:794866e6-d89a-403b-ba4b-082a0a8ea588] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:31:19.435Z [HTTP] [req:0c416c2d-57e4-479f-ab01-e63db142b21c] ::1 - - [04/Oct/2025:08:31:19 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:20.293Z [HTTP] [req:794866e6-d89a-403b-ba4b-082a0a8ea588] ::1 - - [04/Oct/2025:08:31:20 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:24.009Z [ERROR] [req:949f5c0f-e8b4-416b-b7d4-4d06ac8fe490] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:31:25.224Z [HTTP] [req:949f5c0f-e8b4-416b-b7d4-4d06ac8fe490] ::1 - - [04/Oct/2025:08:31:25 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:26.662Z [HTTP] [req:051663fd-5bb6-40dd-bacf-59976d157326] ::1 - - [04/Oct/2025:08:31:26 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:27.462Z [HTTP] [req:85385e73-d9f2-4921-b35f-7277776e618a] ::1 - - [04/Oct/2025:08:31:27 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:31:28.853Z [HTTP] [req:b5f8d41b-6b75-4ba3-af4b-fdd68f3ca4f8] ::1 - - [04/Oct/2025:08:31:28 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:33:13.183Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T08:33:18.235Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T08:33:18.239Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-04T08:33:21.484Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T08:33:22.353Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T08:33:24.147Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T08:33:24.150Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T08:33:36.501Z [HTTP] [req:3894db75-c8fe-4a42-8a3c-7c53658e327b] ::1 - - [04/Oct/2025:08:33:36 +0000] "OPTIONS /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:33:39.502Z [ERROR] [req:9f9a1c35-a353-45ee-85a8-7f264e60e818] ❌ Path: /api/v1/products/68cf8b4953809e4ca0436f22 | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "boolean",
+    "received": "string",
+    "path": [
+      "isFeatured"
+    ],
+    "message": "Expected boolean, received string"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "string",
+    "path": [
+      "variants"
+    ],
+    "message": "Expected array, received string"
+  }
+]
+2025-10-04T08:33:39.856Z [HTTP] [req:9f9a1c35-a353-45ee-85a8-7f264e60e818] ::1 - - [04/Oct/2025:08:33:39 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:33:42.026Z [HTTP] [req:3ce47ad7-f142-4807-ad43-ceab087cf6ae] ::1 - - [04/Oct/2025:08:33:42 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
