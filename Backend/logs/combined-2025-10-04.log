@@ -119,3 +119,89 @@
 2025-10-04T07:34:21.604Z [ERROR] [req:f3e9de24-7553-483a-ba63-59defae1c212] ❌ Path: /api/v1/products | Error: Product validation failed: imageUrls: At least one image URL is required.
 2025-10-04T07:34:21.946Z [HTTP] [req:f3e9de24-7553-483a-ba63-59defae1c212] ::1 - - [04/Oct/2025:07:34:21 +0000] "POST /api/v1/products HTTP/1.1" 500 155 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-04T07:44:40.034Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T07:50:14.476Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T07:50:16.479Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T07:50:19.643Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T07:50:19.650Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-04T07:50:21.689Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T07:50:25.401Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T07:50:25.647Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T07:50:25.655Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T07:50:25.657Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T07:50:43.500Z [HTTP] [req:ede26fde-148e-40f3-afeb-656584064060] ::1 - - [04/Oct/2025:07:50:43 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:50:45.710Z [HTTP] [req:851901c3-be9a-4cd6-adc2-57df806ef723] ::1 - - [04/Oct/2025:07:50:45 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:50:45.996Z [DEBUG] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T07:50:45.996Z [DEBUG] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] [requireAuth] AccessToken from cookies: present
+2025-10-04T07:50:45.997Z [DEBUG] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] [requireAuth] Authorization header: missing
+2025-10-04T07:50:46.000Z [DEBUG] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T07:50:46.703Z [DEBUG] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T07:50:46.703Z [DEBUG] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T07:50:46.923Z [HTTP] [req:51aadd68-80d2-4a2e-8a21-3ff4aa8cc430] ::1 - - [04/Oct/2025:07:50:46 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:50:47.169Z [DEBUG] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] [requireAuth] Attempting to authenticate for path: /metrics
+2025-10-04T07:50:47.170Z [DEBUG] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] [requireAuth] AccessToken from cookies: present
+2025-10-04T07:50:47.172Z [DEBUG] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] [requireAuth] Authorization header: missing
+2025-10-04T07:50:47.177Z [DEBUG] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T07:50:47.377Z [DEBUG] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T07:50:47.378Z [DEBUG] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T07:50:49.113Z [DEBUG] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] [requireAuth] Attempting to authenticate for path: /sales-over-time
+2025-10-04T07:50:49.114Z [DEBUG] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] [requireAuth] AccessToken from cookies: present
+2025-10-04T07:50:49.116Z [DEBUG] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] [requireAuth] Authorization header: missing
+2025-10-04T07:50:49.121Z [DEBUG] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T07:50:49.231Z [HTTP] [req:c0b19a0b-181a-4159-ae23-5b70bf511cd4] ::1 - - [04/Oct/2025:07:50:49 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:50:49.332Z [DEBUG] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T07:50:49.333Z [DEBUG] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T07:50:49.699Z [DEBUG] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] [requireAuth] Attempting to authenticate for path: /top-selling-products
+2025-10-04T07:50:49.700Z [DEBUG] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] [requireAuth] AccessToken from cookies: present
+2025-10-04T07:50:49.702Z [DEBUG] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] [requireAuth] Authorization header: missing
+2025-10-04T07:50:49.706Z [DEBUG] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T07:50:49.756Z [HTTP] [req:3cd44ed9-b2af-4ee1-92c0-10c84ec1326a] ::1 - - [04/Oct/2025:07:50:49 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:50:49.928Z [DEBUG] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T07:50:49.928Z [DEBUG] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T07:50:50.388Z [HTTP] [req:8f5f6317-1c32-4a55-8add-57184b5d165e] ::1 - - [04/Oct/2025:07:50:50 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:51:04.288Z [HTTP] [req:0979857e-c4d3-471a-9746-5cbfc86162de] ::1 - - [04/Oct/2025:07:51:04 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:51:04.856Z [HTTP] [req:416e3306-478e-46ad-8b46-b7181c6cf0a2] ::1 - - [04/Oct/2025:07:51:04 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T07:51:38.979Z [DEBUG] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] [requireAuth] Attempting to authenticate for path: /
+2025-10-04T07:51:38.979Z [DEBUG] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] [requireAuth] AccessToken from cookies: present
+2025-10-04T07:51:38.981Z [DEBUG] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] [requireAuth] Authorization header: missing
+2025-10-04T07:51:38.983Z [DEBUG] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T07:51:39.616Z [DEBUG] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T07:51:39.617Z [DEBUG] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] [requireAuth] Session DgIZ_GlBsNE3gDOCvLZRGGLsFAK7qEGg touched.
+2025-10-04T07:51:39.626Z [ERROR] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "name"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "description"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "category"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "array",
+    "received": "undefined",
+    "path": [
+      "imageUrls"
+    ],
+    "message": "Required"
+  }
+]
+2025-10-04T07:51:40.482Z [HTTP] [req:83f20c36-3e09-4a8b-af5a-1acade2e0420] ::1 - - [04/Oct/2025:07:51:40 +0000] "POST /api/v1/products HTTP/1.1" 400 229 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
