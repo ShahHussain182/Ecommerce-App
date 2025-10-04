@@ -52,4 +52,4 @@ export const updateProductSchema = z.object({
   variants: z.array(variantSchema).optional(), // Made optional
 }).partial(); // Allow partial updates
 
-export type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof typeof updateProductSchema>;
+export type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof updateProductSchema>;

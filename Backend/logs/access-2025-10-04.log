@@ -297,3 +297,12 @@
 ]
 2025-10-04T08:33:39.856Z [HTTP] [req:9f9a1c35-a353-45ee-85a8-7f264e60e818] ::1 - - [04/Oct/2025:08:33:39 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f22 HTTP/1.1" 400 193 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-04T08:33:42.026Z [HTTP] [req:3ce47ad7-f142-4807-ad43-ceab087cf6ae] ::1 - - [04/Oct/2025:08:33:42 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:37:34.771Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T08:37:36.891Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T08:37:36.898Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-04T08:37:38.343Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T08:37:39.012Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T08:37:40.772Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T08:37:40.778Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T08:38:43.232Z [HTTP] [req:88cc4163-d649-4f29-82ec-b2596e642063] ::1 - - [04/Oct/2025:08:38:43 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:38:45.224Z [HTTP] [req:7ed6a267-1698-4129-b39c-784bf3abb1b7] ::1 - - [04/Oct/2025:08:38:45 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
