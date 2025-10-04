@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { TopProductData } from '@/types';
+import type { TopProductData } from '@/types';
 import { DollarSign, ShoppingCart } from 'lucide-react';
 
 interface TopSellingProductsProps {

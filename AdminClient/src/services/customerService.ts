@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { User, CustomerGrowthDataPoint } from '@/types';
+import type { User, CustomerGrowthDataPoint } from '@/types';
 
 interface GetAllCustomersParams {
   page?: number;

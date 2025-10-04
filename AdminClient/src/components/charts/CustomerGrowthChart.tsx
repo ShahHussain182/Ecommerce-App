@@ -9,7 +9,7 @@ import {
   Bar,
   CartesianGrid,
 } from 'recharts';
-import { CustomerGrowthDataPoint } from '@/types';
+import type { CustomerGrowthDataPoint } from '@/types';
 import { format } from 'date-fns';
 
 interface CustomerGrowthChartProps {

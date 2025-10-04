@@ -9,7 +9,7 @@ import {
   Line,
   CartesianGrid,
 } from 'recharts';
-import { SalesDataPoint } from '@/types';
+import type { SalesDataPoint } from '@/types';
 import { format } from 'date-fns';
 
 interface SalesChartProps {

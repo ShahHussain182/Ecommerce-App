@@ -4,6 +4,9 @@ import catchErrors from '../Utils/catchErrors.js';
 import mongoose from 'mongoose';
 import { createProductSchema, updateProductSchema } from '../Schemas/productSchema.js';
 import { productIndex } from '../Utils/meilisearchClient.js'; // <-- import Meilisearch client
+import { uploadFileToS3 } from '../Utils/s3Upload.js';
+import {logger} from '../Utils/logger.js';
+
 
 /**
  * @description Get all products with advanced filtering, sorting, and pagination using Meilisearch.
@@ -252,4 +255,71 @@ export const deleteProduct = catchErrors(async (req, res) => {
   await productIndex.deleteDocument(id.toString());
 
   res.status(200).json({ success: true, message: 'Product deleted successfully!' });
+});
+/**
+ * @description Upload product images to S3 and update the product document.
+ */
+export const uploadProductImages = catchErrors(async (req, res) => {
+  const { id } = req.params; // Get product ID from URL params
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
+  }
+
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ success: false, message: 'No files uploaded.' });
+  }
+
+  const product = await Product.findById(id);
+  if (!product) {
+    return res.status(404).json({ success: false, message: 'Product not found.' });
+  }
+
+  const uploadedUrls = [];
+  for (const file of req.files) {
+    try {
+      const url = await uploadFileToS3(file.buffer, file.mimetype, `products/${id}`); // Use product ID for folder
+      uploadedUrls.push(url);
+    } catch (error) {
+      logger.error(`Failed to upload file ${file.originalname} for product ${id}: ${error.message}`);
+      // Continue processing other files, but log the error
+    }
+  }
+
+  if (uploadedUrls.length === 0) {
+    return res.status(500).json({ success: false, message: 'No images were successfully uploaded.' });
+  }
+
+  // Append new URLs to existing ones
+  product.imageUrls = [...(product.imageUrls || []), ...uploadedUrls];
+  await product.save(); // Save the updated product
+
+  // Update Meilisearch with the new image URLs
+  await productIndex.addDocuments([{
+    _id: product._id.toString(),
+    name: product.name,
+    description: product.description,
+    category: product.category,
+    imageUrls: product.imageUrls, // Use the updated imageUrls
+    isFeatured: Boolean(product.isFeatured),
+    variants: (product.variants || []).map(v => ({
+      _id: v._id.toString(),
+      size: String(v.size ?? ''),
+      color: String(v.color ?? ''),
+      price: Number(v.price ?? 0),
+      stock: Number(v.stock ?? 0),
+    })),
+    price: product.variants[0]?.price ?? 0,
+    colors: product.variants.map(v => v.color),
+    sizes: product.variants.map(v => v.size),
+    averageRating: product.averageRating ?? 0,
+    numberOfReviews: product.numberOfReviews ?? 0,
+    createdAt: product.createdAt ? new Date(product.createdAt).toISOString() : null,
+  }]);
+
+  res.status(200).json({
+    success: true,
+    message: `${uploadedUrls.length} image(s) uploaded and product updated successfully.`,
+    product: product, // Return the full updated product document
+  });
 });

@@ -8,7 +8,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
-interface CreateOrderPayload {
+export interface CreateOrderPayload {
   shippingAddress: ShippingAddress;
   paymentMethod: string;
 }

@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { User } from '@/types';
+import type { User } from '@/types';
 import { z } from 'zod';
 
 export const loginSchema = z.object({

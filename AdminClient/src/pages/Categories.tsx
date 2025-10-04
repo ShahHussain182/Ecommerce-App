@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, Edit, Trash2, Loader2, XCircle, Tag, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { categoryService, CreateCategoryData, UpdateCategoryData } from '@/services/categoryService';
+import { categoryService, type CreateCategoryData, type UpdateCategoryData } from '@/services/categoryService';
 import type { Category } from '@/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

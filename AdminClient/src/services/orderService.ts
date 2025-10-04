@@ -1,5 +1,6 @@
 import { api } from '@/lib/api';
-import { Order, ApiResponse, OrderStatus, SalesDataPoint, TopProductData } from '@/types'; // Import OrderStatus, SalesDataPoint, TopProductData
+import type { Order, ApiResponse, OrderStatus, SalesDataPoint, TopProductData } from '@/types'; // Import OrderStatus, SalesDataPoint, TopProductData
+ // Import OrderStatus, SalesDataPoint, TopProductData
 
 interface GetAllOrdersParams {
   page?: number;

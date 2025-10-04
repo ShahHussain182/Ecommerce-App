@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,10 +7,10 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X, Image as ImageIcon, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
-import type { Product, ProductVariant, Category, ProductsFilterState } from '@/types'; // Import Category and ProductsFilterState
+import type { Product, ProductVariant, Category, ProductsFilterState, ApiResponse } from '@/types'; // Added ApiResponse to types import
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
@@ -21,7 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCategories } from '@/hooks/useCategories'; // Import useCategories hook
+import { useCategories } from '@/hooks/useCategories';
 import {
   Select,
   SelectContent,
@@ -29,6 +29,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 // Type for the form data, combining create and update schemas
 type ProductFormValues = z.infer<typeof createProductSchema>;
@@ -52,10 +63,12 @@ interface ProductFormProps {
   onSubmit: (data: ProductFormValues) => void;
   onClose: () => void;
   isSubmitting: boolean;
-  categories: Category[]; // Pass categories as a prop
+  categories: Category[];
+  onProductUpdated?: (updatedProduct: Product) => void; // Callback for when product is updated (e.g., after image upload)
 }
 
-const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: ProductFormProps) => {
+const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onProductUpdated }: ProductFormProps) => {
+  const queryClient = useQueryClient();
   const formSchema = product ? updateProductSchema : createProductSchema;
 
   const {
@@ -64,41 +77,50 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
     control,
     formState: { errors },
     reset,
+    setValue,
+    getValues,
+    watch,
   } = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: product?.name || '',
       description: product?.description || '',
-      category: product?.category || (categories.length > 0 ? categories[0].name : ''), // Default to first category
-      imageUrls: product?.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
+      category: product?.category || (categories.length > 0 ? categories[0].name : ''),
+      imageUrls: product?.imageUrls || [],
       isFeatured: product?.isFeatured || false,
-      variants: product?.variants && product.variants.length > 0 
-        ? product.variants 
-        : [{ size: '', color: '', price: 0, stock: 0 }], // Default to one empty variant for new products
+      variants: product?.variants && product.variants.length > 0
+        ? product.variants
+        : [{ size: '', color: '', price: 0, stock: 0 }],
     },
   });
 
-  // Reset form when product prop changes (for edit mode) or categories load
+  const currentImageUrls = watch('imageUrls'); // Watch the imageUrls array from the form
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingImages, setIsUploadingImages] = useState(false);
+
+  // Effect to reset form and image states when product prop changes
   useEffect(() => {
     if (product) {
       reset({
         name: product.name,
         description: product.description,
         category: product.category,
-        imageUrls: product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [''],
+        imageUrls: product.imageUrls || [],
         isFeatured: product.isFeatured,
         variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
       });
+      setSelectedFiles([]); // Clear selected files when editing a new product
     } else {
-      // Reset to empty for new product form, including one empty variant
       reset({
         name: '',
         description: '',
-        category: categories.length > 0 ? categories[0].name : '', // Default to first category
-        imageUrls: [''],
+        category: categories.length > 0 ? categories[0].name : '',
+        imageUrls: [],
         isFeatured: false,
         variants: [{ size: '', color: '', price: 0, stock: 0 }],
       });
+      setSelectedFiles([]);
     }
   }, [product, reset, categories]);
 
@@ -107,10 +129,61 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
     name: 'variants',
   });
 
-  const { fields: imageUrlFields, append: appendImageUrl, remove: removeImageUrl } = useFieldArray({
-    control,
-    name: 'imageUrls',
+  // Handle file selection for new uploads
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const filesArray = Array.from(event.target.files);
+      setSelectedFiles(prev => [...prev, ...filesArray]);
+      // Clear the input value so the same file can be selected again if needed
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  // Remove a newly selected local file (not yet uploaded to S3)
+  const handleRemoveSelectedFile = (indexToRemove: number) => {
+    setSelectedFiles(prev => prev.filter((_, index) => index !== indexToRemove));
+  };
+
+  // Remove an existing S3 image URL from the form's imageUrls array
+  const handleRemoveExistingImage = (indexToRemove: number) => {
+    const updatedImageUrls = currentImageUrls.filter((_, index) => index !== indexToRemove);
+    setValue('imageUrls', updatedImageUrls, { shouldDirty: true }); // Mark form as dirty
+  };
+
+  // Mutation for uploading images
+  const uploadImagesMutation = useMutation({
+    mutationFn: ({ productId, files }: { productId: string; files: File[] }) =>
+      productService.uploadProductImages(productId, files),
+    onSuccess: (response: ApiResponse<Product>) => {
+      toast.success(response.message);
+      // Update the form's imageUrls with the new list from the backend
+      setValue('imageUrls', response.data.imageUrls, { shouldDirty: true });
+      setSelectedFiles([]); // Clear selected files after successful upload
+      queryClient.invalidateQueries({ queryKey: ['products'] }); // Invalidate products query
+      onProductUpdated?.(response.data); // Notify parent of product update
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || 'Failed to upload images to S3.');
+    },
+    onSettled: () => {
+      setIsUploadingImages(false);
+    },
   });
+
+  const handleUploadNewImages = () => {
+    if (!product?._id) {
+      toast.error("Product must be created before uploading images.");
+      return;
+    }
+    if (selectedFiles.length === 0) {
+      toast.error("Please select images to upload.");
+      return;
+    }
+    setIsUploadingImages(true);
+    uploadImagesMutation.mutate({ productId: product._id, files: selectedFiles });
+  };
 
   const handleFormSubmit = (data: ProductFormValues) => {
     // Filter out any completely empty variant fields before submission
@@ -120,6 +193,11 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
     onSubmit({ ...data, variants: cleanedVariants });
   };
 
+  const allImagePreviews = [
+    ...(currentImageUrls || []),
+    ...selectedFiles.map(file => URL.createObjectURL(file))
+  ];
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -128,7 +206,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
           <Input
             id="name"
             {...register('name')}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isUploadingImages}
           />
           {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
         </div>
@@ -138,7 +216,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
             id="category"
             {...register('category')}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            disabled={isSubmitting || categories.length === 0}
+            disabled={isSubmitting || isUploadingImages || categories.length === 0}
           >
             {categories.length === 0 ? (
               <option value="">No categories available</option>
@@ -151,7 +229,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
           {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
         </div>
       </div>
-      
+
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
         <textarea
@@ -159,46 +237,80 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
           {...register('description')}
           className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
           rows={3}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isUploadingImages}
         />
         {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
       </div>
 
-      <div className="space-y-3">
+      {/* Image Upload Section */}
+      <div className="space-y-3 border p-4 rounded-md">
         <div className="flex items-center justify-between">
-          <Label>Image URLs</Label>
-          <Button type="button" onClick={() => appendImageUrl('')} size="sm" disabled={isSubmitting}>
-            <Plus className="mr-2 h-3 w-3" />
-            Add Image
-          </Button>
-        </div>
-        {imageUrlFields.map((field, index) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input
-              {...register(`imageUrls.${index}`)}
-              placeholder="https://example.com/image.jpg"
-              disabled={isSubmitting}
+          <Label>Product Images</Label>
+          <div className="flex space-x-2">
+            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isSubmitting || isUploadingImages || !product?._id}>
+              <ImageIcon className="mr-2 h-3 w-3" />
+              Select Files
+            </Button>
+            <input
+              type="file"
+              multiple
+              accept="image/jpeg,image/png,image/webp"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden"
+              disabled={isSubmitting || isUploadingImages || !product?._id}
             />
-            {errors.imageUrls?.[index] && <p className="text-sm text-destructive">{errors.imageUrls[index]?.message}</p>}
-            {imageUrlFields.length > 1 && (
-              <Button type="button" onClick={() => removeImageUrl(index)} variant="ghost" size="icon" disabled={isSubmitting}>
+            <Button type="button" onClick={handleUploadNewImages} size="sm" disabled={isSubmitting || isUploadingImages || selectedFiles.length === 0 || !product?._id}>
+              {isUploadingImages ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Upload className="mr-2 h-3 w-3" />
+              )}
+              Upload ({selectedFiles.length})
+            </Button>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+          {allImagePreviews.map((url, index) => (
+            <div key={index} className="relative w-24 h-24 rounded-md overflow-hidden border">
+              <img src={url} alt={`Product preview ${index}`} className="w-full h-full object-cover" />
+              <Button
+                type="button"
+                variant="destructive"
+                size="icon"
+                className="absolute top-1 right-1 h-6 w-6 rounded-full"
+                onClick={() => {
+                  // Determine if it's an existing S3 URL or a new local file
+                  if (index < (currentImageUrls?.length || 0)) {
+                    handleRemoveExistingImage(index);
+                  } else {
+                    handleRemoveSelectedFile(index - (currentImageUrls?.length || 0));
+                  }
+                }}
+                disabled={isSubmitting || isUploadingImages}
+              >
                 <X className="h-3 w-3" />
               </Button>
-            )}
-          </div>
-        ))}
-        {errors.imageUrls?.root && <p className="text-sm text-destructive">{errors.imageUrls.root.message}</p>}
+            </div>
+          ))}
+          {allImagePreviews.length === 0 && (
+            <div className="col-span-full text-center text-muted-foreground py-4">
+              No images selected or uploaded.
+            </div>
+          )}
+        </div>
+        {errors.imageUrls && <p className="text-sm text-destructive">{errors.imageUrls.message}</p>}
       </div>
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <Label>Product Variants (Optional)</Label>
-          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting}>
+          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting || isUploadingImages}>
             <Plus className="mr-2 h-3 w-3" />
             Add Variant
           </Button>
         </div>
-        
+
         {variantFields.map((field, index) => (
           <div key={field.id} className="grid grid-cols-5 gap-2 items-end">
             <div className="space-y-1">
@@ -206,7 +318,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
               <Input
                 {...register(`variants.${index}.size`)}
                 placeholder="S, M, L"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploadingImages}
               />
               {errors.variants?.[index]?.size && <p className="text-sm text-destructive">{errors.variants[index]?.size?.message}</p>}
             </div>
@@ -215,7 +327,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
               <Input
                 {...register(`variants.${index}.color`)}
                 placeholder="Black, White"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploadingImages}
               />
               {errors.variants?.[index]?.color && <p className="text-sm text-destructive">{errors.variants[index]?.color?.message}</p>}
             </div>
@@ -226,7 +338,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
                 {...register(`variants.${index}.price`, { valueAsNumber: true })}
                 step="0.01"
                 min="0"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploadingImages}
               />
               {errors.variants?.[index]?.price && <p className="text-sm text-destructive">{errors.variants[index]?.price?.message}</p>}
             </div>
@@ -236,7 +348,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
                 type="number"
                 {...register(`variants.${index}.stock`, { valueAsNumber: true })}
                 min="0"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploadingImages}
               />
               {errors.variants?.[index]?.stock && <p className="text-sm text-destructive">{errors.variants[index]?.stock?.message}</p>}
             </div>
@@ -245,7 +357,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
               onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={variantFields.length === 1 || isSubmitting} // Prevent removing the last variant
+              disabled={variantFields.length === 1 || isSubmitting || isUploadingImages}
             >
               <Trash2 className="h-3 w-3" />
             </Button>
@@ -260,16 +372,16 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories }: P
           id="featured"
           {...register('isFeatured')}
           className="h-4 w-4"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isUploadingImages}
         />
         <Label htmlFor="featured">Featured Product</Label>
       </div>
 
       <DialogFooter>
-        <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
+        <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting || isUploadingImages}>
           Cancel
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || isUploadingImages}>
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {product ? 'Update' : 'Create'} Product
         </Button>
@@ -288,51 +400,48 @@ export function Products() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const limit = 10; // Number of items per page
-  const [sortBy, setSortBy] = useState<ProductsFilterState['sortBy']>('name-asc'); // New state for sorting
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc'); // New state for sort order
+  const limit = 10;
+  const [sortBy, setSortBy] = useState<ProductsFilterState['sortBy']>('name-asc');
 
   const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategories();
   const categoryNames = categories?.map(cat => cat.name) || [];
 
-  // Debounce search term
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-      setPage(1); // Reset to first page on new search term
-    }, 500); // 500ms debounce delay
+      setPage(1);
+    }, 500);
 
     return () => {
       clearTimeout(handler);
     };
   }, [searchTerm]);
 
-  // Query for products from API
   const { data: productsData, isLoading, error } = useQuery({
-    queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
+    queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
     queryFn: () => productService.getProducts({
       page,
       limit,
       searchTerm: debouncedSearchTerm || undefined,
       categories: selectedCategory === 'All' ? undefined : selectedCategory || undefined,
       sortBy: sortBy,
-      // Note: Meilisearch handles sort direction within 'sortBy' string (e.g., 'name:asc').
-      // The 'sortOrder' state is primarily for UI toggle and can be used for other sortBy values if needed.
     }),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
   const products = productsData?.products || [];
   const totalProducts = productsData?.totalProducts || 0;
   const totalPages = Math.ceil(totalProducts / limit);
 
-  // Mutations for CRUD operations
   const createProductMutation = useMutation({
     mutationFn: productService.createProduct,
-    onSuccess: () => {
+    onSuccess: (response: ApiResponse<Product>) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success('Product created successfully');
+      toast.success('Product created successfully! You can now add images.');
       setIsAddDialogOpen(false);
+      // Automatically open edit dialog for the newly created product to allow image upload
+      setSelectedProduct(response.data);
+      setIsEditDialogOpen(true);
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to create product');
@@ -342,15 +451,11 @@ export function Products() {
   const updateProductMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProductData }) => productService.updateProduct(id, data),
     onMutate: async ({ id, data }) => {
-      // Cancel any outgoing refetches for the products query
       await queryClient.cancelQueries({ queryKey: ['products'] });
+      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }]);
 
-      // Snapshot the previous value
-      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }]);
-
-      // Optimistically update the product in the cache
       queryClient.setQueryData(
-        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
+        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
         (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
           if (!oldData) return oldData;
           return {
@@ -361,68 +466,60 @@ export function Products() {
           };
         }
       );
-
       return { previousProducts };
     },
-    onSuccess: () => {
+    onSuccess: (response: ApiResponse<Product>) => {
       toast.success('Product updated successfully');
       setIsEditDialogOpen(false);
+      setSelectedProduct(response.data); // Update selected product with latest data
     },
     onError: (err: any, variables, context) => {
       toast.error(err.response?.data?.message || 'Failed to update product');
-      // Rollback to the previous cache state
       if (context?.previousProducts) {
         queryClient.setQueryData(
-          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
+          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
           context.previousProducts
         );
       }
     },
     onSettled: () => {
-      // Always refetch after error or success to ensure server state is reflected
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
   const deleteProductMutation = useMutation({
     mutationFn: productService.deleteProduct,
-    onMutate: async (productIdToDelete) => {
-      // Cancel any outgoing refetches for the products query
+    onMutate: async (productIdToDelete: string) => {
       await queryClient.cancelQueries({ queryKey: ['products'] });
+      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }]);
 
-      // Snapshot the previous value
-      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }]);
-
-      // Optimistically remove the product from the cache
       queryClient.setQueryData(
-        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
+        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
         (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
             products: oldData.products.filter((product) => product._id !== productIdToDelete),
-            totalProducts: oldData.totalProducts - 1, // Adjust total count
+            totalProducts: oldData.totalProducts - 1,
           };
         }
       );
-
+      toast.loading('Deleting product...', { id: productIdToDelete });
       return { previousProducts };
     },
-    onSuccess: () => {
-      toast.success('Product deleted successfully');
+    onSuccess: (data: ApiResponse<null>, productIdToDelete: string) => {
+      toast.success('Product deleted successfully', { id: productIdToDelete });
     },
-    onError: (err: any, variables, context) => {
-      toast.error(err.response?.data?.message || 'Failed to delete product');
-      // Rollback to the previous cache state
+    onError: (err: any, productIdToDelete: string, context) => {
+      toast.error(err.response?.data?.message || 'Failed to delete product', { id: productIdToDelete });
       if (context?.previousProducts) {
         queryClient.setQueryData(
-          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy, sortOrder }],
+          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
           context.previousProducts
         );
       }
     },
     onSettled: () => {
-      // Always refetch after error or success to ensure server state is reflected
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
@@ -439,9 +536,9 @@ export function Products() {
     setPage(1);
   };
 
-  const handleSortOrderToggle = () => {
-    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-    setPage(1);
+  const handleProductFormUpdate = (updatedProduct: Product) => {
+    setSelectedProduct(updatedProduct); // Keep selectedProduct up-to-date
+    queryClient.invalidateQueries({ queryKey: ['products'] }); // Ensure table reflects changes
   };
 
   return (
@@ -451,10 +548,12 @@ export function Products() {
           <h1 className="text-3xl font-bold tracking-tight">Products</h1>
           <p className="text-muted-foreground">Manage your product inventory and details</p>
         </div>
-        
+
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button disabled={categoriesLoading || categoriesError || categoryNames.length === 0}>
+            <Button
+              disabled={categoriesLoading || !!categoriesError || categoryNames.length === 0}
+            >
               <Plus className="mr-2 h-4 w-4" />
               Add Product
             </Button>
@@ -463,7 +562,7 @@ export function Products() {
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
               <DialogDescription>
-                Create a new product with variants, pricing, and inventory details. Variants are optional.
+                Create a new product with variants, pricing, and inventory details. Images can be added after creation.
               </DialogDescription>
             </DialogHeader>
             {categoriesLoading ? (
@@ -499,7 +598,7 @@ export function Products() {
             }}
           />
         </div>
-        
+
         <div className="flex items-center space-x-2 flex-wrap">
           <Button
             variant={selectedCategory === '' ? 'default' : 'outline'}
@@ -523,7 +622,7 @@ export function Products() {
                 size="sm"
                 onClick={() => {
                   setSelectedCategory(category.name);
-                  setPage(1); // Reset to first page on category change
+                  setPage(1);
                 }}
               >
                 {category.name}
@@ -531,7 +630,7 @@ export function Products() {
             ))
           )}
         </div>
-        
+
         <Select value={sortBy} onValueChange={handleSortChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by" />
@@ -545,15 +644,6 @@ export function Products() {
             <SelectItem value="numberOfReviews-desc">Most Reviewed</SelectItem>
           </SelectContent>
         </Select>
-        
-        {/* Removed explicit sort order toggle as Meilisearch handles it in sortBy string */}
-        {/* <Button 
-          variant="outline" 
-          size="icon"
-          onClick={handleSortOrderToggle}
-        >
-          {sortOrder === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </Button> */}
       </div>
 
       {/* Products Table */}
@@ -565,7 +655,7 @@ export function Products() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto"> {/* Wrapper for horizontal scroll */}
+          <div className="overflow-x-auto">
             <Table className="min-w-full">
               <TableHeader>
                 <TableRow>
@@ -608,15 +698,15 @@ export function Products() {
                     const totalStock = getTotalStock(product.variants);
                     const minPrice = getMinPrice(product.variants);
                     const stockStatus = getStockStatus(totalStock);
-                    
+
                     return (
                       <TableRow key={product._id}>
                         <TableCell className="font-medium">
                           <div className="flex items-center space-x-3">
                             <img
-                              src={product.imageUrls[0]}
+                              src={product.imageUrls[0] || '/placeholder.svg'}
                               alt={product.name}
-                              className="h-8 w-8 rounded-md object-cover" 
+                              className="h-8 w-8 rounded-md object-cover"
                             />
                             <div className="font-medium">{product.name}</div>
                           </div>
@@ -680,9 +770,28 @@ export function Products() {
                                     </>
                                   )}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => deleteProductMutation.mutate(product._id)} disabled={deleteProductMutation.isPending}>
-                                  <Trash2 className="mr-2 h-4 w-4" /> Delete
-                                </DropdownMenuItem>
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                      <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                    </DropdownMenuItem>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete the product "{product.name}".
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogAction onClick={() => deleteProductMutation.mutate(product._id)} disabled={deleteProductMutation.isPending}>
+                                        {deleteProductMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                        Delete
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
@@ -693,9 +802,9 @@ export function Products() {
                 )}
               </TableBody>
             </Table>
-          </div> {/* End of overflow-x-auto wrapper */}
+          </div>
         </CardContent>
-        
+
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-end space-x-2 p-4">
@@ -752,6 +861,7 @@ export function Products() {
               onClose={() => setIsEditDialogOpen(false)}
               isSubmitting={updateProductMutation.isPending}
               categories={categories || []}
+              onProductUpdated={handleProductFormUpdate} // Pass callback
             />
           )}
         </DialogContent>
@@ -764,13 +874,13 @@ export function Products() {
             <DialogTitle>{selectedProduct?.name}</DialogTitle>
             <DialogDescription>{selectedProduct?.description}</DialogDescription>
           </DialogHeader>
-          
+
           {selectedProduct && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <img
-                    src={selectedProduct.imageUrls[0]}
+                    src={selectedProduct.imageUrls[0] || '/placeholder.svg'}
                     alt={selectedProduct.name}
                     className="w-full h-48 object-cover rounded-lg"
                   />
@@ -798,7 +908,7 @@ export function Products() {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <Label className="text-sm font-medium">Variants</Label>
                 <div className="mt-2 space-y-2">

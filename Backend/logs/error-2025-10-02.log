@@ -1,0 +1,33 @@
+2025-10-02T11:16:03.968Z [ERROR] [req:7009bd37-b1a4-4c35-9171-6314f3a31b12] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-10-02T11:16:27.920Z [ERROR] [req:4f7dab86-2dd4-47f1-8c7f-fdfd9ca15cc4] ❌ Path: /api/v1/auth/login | Error: [
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Password must contain at least one special character",
+    "path": [
+      "password"
+    ]
+  }
+]
+2025-10-02T12:40:00.064Z [ERROR] [req:136337af-7971-48cf-858b-8d3ff10de024] ❌ Path: /api/v1/orders | Error: [
+  {
+    "code": "too_small",
+    "minimum": 1,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Payment method is required.",
+    "path": [
+      "paymentMethod"
+    ]
+  }
+]

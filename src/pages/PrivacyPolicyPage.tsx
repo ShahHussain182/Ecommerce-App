@@ -1,12 +1,9 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { motion } from 'framer-motion';
+import { motion , Variants } from 'framer-motion';
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
+const sectionVariants: Variants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 }, };
 
 const PrivacyPolicyPage = () => {
   return (
@@ -43,7 +40,7 @@ const PrivacyPolicyPage = () => {
         </section>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-12">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0  }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">1. Introduction</CardTitle>
@@ -55,7 +52,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.1 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">2. Information We Collect</CardTitle>
@@ -77,7 +74,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.2 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">3. How We Use Your Information</CardTitle>
@@ -98,7 +95,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.3 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">4. How We Share Your Information</CardTitle>
@@ -116,7 +113,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.4 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay:0.4 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">5. Your Choices and Rights</CardTitle>
@@ -135,7 +132,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.5 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay:0.5 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">6. Data Security</CardTitle>
@@ -146,7 +143,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.6 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">7. Children's Privacy</CardTitle>
@@ -158,7 +155,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.7 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.7 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">8. Changes to This Policy</CardTitle>
@@ -171,7 +168,7 @@ const PrivacyPolicyPage = () => {
             </Card>
           </motion.section>
 
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.8 }}>
+          <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.8 }}>
             <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">9. Contact Us</CardTitle>

@@ -1,10 +1,9 @@
 export interface ProductVariant {
   _id: string;
-  size: string;
-  color: string;
+  size: string; // Required as per backend model
+  color: string; // Required as per backend model
   price: number;
   stock: number;
-  imageUrl?: string;
 }
 
 export interface Product {
@@ -14,14 +13,13 @@ export interface Product {
   description: string;
   category: string;
   variants: ProductVariant[];
-  isFeatured?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  averageRating: number; // New: Average rating of the product
-  numberOfReviews: number; // New: Total number of reviews
+  isFeatured: boolean; // Non-optional as per backend model
+  createdAt: string; // Non-optional as per backend model
+  updatedAt: string; // Non-optional as per backend model
+  averageRating: number;
+  numberOfReviews: number;
 }
 
-// This represents a single item within the cart, as returned by the backend
 export interface CartItem {
   _id: string; // The unique ID of the cart item itself
   productId: Product; // Populated product details
@@ -30,11 +28,10 @@ export interface CartItem {
   priceAtTime: number;
   nameAtTime: string;
   imageAtTime: string;
-  sizeAtTime: string; // New: Snapshot of the variant's size
-  colorAtTime: string; // New: Snapshot of the variant's color
+  sizeAtTime: string;
+  colorAtTime: string;
 }
 
-// This represents the entire cart object from the backend
 export interface Cart {
   _id: string;
   userId: string;
@@ -45,7 +42,6 @@ export interface Cart {
   updatedAt: string;
 }
 
-// New: OrderItem interface for a snapshot of items in an order
 export interface OrderItem {
   _id: string;
   productId: string; // Only ID is stored in order, not populated product
@@ -58,32 +54,31 @@ export interface OrderItem {
   colorAtTime: string;
 }
 
-// New: ShippingAddress interface
 export interface ShippingAddress {
   fullName: string;
   addressLine1: string;
-  addressLine2?: string;
+  addressLine2?: string; // optional
   city: string;
   state: string;
   postalCode: string;
   country: string;
 }
 
-// New: Order interface
+export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+
 export interface Order {
   _id: string;
-  userId: string;
-  orderNumber: number; // New: Sequential order number
+  userId: string | { _id: string; userName: string; email?: string; }; // Can be string or populated object
+  orderNumber: number; // Sequential order number
   items: OrderItem[];
   shippingAddress: ShippingAddress;
   paymentMethod: string;
   totalAmount: number;
-  status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+  status: OrderStatus;
   createdAt: string;
   updatedAt: string;
 }
 
-// New: WishlistItem interface
 export interface WishlistItem {
   _id: string; // The unique ID of the wishlist item itself
   productId: Product; // Populated product details
@@ -97,7 +92,6 @@ export interface WishlistItem {
   updatedAt: string;
 }
 
-// New: Wishlist interface
 export interface Wishlist {
   _id: string;
   userId: string;
@@ -107,10 +101,9 @@ export interface Wishlist {
   updatedAt: string;
 }
 
-// New: Review interface
 export interface Review {
   _id: string;
-  productId: string;
+  productId: string; // Product ID, not fully populated in this context
   userId: {
     _id: string;
     userName: string;
@@ -122,7 +115,6 @@ export interface Review {
   updatedAt: string;
 }
 
-// New: ReviewPayload for creating/updating reviews
 export interface CreateReviewPayload {
   productId: string;
   rating: number;
@@ -136,22 +128,17 @@ export interface UpdateReviewPayload {
   comment?: string;
 }
 
-
 export interface FilterState {
   categories?: string[];
   priceRange?: [number, number];
-  colors?: string[]; // Corrected from [number, number] to string[]
+  colors?: string[];
   sizes?: string[];
-  sortBy?: 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc'; // Added new sort options
+  sortBy?: 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc';
   searchTerm?: string;
 }
 
-export interface FetchProductsParams {
-  pageParam?: number;
-  filters: Partial<FilterState>;
-}
-
 export interface PaginatedProductsResponse {
+  success: boolean;
   products: Product[];
   nextPage: number | null;
   totalProducts: number;
@@ -163,7 +150,18 @@ export interface User {
   userName: string;
   phoneNumber: string;
   isVerified: boolean;
-  lastLogin: string; // Date string
-  createdAt: string; // Date string
-  updatedAt: string; // Date string
+  lastLogin: string;
+  createdAt: string;
+  updatedAt: string;
+  role: 'user' | 'admin';
+  totalOrders?: number; // Aggregated from backend
+  totalSpent?: number; // Aggregated from backend
+}
+
+export interface Category {
+  _id: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -1,0 +1,128 @@
+2025-10-04T03:34:27.529Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T03:34:35.486Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T03:34:43.504Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T03:34:43.512Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-04T03:34:47.855Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T03:34:49.479Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T03:34:50.022Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T03:34:50.025Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T03:34:50.027Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T03:40:09.335Z [DEBUG] [req:6a8751dd-f197-4f38-90ad-5f96132f5518] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T03:40:09.335Z [DEBUG] [req:6a8751dd-f197-4f38-90ad-5f96132f5518] [requireAuth] AccessToken from cookies: missing
+2025-10-04T03:40:09.336Z [DEBUG] [req:6a8751dd-f197-4f38-90ad-5f96132f5518] [requireAuth] Authorization header: missing
+2025-10-04T03:40:09.337Z [WARN] [req:6a8751dd-f197-4f38-90ad-5f96132f5518] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-04T03:40:09.344Z [HTTP] [req:6a8751dd-f197-4f38-90ad-5f96132f5518] ::1 - - [04/Oct/2025:03:40:09 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:59862/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T03:40:09.975Z [HTTP] [req:b74745c5-89f7-44e9-bad0-a2b4575b22af] ::1 - - [04/Oct/2025:03:40:09 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:59862/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T03:40:10.974Z [HTTP] [req:e009bf9b-bf64-435e-8ab3-cbd56eb29844] ::1 - - [04/Oct/2025:03:40:10 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:59862/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T03:40:12.098Z [HTTP] [req:e3f7ef71-1a72-4383-b6d9-e1207b81adf5] ::1 - - [04/Oct/2025:03:40:12 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:59862/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T03:40:13.155Z [HTTP] [req:12d7081c-b018-43dc-ade0-eb6ad3eea666] ::1 - - [04/Oct/2025:03:40:13 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:59862/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T03:45:25.784Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T03:45:35.443Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T03:45:40.079Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T03:45:40.083Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-04T03:45:44.247Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T03:45:45.705Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T03:45:46.227Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T03:45:46.234Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T03:45:46.235Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T03:47:43.393Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T03:47:49.689Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T03:47:57.343Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T03:47:57.348Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-04T03:48:00.471Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T03:48:01.654Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T03:48:02.148Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T03:48:02.152Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T03:48:02.153Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T03:52:17.126Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T03:52:25.772Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T03:52:33.452Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T03:52:33.459Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-04T03:52:37.613Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T03:52:39.265Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T03:52:40.161Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T03:52:40.168Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T03:52:40.169Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:01:31.423Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:01:41.212Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:01:49.250Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:01:49.258Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-04T04:01:52.620Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:01:53.876Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:01:54.828Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:01:54.835Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:01:54.836Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:02:27.366Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:02:33.417Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:02:37.049Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:02:37.054Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-04T04:02:40.107Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:02:41.125Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:02:41.792Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:02:41.799Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:02:41.800Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:35:11.368Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:35:19.804Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:35:22.816Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:35:28.853Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:35:28.860Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-04T04:35:31.064Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:35:32.023Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:35:32.341Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:35:32.345Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:35:32.346Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:38:16.509Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:38:20.981Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:38:24.611Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:38:24.618Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-04T04:38:29.302Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:38:29.606Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:38:29.920Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:38:29.927Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:38:29.928Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:38:46.722Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:38:53.034Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:38:58.727Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:38:58.730Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-04T04:39:04.509Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:39:04.807Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:39:05.113Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:39:05.116Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:39:05.116Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:50:33.280Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:50:38.878Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:51:00.814Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:51:00.819Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-04T04:51:07.545Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:51:07.846Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:51:08.156Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:51:08.164Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:51:08.164Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T04:53:36.206Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:53:49.368Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:54:00.332Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:54:00.335Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-04T04:54:04.577Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:54:09.509Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:54:14.637Z [DEBUG] [req:N/A] Running in development mode
+2025-10-04T04:54:21.045Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-04T04:54:30.685Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T04:54:30.688Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-04T04:54:33.167Z [INFO] [req:N/A] 42 products already exist in the database. Skipping product seeding.
+2025-10-04T04:54:34.190Z [INFO] [req:N/A] 6 categories already exist in the database. Skipping category seeding.
+2025-10-04T04:54:34.713Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-04T04:54:34.717Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-04T04:54:34.717Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-04T05:38:44.385Z [DEBUG] [req:585d4fa5-a66c-48f7-ab7d-fca802ccaf03] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T05:38:44.387Z [DEBUG] [req:585d4fa5-a66c-48f7-ab7d-fca802ccaf03] [requireAuth] AccessToken from cookies: missing
+2025-10-04T05:38:44.387Z [DEBUG] [req:585d4fa5-a66c-48f7-ab7d-fca802ccaf03] [requireAuth] Authorization header: missing
+2025-10-04T05:38:44.388Z [WARN] [req:585d4fa5-a66c-48f7-ab7d-fca802ccaf03] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-04T05:38:44.456Z [HTTP] [req:585d4fa5-a66c-48f7-ab7d-fca802ccaf03] ::1 - - [04/Oct/2025:05:38:44 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T05:38:45.114Z [HTTP] [req:3119ddce-af49-4e34-9403-057ff5be0eed] ::1 - - [04/Oct/2025:05:38:45 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T05:38:45.120Z [HTTP] [req:a8c57284-22f8-4b7a-9fb7-58d51e119831] ::1 - - [04/Oct/2025:05:38:45 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T05:38:46.438Z [HTTP] [req:cd178bf3-c836-47f2-b2e3-8a0d2c85da4e] ::1 - - [04/Oct/2025:05:38:46 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T05:38:46.442Z [HTTP] [req:b705356d-514c-4301-b851-fc8cf4da1123] ::1 - - [04/Oct/2025:05:38:46 +0000] "GET /api/v1/categories HTTP/1.1" 200 1215 "http://localhost:55466/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) dyad/0.22.0 Chrome/134.0.6998.179 Electron/35.1.4 Safari/537.36"
+2025-10-04T06:02:22.982Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-10-04T06:04:31.004Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-04T06:22:47.445Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-10-04T06:22:53.949Z [INFO] [req:N/A] ✅ Mongoose connected to DB

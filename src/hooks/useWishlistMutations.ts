@@ -37,7 +37,19 @@ export const useAddWishlistItemMutation = () => {
 
       // Optimistically update Zustand state
       useWishlistStore.setState((state) => {
-        const product = previousWishlist?.items.find(item => item.productId._id === productId)?.productId || { _id: productId, name: 'Unknown Product', imageUrls: [], description: '', category: '', variants: [], averageRating: 0, numberOfReviews: 0 };
+        const product = previousWishlist?.items.find(item => item.productId._id === productId)?.productId || {
+          _id: productId,
+          name: 'Unknown Product',
+          imageUrls: [],
+          description: '',
+          category: '',
+          variants: [],
+          averageRating: 0,
+          numberOfReviews: 0,
+          isFeatured: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
         const variant = product.variants.find(v => v._id === variantId) || { _id: variantId, size: 'N/A', color: 'N/A', price: 0, stock: 0 };
         
         const tempId = `optimistic_${Date.now()}`;

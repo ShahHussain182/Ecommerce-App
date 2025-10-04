@@ -1,5 +1,6 @@
 import { api } from '@/lib/api';
-import { Product, ApiResponse, ProductsFilterState } from '@/types'; // Import ProductsFilterState
+import type { Product, ApiResponse, ProductsFilterState } from '@/types'; // Import ProductsFilterState
+ // Import ProductsFilterState
 import { createProductSchema, updateProductSchema } from '@/schemas/productSchema'; // Import Zod schemas
 import { z } from 'zod';
 
@@ -50,5 +51,25 @@ export const productService = {
   async deleteProduct(id: string): Promise<ApiResponse<null>> {
     const response = await api.delete(`/products/${id}`);
     return response.data;
-  }
+  },
+
+  /**
+   * Uploads multiple image files to the backend's S3 upload endpoint and updates the product.
+   * @param productId The ID of the product to update.
+   * @param files An array of File objects to upload.
+   * @returns A promise that resolves to the updated Product object.
+   */
+  async uploadProductImages(productId: string, files: File[]): Promise<ApiResponse<Product>> {
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('images', file); // 'images' must match the field name in multerConfig.js
+    });
+
+    const response = await api.post(`/products/${productId}/upload-images`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data; // Now returns ApiResponse<Product>
+  },
 };

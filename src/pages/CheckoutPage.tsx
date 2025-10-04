@@ -9,6 +9,7 @@ import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import * as orderApi from '@/lib/orderApi';
 import { ShippingAddress } from '@/types';
+import { CreateOrderPayload } from '@/lib/orderApi';// Import CreateOrderPayload
 import { toast } from 'sonner';
 
 import { Header } from '@/components/Header';
@@ -19,14 +20,14 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { Loader2, CheckCircle2, Truck, CreditCard, Package } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Zod schema for shipping address (matches backend)
 const shippingAddressSchema = z.object({
-  fullName: z.string().min(2, "Full name is required."),
+  fullName: z.string().min(2, "Full name must be at least 2 characters."),
   addressLine1: z.string().min(5, "Address Line 1 is required."),
   addressLine2: z.string().optional(),
   city: z.string().min(2, "City is required."),
@@ -34,13 +35,16 @@ const shippingAddressSchema = z.object({
   postalCode: z.string().min(3, "Postal code is required."),
   country: z.string().min(2, "Country is required."),
 });
-
+const paymentMethodSchema = z.union([
+  z.literal("credit_card"),
+  z.literal("paypal"),
+  z.literal("cash_on_delivery"),
+  z.literal(""), // keep empty string in type
+]);
 // Zod schema for the entire checkout form
 const checkoutFormSchema = z.object({
   shippingAddress: shippingAddressSchema,
-  paymentMethod: z.enum(['credit_card', 'paypal', 'cash_on_delivery'], {
-    errorMap: () => ({ message: "Please select a payment method." }),
-  }),
+  paymentMethod: paymentMethodSchema,
 });
 
 type CheckoutFormValues = z.infer<typeof checkoutFormSchema>;
@@ -64,8 +68,9 @@ const CheckoutPage = () => {
         postalCode: '',
         country: '',
       },
-      paymentMethod: 'credit_card', // Default payment method
+      paymentMethod: "", // Default payment method
     },
+    shouldUnregister: false,
   });
 
   useEffect(() => {
@@ -81,8 +86,17 @@ const CheckoutPage = () => {
   }, [user, cart, navigate]);
 
   const handleNextStep = async () => {
+    
     if (currentStep === 1) {
-      const isValid = await form.trigger('shippingAddress');
+      console.log("Form values at step 1:", form.getValues());
+      const isValid = await form.trigger([
+        'shippingAddress.fullName',
+        'shippingAddress.addressLine1',
+        'shippingAddress.city',
+        'shippingAddress.state',
+        'shippingAddress.postalCode',
+        'shippingAddress.country'
+      ]);
       if (isValid) {
         setCurrentStep(2);
       } else {
@@ -103,9 +117,11 @@ const CheckoutPage = () => {
   };
 
   const onSubmit = async (values: CheckoutFormValues) => {
+    console.log("Attempting to submit order with values:", values); // Log when onSubmit is called
     setIsPlacingOrder(true);
     try {
-      const newOrder = await orderApi.createOrder(values);
+      // Explicitly cast values to CreateOrderPayload after Zod validation
+      const newOrder = await orderApi.createOrder(values as CreateOrderPayload);
       await clearRemoteCart(); // Clear cart after successful order
       toast.success("Order Placed!", {
         description: `Your order #${newOrder._id.substring(0, 8)} has been placed successfully.`,
@@ -118,6 +134,13 @@ const CheckoutPage = () => {
     } finally {
       setIsPlacingOrder(false);
     }
+  };
+
+  const onError = (errors: any) => {
+    console.error("Form validation errors:", errors); // Log validation errors
+    toast.error("Please correct the form errors.", {
+      description: "Some required fields are missing or invalid.",
+    });
   };
 
   if (isCartLoading || !cart || cart.items.length === 0) {
@@ -137,7 +160,7 @@ const CheckoutPage = () => {
     switch (currentStep) {
       case 1:
         return (
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6"  key="step1">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2"><Truck className="h-5 w-5" /> Shipping Address</h3>
             <FormField
               control={form.control}
@@ -147,6 +170,7 @@ const CheckoutPage = () => {
                   <FormLabel>Full Name</FormLabel>
                   <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
                   <FormErrorMessage message={error?.message} />
+                  
                 </FormItem>
               )}
             />
@@ -223,7 +247,7 @@ const CheckoutPage = () => {
         );
       case 2:
         return (
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6"  key="step2">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2"><CreditCard className="h-5 w-5" /> Payment Method</h3>
             <FormField
               control={form.control}
@@ -275,9 +299,9 @@ const CheckoutPage = () => {
         const shippingData = form.getValues('shippingAddress');
         const paymentData = form.getValues('paymentMethod');
         return (
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6"  key="step3">
             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2"><CheckCircle2 className="h-5 w-5" /> Review Your Order</h3>
-            
+
             {/* Shipping Details */}
             <Card className="p-4">
               <CardTitle className="text-lg mb-2">Shipping To:</CardTitle>
@@ -335,7 +359,7 @@ const CheckoutPage = () => {
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Checkout</h1>
-        
+
         <div className="max-w-3xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Progress Indicator */}
           <div className="lg:col-span-1">
@@ -375,16 +399,16 @@ const CheckoutPage = () => {
                 </CardTitle>
               </CardHeader>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form onSubmit={form.handleSubmit(onSubmit, onError)}>
                   {renderStepContent()}
                   <CardFooter className="flex justify-between mt-6">
                     {currentStep > 1 && (
-                      <Button variant="outline" onClick={handlePreviousStep} disabled={isPlacingOrder}>
+                      <Button  type="button" variant="outline" onClick={handlePreviousStep} disabled={isPlacingOrder}>
                         Back
                       </Button>
                     )}
                     {currentStep < 3 && (
-                      <Button onClick={handleNextStep} className="ml-auto" disabled={isPlacingOrder}>
+                      <Button  type="button" onClick={handleNextStep} className="ml-auto" disabled={isPlacingOrder}>
                         Next
                       </Button>
                     )}
