@@ -1,6 +1,6 @@
 import { api } from '@/lib/api';
 import type { Product, ApiResponse, ProductsFilterState } from '@/types'; 
-import { createProductSchema, updateProductSchema } from '../schemas/productSchema'; // Corrected import path
+import { createProductSchema, updateProductSchema } from '../schemas/productSchema';
 import { z } from 'zod';
 
 // Define types for product creation and update based on Zod schemas

@@ -1,10 +1,12 @@
+"use client";
+
 import { useState, useEffect, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DialogFooter } from '@/components/ui/dialog';
-import { Plus, Trash2, Loader2, X, Image as ImageIcon, Upload } from 'lucide-react';
+import { Plus, Trash2, Loader2, X, Image as ImageIcon, Upload, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService } from '../../services/productService';
 import type { Product, ProductVariant, Category, ApiResponse } from '../../types'; 
@@ -13,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createProductSchema, updateProductSchema, ProductFormValues } from '../../schemas/productSchema'; // Import ProductFormValues
 import { z } from 'zod';
 import { Textarea } from '@/components/ui/textarea';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const MAX_IMAGES = 5;
 
@@ -57,6 +60,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
   const [isDeletingImage, setIsDeletingImage] = useState(false);
+  const [hasUnuploadedFiles, setHasUnuploadedFiles] = useState(false); // New state to track pending uploads
 
   useEffect(() => {
     if (product) {
@@ -70,6 +74,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
       });
       setSelectedFiles([]);
+      setHasUnuploadedFiles(false);
     } else {
       reset({
         name: '',
@@ -81,8 +86,13 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         variants: [{ size: '', color: '', price: 0, stock: 0 }],
       });
       setSelectedFiles([]);
+      setHasUnuploadedFiles(false);
     }
   }, [product, reset, categories]);
+
+  useEffect(() => {
+    setHasUnuploadedFiles(selectedFiles.length > 0);
+  }, [selectedFiles]);
 
   const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({
     control,
@@ -123,9 +133,10 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
     onSuccess: (response: ApiResponse<Product>) => {
       toast.success(response.message);
       setValue('imageUrls', response.product?.imageUrls || [], { shouldDirty: true });
-      setSelectedFiles([]);
+      setSelectedFiles([]); // Clear selected files after successful upload
+      setHasUnuploadedFiles(false); // No more pending uploads
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      onProductUpdated?.(response.product as Product);
+      onProductUpdated?.(response.product as Product); // Notify parent of product update
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to upload images to S3.');
@@ -155,7 +166,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
       toast.success(response.message);
       setValue('imageUrls', response.product?.imageUrls || [], { shouldDirty: true });
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      onProductUpdated?.(response.product as Product);
+      onProductUpdated?.(response.product as Product); // Notify parent of product update
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to delete image.');
@@ -179,8 +190,10 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
   };
 
   const handleFormSubmit = async (data: ProductFormValues) => {
-    // The parent component (Products.tsx) will now handle the transformation
-    // to FormData or UpdateProductData and call the respective API service.
+    if (product && hasUnuploadedFiles) {
+      toast.error("Please upload new images before updating the product.");
+      return;
+    }
     onSubmit(data);
   };
 
@@ -193,6 +206,11 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
   const canAddMoreImages = totalImagesCount < MAX_IMAGES;
   const canDeleteImages = totalImagesCount > 1;
 
+  const isAnyOperationPending = isSubmitting || isUploadingImages || isDeletingImage;
+
+  // Determine if the submit button should be disabled
+  const isSubmitButtonDisabled = isAnyOperationPending || (product && hasUnuploadedFiles);
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -201,7 +219,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
           <Input
             id="name"
             {...register('name')}
-            disabled={isSubmitting || isUploadingImages || isDeletingImage}
+            disabled={isAnyOperationPending}
           />
           {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
         </div>
@@ -211,7 +229,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
             id="category"
             {...register('category')}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            disabled={isSubmitting || isUploadingImages || isDeletingImage || categories.length === 0}
+            disabled={isAnyOperationPending || categories.length === 0}
           >
             {categories.length === 0 ? (
               <option value="">No categories available</option>
@@ -232,7 +250,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
           {...register('description')}
           className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
           rows={3}
-          disabled={isSubmitting || isUploadingImages || isDeletingImage}
+          disabled={isAnyOperationPending}
         />
         {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
       </div>
@@ -242,7 +260,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         <div className="flex items-center justify-between">
           <Label>Product Images ({totalImagesCount}/{MAX_IMAGES})</Label>
           <div className="flex space-x-2">
-            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isSubmitting || isUploadingImages || isDeletingImage || !canAddMoreImages}>
+            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isAnyOperationPending || !canAddMoreImages}>
               <ImageIcon className="mr-2 h-3 w-3" />
               Select Files
             </Button>
@@ -253,10 +271,11 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
-              disabled={isSubmitting || isUploadingImages || isDeletingImage || !canAddMoreImages}
+              disabled={isAnyOperationPending || !canAddMoreImages}
             />
+            {/* The "Upload" button is only shown for existing products to add more images */}
             {product && selectedFiles.length > 0 && (
-              <Button type="button" onClick={handleUploadNewImages} size="sm" disabled={isSubmitting || isUploadingImages || isDeletingImage || selectedFiles.length === 0}>
+              <Button type="button" onClick={handleUploadNewImages} size="sm" disabled={isAnyOperationPending || selectedFiles.length === 0}>
                 {isUploadingImages ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -274,6 +293,16 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
         )}
         {errors.imageFiles?.message && <p className="text-sm text-destructive">{String(errors.imageFiles.message)}</p>}
         {errors.imageUrls?.message && <p className="text-sm text-destructive">{String(errors.imageUrls.message)}</p>}
+        {/* The alert for pending uploads is only shown for existing products */}
+        {product && hasUnuploadedFiles && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Pending Image Uploads</AlertTitle>
+            <AlertDescription>
+              You have selected new images. Please click the "Upload" button to add them before updating the product.
+            </AlertDescription>
+          </Alert>
+        )}
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {allImagePreviews.map((url, index) => (
@@ -291,7 +320,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                     handleRemoveSelectedFile(index - (existingImageUrls?.length || 0));
                   }
                 }}
-                disabled={isSubmitting || isUploadingImages || isDeletingImage || !canDeleteImages}
+                disabled={isAnyOperationPending || !canDeleteImages}
               >
                 {isDeletingImage && index < (existingImageUrls?.length || 0) ? (
                   <Loader2 className="h-3 w-3 animate-spin" />
@@ -312,7 +341,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <Label>Product Variants (Optional)</Label>
-          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting || isUploadingImages || isDeletingImage}>
+          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isAnyOperationPending}>
             <Plus className="mr-2 h-3 w-3" />
             Add Variant
           </Button>
@@ -325,7 +354,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
               <Input
                 {...register(`variants.${index}.size`)}
                 placeholder="S, M, L"
-                disabled={isSubmitting || isUploadingImages || isDeletingImage}
+                disabled={isAnyOperationPending}
               />
               {errors.variants?.[index]?.size && <p className="text-sm text-destructive">{String(errors.variants[index]?.size?.message)}</p>}
             </div>
@@ -334,7 +363,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
               <Input
                 {...register(`variants.${index}.color`)}
                 placeholder="Black, White"
-                disabled={isSubmitting || isUploadingImages || isDeletingImage}
+                disabled={isAnyOperationPending}
               />
               {errors.variants?.[index]?.color && <p className="text-sm text-destructive">{String(errors.variants[index]?.color?.message)}</p>}
             </div>
@@ -345,7 +374,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                 {...register(`variants.${index}.price`, { valueAsNumber: true })}
                 step="0.01"
                 min="0"
-                disabled={isSubmitting || isUploadingImages || isDeletingImage}
+                disabled={isAnyOperationPending}
               />
               {errors.variants?.[index]?.price && <p className="text-sm text-destructive">{String(errors.variants[index]?.price?.message)}</p>}
             </div>
@@ -355,7 +384,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
                 type="number"
                 {...register(`variants.${index}.stock`, { valueAsNumber: true })}
                 min="0"
-                disabled={isSubmitting || isUploadingImages || isDeletingImage}
+                disabled={isAnyOperationPending}
               />
               {errors.variants?.[index]?.stock && <p className="text-sm text-destructive">{String(errors.variants[index]?.stock?.message)}</p>}
             </div>
@@ -364,7 +393,7 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
               onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={variantFields.length === 1 || isSubmitting || isUploadingImages || isDeletingImage}
+              disabled={variantFields.length === 1 || isAnyOperationPending}
             >
               <Trash2 className="h-3 w-3" />
             </Button>
@@ -379,16 +408,16 @@ export const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categori
           id="featured"
           {...register('isFeatured')}
           className="h-4 w-4"
-          disabled={isSubmitting || isUploadingImages || isDeletingImage}
+          disabled={isAnyOperationPending}
         />
         <Label htmlFor="featured">Featured Product</Label>
       </div>
 
       <DialogFooter>
-        <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting || isUploadingImages || isDeletingImage}>
+        <Button type="button" variant="outline" onClick={onClose} disabled={false}> {/* Always enable cancel */}
           Cancel
         </Button>
-        <Button type="submit" disabled={isSubmitting || isUploadingImages || isDeletingImage}>
+        <Button type="submit" disabled={isSubmitButtonDisabled}>
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {product ? 'Update' : 'Create'} Product
         </Button>

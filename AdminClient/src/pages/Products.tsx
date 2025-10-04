@@ -1,82 +1,75 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Dialog } from '@/components/ui/dialog'; // Keep Dialog for the main wrapper
-import toast from 'react-hot-toast';
-import { productService, CreateProductData, UpdateProductData } from '../services/productService';
-import type { Product, ProductsFilterState, ApiResponse } from '../types';
-import { useCategories } from '@/hooks/useCategories';
+"use client";
 
-// Import the new modular components
-import {
-  ProductsHeader,
-  ProductsFilterBar,
-  ProductsTable,
-  ProductFormDialog,
-  ProductForm, // Keep ProductForm type for onSubmit
-  ProductViewDialog, // Added ProductViewDialog import
-} from '../components/products';
+import { useState, useEffect, useRef } from 'react';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'; // Added useQuery
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { DialogFooter } from '@/components/ui/dialog';
+import { Plus, Trash2, Loader2, X, Image as ImageIcon, Upload, AlertCircle } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { productService, UpdateProductData } from '../services/productService'; // Added UpdateProductData
+import type { Product, ProductVariant, Category, ApiResponse } from '@/types'; // Changed from 'import type'
+import { useForm, useFieldArray } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createProductSchema, updateProductSchema, ProductFormValues } from '../schemas/productSchema';
 import { z } from 'zod';
-import { createProductSchema, updateProductSchema, ProductFormValues } from '../schemas/productSchema'; // Import ProductFormValues
+import { Textarea } from '@/components/ui/textarea';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ProductsHeader } from '../components/products/ProductsHeader'; // Explicit import
+import { ProductsFilterBar } from '../components/products/ProductsFilterBar'; // Explicit import
+import { ProductsTable } from '../components/products/ProductsTable'; // Explicit import
+import { ProductViewDialog } from '../components/products/ProductViewDialog'; // Explicit import
+import { ProductForm } from '../components/products/ProductForm'; // Explicit import
+import { useCategories } from '@/hooks/useCategories';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { useDebounce } from 'use-debounce';
 
 export function Products() {
   const queryClient = useQueryClient();
+  const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategories();
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false); // State for add dialog
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc'>('name-asc');
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [sortBy, setSortBy] = useState<ProductsFilterState['sortBy']>('name-asc');
 
-  const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategories();
-  const categoryNames = categories?.map(cat => cat.name) || [];
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-      setPage(1);
-    }, 500);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchTerm]);
-
-  const { data: productsData, isLoading, error } = useQuery({
+  // Query for products from API
+  const { data: productsData, isLoading, error, refetch } = useQuery({
     queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
     queryFn: () => productService.getProducts({
       page,
       limit,
       searchTerm: debouncedSearchTerm || undefined,
-      categories: selectedCategory === 'All' ? undefined : selectedCategory || undefined,
-      sortBy: sortBy,
+      categories: selectedCategory || undefined,
+      sortBy,
     }),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   const products = productsData?.products || [];
   const totalProducts = productsData?.totalProducts || 0;
   const totalPages = Math.ceil(totalProducts / limit);
 
-  // Log product data when it changes
-  useEffect(() => {
-    console.log("[Products Page] Fetched products:", products);
-  }, [products]);
-
-  useEffect(() => {
-    if (selectedProduct) {
-      console.log("[Products Page] Selected product for view/edit:", selectedProduct);
-    }
-  }, [selectedProduct]);
-
+  // Mutations for CRUD operations
   const createProductMutation = useMutation({
-    mutationFn: productService.createProduct,
-    onSuccess: (response: ApiResponse<Product>) => {
+    mutationFn: (formData: FormData) => productService.createProduct(formData),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success('Product created successfully!');
+      toast.success('Product created successfully');
       setIsAddDialogOpen(false);
     },
     onError: (err: any) => {
@@ -86,84 +79,53 @@ export function Products() {
 
   const updateProductMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProductData }) => productService.updateProduct(id, data),
-    onMutate: async ({ id, data }) => {
-      await queryClient.cancelQueries({ queryKey: ['products'] });
-      const previousProducts = queryClient.getQueryData(['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }]);
-
-      queryClient.setQueryData(
-        ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
-        (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            products: oldData.products.map((product) =>
-              product._id === id ? { ...product, ...data } : product
-            ),
-          };
-        }
-      );
-      return { previousProducts };
-    },
-    onSuccess: (response: ApiResponse<Product>) => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
       toast.success('Product updated successfully');
       setIsEditDialogOpen(false);
-      setSelectedProduct(response.product as Product);
     },
-    onError: (err: any, variables, context) => {
+    onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to update product');
-      if (context?.previousProducts) {
-        queryClient.setQueryData(
-          ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
-          context.previousProducts
-        );
-      }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
-  const handleProductFormSubmit = (data: ProductFormValues) => {
-    const cleanedVariants = data.variants?.filter(
-      (v) => v.size || v.color || v.price > 0 || v.stock > 0
-    );
+  const handleCreateProduct = (data: ProductFormValues) => {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('category', data.category);
+    formData.append('isFeatured', String(data.isFeatured)); // Convert boolean to string
 
+    // Append image files
+    data.imageFiles.forEach((file) => {
+      formData.append('images', file); // 'images' matches multer field name
+    });
+
+    // Append variants as a JSON string
+    if (data.variants && data.variants.length > 0) {
+      formData.append('variants', JSON.stringify(data.variants));
+    }
+
+    createProductMutation.mutate(formData);
+  };
+
+  const handleUpdateProduct = (data: ProductFormValues) => {
     if (selectedProduct) {
-      // This is an update operation
+      // For updates, we only send fields that might have changed, and not imageFiles
       const updateData: UpdateProductData = {
         name: data.name,
         description: data.description,
         category: data.category,
-        imageUrls: data.imageUrls, // Existing image URLs
         isFeatured: data.isFeatured,
-        variants: cleanedVariants,
+        variants: data.variants,
+        imageUrls: data.imageUrls, // Pass existing image URLs
       };
       updateProductMutation.mutate({ id: selectedProduct._id, data: updateData });
-    } else {
-      // This is a create operation
-      const formData = new FormData();
-      formData.append('name', data.name);
-      formData.append('description', data.description);
-      formData.append('category', data.category);
-      formData.append('isFeatured', String(data.isFeatured)); // Ensure boolean is stringified for FormData
-      
-      if (cleanedVariants && cleanedVariants.length > 0) {
-        formData.append('variants', JSON.stringify(cleanedVariants)); // Ensure array is stringified for FormData
-      }
-
-      // Append new image files
-      if (data.imageFiles) {
-        Array.from(data.imageFiles).forEach(file => {
-          formData.append('images', file);
-        });
-      }
-      createProductMutation.mutate(formData);
     }
   };
 
   const handleProductUpdated = (updatedProduct: Product) => {
-    setSelectedProduct(updatedProduct);
-    queryClient.invalidateQueries({ queryKey: ['products'] });
+    setSelectedProduct(updatedProduct); // Update the selected product in state
   };
 
   return (
@@ -171,10 +133,10 @@ export function Products() {
       <ProductsHeader
         categoriesLoading={categoriesLoading}
         categoriesError={categoriesError}
-        categories={categories || []} // Pass categories directly
+        categories={categories || []}
         isAddDialogOpen={isAddDialogOpen}
         setIsAddDialogOpen={setIsAddDialogOpen}
-        onSubmit={handleProductFormSubmit} // This onSubmit now expects ProductFormValues
+        onSubmit={handleCreateProduct}
         isSubmitting={createProductMutation.isPending}
       />
 
@@ -209,22 +171,30 @@ export function Products() {
         }}
         debouncedSearchTerm={debouncedSearchTerm}
         selectedCategory={selectedCategory}
-        sortBy={sortBy || 'name-asc'}
+        sortBy={sortBy}
       />
 
-      {/* ProductFormDialog for editing remains here */}
-      <ProductFormDialog
-        isOpen={isEditDialogOpen}
-        setIsOpen={setIsEditDialogOpen}
-        product={selectedProduct}
-        categories={categories || []}
-        categoriesLoading={categoriesLoading}
-        categoriesError={categoriesError}
-        onSubmit={handleProductFormSubmit} // This onSubmit now expects ProductFormValues
-        isSubmitting={updateProductMutation.isPending}
-        onProductUpdated={handleProductUpdated}
-      />
+      {/* Edit Product Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Product</DialogTitle>
+            <DialogDescription>
+              Update product details, variants, and images.
+            </DialogDescription>
+          </DialogHeader>
+          <ProductForm
+            product={selectedProduct || undefined}
+            onSubmit={handleUpdateProduct}
+            onClose={() => setIsEditDialogOpen(false)}
+            isSubmitting={updateProductMutation.isPending}
+            categories={categories || []}
+            onProductUpdated={handleProductUpdated} // Pass the callback
+          />
+        </DialogContent>
+      </Dialog>
 
+      {/* View Product Dialog */}
       <ProductViewDialog
         isOpen={isViewDialogOpen}
         setIsOpen={setIsViewDialogOpen}

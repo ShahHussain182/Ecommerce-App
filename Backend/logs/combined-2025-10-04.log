@@ -703,3 +703,210 @@
 2025-10-04T08:57:20.335Z [HTTP] [req:5d655a9d-ea44-41f1-81cd-4c6dd98d9ccc] ::1 - - [04/Oct/2025:08:57:20 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-04T08:57:24.193Z [HTTP] [req:5d9e5ed0-b109-4b97-859f-726a98265123] ::1 - - [04/Oct/2025:08:57:24 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=te&sortBy=name-asc HTTP/1.1" 200 1593 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-04T08:57:24.772Z [HTTP] [req:0aea4d91-8d42-4c02-8d9f-6befe2847dca] ::1 - - [04/Oct/2025:08:57:24 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=tea&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:59:52.450Z [HTTP] [req:d9f5ddec-9cd8-4ccb-8e80-3dfa883b6504] ::1 - - [04/Oct/2025:08:59:52 +0000] "OPTIONS /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:59:52.676Z [DEBUG] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] [requireAuth] Attempting to authenticate for path: /68e0de27478b98e025aef066
+2025-10-04T08:59:52.677Z [DEBUG] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] [requireAuth] AccessToken from cookies: present
+2025-10-04T08:59:52.678Z [DEBUG] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] [requireAuth] Authorization header: missing
+2025-10-04T08:59:52.681Z [DEBUG] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T08:59:52.908Z [DEBUG] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T08:59:52.909Z [DEBUG] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T08:59:53.898Z [HTTP] [req:c1d84f4f-cf94-4ba6-9b03-f90e01ff5ffe] ::1 - - [04/Oct/2025:08:59:53 +0000] "PUT /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 200 582 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T08:59:54.491Z [HTTP] [req:c3619d4c-3209-4001-ae85-67b06357ef74] ::1 - - [04/Oct/2025:08:59:54 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=tea&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:03:33.511Z [HTTP] [req:b807e793-6fb1-4120-afc4-7e1d08f1d717] ::1 - - [04/Oct/2025:09:03:33 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:06:26.369Z [DEBUG] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:06:26.370Z [DEBUG] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:06:26.372Z [DEBUG] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] [requireAuth] Authorization header: missing
+2025-10-04T09:06:26.376Z [DEBUG] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:06:26.617Z [DEBUG] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:06:26.618Z [DEBUG] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:06:26.797Z [HTTP] [req:de525bf9-3181-4f68-8fba-c49fba828ed6] ::1 - - [04/Oct/2025:09:06:26 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:06:28.675Z [HTTP] [req:1d92eaa7-400e-4913-8677-4554922cc323] ::1 - - [04/Oct/2025:09:06:28 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:06:33.786Z [HTTP] [req:5f35d523-b96c-4ddb-837b-557dee878436] ::1 - - [04/Oct/2025:09:06:33 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:06:48.803Z [HTTP] [req:976581c0-35b9-49ba-adcf-aaa0383c8f9c] ::1 - - [04/Oct/2025:09:06:48 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=tea&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:06:49.353Z [HTTP] [req:842c6e66-178b-42df-96cf-17b1f019fb98] ::1 - - [04/Oct/2025:09:06:49 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:07:05.735Z [DEBUG] [req:e98b87ba-0fad-434f-906b-9ce728704250] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:07:05.736Z [DEBUG] [req:e98b87ba-0fad-434f-906b-9ce728704250] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:07:05.737Z [DEBUG] [req:e98b87ba-0fad-434f-906b-9ce728704250] [requireAuth] Authorization header: missing
+2025-10-04T09:07:05.739Z [DEBUG] [req:e98b87ba-0fad-434f-906b-9ce728704250] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:07:05.908Z [DEBUG] [req:e98b87ba-0fad-434f-906b-9ce728704250] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:07:05.909Z [DEBUG] [req:e98b87ba-0fad-434f-906b-9ce728704250] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:07:06.081Z [HTTP] [req:e98b87ba-0fad-434f-906b-9ce728704250] ::1 - - [04/Oct/2025:09:07:06 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:07:06.667Z [HTTP] [req:87c061c0-11d7-4f85-bb3f-0f2bb837950d] ::1 - - [04/Oct/2025:09:07:06 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:07:06.895Z [HTTP] [req:4a6dca43-d163-4e5b-ac93-5eb813e919a8] ::1 - - [04/Oct/2025:09:07:06 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:10:59.029Z [HTTP] [req:9c8918c1-c9e8-47e7-b201-40936b558e80] ::1 - - [04/Oct/2025:09:10:59 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:11:18.470Z [HTTP] [req:c60bb037-8cd3-4efc-87f7-120ef7a9bfd3] ::1 - - [04/Oct/2025:09:11:18 +0000] "OPTIONS /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:11:18.639Z [DEBUG] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] [requireAuth] Attempting to authenticate for path: /68e0de27478b98e025aef066
+2025-10-04T09:11:18.639Z [DEBUG] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:11:18.640Z [DEBUG] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] [requireAuth] Authorization header: missing
+2025-10-04T09:11:18.642Z [DEBUG] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:11:18.808Z [DEBUG] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:11:18.808Z [DEBUG] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:11:19.570Z [HTTP] [req:1bb97e30-807a-45ca-8b4d-5f8d014f2790] ::1 - - [04/Oct/2025:09:11:19 +0000] "PUT /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 200 582 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:11:20.070Z [HTTP] [req:d6da94ec-7cd6-4758-a6d8-0671381a068c] ::1 - - [04/Oct/2025:09:11:20 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:16:07.996Z [DEBUG] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] [requireAuth] Attempting to authenticate for path: /sales
+2025-10-04T09:16:07.997Z [DEBUG] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:16:07.998Z [DEBUG] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] [requireAuth] Authorization header: missing
+2025-10-04T09:16:08.000Z [DEBUG] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:16:08.168Z [DEBUG] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:16:08.169Z [DEBUG] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:16:08.527Z [HTTP] [req:dd10ec9f-6497-435a-a8c5-29a240ce94d6] ::1 - - [04/Oct/2025:09:16:08 +0000] "GET /api/v1/reports/sales?period=monthly HTTP/1.1" 200 65 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:16:35.826Z [DEBUG] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] [requireAuth] Attempting to authenticate for path: /customers
+2025-10-04T09:16:35.827Z [DEBUG] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:16:35.827Z [DEBUG] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] [requireAuth] Authorization header: missing
+2025-10-04T09:16:35.830Z [DEBUG] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:16:35.997Z [DEBUG] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:16:35.997Z [DEBUG] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:16:36.344Z [HTTP] [req:4d7b22f7-a243-49cd-9228-be96bfed3aed] ::1 - - [04/Oct/2025:09:16:36 +0000] "GET /api/v1/reports/customers?type=all HTTP/1.1" 200 184 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:26:09.069Z [HTTP] [req:a3f02647-0242-44bb-912f-d0f88d4e1898] ::1 - - [04/Oct/2025:09:26:09 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:26:09.519Z [HTTP] [req:52f17c8f-5c3d-45e0-b83f-ce4a5a041e02] ::1 - - [04/Oct/2025:09:26:09 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:26:18.598Z [HTTP] [req:014c5551-7e60-4aab-8c85-cb94cd8971f6] ::1 - - [04/Oct/2025:09:26:18 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:27:42.843Z [DEBUG] [req:a254c01a-cd01-4dd8-a96b-672613dd2a7f] [requireAuth] Attempting to authenticate for path: /68e0de27478b98e025aef066/upload-images
+2025-10-04T09:27:42.844Z [DEBUG] [req:a254c01a-cd01-4dd8-a96b-672613dd2a7f] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:27:42.847Z [DEBUG] [req:a254c01a-cd01-4dd8-a96b-672613dd2a7f] [requireAuth] Authorization header: missing
+2025-10-04T09:27:42.851Z [DEBUG] [req:a254c01a-cd01-4dd8-a96b-672613dd2a7f] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:27:43.104Z [DEBUG] [req:a254c01a-cd01-4dd8-a96b-672613dd2a7f] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:27:43.105Z [DEBUG] [req:a254c01a-cd01-4dd8-a96b-672613dd2a7f] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:27:43.442Z [INFO] [req:N/A] ✅ File uploaded: products/68e0de27478b98e025aef066/4251bb73-4e4d-4954-bd66-3dc7548588f8-1759570063374.jpg
+2025-10-04T09:27:44.341Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:09:27:44 +0000] "POST /api/v1/products/68e0de27478b98e025aef066/upload-images HTTP/1.1" 200 734 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:27:45.003Z [HTTP] [req:665c3e05-de5b-42d1-aef1-c39954c29736] ::1 - - [04/Oct/2025:09:27:45 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 200 1141 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:27:45.320Z [HTTP] [req:8f65ee38-9b82-4711-83cd-f9e6c5a109dd] ::1 - - [04/Oct/2025:09:27:45 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:28:33.180Z [DEBUG] [req:e3d72a78-5f60-45e2-89bc-9c52aa614a86] [requireAuth] Attempting to authenticate for path: /68e0de27478b98e025aef066/upload-images
+2025-10-04T09:28:33.181Z [DEBUG] [req:e3d72a78-5f60-45e2-89bc-9c52aa614a86] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:28:33.182Z [DEBUG] [req:e3d72a78-5f60-45e2-89bc-9c52aa614a86] [requireAuth] Authorization header: missing
+2025-10-04T09:28:33.184Z [DEBUG] [req:e3d72a78-5f60-45e2-89bc-9c52aa614a86] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:28:33.437Z [DEBUG] [req:e3d72a78-5f60-45e2-89bc-9c52aa614a86] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:28:33.438Z [DEBUG] [req:e3d72a78-5f60-45e2-89bc-9c52aa614a86] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:28:33.750Z [INFO] [req:N/A] ✅ File uploaded: products/68e0de27478b98e025aef066/73440714-ebfe-4540-a5fc-9c3eaa054255-1759570113697.jpg
+2025-10-04T09:28:34.671Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:09:28:34 +0000] "POST /api/v1/products/68e0de27478b98e025aef066/upload-images HTTP/1.1" 200 862 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:28:35.320Z [HTTP] [req:cb3eeab0-6934-427f-8923-39f87a112889] ::1 - - [04/Oct/2025:09:28:35 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 200 1269 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:28:35.627Z [HTTP] [req:4dca47c6-5a8e-46c7-afdc-378273e5b24c] ::1 - - [04/Oct/2025:09:28:35 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:28:42.722Z [HTTP] [req:01816ba9-8e08-4b32-a6c4-81ec714102e8] ::1 - - [04/Oct/2025:09:28:42 +0000] "OPTIONS /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:28:42.975Z [DEBUG] [req:c31a08c8-39f9-4637-bab9-e551555a956e] [requireAuth] Attempting to authenticate for path: /68e0de27478b98e025aef066
+2025-10-04T09:28:42.976Z [DEBUG] [req:c31a08c8-39f9-4637-bab9-e551555a956e] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:28:42.978Z [DEBUG] [req:c31a08c8-39f9-4637-bab9-e551555a956e] [requireAuth] Authorization header: missing
+2025-10-04T09:28:42.982Z [DEBUG] [req:c31a08c8-39f9-4637-bab9-e551555a956e] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:28:43.237Z [DEBUG] [req:c31a08c8-39f9-4637-bab9-e551555a956e] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:28:43.238Z [DEBUG] [req:c31a08c8-39f9-4637-bab9-e551555a956e] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:28:45.079Z [HTTP] [req:c31a08c8-39f9-4637-bab9-e551555a956e] ::1 - - [04/Oct/2025:09:28:45 +0000] "PUT /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 200 838 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:28:45.737Z [HTTP] [req:3302c7ef-ab37-4c2b-a69a-f3cb070093bd] ::1 - - [04/Oct/2025:09:28:45 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:18.735Z [DEBUG] [req:1653c37e-bb3a-4dce-8684-494a74b9a800] [requireAuth] Attempting to authenticate for path: /68cf8b4953809e4ca0436f5a/upload-images
+2025-10-04T09:29:18.736Z [DEBUG] [req:1653c37e-bb3a-4dce-8684-494a74b9a800] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:18.738Z [DEBUG] [req:1653c37e-bb3a-4dce-8684-494a74b9a800] [requireAuth] Authorization header: missing
+2025-10-04T09:29:18.742Z [DEBUG] [req:1653c37e-bb3a-4dce-8684-494a74b9a800] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:18.996Z [DEBUG] [req:1653c37e-bb3a-4dce-8684-494a74b9a800] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:18.997Z [DEBUG] [req:1653c37e-bb3a-4dce-8684-494a74b9a800] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:29:19.330Z [INFO] [req:N/A] ✅ File uploaded: products/68cf8b4953809e4ca0436f5a/36aebaf9-a8f0-413d-9d07-da5735d13a81-1759570159262.jpg
+2025-10-04T09:29:20.239Z [HTTP] [req:N/A] ::1 - - [04/Oct/2025:09:29:20 +0000] "POST /api/v1/products/68cf8b4953809e4ca0436f5a/upload-images HTTP/1.1" 200 719 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:20.897Z [HTTP] [req:5c550d0d-4709-4918-9fd7-01240bcf544d] ::1 - - [04/Oct/2025:09:29:20 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 200 1397 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:21.216Z [HTTP] [req:4515d16a-f433-4276-9de3-43f3176d6626] ::1 - - [04/Oct/2025:09:29:21 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:24.379Z [HTTP] [req:decb626b-7da4-410e-86ce-39769158f760] ::1 - - [04/Oct/2025:09:29:24 +0000] "OPTIONS /api/v1/products/68cf8b4953809e4ca0436f5a/images?imageUrl=%2Fplaceholder.svg HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:24.633Z [DEBUG] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] [requireAuth] Attempting to authenticate for path: /68cf8b4953809e4ca0436f5a/images
+2025-10-04T09:29:24.634Z [DEBUG] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:24.636Z [DEBUG] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] [requireAuth] Authorization header: missing
+2025-10-04T09:29:24.640Z [DEBUG] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:25.381Z [DEBUG] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:25.382Z [DEBUG] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:29:25.711Z [INFO] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] Deleted S3 object: /placeholder.svg
+2025-10-04T09:29:26.802Z [HTTP] [req:333bfcdb-c609-48ad-9b9a-471359015b0f] ::1 - - [04/Oct/2025:09:29:26 +0000] "DELETE /api/v1/products/68cf8b4953809e4ca0436f5a/images?imageUrl=%2Fplaceholder.svg HTTP/1.1" 200 674 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:27.464Z [HTTP] [req:a7134e78-756a-4d27-886c-a4eaad4ce8d1] ::1 - - [04/Oct/2025:09:29:27 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 200 1378 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:27.772Z [HTTP] [req:3804ed89-2cef-4cfd-bfe0-6429d46ea8e2] ::1 - - [04/Oct/2025:09:29:27 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:29.820Z [HTTP] [req:e288e73c-0a4a-4345-a144-b6cc44f6345c] ::1 - - [04/Oct/2025:09:29:29 +0000] "OPTIONS /api/v1/products/68cf8b4953809e4ca0436f5a HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:30.658Z [DEBUG] [req:15939837-d944-42f1-b5d3-12889494ad6f] [requireAuth] Attempting to authenticate for path: /68cf8b4953809e4ca0436f5a
+2025-10-04T09:29:30.659Z [DEBUG] [req:15939837-d944-42f1-b5d3-12889494ad6f] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:30.661Z [DEBUG] [req:15939837-d944-42f1-b5d3-12889494ad6f] [requireAuth] Authorization header: missing
+2025-10-04T09:29:30.666Z [DEBUG] [req:15939837-d944-42f1-b5d3-12889494ad6f] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:30.973Z [DEBUG] [req:15939837-d944-42f1-b5d3-12889494ad6f] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:30.974Z [DEBUG] [req:15939837-d944-42f1-b5d3-12889494ad6f] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:29:31.843Z [HTTP] [req:15939837-d944-42f1-b5d3-12889494ad6f] ::1 - - [04/Oct/2025:09:29:31 +0000] "PUT /api/v1/products/68cf8b4953809e4ca0436f5a HTTP/1.1" 200 676 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:32.768Z [HTTP] [req:f97797fe-61af-45ef-afac-2700c73923f5] ::1 - - [04/Oct/2025:09:29:32 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=team&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:53.518Z [DEBUG] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:29:53.518Z [DEBUG] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:53.520Z [DEBUG] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] [requireAuth] Authorization header: missing
+2025-10-04T09:29:53.521Z [DEBUG] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:53.836Z [DEBUG] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:53.836Z [DEBUG] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:29:54.746Z [HTTP] [req:a949f045-55a1-4a0c-8f8d-c625f48adcc6] ::1 - - [04/Oct/2025:09:29:54 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:55.024Z [DEBUG] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] [requireAuth] Attempting to authenticate for path: /
+2025-10-04T09:29:55.025Z [DEBUG] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:55.026Z [DEBUG] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] [requireAuth] Authorization header: missing
+2025-10-04T09:29:55.036Z [DEBUG] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:55.397Z [DEBUG] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:55.398Z [DEBUG] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:29:55.621Z [HTTP] [req:b6c9a0c2-b58f-48f1-bedf-ffe8a2722adb] ::1 - - [04/Oct/2025:09:29:55 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:56.893Z [DEBUG] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] [requireAuth] Attempting to authenticate for path: /
+2025-10-04T09:29:56.894Z [DEBUG] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:56.895Z [DEBUG] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] [requireAuth] Authorization header: missing
+2025-10-04T09:29:56.897Z [DEBUG] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:57.149Z [DEBUG] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:57.150Z [DEBUG] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:29:57.700Z [HTTP] [req:13a81242-e8f7-496b-8d7c-2a4eacc9b7e0] ::1 - - [04/Oct/2025:09:29:57 +0000] "GET /api/v1/products/featured HTTP/1.1" 200 2624 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:59.137Z [HTTP] [req:d0d7d13b-eb16-4fed-9489-d6ce181e020b] ::1 - - [04/Oct/2025:09:29:59 +0000] "GET /api/v1/wishlist HTTP/1.1" 200 7294 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:59.385Z [HTTP] [req:47bce305-2aab-4c90-a7c3-a16645b8b03b] ::1 - - [04/Oct/2025:09:29:59 +0000] "GET /api/v1/cart HTTP/1.1" 200 3982 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:29:59.457Z [DEBUG] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] [requireAuth] Attempting to authenticate for path: /
+2025-10-04T09:29:59.458Z [DEBUG] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:29:59.460Z [DEBUG] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] [requireAuth] Authorization header: missing
+2025-10-04T09:29:59.465Z [DEBUG] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:29:59.794Z [DEBUG] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:29:59.794Z [DEBUG] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:30:00.904Z [HTTP] [req:58cad174-51cc-4742-bd4b-c414a9a6ee53] ::1 - - [04/Oct/2025:09:30:00 +0000] "GET /api/v1/cart HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:01.466Z [DEBUG] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:30:01.467Z [DEBUG] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:30:01.468Z [DEBUG] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] [requireAuth] Authorization header: missing
+2025-10-04T09:30:01.470Z [DEBUG] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:30:01.795Z [DEBUG] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:30:01.796Z [DEBUG] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:30:02.120Z [HTTP] [req:4bc53d65-a62d-4ce3-8558-23694c7458fa] ::1 - - [04/Oct/2025:09:30:02 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:02.268Z [HTTP] [req:2f2448ff-9615-4b4a-9a0e-be28df502ae4] ::1 - - [04/Oct/2025:09:30:02 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 200 7050 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:02.573Z [HTTP] [req:0ca83731-0410-4ac4-bbdf-21a407af1ce1] ::1 - - [04/Oct/2025:09:30:02 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:05.190Z [DEBUG] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:30:05.191Z [DEBUG] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:30:05.192Z [DEBUG] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] [requireAuth] Authorization header: missing
+2025-10-04T09:30:05.194Z [DEBUG] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:30:05.851Z [HTTP] [req:850f6e0c-800c-450c-80f9-2ad24be9b2a6] ::1 - - [04/Oct/2025:09:30:05 +0000] "GET /api/v1/products/68e0de27478b98e025aef066 HTTP/1.1" 200 796 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:06.127Z [DEBUG] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:30:06.127Z [DEBUG] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:30:06.395Z [HTTP] [req:98a381bc-b31d-4909-ad0e-d66faa66976c] ::1 - - [04/Oct/2025:09:30:06 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:06.767Z [HTTP] [req:f8c605b5-871b-4b3c-b4c0-4afe09b79244] ::1 - - [04/Oct/2025:09:30:06 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:07.279Z [HTTP] [req:15b6ce44-c831-4b7f-8e69-a949d701ff3d] ::1 - - [04/Oct/2025:09:30:07 +0000] "GET /api/v1/reviews/product/68e0de27478b98e025aef066?page=1&limit=10 HTTP/1.1" 200 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:15.585Z [DEBUG] [req:948f92ad-157a-41a0-b970-b09871fecbbc] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:30:15.586Z [DEBUG] [req:948f92ad-157a-41a0-b970-b09871fecbbc] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:30:15.587Z [DEBUG] [req:948f92ad-157a-41a0-b970-b09871fecbbc] [requireAuth] Authorization header: missing
+2025-10-04T09:30:15.590Z [DEBUG] [req:948f92ad-157a-41a0-b970-b09871fecbbc] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:30:15.874Z [DEBUG] [req:948f92ad-157a-41a0-b970-b09871fecbbc] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:30:15.874Z [DEBUG] [req:948f92ad-157a-41a0-b970-b09871fecbbc] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:30:16.071Z [HTTP] [req:760ea8be-29e4-4c54-9088-c8982447ef63] ::1 - - [04/Oct/2025:09:30:16 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:16.085Z [HTTP] [req:948f92ad-157a-41a0-b970-b09871fecbbc] ::1 - - [04/Oct/2025:09:30:16 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:20.635Z [HTTP] [req:6b18695a-4c78-45a4-9c8e-656e0c3e54e2] ::1 - - [04/Oct/2025:09:30:20 +0000] "GET /api/v1/products?page=2&limit=12&priceRange=0%2C500&sortBy=price-asc HTTP/1.1" 200 6531 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:28.700Z [HTTP] [req:bed2649f-ae82-4ac3-a6de-1bea4d4b883f] ::1 - - [04/Oct/2025:09:30:28 +0000] "GET /api/v1/products/suggestions?query=te HTTP/1.1" 200 91 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:28.945Z [HTTP] [req:b5a4b186-469c-4ea5-878b-d687821588fa] ::1 - - [04/Oct/2025:09:30:28 +0000] "GET /api/v1/products/suggestions?query=team HTTP/1.1" 200 65 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:29.181Z [HTTP] [req:e8f5d520-21df-4f85-b3e4-7a33fb8169b5] ::1 - - [04/Oct/2025:09:30:29 +0000] "GET /api/v1/products?page=1&limit=12&priceRange=0%2C500&sortBy=relevance-desc&searchTerm=team HTTP/1.1" 200 1378 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:29.466Z [HTTP] [req:e0daa378-5c4e-4fc6-bc99-bdc706d0addb] ::1 - - [04/Oct/2025:09:30:29 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:30.833Z [DEBUG] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:30:30.834Z [DEBUG] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:30:30.836Z [DEBUG] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] [requireAuth] Authorization header: missing
+2025-10-04T09:30:30.840Z [DEBUG] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:30:31.206Z [DEBUG] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:30:31.207Z [DEBUG] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:30:31.554Z [HTTP] [req:172a9ed0-0548-4ac2-be61-e96e2dd8eb96] ::1 - - [04/Oct/2025:09:30:31 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:32.172Z [DEBUG] [req:430c201c-1f75-40e2-a73a-b900d0258013] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-04T09:30:32.173Z [DEBUG] [req:430c201c-1f75-40e2-a73a-b900d0258013] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:30:32.174Z [DEBUG] [req:430c201c-1f75-40e2-a73a-b900d0258013] [requireAuth] Authorization header: missing
+2025-10-04T09:30:32.176Z [DEBUG] [req:430c201c-1f75-40e2-a73a-b900d0258013] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:30:32.505Z [DEBUG] [req:430c201c-1f75-40e2-a73a-b900d0258013] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:30:32.506Z [DEBUG] [req:430c201c-1f75-40e2-a73a-b900d0258013] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:30:32.762Z [HTTP] [req:c503b08e-16a2-4835-9ac9-aec87051ecd1] ::1 - - [04/Oct/2025:09:30:32 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:32.822Z [HTTP] [req:24e5dd5e-6bad-4e1c-9831-e589f35bbe8b] ::1 - - [04/Oct/2025:09:30:32 +0000] "GET /api/v1/products/68cf8b4953809e4ca0436f5a HTTP/1.1" 200 634 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:32.826Z [HTTP] [req:430c201c-1f75-40e2-a73a-b900d0258013] ::1 - - [04/Oct/2025:09:30:32 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:33.748Z [HTTP] [req:72e2eba1-87a4-4a08-812a-146f780a3481] ::1 - - [04/Oct/2025:09:30:33 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:30:34.403Z [HTTP] [req:879647e1-b3d8-4c35-9a19-a15a335fb580] ::1 - - [04/Oct/2025:09:30:34 +0000] "GET /api/v1/reviews/product/68cf8b4953809e4ca0436f5a?page=1&limit=10 HTTP/1.1" 200 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:31:13.669Z [HTTP] [req:c88527ea-80c0-47da-b26c-a894dc057af7] ::1 - - [04/Oct/2025:09:31:13 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:31:30.015Z [HTTP] [req:1241949e-ba8e-44d1-8d54-e1f1863c5b7d] ::1 - - [04/Oct/2025:09:31:30 +0000] "OPTIONS /api/v1/categories HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:31:30.277Z [DEBUG] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] [requireAuth] Attempting to authenticate for path: /
+2025-10-04T09:31:30.277Z [DEBUG] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] [requireAuth] AccessToken from cookies: present
+2025-10-04T09:31:30.279Z [DEBUG] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] [requireAuth] Authorization header: missing
+2025-10-04T09:31:30.280Z [DEBUG] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-04T09:31:30.450Z [DEBUG] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-04T09:31:30.451Z [DEBUG] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] [requireAuth] Session iPxW6-gekY_JLBsHz88OhlvxAwwkdI5T touched.
+2025-10-04T09:31:31.791Z [HTTP] [req:901308d8-eb43-4928-bf74-7e0ed362c78f] ::1 - - [04/Oct/2025:09:31:31 +0000] "POST /api/v1/categories HTTP/1.1" 201 234 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:31:32.728Z [HTTP] [req:7272c668-82b8-40d6-aacf-559e68e35909] ::1 - - [04/Oct/2025:09:31:32 +0000] "GET /api/v1/categories HTTP/1.1" 200 1379 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-04T09:31:36.409Z [HTTP] [req:38d664b0-b2f6-4220-99a7-c7eff8b2f70d] ::1 - - [04/Oct/2025:09:31:36 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
