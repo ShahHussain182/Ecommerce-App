@@ -9,11 +9,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Plus, Search, Filter, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X, Image as ImageIcon, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { productService, CreateProductData, UpdateProductData } from '@/services/productService';
+import { productService, CreateProductData, UpdateProductData } from '../services/productService'; // Corrected import path
 import type { Product, ProductVariant, Category, ProductsFilterState, ApiResponse } from '@/types'; 
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createProductSchema, updateProductSchema } from '@/schemas/productSchema';
+import { createProductSchema, updateProductSchema } from '../schemas/productSchema'; // Corrected import path
 import { z } from 'zod';
 import {
   DropdownMenu,
@@ -42,7 +42,8 @@ import {
 } from "@/components/ui/alert-dialog";
 
 // Type for the form data, combining create and update schemas
-type ProductFormValues = z.infer<typeof createProductSchema>;
+// For creation, imageFiles will be used. For update, imageUrls will be used.
+type ProductFormValues = z.infer<typeof createProductSchema> & z.infer<typeof updateProductSchema>;
 
 const getTotalStock = (variants?: ProductVariant[]) => {
   return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
@@ -58,9 +59,11 @@ const getStockStatus = (totalStock: number) => {
   return { status: 'In Stock', variant: 'default' as const };
 };
 
+const MAX_IMAGES = 5; // Defined MAX_IMAGES here
+
 interface ProductFormProps {
   product?: Product;
-  onSubmit: (data: ProductFormValues) => void;
+  onSubmit: (data: CreateProductData | UpdateProductData | FormData) => void; // Updated type to accept FormData or UpdateProductData
   onClose: () => void;
   isSubmitting: boolean;
   categories: Category[];
@@ -69,6 +72,7 @@ interface ProductFormProps {
 
 const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onProductUpdated }: ProductFormProps) => {
   const queryClient = useQueryClient();
+  // Use different schemas based on whether we are creating or editing
   const formSchema = product ? updateProductSchema : createProductSchema;
 
   const {
@@ -86,7 +90,8 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
       name: product?.name || '',
       description: product?.description || '',
       category: product?.category || (categories.length > 0 ? categories[0].name : ''),
-      imageUrls: product?.imageUrls || [],
+      imageUrls: product?.imageUrls || [], // For existing images
+      imageFiles: undefined, // For new files to upload
       isFeatured: product?.isFeatured || false,
       variants: product?.variants && product.variants.length > 0
         ? product.variants
@@ -94,10 +99,11 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
     },
   });
 
-  const currentImageUrls = watch('imageUrls'); // Watch the imageUrls array from the form
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const existingImageUrls = watch('imageUrls'); // Watch the existing S3 image URLs
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // For newly selected files
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [isDeletingImage, setIsDeletingImage] = useState(false); // New state for image deletion
 
   // Effect to reset form and image states when product prop changes
   useEffect(() => {
@@ -107,6 +113,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
         description: product.description,
         category: product.category,
         imageUrls: product.imageUrls || [],
+        imageFiles: undefined, // Clear file input
         isFeatured: product.isFeatured,
         variants: product.variants && product.variants.length > 0 ? product.variants : [{ size: '', color: '', price: 0, stock: 0 }],
       });
@@ -117,6 +124,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
         description: '',
         category: categories.length > 0 ? categories[0].name : '',
         imageUrls: [],
+        imageFiles: undefined,
         isFeatured: false,
         variants: [{ size: '', color: '', price: 0, stock: 0 }],
       });
@@ -133,7 +141,17 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);
+      const currentTotalImages = (existingImageUrls?.length || 0) + selectedFiles.length;
+      const newTotalImages = currentTotalImages + filesArray.length;
+
+      if (newTotalImages > MAX_IMAGES) {
+        toast.error(`You can only have a maximum of ${MAX_IMAGES} images. You are trying to add ${filesArray.length} more, which would exceed the limit.`);
+        return;
+      }
+
       setSelectedFiles(prev => [...prev, ...filesArray]);
+      // Also update the form's imageFiles field for validation during creation
+      setValue('imageFiles', [...selectedFiles, ...filesArray], { shouldValidate: true });
       // Clear the input value so the same file can be selected again if needed
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -143,26 +161,24 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
 
   // Remove a newly selected local file (not yet uploaded to S3)
   const handleRemoveSelectedFile = (indexToRemove: number) => {
-    setSelectedFiles(prev => prev.filter((_, index) => index !== indexToRemove));
+    setSelectedFiles(prev => {
+      const updatedFiles = prev.filter((_, index) => index !== indexToRemove);
+      setValue('imageFiles', updatedFiles, { shouldValidate: true }); // Update form field for validation
+      return updatedFiles;
+    });
   };
 
-  // Remove an existing S3 image URL from the form's imageUrls array
-  const handleRemoveExistingImage = (indexToRemove: number) => {
-    const updatedImageUrls = currentImageUrls.filter((_, index) => index !== indexToRemove);
-    setValue('imageUrls', updatedImageUrls, { shouldDirty: true }); // Mark form as dirty
-  };
-
-  // Mutation for uploading images
+  // Mutation for uploading images (used for adding images to an existing product)
   const uploadImagesMutation = useMutation({
     mutationFn: ({ productId, files }: { productId: string; files: File[] }) =>
       productService.uploadProductImages(productId, files),
     onSuccess: (response: ApiResponse<Product>) => {
       toast.success(response.message);
       // Update the form's imageUrls with the new list from the backend
-      setValue('imageUrls', response.data.imageUrls, { shouldDirty: true });
+      setValue('imageUrls', response.product?.imageUrls || [], { shouldDirty: true }); // Use response.product
       setSelectedFiles([]); // Clear selected files after successful upload
       queryClient.invalidateQueries({ queryKey: ['products'] }); // Invalidate products query
-      onProductUpdated?.(response.data); // Notify parent of product update
+      onProductUpdated?.(response.product as Product); // Notify parent of product update
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to upload images to S3.');
@@ -185,18 +201,78 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
     uploadImagesMutation.mutate({ productId: product._id, files: selectedFiles });
   };
 
-  const handleFormSubmit = (data: ProductFormValues) => {
-    // Filter out any completely empty variant fields before submission
+  // Mutation for deleting an individual image
+  const deleteImageMutation = useMutation({
+    mutationFn: ({ productId, imageUrl }: { productId: string; imageUrl: string }) =>
+      productService.deleteProductImage(productId, imageUrl),
+    onSuccess: (response: ApiResponse<Product>) => {
+      toast.success(response.message);
+      setValue('imageUrls', response.product?.imageUrls || [], { shouldDirty: true }); // Use response.product
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      onProductUpdated?.(response.product as Product);
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || 'Failed to delete image.');
+    },
+    onSettled: () => {
+      setIsDeletingImage(false);
+    },
+  });
+
+  const handleRemoveExistingImage = (imageUrlToRemove: string) => {
+    if (!product?._id) {
+      toast.error("Cannot delete image from a product that hasn't been created.");
+      return;
+    }
+    if ((existingImageUrls?.length || 0) + selectedFiles.length <= 1) {
+      toast.error("A product must have at least one image.");
+      return;
+    }
+    setIsDeletingImage(true);
+    deleteImageMutation.mutate({ productId: product._id, imageUrl: imageUrlToRemove });
+  };
+
+  const handleFormSubmit = async (data: ProductFormValues) => {
     const cleanedVariants = data.variants?.filter(
       (v) => v.size || v.color || v.price > 0 || v.stock > 0
     );
-    onSubmit({ ...data, variants: cleanedVariants });
+
+    if (product) {
+      // Update existing product
+      // For updates, we don't send imageFiles in the main product update payload
+      // Image updates are handled by separate upload/delete mutations
+      const { imageFiles, ...rest } = data; // Exclude imageFiles from the update payload
+      onSubmit({ ...rest, variants: cleanedVariants, imageUrls: existingImageUrls } as UpdateProductData);
+    } else {
+      // Create new product
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+      formData.append('category', data.category);
+      formData.append('isFeatured', String(data.isFeatured));
+      
+      // Append variants as a JSON string
+      if (cleanedVariants && cleanedVariants.length > 0) {
+        formData.append('variants', JSON.stringify(cleanedVariants));
+      }
+
+      // Append image files
+      selectedFiles.forEach(file => {
+        formData.append('images', file);
+      });
+
+      onSubmit(formData); // Call the onSubmit prop with FormData
+    }
   };
 
   const allImagePreviews = [
-    ...(currentImageUrls || []),
+    ...(existingImageUrls || []),
     ...selectedFiles.map(file => URL.createObjectURL(file))
   ];
+
+  const totalImagesCount = (existingImageUrls?.length || 0) + selectedFiles.length;
+  const canAddMoreImages = totalImagesCount < MAX_IMAGES;
+  const canDeleteImages = totalImagesCount > 1;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
@@ -206,7 +282,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
           <Input
             id="name"
             {...register('name')}
-            disabled={isSubmitting || isUploadingImages}
+            disabled={isSubmitting || isUploadingImages || isDeletingImage}
           />
           {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
         </div>
@@ -216,7 +292,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
             id="category"
             {...register('category')}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            disabled={isSubmitting || isUploadingImages || categories.length === 0}
+            disabled={isSubmitting || isUploadingImages || isDeletingImage || categories.length === 0}
           >
             {categories.length === 0 ? (
               <option value="">No categories available</option>
@@ -237,7 +313,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
           {...register('description')}
           className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
           rows={3}
-          disabled={isSubmitting || isUploadingImages}
+          disabled={isSubmitting || isUploadingImages || isDeletingImage}
         />
         {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
       </div>
@@ -245,9 +321,9 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
       {/* Image Upload Section */}
       <div className="space-y-3 border p-4 rounded-md">
         <div className="flex items-center justify-between">
-          <Label>Product Images</Label>
+          <Label>Product Images ({totalImagesCount}/{MAX_IMAGES})</Label>
           <div className="flex space-x-2">
-            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isSubmitting || isUploadingImages}>
+            <Button type="button" onClick={() => fileInputRef.current?.click()} size="sm" disabled={isSubmitting || isUploadingImages || isDeletingImage || !canAddMoreImages}>
               <ImageIcon className="mr-2 h-3 w-3" />
               Select Files
             </Button>
@@ -258,27 +334,31 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
-              disabled={isSubmitting || isUploadingImages}
+              disabled={isSubmitting || isUploadingImages || isDeletingImage || !canAddMoreImages}
             />
-            <Button type="button" onClick={handleUploadNewImages} size="sm" disabled={isSubmitting || isUploadingImages || selectedFiles.length === 0 || !product?._id}>
-              {isUploadingImages ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Upload className="mr-2 h-3 w-3" />
-              )}
-              Upload ({selectedFiles.length})
-            </Button>
+            {product && selectedFiles.length > 0 && (
+              <Button type="button" onClick={handleUploadNewImages} size="sm" disabled={isSubmitting || isUploadingImages || isDeletingImage || selectedFiles.length === 0}>
+                {isUploadingImages ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Upload className="mr-2 h-3 w-3" />
+                )}
+                Upload ({selectedFiles.length})
+              </Button>
+            )}
           </div>
         </div>
-        {/* Conditional message for adding images */}
-        {!product?._id && (
-          <p className="text-sm text-muted-foreground text-center py-2">
-            Images can be uploaded after the product is created.
+        {totalImagesCount === 0 && (
+          <p className="text-sm text-destructive text-center py-2">
+            At least one image is required.
           </p>
         )}
+        {errors.imageFiles?.message && <p className="text-sm text-destructive">{errors.imageFiles.message}</p>}
+        {errors.imageUrls?.message && <p className="text-sm text-destructive">{errors.imageUrls.message}</p>}
+
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           {allImagePreviews.map((url, index) => (
-            <div key={index} className="relative w-24 h-24 rounded-md overflow-hidden border">
+            <div key={url} className="relative w-24 h-24 rounded-md overflow-hidden border">
               <img src={url} alt={`Product preview ${index}`} className="w-full h-full object-cover" />
               <Button
                 type="button"
@@ -287,15 +367,19 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
                 className="absolute top-1 right-1 h-6 w-6 rounded-full"
                 onClick={() => {
                   // Determine if it's an existing S3 URL or a new local file
-                  if (index < (currentImageUrls?.length || 0)) {
-                    handleRemoveExistingImage(index);
+                  if (index < (existingImageUrls?.length || 0)) {
+                    handleRemoveExistingImage(url); // Pass the URL for deletion
                   } else {
-                    handleRemoveSelectedFile(index - (currentImageUrls?.length || 0));
+                    handleRemoveSelectedFile(index - (existingImageUrls?.length || 0));
                   }
                 }}
-                disabled={isSubmitting || isUploadingImages}
+                disabled={isSubmitting || isUploadingImages || isDeletingImage || !canDeleteImages}
               >
-                <X className="h-3 w-3" />
+                {isDeletingImage && index < (existingImageUrls?.length || 0) ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  <X className="h-3 w-3" />
+                )}
               </Button>
             </div>
           ))}
@@ -305,13 +389,12 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
             </div>
           )}
         </div>
-        {errors.imageUrls && <p className="text-sm text-destructive">{errors.imageUrls.message}</p>}
       </div>
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <Label>Product Variants (Optional)</Label>
-          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting || isUploadingImages}>
+          <Button type="button" onClick={() => appendVariant({ size: '', color: '', price: 0, stock: 0 })} size="sm" disabled={isSubmitting || isUploadingImages || isDeletingImage}>
             <Plus className="mr-2 h-3 w-3" />
             Add Variant
           </Button>
@@ -324,7 +407,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
               <Input
                 {...register(`variants.${index}.size`)}
                 placeholder="S, M, L"
-                disabled={isSubmitting || isUploadingImages}
+                disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
               {errors.variants?.[index]?.size && <p className="text-sm text-destructive">{errors.variants[index]?.size?.message}</p>}
             </div>
@@ -333,7 +416,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
               <Input
                 {...register(`variants.${index}.color`)}
                 placeholder="Black, White"
-                disabled={isSubmitting || isUploadingImages}
+                disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
               {errors.variants?.[index]?.color && <p className="text-sm text-destructive">{errors.variants[index]?.color?.message}</p>}
             </div>
@@ -344,7 +427,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
                 {...register(`variants.${index}.price`, { valueAsNumber: true })}
                 step="0.01"
                 min="0"
-                disabled={isSubmitting || isUploadingImages}
+                disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
               {errors.variants?.[index]?.price && <p className="text-sm text-destructive">{errors.variants[index]?.price?.message}</p>}
             </div>
@@ -354,7 +437,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
                 type="number"
                 {...register(`variants.${index}.stock`, { valueAsNumber: true })}
                 min="0"
-                disabled={isSubmitting || isUploadingImages}
+                disabled={isSubmitting || isUploadingImages || isDeletingImage}
               />
               {errors.variants?.[index]?.stock && <p className="text-sm text-destructive">{errors.variants[index]?.stock?.message}</p>}
             </div>
@@ -363,7 +446,7 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
               onClick={() => removeVariant(index)}
               variant="ghost"
               size="icon"
-              disabled={variantFields.length === 1 || isSubmitting || isUploadingImages}
+              disabled={variantFields.length === 1 || isSubmitting || isUploadingImages || isDeletingImage}
             >
               <Trash2 className="h-3 w-3" />
             </Button>
@@ -378,16 +461,16 @@ const ProductForm = ({ product, onSubmit, onClose, isSubmitting, categories, onP
           id="featured"
           {...register('isFeatured')}
           className="h-4 w-4"
-          disabled={isSubmitting || isUploadingImages}
+          disabled={isSubmitting || isUploadingImages || isDeletingImage}
         />
         <Label htmlFor="featured">Featured Product</Label>
       </div>
 
       <DialogFooter>
-        <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting || isUploadingImages}>
+        <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting || isUploadingImages || isDeletingImage}>
           Cancel
         </Button>
-        <Button type="submit" disabled={isSubmitting || isUploadingImages}>
+        <Button type="submit" disabled={isSubmitting || isUploadingImages || isDeletingImage}>
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {product ? 'Update' : 'Create'} Product
         </Button>
@@ -440,14 +523,12 @@ export function Products() {
   const totalPages = Math.ceil(totalProducts / limit);
 
   const createProductMutation = useMutation({
-    mutationFn: productService.createProduct,
+    mutationFn: productService.createProduct, // Now expects FormData
     onSuccess: (response: ApiResponse<Product>) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success('Product created successfully! You can now add images.');
+      toast.success('Product created successfully!');
       setIsAddDialogOpen(false);
-      // Automatically open edit dialog for the newly created product to allow image upload
-      setSelectedProduct(response.data);
-      setIsEditDialogOpen(true);
+      // No need to open edit dialog automatically, as images are part of creation now
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to create product');
@@ -477,7 +558,7 @@ export function Products() {
     onSuccess: (response: ApiResponse<Product>) => {
       toast.success('Product updated successfully');
       setIsEditDialogOpen(false);
-      setSelectedProduct(response.data); // Update selected product with latest data
+      setSelectedProduct(response.product as Product); // Update selected product with latest data
     },
     onError: (err: any, variables, context) => {
       toast.error(err.response?.data?.message || 'Failed to update product');
@@ -568,7 +649,7 @@ export function Products() {
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
               <DialogDescription>
-                Create a new product with variants, pricing, and inventory details. Images can be added after creation.
+                Create a new product with variants, pricing, and inventory details. At least one image is required.
               </DialogDescription>
             </DialogHeader>
             {categoriesLoading ? (
@@ -581,7 +662,7 @@ export function Products() {
               <p className="text-muted-foreground text-center py-8">No categories available. Please create categories first.</p>
             ) : (
               <ProductForm
-                onSubmit={(data) => createProductMutation.mutate(data)}
+                onSubmit={(data) => createProductMutation.mutate(data as FormData)} // Cast to FormData
                 onClose={() => setIsAddDialogOpen(false)}
                 isSubmitting={createProductMutation.isPending}
                 categories={categories || []}
@@ -861,7 +942,10 @@ export function Products() {
               product={selectedProduct || undefined}
               onSubmit={(data) => {
                 if (selectedProduct) {
-                  updateProductMutation.mutate({ id: selectedProduct._id, data });
+                  // For updates, we don't send imageFiles in the main product update payload
+                  // Image updates are handled by separate upload/delete mutations
+                  const { imageFiles, ...rest } = data as ProductFormValues; // Exclude imageFiles from the update payload
+                  updateProductMutation.mutate({ id: selectedProduct._id, data: rest as UpdateProductData });
                 }
               }}
               onClose={() => setIsEditDialogOpen(false)}

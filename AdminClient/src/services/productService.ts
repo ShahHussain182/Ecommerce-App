@@ -1,7 +1,6 @@
 import { api } from '@/lib/api';
-import type { Product, ApiResponse, ProductsFilterState } from '@/types'; // Import ProductsFilterState
- // Import ProductsFilterState
-import { createProductSchema, updateProductSchema } from '@/schemas/productSchema'; // Import Zod schemas
+import type { Product, ApiResponse, ProductsFilterState } from '@/types'; 
+import { createProductSchema, updateProductSchema } from '../schemas/productSchema'; // Corrected import path
 import { z } from 'zod';
 
 // Define types for product creation and update based on Zod schemas
@@ -36,8 +35,12 @@ export const productService = {
   },
 
   // Create new product (Admin only)
-  async createProduct(productData: CreateProductData): Promise<ApiResponse<Product>> {
-    const response = await api.post('/products', productData);
+  async createProduct(productData: FormData): Promise<ApiResponse<Product>> { // Expect FormData for creation
+    const response = await api.post('/products', productData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 
@@ -71,5 +74,18 @@ export const productService = {
       },
     });
     return response.data; // Now returns ApiResponse<Product>
+  },
+
+  /**
+   * Deletes a specific product image from S3 and updates the product document.
+   * @param productId The ID of the product.
+   * @param imageUrl The URL of the image to delete.
+   * @returns A promise that resolves to the updated Product object.
+   */
+  async deleteProductImage(productId: string, imageUrl: string): Promise<ApiResponse<Product>> {
+    const response = await api.delete(`/products/${productId}/images`, {
+      params: { imageUrl }, // Send imageUrl as a query parameter
+    });
+    return response.data;
   },
 };

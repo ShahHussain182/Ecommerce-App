@@ -162,9 +162,10 @@ export interface Category {
 
 // API Response Types
 export interface ApiResponse<T> {
-  data: T;
-  message: string;
   success: boolean;
+  message: string;
+  product?: T; // Changed from 'data' to 'product' for consistency with backend
+  data?: T; // Keep data for other responses
 }
 
 export interface PaginatedResponse<T> {
