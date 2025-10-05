@@ -5,11 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Eye, Mail, Phone, MapPin, Calendar, Users as UsersIcon, RefreshCw, ChevronLeft, ChevronRight, Loader2, XCircle } from 'lucide-react';
+import { Search, Filter, Eye, Mail, Phone, Calendar, Users as UsersIcon, RefreshCw, ChevronLeft, ChevronRight, Loader2, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { customerService } from '@/services/customerService';
-import { User } from '@/types';
-import toast from 'react-hot-toast';
 import {
   Select,
   SelectContent,
@@ -24,16 +22,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const getCustomerTypeVariant = (totalSpent: number, totalOrders: number) => {
-  if (totalSpent > 2000) return 'default'; // VIP
-  if (totalOrders === 0) return 'secondary'; // New
-  if (totalSpent < 100 && totalOrders > 0) return 'outline'; // Potential
-  return 'default'; // Regular/Active
+const getCustomerTypeVariant = (totalSpent: number, totalOrders: number, lastLogin: string) => {
+  const type = getCustomerType(totalSpent, totalOrders, lastLogin);
+  switch (type) {
+    case 'VIP': return 'default';
+    case 'New': return 'secondary';
+    case 'Potential': return 'outline';
+    case 'Active': return 'default';
+    case 'Inactive': return 'destructive';
+    default: return 'default';
+  }
 };
 
-const getCustomerType = (totalSpent: number, totalOrders: number) => {
+const getCustomerType = (totalSpent: number, totalOrders: number, lastLogin: string) => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const lastLoginDate = new Date(lastLogin);
+
   if (totalSpent > 2000) return 'VIP';
   if (totalOrders === 0) return 'New';
+  // Inactive: has orders, but last login is older than 30 days
+  if (totalOrders > 0 && lastLoginDate < thirtyDaysAgo) return 'Inactive';
   if (totalSpent < 100 && totalOrders > 0) return 'Potential';
   return 'Active';
 };
@@ -78,17 +87,8 @@ export function Customers() {
   const totalCustomers = customersData?.totalCustomers || 0;
   const totalPages = Math.ceil(totalCustomers / limit);
 
-  const getStatusBadgeVariant = (customer: User) => {
-    const type = getCustomerType(customer.totalSpent || 0, customer.totalOrders || 0);
-    switch (type) {
-      case 'VIP': return 'default';
-      case 'New': return 'secondary';
-      case 'Potential': return 'outline';
-      case 'Active': return 'default';
-      case 'Inactive': return 'destructive'; // Assuming inactive is a status we want to highlight
-      default: return 'default';
-    }
-  };
+  // Removed getStatusBadgeVariant as it's now handled by getCustomerTypeVariant directly
+  // and the logic for 'Inactive' is within getCustomerType.
 
   return (
     <div className="space-y-6">
@@ -157,7 +157,7 @@ export function Customers() {
 
       {/* Search and Filter */}
       <div className="flex items-center space-x-4 flex-wrap gap-y-2">
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search customers..."
@@ -254,7 +254,7 @@ export function Customers() {
                     </TableCell></TableRow>
                 ) : (
                   customers.map((customer) => {
-                    const customerType = getCustomerType(customer.totalSpent || 0, customer.totalOrders || 0);
+                    const customerType = getCustomerType(customer.totalSpent || 0, customer.totalOrders || 0, customer.lastLogin);
                     
                     return (
                       <TableRow key={customer._id}>
@@ -290,7 +290,7 @@ export function Customers() {
                             </div>
                           </div>
                         </TableCell><TableCell>
-                          <Badge variant={getStatusBadgeVariant(customer)}>
+                          <Badge variant={getCustomerTypeVariant(customer.totalSpent || 0, customer.totalOrders || 0, customer.lastLogin)}>
                             {customerType}
                           </Badge>
                         </TableCell><TableCell>

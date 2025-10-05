@@ -1,21 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'; // Added useQuery
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { DialogFooter } from '@/components/ui/dialog';
-import { Plus, Trash2, Loader2, X, Image as ImageIcon, Upload, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, UpdateProductData } from '../services/productService'; // Added UpdateProductData
-import type { Product, ProductVariant, Category, ApiResponse } from '@/types'; // Changed from 'import type'
-import { useForm, useFieldArray } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createProductSchema, updateProductSchema, ProductFormValues } from '../schemas/productSchema';
-import { z } from 'zod';
-import { Textarea } from '@/components/ui/textarea';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import type { Product } from '@/types'; // Changed from 'import type'
+import { ProductFormValues } from '../schemas/productSchema';
 import { ProductsHeader } from '../components/products/ProductsHeader'; // Explicit import
 import { ProductsFilterBar } from '../components/products/ProductsFilterBar'; // Explicit import
 import { ProductsTable } from '../components/products/ProductsTable'; // Explicit import

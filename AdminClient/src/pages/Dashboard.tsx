@@ -12,7 +12,6 @@ import {
   Loader2
 } from 'lucide-react';
 import { orderService } from '@/services/orderService';
-import { productService } from '@/services/productService';
 import SalesChart from '@/components/charts/SalesChart'; // New import
 import TopSellingProducts from '@/components/dashboard/TopSellingProducts'; // New import
 import {

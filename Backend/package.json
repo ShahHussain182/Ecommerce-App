@@ -44,6 +44,7 @@
     "nodemailer": "^7.0.6",
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
+    "sharp": "^0.34.4",
     "uuid": "^13.0.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",
