@@ -25,7 +25,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star, Loader2 } from 'lucide-react';
+import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react'; // Removed Loader2
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
@@ -108,13 +108,6 @@ const ProductDetail = () => {
       return;
     }
 
-    // This check is technically redundant if backend filters by 'completed',
-    // but good for client-side feedback if a 'pending' product somehow appears.
-    if (product?.imageProcessingStatus === 'pending') {
-      toast.info("Images are still being processed. Please try again shortly.");
-      return;
-    }
-
     if (selectedVariant && product) {
       addItemToCart(product, selectedVariant, quantity);
     } else {
@@ -126,13 +119,6 @@ const ProductDetail = () => {
     if (!isAuthenticated) {
       toast.info("Please log in to add items to your wishlist.");
       navigate('/login');
-      return;
-    }
-
-    // This check is technically redundant if backend filters by 'completed',
-    // but good for client-side feedback if a 'pending' product somehow appears.
-    if (product?.imageProcessingStatus === 'pending') {
-      toast.info("Images are still being processed. Please try again shortly.");
       return;
     }
 
@@ -199,8 +185,7 @@ const ProductDetail = () => {
   }
 
   const isWishlistActionPending = addWishlistItemMutation.isPending || removeWishlistItemMutation.isPending;
-  const isImageProcessingPending = product.imageProcessingStatus === 'pending';
-
+  
   // Determine which image URL to use for display based on renditions
   const mainImageUrl = product.imageRenditions[selectedImageIndex]?.medium || product.imageUrls[selectedImageIndex] || '/placeholder.svg';
   const thumbnailImageUrl = product.imageRenditions[selectedImageIndex]?.thumbnail || product.imageUrls[selectedImageIndex] || '/placeholder.svg';
@@ -252,39 +237,25 @@ const ProductDetail = () => {
                       setIsLightboxOpen(true);
                     }}
                   >
-                    {isImageProcessingPending ? (
-                      <div className="w-full aspect-square flex items-center justify-center bg-gray-100 dark:bg-gray-700">
-                        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                        <span className="sr-only">Image processing...</span>
-                      </div>
-                    ) : (
-                      <img 
-                        src={mainImageUrl}
-                        alt={product.name} 
-                        className="w-full h-auto aspect-square object-cover transition-transform duration-300 ease-in-out"
-                        style={{
-                          transform: isZoomed ? 'scale(2)' : 'scale(1)',
-                          transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
-                        }}
-                      />
-                    )}
+                    <img 
+                      src={mainImageUrl}
+                      alt={product.name} 
+                      className="w-full h-auto aspect-square object-cover transition-transform duration-300 ease-in-out"
+                      style={{
+                        transform: isZoomed ? 'scale(2)' : 'scale(1)',
+                        transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+                      }}
+                    />
                   </div>
                 </DialogTrigger>
                 <DialogContent className="bg-transparent border-none p-0">
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
                     <div className="relative">
-                      {isImageProcessingPending ? (
-                        <div className="max-h-[90vh] max-w-[90vw] aspect-square flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-lg">
-                          <Loader2 className="h-16 w-16 animate-spin text-primary" />
-                          <span className="sr-only">Image processing...</span>
-                        </div>
-                      ) : (
-                        <img
-                          src={lightboxDisplayImageUrl}
-                          alt={`${product.name} enlarged view`}
-                          className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
-                        />
-                      )}
+                      <img
+                        src={lightboxDisplayImageUrl}
+                        alt={`${product.name} enlarged view`}
+                        className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+                      />
                       <Button variant="ghost" size="icon" onClick={handlePrevImage} className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/75 rounded-full h-10 w-10 z-10"><ChevronLeft className="h-6 w-6" /></Button>
                       <Button variant="ghost" size="icon" onClick={handleNextImage} className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/75 rounded-full h-10 w-10 z-10"><ChevronRight className="h-6 w-6" /></Button>
                       <Button variant="ghost" size="icon" onClick={() => setIsLightboxOpen(false)} className="absolute top-4 right-4 text-white bg-black/50 hover:bg-black/75 rounded-full h-10 w-10 z-10"><X className="h-6 w-6" /></Button>
@@ -295,13 +266,7 @@ const ProductDetail = () => {
               <div className="grid grid-cols-5 gap-4 mt-4">
                 {product.imageUrls.map((img, index) => (
                   <button key={index} onClick={() => setSelectedImageIndex(index)} className={`rounded-lg overflow-hidden border-2 transition-colors ${selectedImageIndex === index ? 'border-primary' : 'border-transparent hover:border-gray-300'}`}>
-                    {isImageProcessingPending ? (
-                      <div className="w-full h-auto aspect-square flex items-center justify-center bg-gray-100 dark:bg-gray-700">
-                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                      </div>
-                    ) : (
-                      <img src={product.imageRenditions[index]?.thumbnail || img} alt={`${product.name} thumbnail ${index + 1}`} className="w-full h-auto aspect-square object-cover" />
-                    )}
+                    <img src={product.imageRenditions[index]?.thumbnail || img} alt={`${product.name} thumbnail ${index + 1}`} className="w-full h-auto aspect-square object-cover" />
                   </button>
                 ))}
               </div>
@@ -351,15 +316,15 @@ const ProductDetail = () => {
                   size="lg" 
                   className="flex-grow" 
                   onClick={handleAddToCart} 
-                  disabled={!selectedVariant || selectedVariant.stock === 0 || isImageProcessingPending}
+                  disabled={!selectedVariant || selectedVariant.stock === 0}
                 >
-                  {isImageProcessingPending ? 'Processing Images...' : (selectedVariant?.stock === 0 ? 'Out of Stock' : 'Add to Cart')}
+                  {selectedVariant?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </Button>
                 <Button 
                   variant="outline" 
                   size="icon" 
                   onClick={handleToggleWishlist}
-                  disabled={!isAuthenticated || isWishlistActionPending || !selectedVariant || isImageProcessingPending}
+                  disabled={!isAuthenticated || isWishlistActionPending || !selectedVariant}
                   className={cn(
                     "h-12 w-12",
                     isInWishlistForRender ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"
