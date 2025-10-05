@@ -2,15 +2,16 @@ import { Product } from '../Models/Product.model.js';
 import catchErrors from '../Utils/catchErrors.js';
 import mongoose from 'mongoose';
 import { createProductSchema, updateProductSchema } from '../Schemas/productSchema.js';
-import { productIndex } from '../Utils/meilisearchClient.js'; // <-- import Meilisearch client
+import { productIndex } from '../Utils/meilisearchClient.js';
 import { uploadFileToS3 } from '../Utils/s3Upload.js';
 import {logger} from '../Utils/logger.js';
-import { DeleteObjectCommand } from "@aws-sdk/client-s3"; // Import DeleteObjectCommand
-import s3Client from "../Utils/s3Client.js"; // Import s3Client
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import s3Client from "../Utils/s3Client.js";
+import { imageProcessingQueue } from '../Queues/imageProcessing.queue.js'; // Import the queue
 
 const S3_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || "e-store-images";
 const MINIO_URL = process.env.MINIO_URL || "http://localhost:9000";
-const MAX_IMAGES = 5; // Define max images here
+const MAX_IMAGES = 5;
 
 /**
  * @description Get all products with advanced filtering, sorting, and pagination using Meilisearch.
@@ -23,6 +24,9 @@ export const getProducts = catchErrors(async (req, res) => {
 
   // Build Meilisearch filter string
   const filters = [];
+
+  // Only show products that have completed image processing
+  filters.push(`imageProcessingStatus = "completed"`);
 
   if (categories) {
     const categoryArray = categories.split(',');
@@ -58,10 +62,10 @@ export const getProducts = catchErrors(async (req, res) => {
     case 'name-desc':
       sort = ['name:desc'];
       break;
-    case 'averageRating-desc': // New sorting option
+    case 'averageRating-desc':
       sort = ['averageRating:desc'];
       break;
-    case 'numberOfReviews-desc': // New sorting option
+    case 'numberOfReviews-desc':
       sort = ['numberOfReviews:desc'];
       break;
     case 'relevance-desc':
@@ -104,6 +108,7 @@ export const getAutocompleteSuggestions = catchErrors(async (req, res) => {
   const results = await productIndex.search(query, {
     limit: 5,
     attributesToRetrieve: ['name'],
+    filter: 'imageProcessingStatus = "completed"', // Only suggest processed products
   });
 
   res.status(200).json({
@@ -135,7 +140,7 @@ export const getProductById = catchErrors(async (req, res) => {
  * @description Get featured products (from MongoDB).
  */
 export const getFeaturedProducts = catchErrors(async (req, res) => {
-  const products = await Product.find({ isFeatured: true }).limit(4);
+  const products = await Product.find({ isFeatured: true, imageProcessingStatus: 'completed' }).limit(4);
   res.status(200).json({ success: true, products });
 });
 
@@ -146,16 +151,16 @@ export const createProduct = catchErrors(async (req, res) => {
   logger.debug(`[createProduct] Raw req.body: ${JSON.stringify(req.body)}`);
   logger.debug(`[createProduct] Raw req.files: ${JSON.stringify(req.files?.map(f => f.originalname))}`);
 
-  // Manually parse stringified boolean and array from FormData
   const parsedBody = {
     ...req.body,
-    isFeatured: req.body.isFeatured === 'true', // Convert string "true"/"false" to boolean
-    variants: req.body.variants ? JSON.parse(req.body.variants) : undefined, // Parse JSON string to array
+    isFeatured: req.body.isFeatured === 'true',
+    variants: req.body.variants ? JSON.parse(req.body.variants) : undefined,
   };
   logger.debug(`[createProduct] Parsed body before Zod: ${JSON.stringify(parsedBody)}`);
 
-  // Handle image uploads from req.files
-  const uploadedImageUrls = [];
+  const uploadedOriginalImageUrls = [];
+  const originalS3Keys = [];
+
   if (req.files && req.files.length > 0) {
     if (req.files.length > MAX_IMAGES) {
       return res.status(400).json({ 
@@ -165,22 +170,23 @@ export const createProduct = catchErrors(async (req, res) => {
     }
     for (const file of req.files) {
       try {
-        // For initial product creation, we don't have a product ID yet for the folder.
-        // We'll use a generic 'temp' folder or just 'products' and rely on S3's flat structure.
-        // A more robust solution might involve updating the image path after product creation.
-        const url = await uploadFileToS3(file.buffer, file.mimetype, 'products'); 
-        uploadedImageUrls.push(url);
+        const s3Key = `products/originals/${mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
+        const url = await uploadFileToS3(file.buffer, file.mimetype, s3Key); 
+        uploadedOriginalImageUrls.push(url);
+        originalS3Keys.push(s3Key);
       } catch (error) {
         logger.error(`Failed to upload file ${file.originalname} during product creation: ${error.message}`);
         return res.status(500).json({ success: false, message: `Failed to upload image: ${error.message}` });
       }
     }
+  } else {
+    return res.status(400).json({ success: false, message: 'At least one image is required.' });
   }
 
-  // Combine parsed body with uploaded image URLs for Zod validation
   const productDataForValidation = {
     ...parsedBody,
-    imageUrls: uploadedImageUrls, // Add the generated image URLs
+    imageUrls: uploadedOriginalImageUrls, // Store original URLs initially
+    imageProcessingStatus: 'pending', // Mark as pending
   };
 
   const productData = createProductSchema.parse(productDataForValidation);
@@ -196,13 +202,26 @@ export const createProduct = catchErrors(async (req, res) => {
 
   const product = await Product.create(productData);
 
-  // Sync with Meilisearch
+  // Add jobs to the image processing queue
+  for (let i = 0; i < uploadedOriginalImageUrls.length; i++) {
+    await imageProcessingQueue.add(
+      `process-image-${product._id}-${i}`,
+      {
+        productId: product._id.toString(),
+        originalS3Key: originalS3Keys[i],
+        imageIndex: i,
+      }
+    );
+  }
+
+  // Sync with Meilisearch (initial entry, will be updated by worker)
   await productIndex.addDocuments([{
     _id: product._id.toString(),
     name: product.name,
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls || [],
+    imageProcessingStatus: product.imageProcessingStatus, // Include status
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
       _id: v._id.toString(),
@@ -220,7 +239,7 @@ export const createProduct = catchErrors(async (req, res) => {
   }]);
   
 
-  res.status(201).json({ success: true, message: 'Product created successfully!', product });
+  res.status(201).json({ success: true, message: 'Product created successfully! Images are being processed.', product });
 });
 
 /**
@@ -260,6 +279,7 @@ export const updateProduct = catchErrors(async (req, res) => {
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls || [],
+    imageProcessingStatus: product.imageProcessingStatus, // Include status
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
       _id: v._id.toString(),
@@ -296,16 +316,24 @@ export const deleteProduct = catchErrors(async (req, res) => {
     return res.status(404).json({ success: false, message: 'Product not found.' });
   }
 
-  // Optionally, delete all associated images from S3
-  if (product.imageUrls && product.imageUrls.length > 0) {
-    const deletePromises = product.imageUrls.map(async (imageUrl) => {
-      try {
-        const s3Key = imageUrl.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
-        await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }));
-        logger.info(`Deleted S3 object: ${s3Key}`);
-      } catch (s3Error) {
-        logger.error(`Failed to delete S3 object ${imageUrl}: ${s3Error.message}`);
-      }
+  // Delete all associated image renditions from S3
+  if (product.imageRenditions && product.imageRenditions.length > 0) {
+    const deletePromises = product.imageRenditions.flatMap(renditionSet => {
+      const keysToDelete = [];
+      if (renditionSet.original) keysToDelete.push(renditionSet.original.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, ''));
+      if (renditionSet.medium) keysToDelete.push(renditionSet.medium.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, ''));
+      if (renditionSet.thumbnail) keysToDelete.push(renditionSet.thumbnail.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, ''));
+      if (renditionSet.webp) keysToDelete.push(renditionSet.webp.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, ''));
+      if (renditionSet.avif) keysToDelete.push(renditionSet.avif.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, ''));
+      
+      return keysToDelete.map(async (s3Key) => {
+        try {
+          await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }));
+          logger.info(`Deleted S3 object: ${s3Key}`);
+        } catch (s3Error) {
+          logger.error(`Failed to delete S3 object ${s3Key}: ${s3Error.message}`);
+        }
+      });
     });
     await Promise.all(deletePromises);
   }
@@ -319,7 +347,7 @@ export const deleteProduct = catchErrors(async (req, res) => {
  * @description Upload product images to S3 and update the product document.
  */
 export const uploadProductImages = catchErrors(async (req, res) => {
-  const { id } = req.params; // Get product ID from URL params
+  const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
@@ -334,7 +362,6 @@ export const uploadProductImages = catchErrors(async (req, res) => {
     return res.status(404).json({ success: false, message: 'Product not found.' });
   }
 
-  // Check if adding new images would exceed the MAX_IMAGES limit
   const currentImageCount = product.imageUrls ? product.imageUrls.length : 0;
   if (currentImageCount + req.files.length > MAX_IMAGES) {
     return res.status(400).json({ 
@@ -343,32 +370,54 @@ export const uploadProductImages = catchErrors(async (req, res) => {
     });
   }
 
-  const uploadedUrls = [];
-  for (const file of req.files) {
+  const uploadedOriginalImageUrls = [];
+  const originalS3Keys = [];
+  const newImageIndices = [];
+
+  for (let i = 0; i < req.files.length; i++) {
+    const file = req.files[i];
     try {
-      const url = await uploadFileToS3(file.buffer, file.mimetype, `products/${id}`); // Use product ID for folder
-      uploadedUrls.push(url);
+      const s3Key = `products/originals/${mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
+      const url = await uploadFileToS3(file.buffer, file.mimetype, s3Key); 
+      uploadedOriginalImageUrls.push(url);
+      originalS3Keys.push(s3Key);
+      newImageIndices.push(currentImageCount + i); // Track index for new images
     } catch (error) {
       logger.error(`Failed to upload file ${file.originalname} for product ${id}: ${error.message}`);
-      // Continue processing other files, but log the error
     }
   }
 
-  if (uploadedUrls.length === 0) {
+  if (uploadedOriginalImageUrls.length === 0) {
     return res.status(500).json({ success: false, message: 'No images were successfully uploaded.' });
   }
 
-  // Append new URLs to existing ones
-  product.imageUrls = [...(product.imageUrls || []), ...uploadedUrls];
-  await product.save(); // Save the updated product
+  // Append new original URLs to existing ones
+  product.imageUrls = [...(product.imageUrls || []), ...uploadedOriginalImageUrls];
+  // Initialize new image renditions as empty for now
+  product.imageRenditions = [...(product.imageRenditions || []), ...Array(uploadedOriginalImageUrls.length).fill({})];
+  product.imageProcessingStatus = 'pending'; // Mark as pending as new images need processing
+  await product.save();
 
-  // Update Meilisearch with the new image URLs
+  // Add jobs to the image processing queue for new images
+  for (let i = 0; i < uploadedOriginalImageUrls.length; i++) {
+    await imageProcessingQueue.add(
+      `process-image-${product._id}-${newImageIndices[i]}`,
+      {
+        productId: product._id.toString(),
+        originalS3Key: originalS3Keys[i],
+        imageIndex: newImageIndices[i],
+      }
+    );
+  }
+
+  // Update Meilisearch (will be updated again by worker when processing completes)
   await productIndex.addDocuments([{
     _id: product._id.toString(),
     name: product.name,
     description: product.description,
     category: product.category,
-    imageUrls: product.imageUrls, // Use the updated imageUrls
+    imageUrls: product.imageUrls,
+    imageProcessingStatus: product.imageProcessingStatus,
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
       _id: v._id.toString(),
@@ -387,8 +436,8 @@ export const uploadProductImages = catchErrors(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: `${uploadedUrls.length} image(s) uploaded and product updated successfully.`,
-    product: product, // Return the full updated product document
+    message: `${uploadedOriginalImageUrls.length} image(s) uploaded. Processing in background.`,
+    product: product,
   });
 });
 
@@ -396,8 +445,8 @@ export const uploadProductImages = catchErrors(async (req, res) => {
  * @description Delete a specific product image from S3 and update the product document.
  */
 export const deleteProductImage = catchErrors(async (req, res) => {
-  const { id } = req.params; // Product ID
-  const { imageUrl } = req.query; // Image URL to delete
+  const { id } = req.params;
+  const { imageUrl } = req.query; // This is the URL of the *main* image (e.g., medium.webp)
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
@@ -411,30 +460,51 @@ export const deleteProductImage = catchErrors(async (req, res) => {
     return res.status(404).json({ success: false, message: 'Product not found.' });
   }
 
-  // Ensure the image exists in the product's imageUrls
   const imageIndex = product.imageUrls.indexOf(imageUrl);
   if (imageIndex === -1) {
-    return res.status(404).json({ success: false, message: 'Image not found in product\'s image list.' });
+    return res.status(404).json({ success: false, message: 'Image not found in product\'s main image list.' });
   }
 
-  // Enforce minimum 1 image rule
   if (product.imageUrls.length <= 1) {
     return res.status(400).json({ success: false, message: 'A product must have at least one image.' });
   }
 
-  // Remove image from S3
-  try {
-    const s3Key = imageUrl.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
-    await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }));
-    logger.info(`Deleted S3 object: ${s3Key}`);
-  } catch (s3Error) {
-    logger.error(`Failed to delete S3 object ${imageUrl}: ${s3Error.message}`);
-    // Decide whether to proceed or return error. For now, we'll proceed with DB update.
-    // In a real app, you might want to retry or alert admin.
+  // Get the renditions associated with this image
+  const renditionsToDelete = product.imageRenditions[imageIndex];
+
+  // Delete all renditions from S3
+  if (renditionsToDelete) {
+    const deletePromises = [];
+    for (const key in renditionsToDelete) {
+      if (renditionsToDelete[key]) {
+        const s3Key = renditionsToDelete[key].replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
+        deletePromises.push(
+          s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }))
+            .then(() => logger.info(`Deleted S3 object: ${s3Key}`))
+            .catch(s3Error => logger.error(`Failed to delete S3 object ${s3Key}: ${s3Error.message}`))
+        );
+      }
+    }
+    await Promise.all(deletePromises);
   }
 
-  // Remove image URL from product document
+  // Remove image URL and renditions from product document
   product.imageUrls.splice(imageIndex, 1);
+  product.imageRenditions.splice(imageIndex, 1);
+  
+  // If there are no more images, set status to pending (or handle as error)
+  if (product.imageUrls.length === 0) {
+    product.imageProcessingStatus = 'pending'; // Or 'failed' depending on desired behavior
+  } else {
+    // Re-evaluate processing status if needed, e.g., if all remaining are completed
+    const allRemainingCompleted = product.imageRenditions.every(r => r.medium);
+    if (allRemainingCompleted) {
+      product.imageProcessingStatus = 'completed';
+    } else {
+      product.imageProcessingStatus = 'pending';
+    }
+  }
+
   await product.save();
 
   // Update Meilisearch
@@ -444,6 +514,7 @@ export const deleteProductImage = catchErrors(async (req, res) => {
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls,
+    imageProcessingStatus: product.imageProcessingStatus,
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
       _id: v._id.toString(),

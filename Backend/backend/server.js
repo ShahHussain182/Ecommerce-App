@@ -21,7 +21,7 @@ import wishlistRouter from "./Routers/wishlist.router.js";
 import reviewRouter from "./Routers/review.router.js";
 import customerRouter from "./Routers/customer.router.js";
 import categoryRouter from "./Routers/category.router.js";
-import reportRouter from "./Routers/report.router.js"; // New import for report router
+import reportRouter from "./Routers/report.router.js";
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
@@ -30,6 +30,8 @@ import { mockProducts } from "./Utils/mockProducts.js";
 import { Counter } from "./Models/Counter.model.js";
 import { Category } from "./Models/Category.model.js";
 import { mockCategories } from "./Utils/mockCategories.js";
+import { imageProcessingQueue } from './Queues/imageProcessing.queue.js'; // Import queue
+import { imageProcessingWorker } from './Workers/imageProcessing.worker.js'; // Import worker
 
 dotenv.config();
 
@@ -108,13 +110,13 @@ app.use("/api/v1/wishlist", wishlistRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/categories", categoryRouter);
-app.use("/api/v1/reports", reportRouter); // New report router
+app.use("/api/v1/reports", reportRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
 
 // ----------------- Server -----------------
-let server; // Declare server variable here
+let server;
 
 const startServer = async () => {
   await connectDB();
@@ -125,7 +127,9 @@ const startServer = async () => {
     const productCount = await Product.countDocuments();
     if (productCount === 0) {
       logger.info("No products found. Seeding database with mock data...");
-      await Product.insertMany(mockProducts);
+      // For initial seeding, we'll create products with 'completed' status
+      // In a real scenario, these would also go through the queue
+      await Product.insertMany(mockProducts.map(p => ({ ...p, imageProcessingStatus: 'completed' })));
       logger.info("✅ Database seeded successfully with mock products.");
     } else {
       logger.info(`${productCount} products already exist in the database. Skipping product seeding.`);
@@ -182,7 +186,7 @@ startServer();
 async function cleanup() {
   logger.info("Starting cleanup process...");
 
-  if (server) { // Check if server is defined
+  if (server) {
     logger.debug("Closing HTTP server...");
     try {
       await new Promise((resolve, reject) => {
@@ -213,12 +217,28 @@ async function cleanup() {
   if (mongoClient) {
     logger.debug("Closing Mongo client...");
     try {
-      await mongoClient.close(true); // Force close for MongoStore client
+      await mongoClient.close(true);
       logger.info("MongoStore client disconnected.");
     } catch (error) {
       logger.error("Failed to close Mongo client:", error);
     }
   }
+
+  // Close BullMQ queue and worker connections
+  logger.debug("Closing BullMQ queue and worker connections...");
+  try {
+    await imageProcessingQueue.close();
+    logger.info("BullMQ image processing queue closed.");
+  } catch (error) {
+    logger.error(`Failed to close image processing queue: ${error.message}`);
+  }
+  try {
+    await imageProcessingWorker.close();
+    logger.info("BullMQ image processing worker closed.");
+  } catch (error) {
+    logger.error(`Failed to close image processing worker: ${error.message}`);
+  }
+
 
   logger.info("All connections closed successfully.");
 }
@@ -226,7 +246,7 @@ async function cleanup() {
 async function flushLogger() {
   logger.debug("Flushing logs...");
   return new Promise((resolve) => {
-    const transports = logger.transports.filter(t => t.close); // Only consider transports with a close method
+    const transports = logger.transports.filter(t => t.close);
     let pendingTransports = transports.length;
 
     if (pendingTransports === 0) {
@@ -247,7 +267,6 @@ async function flushLogger() {
       transport.close(onTransportClosed);
     });
 
-    // Fallback timeout in case some transports never call their callback
     setTimeout(() => {
       logger.warn("Flush logger timeout reached.");
       resolve();

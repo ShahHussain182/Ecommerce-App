@@ -2,6 +2,7 @@ import { SearchHistory } from '../Models/SearchHistory.model.js';
 import catchErrors from '../Utils/catchErrors.js';
 import { createSearchHistorySchema, getSearchHistoryParamsSchema } from '../Schemas/searchHistorySchema.js';
 import mongoose from 'mongoose';
+import trackEvent from '../Utils/metaRank.js'
 
 /**
  * @description Record a new search query for the authenticated user.
@@ -14,6 +15,12 @@ export const recordSearch = catchErrors(async (req, res) => {
   const validatedData = createSearchHistorySchema.parse({ userId, query });
 
   const searchRecord = await SearchHistory.create(validatedData);
+  await trackEvent({
+    event: 'search',
+    user: userId,
+    item: `query:${query}`, // prefix helps avoid collisions with real products
+    timestamp: Date.now(),
+  });
 
   res.status(201).json({ success: true, message: 'Search recorded successfully!', searchRecord });
 });

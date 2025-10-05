@@ -26,6 +26,16 @@ const variantSchema = new mongoose.Schema({
   },
 }, { _id: true }); // Ensure variants get their own unique _id
 
+// Schema for storing different image renditions
+const imageRenditionSchema = new mongoose.Schema({
+  original: { type: String, required: true },
+  medium: { type: String, required: true },
+  thumbnail: { type: String, required: true },
+  webp: { type: String }, // Optional WebP version
+  avif: { type: String }, // Optional AVIF version
+  // Add other renditions as needed
+}, { _id: false }); // No _id for sub-documents
+
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -51,6 +61,15 @@ const productSchema = new mongoose.Schema(
       minlength: [1, 'At least one image URL is required.'], // Enforce minimum 1
       maxlength: [5, 'Maximum of 5 images allowed.'], // Enforce maximum 5
       validate: [v => Array.isArray(v) && v.length > 0, 'At least one image URL is required.'] // Adjusted validation
+    },
+    imageRenditions: { // New field to store all renditions
+      type: [imageRenditionSchema],
+      default: [],
+    },
+    imageProcessingStatus: { // New field to track processing status
+      type: String,
+      enum: ['pending', 'completed', 'failed'],
+      default: 'pending',
     },
     isFeatured: {
       type: Boolean,
