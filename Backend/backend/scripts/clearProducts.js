@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import { MeiliSearch } from 'meilisearch';
+import { Product } from '../Models/Product.model.js'; // Added this import
 import { logger } from '../Utils/logger.js'; // Import the logger
 
 async function clearProducts() {

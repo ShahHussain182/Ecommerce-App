@@ -1,2 +1,5 @@
 2025-10-05T09:40:23.881Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
 2025-10-05T09:52:52.224Z [ERROR] [req:N/A] ❌ Error during product clearing process:
+2025-10-05T09:55:22.774Z [ERROR] [req:N/A] ReferenceError: Product is not defined
+    at clearProducts (file:///C:/Users/Administrator/dyad-apps/Ecommerce%20App/Backend/backend/scripts/clearProducts.js:15:26)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
