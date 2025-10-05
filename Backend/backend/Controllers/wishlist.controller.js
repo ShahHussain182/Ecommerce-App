@@ -37,19 +37,22 @@ export const getWishlist = catchErrors(async (req, res) => {
       return null; // This item will be filtered out
     }
 
+    // Determine the current thumbnail URL
+    const currentThumbnail = product.imageRenditions[0]?.thumbnail || product.imageUrls[0] || '/placeholder.svg';
+
     // Case 2: Check for price changes or other variant detail changes
     if (
       item.priceAtTime !== variant.price ||
       item.sizeAtTime !== variant.size ||
       item.colorAtTime !== variant.color ||
       item.nameAtTime !== product.name ||
-      item.imageAtTime !== (product.imageUrls[0] || '/placeholder.svg')
+      item.imageAtTime !== currentThumbnail // Check if imageAtTime needs update
     ) {
       item.priceAtTime = variant.price;
       item.sizeAtTime = variant.size;
       item.colorAtTime = variant.color;
       item.nameAtTime = product.name;
-      item.imageAtTime = product.imageUrls[0] || '/placeholder.svg';
+      item.imageAtTime = currentThumbnail; // Update to thumbnail rendition
       needsUpdate = true;
     }
     
@@ -66,7 +69,7 @@ export const getWishlist = catchErrors(async (req, res) => {
   // Populate product details for a rich response to the frontend
   await wishlist.populate({
     path: 'items.productId',
-    select: 'name description category imageUrls variants' // Select necessary fields for display
+    select: 'name description category imageUrls variants imageRenditions' // Select imageRenditions for frontend use
   });
 
   res.status(200).json({ success: true, wishlist });
@@ -100,12 +103,15 @@ export const addItemToWishlist = catchErrors(async (req, res) => {
   if (existingItem) {
     return res.status(409).json({ success: false, message: 'Item already in wishlist.' });
   } else {
+    // Determine the image URL to store (thumbnail rendition)
+    const imageToStore = product.imageRenditions[0]?.thumbnail || product.imageUrls[0] || '/placeholder.svg';
+
     // Add new item with a data snapshot, including variant details
     wishlist.items.push({
       productId,
       variantId,
       nameAtTime: product.name,
-      imageAtTime: product.imageUrls[0] || '/placeholder.svg',
+      imageAtTime: imageToStore, // Store thumbnail rendition
       priceAtTime: variant.price,
       sizeAtTime: variant.size,
       colorAtTime: variant.color,
@@ -115,7 +121,7 @@ export const addItemToWishlist = catchErrors(async (req, res) => {
   await wishlist.save();
   await wishlist.populate({
     path: 'items.productId',
-    select: 'name description category imageUrls variants'
+    select: 'name description category imageUrls variants imageRenditions' // Select imageRenditions for frontend use
   });
 
   res.status(200).json({ success: true, wishlist });
@@ -134,7 +140,7 @@ export const removeItemFromWishlist = catchErrors(async (req, res) => {
         { new: true }
     ).populate({
       path: 'items.productId',
-      select: 'name description category imageUrls variants'
+      select: 'name description category imageUrls variants imageRenditions' // Select imageRenditions for frontend use
     });
 
     if (!wishlist) {

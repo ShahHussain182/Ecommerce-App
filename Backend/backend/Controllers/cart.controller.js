@@ -57,6 +57,13 @@ export const getCart = catchErrors(async (req, res) => {
       item.colorAtTime = variant.color;
       needsUpdate = true;
     }
+
+    // Case 5: Update imageAtTime to use thumbnail rendition if available
+    const currentThumbnail = product.imageRenditions[0]?.thumbnail || product.imageUrls[0] || '/placeholder.svg';
+    if (item.imageAtTime !== currentThumbnail) {
+      item.imageAtTime = currentThumbnail;
+      needsUpdate = true;
+    }
     
     return item;
   });
@@ -105,9 +112,14 @@ export const addItemToCart = catchErrors(async (req, res) => {
     item => item.productId.equals(productId) && item.variantId.equals(variantId)
   );
 
+  // Determine the image URL to store (thumbnail rendition)
+  const imageToStore = product.imageRenditions[0]?.thumbnail || product.imageUrls[0] || '/placeholder.svg';
+
   if (existingItem) {
     // Update quantity, ensuring it doesn't exceed stock
     existingItem.quantity = Math.min(existingItem.quantity + quantity, variant.stock);
+    // Also update imageAtTime in case the product's primary image/rendition changed
+    existingItem.imageAtTime = imageToStore;
   } else {
     // Add new item with a data snapshot, including variant details
     cart.items.push({
@@ -116,7 +128,7 @@ export const addItemToCart = catchErrors(async (req, res) => {
       quantity,
       priceAtTime: variant.price,
       nameAtTime: product.name,
-      imageAtTime: product.imageUrls[0] || '/placeholder.svg',
+      imageAtTime: imageToStore, // Store thumbnail rendition
       sizeAtTime: variant.size, // Store variant size
       colorAtTime: variant.color, // Store variant color
     });
