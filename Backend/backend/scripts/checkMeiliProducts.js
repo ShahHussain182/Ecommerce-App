@@ -32,6 +32,8 @@ async function checkMeiliProducts() {
         logger.info(`Average Rating: ${product.averageRating}`);
         logger.info(`Number of Reviews: ${product.numberOfReviews}`);
         logger.info(`Image URLs (first): ${product.imageUrls?.[0]}`);
+        logger.info(`Redentions URLs (first): ${product.imageRenditions}`);
+     
         logger.info('--------------------');
       });
     }

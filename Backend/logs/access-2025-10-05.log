@@ -179,3 +179,420 @@
 2025-10-05T11:02:48.652Z [HTTP] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] ::1 - - [05/Oct/2025:11:02:48 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
 2025-10-05T11:02:49.263Z [HTTP] [req:ebeb5246-0ea1-456e-afb4-554e83f693af] ::1 - - [05/Oct/2025:11:02:49 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
 2025-10-05T11:02:49.481Z [HTTP] [req:2f46b912-6752-468f-88d9-b5afa584537d] ::1 - - [05/Oct/2025:11:02:49 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T11:15:58.010Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:15:58.039Z [INFO] [req:N/A] ✅ Connected to Meilisearch and got "products" index.
+2025-10-05T11:15:58.040Z [INFO] [req:N/A] Fetching up to 5 products from Meilisearch index...
+2025-10-05T11:15:58.506Z [INFO] [req:N/A] ✅ Found 5 products in Meilisearch. Here are the first few:
+2025-10-05T11:15:58.507Z [INFO] [req:N/A] --- Product 1 ---
+2025-10-05T11:15:58.508Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12794
+2025-10-05T11:15:58.509Z [INFO] [req:N/A] Name: Wireless Noise-Cancelling Headphones
+2025-10-05T11:15:58.509Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:15:58.510Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:15:58.510Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:15:58.511Z [INFO] [req:N/A] Price: 249.99
+2025-10-05T11:15:58.511Z [INFO] [req:N/A] Colors: Black, White
+2025-10-05T11:15:58.512Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:15:58.512Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:15:58.513Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:15:58.513Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:15:58.514Z [INFO] [req:N/A] --------------------
+2025-10-05T11:15:58.514Z [INFO] [req:N/A] --- Product 2 ---
+2025-10-05T11:15:58.515Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12797
+2025-10-05T11:15:58.515Z [INFO] [req:N/A] Name: 4K Ultra HD Smart TV
+2025-10-05T11:15:58.516Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:15:58.516Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:15:58.516Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:15:58.517Z [INFO] [req:N/A] Price: 499.99
+2025-10-05T11:15:58.517Z [INFO] [req:N/A] Colors: Black, Black
+2025-10-05T11:15:58.518Z [INFO] [req:N/A] Sizes: 55-inch, 65-inch
+2025-10-05T11:15:58.518Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:15:58.518Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:15:58.519Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:15:58.519Z [INFO] [req:N/A] --------------------
+2025-10-05T11:15:58.519Z [INFO] [req:N/A] --- Product 3 ---
+2025-10-05T11:15:58.519Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279a
+2025-10-05T11:15:58.520Z [INFO] [req:N/A] Name: Portable Bluetooth Speaker
+2025-10-05T11:15:58.520Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:15:58.520Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:15:58.521Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:15:58.521Z [INFO] [req:N/A] Price: 89.99
+2025-10-05T11:15:58.521Z [INFO] [req:N/A] Colors: Blue, Red
+2025-10-05T11:15:58.521Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:15:58.522Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:15:58.522Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:15:58.523Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:15:58.523Z [INFO] [req:N/A] --------------------
+2025-10-05T11:15:58.523Z [INFO] [req:N/A] --- Product 4 ---
+2025-10-05T11:15:58.524Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279d
+2025-10-05T11:15:58.524Z [INFO] [req:N/A] Name: Classic Cotton T-Shirt
+2025-10-05T11:15:58.525Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:15:58.525Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:15:58.632Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:15:58.658Z [INFO] [req:N/A] Price: 19.99
+2025-10-05T11:15:58.658Z [INFO] [req:N/A] Colors: White, White, White, Black, Black, Black
+2025-10-05T11:15:58.658Z [INFO] [req:N/A] Sizes: S, M, L, S, M, L
+2025-10-05T11:15:58.659Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:15:58.659Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:15:58.659Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:15:58.660Z [INFO] [req:N/A] --------------------
+2025-10-05T11:15:58.660Z [INFO] [req:N/A] --- Product 5 ---
+2025-10-05T11:15:58.660Z [INFO] [req:N/A] ID: 68e2434af645aea38bd127a4
+2025-10-05T11:15:58.660Z [INFO] [req:N/A] Name: Modern Slim-Fit Jeans
+2025-10-05T11:15:58.661Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:15:58.661Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:15:58.661Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:15:58.661Z [INFO] [req:N/A] Price: 79.99
+2025-10-05T11:15:58.662Z [INFO] [req:N/A] Colors: Blue, Blue, Blue
+2025-10-05T11:15:58.662Z [INFO] [req:N/A] Sizes: M, L, XL
+2025-10-05T11:15:58.662Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:15:58.662Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:15:58.663Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:15:58.663Z [INFO] [req:N/A] --------------------
+2025-10-05T11:20:10.107Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:20:12.115Z [INFO] [req:N/A] ✅ Connected to Meilisearch and got "products" index.
+2025-10-05T11:20:12.115Z [INFO] [req:N/A] Fetching up to 5 products from Meilisearch index...
+2025-10-05T11:20:14.385Z [INFO] [req:N/A] ✅ Found 5 products in Meilisearch. Here are the first few:
+2025-10-05T11:20:14.387Z [INFO] [req:N/A] --- Product 1 ---
+2025-10-05T11:20:14.388Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12794
+2025-10-05T11:20:14.389Z [INFO] [req:N/A] Name: Wireless Noise-Cancelling Headphones
+2025-10-05T11:20:14.389Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:20:14.390Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:20:14.390Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:20:14.391Z [INFO] [req:N/A] Price: 249.99
+2025-10-05T11:20:14.391Z [INFO] [req:N/A] Colors: Black, White
+2025-10-05T11:20:14.392Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:20:14.392Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:20:14.393Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:20:14.393Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:20:14.394Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.394Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.395Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.395Z [INFO] [req:N/A] --------------------
+2025-10-05T11:20:14.396Z [INFO] [req:N/A] --- Product 2 ---
+2025-10-05T11:20:14.396Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12797
+2025-10-05T11:20:14.397Z [INFO] [req:N/A] Name: 4K Ultra HD Smart TV
+2025-10-05T11:20:14.397Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:20:14.398Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:20:14.398Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:20:14.398Z [INFO] [req:N/A] Price: 499.99
+2025-10-05T11:20:14.399Z [INFO] [req:N/A] Colors: Black, Black
+2025-10-05T11:20:14.399Z [INFO] [req:N/A] Sizes: 55-inch, 65-inch
+2025-10-05T11:20:14.400Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:20:14.400Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:20:14.400Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:20:14.401Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.401Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.402Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.403Z [INFO] [req:N/A] --------------------
+2025-10-05T11:20:14.404Z [INFO] [req:N/A] --- Product 3 ---
+2025-10-05T11:20:14.404Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279a
+2025-10-05T11:20:14.405Z [INFO] [req:N/A] Name: Portable Bluetooth Speaker
+2025-10-05T11:20:14.405Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:20:14.406Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:20:14.406Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:20:14.407Z [INFO] [req:N/A] Price: 89.99
+2025-10-05T11:20:14.407Z [INFO] [req:N/A] Colors: Blue, Red
+2025-10-05T11:20:14.408Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:20:14.408Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:20:14.408Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:20:14.409Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:20:14.409Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.410Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.410Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.410Z [INFO] [req:N/A] --------------------
+2025-10-05T11:20:14.411Z [INFO] [req:N/A] --- Product 4 ---
+2025-10-05T11:20:14.411Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279d
+2025-10-05T11:20:14.411Z [INFO] [req:N/A] Name: Classic Cotton T-Shirt
+2025-10-05T11:20:14.412Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:20:14.412Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:20:14.412Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:20:14.413Z [INFO] [req:N/A] Price: 19.99
+2025-10-05T11:20:14.413Z [INFO] [req:N/A] Colors: White, White, White, Black, Black, Black
+2025-10-05T11:20:14.413Z [INFO] [req:N/A] Sizes: S, M, L, S, M, L
+2025-10-05T11:20:14.413Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:20:14.414Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:20:14.414Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:20:14.414Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.415Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.415Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.415Z [INFO] [req:N/A] --------------------
+2025-10-05T11:20:14.415Z [INFO] [req:N/A] --- Product 5 ---
+2025-10-05T11:20:14.416Z [INFO] [req:N/A] ID: 68e2434af645aea38bd127a4
+2025-10-05T11:20:14.416Z [INFO] [req:N/A] Name: Modern Slim-Fit Jeans
+2025-10-05T11:20:14.416Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:20:14.417Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:20:14.417Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:20:14.417Z [INFO] [req:N/A] Price: 79.99
+2025-10-05T11:20:14.417Z [INFO] [req:N/A] Colors: Blue, Blue, Blue
+2025-10-05T11:20:14.418Z [INFO] [req:N/A] Sizes: M, L, XL
+2025-10-05T11:20:14.418Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:20:14.419Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:20:14.419Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:20:14.419Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.420Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.420Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:20:14.420Z [INFO] [req:N/A] --------------------
+2025-10-05T11:21:09.854Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:21:09.883Z [INFO] [req:N/A] ✅ Connected to Meilisearch and got "products" index.
+2025-10-05T11:21:09.884Z [INFO] [req:N/A] Fetching up to 5 products from Meilisearch index...
+2025-10-05T11:21:10.409Z [INFO] [req:N/A] ✅ Found 5 products in Meilisearch. Here are the first few:
+2025-10-05T11:21:10.411Z [INFO] [req:N/A] --- Product 1 ---
+2025-10-05T11:21:10.412Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12794
+2025-10-05T11:21:10.412Z [INFO] [req:N/A] Name: Wireless Noise-Cancelling Headphones
+2025-10-05T11:21:10.413Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:21:10.413Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:21:10.414Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:21:10.414Z [INFO] [req:N/A] Price: 249.99
+2025-10-05T11:21:10.415Z [INFO] [req:N/A] Colors: Black, White
+2025-10-05T11:21:10.415Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:21:10.416Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:21:10.416Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:21:10.416Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:21:10.417Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.417Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.417Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.418Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.418Z [INFO] [req:N/A] --------------------
+2025-10-05T11:21:10.419Z [INFO] [req:N/A] --- Product 2 ---
+2025-10-05T11:21:10.419Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12797
+2025-10-05T11:21:10.419Z [INFO] [req:N/A] Name: 4K Ultra HD Smart TV
+2025-10-05T11:21:10.420Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:21:10.420Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:21:10.421Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:21:10.421Z [INFO] [req:N/A] Price: 499.99
+2025-10-05T11:21:10.422Z [INFO] [req:N/A] Colors: Black, Black
+2025-10-05T11:21:10.422Z [INFO] [req:N/A] Sizes: 55-inch, 65-inch
+2025-10-05T11:21:10.422Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:21:10.423Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:21:10.423Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:21:10.424Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.424Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.424Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.425Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.425Z [INFO] [req:N/A] --------------------
+2025-10-05T11:21:10.426Z [INFO] [req:N/A] --- Product 3 ---
+2025-10-05T11:21:10.426Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279a
+2025-10-05T11:21:10.426Z [INFO] [req:N/A] Name: Portable Bluetooth Speaker
+2025-10-05T11:21:10.427Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:21:10.427Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:21:10.428Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:21:10.428Z [INFO] [req:N/A] Price: 89.99
+2025-10-05T11:21:10.428Z [INFO] [req:N/A] Colors: Blue, Red
+2025-10-05T11:21:10.429Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:21:10.429Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:21:10.429Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:21:10.430Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:21:10.430Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.431Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.431Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.431Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.432Z [INFO] [req:N/A] --------------------
+2025-10-05T11:21:10.432Z [INFO] [req:N/A] --- Product 4 ---
+2025-10-05T11:21:10.433Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279d
+2025-10-05T11:21:10.433Z [INFO] [req:N/A] Name: Classic Cotton T-Shirt
+2025-10-05T11:21:10.433Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:21:10.434Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:21:10.434Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:21:10.434Z [INFO] [req:N/A] Price: 19.99
+2025-10-05T11:21:10.435Z [INFO] [req:N/A] Colors: White, White, White, Black, Black, Black
+2025-10-05T11:21:10.435Z [INFO] [req:N/A] Sizes: S, M, L, S, M, L
+2025-10-05T11:21:10.436Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:21:10.436Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:21:10.436Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:21:10.437Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.437Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.437Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.438Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.438Z [INFO] [req:N/A] --------------------
+2025-10-05T11:21:10.438Z [INFO] [req:N/A] --- Product 5 ---
+2025-10-05T11:21:10.439Z [INFO] [req:N/A] ID: 68e2434af645aea38bd127a4
+2025-10-05T11:21:10.439Z [INFO] [req:N/A] Name: Modern Slim-Fit Jeans
+2025-10-05T11:21:10.439Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:21:10.440Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:21:10.440Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:21:10.440Z [INFO] [req:N/A] Price: 79.99
+2025-10-05T11:21:10.441Z [INFO] [req:N/A] Colors: Blue, Blue, Blue
+2025-10-05T11:21:10.441Z [INFO] [req:N/A] Sizes: M, L, XL
+2025-10-05T11:21:10.441Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:21:10.442Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:21:10.442Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:21:10.442Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.443Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.443Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.443Z [INFO] [req:N/A] Image URLs (first): undefined
+2025-10-05T11:21:10.443Z [INFO] [req:N/A] --------------------
+2025-10-05T11:22:44.421Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:22:44.449Z [INFO] [req:N/A] ✅ Connected to Meilisearch and got "products" index.
+2025-10-05T11:22:44.450Z [INFO] [req:N/A] Fetching up to 5 products from Meilisearch index...
+2025-10-05T11:22:46.178Z [INFO] [req:N/A] ✅ Found 5 products in Meilisearch. Here are the first few:
+2025-10-05T11:22:46.179Z [INFO] [req:N/A] --- Product 1 ---
+2025-10-05T11:22:46.180Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12794
+2025-10-05T11:22:46.181Z [INFO] [req:N/A] Name: Wireless Noise-Cancelling Headphones
+2025-10-05T11:22:46.181Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:22:46.182Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:22:46.182Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:22:46.183Z [INFO] [req:N/A] Price: 249.99
+2025-10-05T11:22:46.183Z [INFO] [req:N/A] Colors: Black, White
+2025-10-05T11:22:46.183Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:22:46.184Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:22:46.184Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:22:46.184Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:22:46.185Z [INFO] [req:N/A] Redentions URLs (first): undefined
+2025-10-05T11:22:46.185Z [INFO] [req:N/A] --------------------
+2025-10-05T11:22:46.185Z [INFO] [req:N/A] --- Product 2 ---
+2025-10-05T11:22:46.186Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12797
+2025-10-05T11:22:46.186Z [INFO] [req:N/A] Name: 4K Ultra HD Smart TV
+2025-10-05T11:22:46.186Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:22:46.187Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:22:46.187Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:22:46.187Z [INFO] [req:N/A] Price: 499.99
+2025-10-05T11:22:46.188Z [INFO] [req:N/A] Colors: Black, Black
+2025-10-05T11:22:46.188Z [INFO] [req:N/A] Sizes: 55-inch, 65-inch
+2025-10-05T11:22:46.188Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:22:46.189Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:22:46.189Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:22:46.189Z [INFO] [req:N/A] Redentions URLs (first): undefined
+2025-10-05T11:22:46.190Z [INFO] [req:N/A] --------------------
+2025-10-05T11:22:46.190Z [INFO] [req:N/A] --- Product 3 ---
+2025-10-05T11:22:46.190Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279a
+2025-10-05T11:22:46.191Z [INFO] [req:N/A] Name: Portable Bluetooth Speaker
+2025-10-05T11:22:46.191Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:22:46.191Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:22:46.191Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:22:46.192Z [INFO] [req:N/A] Price: 89.99
+2025-10-05T11:22:46.192Z [INFO] [req:N/A] Colors: Blue, Red
+2025-10-05T11:22:46.192Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:22:46.193Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:22:46.193Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:22:46.193Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:22:46.193Z [INFO] [req:N/A] Redentions URLs (first): undefined
+2025-10-05T11:22:46.194Z [INFO] [req:N/A] --------------------
+2025-10-05T11:22:46.194Z [INFO] [req:N/A] --- Product 4 ---
+2025-10-05T11:22:46.194Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279d
+2025-10-05T11:22:46.194Z [INFO] [req:N/A] Name: Classic Cotton T-Shirt
+2025-10-05T11:22:46.195Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:22:46.195Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:22:46.212Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:22:46.212Z [INFO] [req:N/A] Price: 19.99
+2025-10-05T11:22:46.213Z [INFO] [req:N/A] Colors: White, White, White, Black, Black, Black
+2025-10-05T11:22:46.213Z [INFO] [req:N/A] Sizes: S, M, L, S, M, L
+2025-10-05T11:22:46.213Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:22:46.214Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:22:46.215Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:22:46.215Z [INFO] [req:N/A] Redentions URLs (first): undefined
+2025-10-05T11:22:46.216Z [INFO] [req:N/A] --------------------
+2025-10-05T11:22:46.217Z [INFO] [req:N/A] --- Product 5 ---
+2025-10-05T11:22:46.217Z [INFO] [req:N/A] ID: 68e2434af645aea38bd127a4
+2025-10-05T11:22:46.218Z [INFO] [req:N/A] Name: Modern Slim-Fit Jeans
+2025-10-05T11:22:46.218Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:22:46.218Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:22:46.219Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:22:46.219Z [INFO] [req:N/A] Price: 79.99
+2025-10-05T11:22:46.220Z [INFO] [req:N/A] Colors: Blue, Blue, Blue
+2025-10-05T11:22:46.220Z [INFO] [req:N/A] Sizes: M, L, XL
+2025-10-05T11:22:46.220Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:22:46.221Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:22:46.221Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:22:46.221Z [INFO] [req:N/A] Redentions URLs (first): undefined
+2025-10-05T11:22:46.222Z [INFO] [req:N/A] --------------------
+2025-10-05T11:23:39.766Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:23:39.794Z [INFO] [req:N/A] ✅ Connected to Meilisearch and got "products" index.
+2025-10-05T11:23:39.795Z [INFO] [req:N/A] Fetching up to 5 products from Meilisearch index...
+2025-10-05T11:23:40.553Z [INFO] [req:N/A] ✅ Found 5 products in Meilisearch. Here are the first few:
+2025-10-05T11:23:40.554Z [INFO] [req:N/A] --- Product 1 ---
+2025-10-05T11:23:40.555Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12794
+2025-10-05T11:23:40.556Z [INFO] [req:N/A] Name: Wireless Noise-Cancelling Headphones
+2025-10-05T11:23:40.557Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:23:40.557Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:23:40.558Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:23:40.558Z [INFO] [req:N/A] Price: 249.99
+2025-10-05T11:23:40.558Z [INFO] [req:N/A] Colors: Black, White
+2025-10-05T11:23:40.559Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:23:40.560Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:23:40.560Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:23:40.561Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:23:40.561Z [INFO] [req:N/A] Redentions URLs (first): 
+2025-10-05T11:23:40.561Z [INFO] [req:N/A] --------------------
+2025-10-05T11:23:40.562Z [INFO] [req:N/A] --- Product 2 ---
+2025-10-05T11:23:40.562Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12797
+2025-10-05T11:23:40.563Z [INFO] [req:N/A] Name: 4K Ultra HD Smart TV
+2025-10-05T11:23:40.563Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:23:40.564Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:23:40.564Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:23:40.564Z [INFO] [req:N/A] Price: 499.99
+2025-10-05T11:23:40.565Z [INFO] [req:N/A] Colors: Black, Black
+2025-10-05T11:23:40.565Z [INFO] [req:N/A] Sizes: 55-inch, 65-inch
+2025-10-05T11:23:40.566Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:23:40.566Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:23:40.566Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:23:40.566Z [INFO] [req:N/A] Redentions URLs (first): 
+2025-10-05T11:23:40.567Z [INFO] [req:N/A] --------------------
+2025-10-05T11:23:40.567Z [INFO] [req:N/A] --- Product 3 ---
+2025-10-05T11:23:40.567Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279a
+2025-10-05T11:23:40.568Z [INFO] [req:N/A] Name: Portable Bluetooth Speaker
+2025-10-05T11:23:40.568Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T11:23:40.568Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:23:40.569Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:23:40.569Z [INFO] [req:N/A] Price: 89.99
+2025-10-05T11:23:40.570Z [INFO] [req:N/A] Colors: Blue, Red
+2025-10-05T11:23:40.570Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T11:23:40.571Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:23:40.571Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:23:40.571Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:23:40.572Z [INFO] [req:N/A] Redentions URLs (first): 
+2025-10-05T11:23:40.572Z [INFO] [req:N/A] --------------------
+2025-10-05T11:23:40.572Z [INFO] [req:N/A] --- Product 4 ---
+2025-10-05T11:23:40.573Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279d
+2025-10-05T11:23:40.573Z [INFO] [req:N/A] Name: Classic Cotton T-Shirt
+2025-10-05T11:23:40.574Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:23:40.574Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:23:40.575Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T11:23:40.576Z [INFO] [req:N/A] Price: 19.99
+2025-10-05T11:23:40.576Z [INFO] [req:N/A] Colors: White, White, White, Black, Black, Black
+2025-10-05T11:23:40.576Z [INFO] [req:N/A] Sizes: S, M, L, S, M, L
+2025-10-05T11:23:40.577Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:23:40.577Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:23:40.577Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:23:40.577Z [INFO] [req:N/A] Redentions URLs (first): 
+2025-10-05T11:23:40.578Z [INFO] [req:N/A] --------------------
+2025-10-05T11:23:40.578Z [INFO] [req:N/A] --- Product 5 ---
+2025-10-05T11:23:40.578Z [INFO] [req:N/A] ID: 68e2434af645aea38bd127a4
+2025-10-05T11:23:40.579Z [INFO] [req:N/A] Name: Modern Slim-Fit Jeans
+2025-10-05T11:23:40.579Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T11:23:40.579Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T11:23:40.580Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T11:23:40.580Z [INFO] [req:N/A] Price: 79.99
+2025-10-05T11:23:40.580Z [INFO] [req:N/A] Colors: Blue, Blue, Blue
+2025-10-05T11:23:40.581Z [INFO] [req:N/A] Sizes: M, L, XL
+2025-10-05T11:23:40.581Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T11:23:40.581Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T11:23:40.581Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T11:23:40.582Z [INFO] [req:N/A] Redentions URLs (first): 
+2025-10-05T11:23:40.582Z [INFO] [req:N/A] --------------------
+2025-10-05T11:25:11.744Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:25:13.573Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:25:21.082Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:25:23.074Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:25:23.079Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-05T11:25:24.644Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T11:25:25.153Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:25:25.469Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:25:25.473Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:25:39.789Z [WARN] [req:f5d98cd4-2af8-4fe2-8daa-62d566296dca] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-05T11:25:40.020Z [HTTP] [req:f5d98cd4-2af8-4fe2-8daa-62d566296dca] ::1 - - [05/Oct/2025:11:25:40 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:25:54.021Z [HTTP] [req:8cc646b5-c51f-49ff-ad71-c887b1d6fc20] ::1 - - [05/Oct/2025:11:25:54 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:25:56.315Z [HTTP] [req:b17dbfb1-f0bb-43ee-9a5a-ffaef6ddce52] ::1 - - [05/Oct/2025:11:25:56 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:25:56.949Z [HTTP] [req:286a0bd1-6a14-485d-bc31-6d5aff032b53] ::1 - - [05/Oct/2025:11:25:56 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:25:59.412Z [HTTP] [req:4a9cbfa5-0d3c-48e5-ae6a-1712affde134] ::1 - - [05/Oct/2025:11:25:59 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 3401 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:25:59.860Z [HTTP] [req:79e8d5f8-da76-4906-a21e-c680317f83b7] ::1 - - [05/Oct/2025:11:25:59 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:26:00.207Z [HTTP] [req:15d7746d-2680-450a-b2b3-73d91aef13be] ::1 - - [05/Oct/2025:11:26:00 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:26:01.304Z [HTTP] [req:cedb9ffc-deaa-4651-b426-1d9951193887] ::1 - - [05/Oct/2025:11:26:01 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:26:02.027Z [HTTP] [req:17f3e76e-7857-4aa8-b306-c37183d80185] ::1 - - [05/Oct/2025:11:26:02 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 6490 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:27:01.583Z [ERROR] [req:N/A] Failed to upload file team-working.jpg during product creation: Class constructor ObjectId cannot be invoked without 'new'
+2025-10-05T11:27:01.755Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:27:01 +0000] "POST /api/v1/products HTTP/1.1" 500 112 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:29:55.349Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:29:55.472Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:29:59.605Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:30:03.775Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:30:03.779Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-05T11:30:05.123Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.

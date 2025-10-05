@@ -175,7 +175,7 @@ export const createProduct = catchErrors(async (req, res) => {
     }
     for (const file of req.files) {
       try {
-        const s3Key = `products/originals/${mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
+        const s3Key = `products/originals/${new mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
         const url = await uploadFileToS3(file.buffer, file.mimetype, s3Key); 
         uploadedOriginalImageUrls.push(url);
         originalS3Keys.push(s3Key);
@@ -384,7 +384,7 @@ export const uploadProductImages = catchErrors(async (req, res) => {
   for (let i = 0; i < req.files.length; i++) {
     const file = req.files[i];
     try {
-      const s3Key = `products/originals/${mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
+      const s3Key = `products/originals/${new mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
       const url = await uploadFileToS3(file.buffer, file.mimetype, s3Key); 
       uploadedOriginalImageUrls.push(url);
       originalS3Keys.push(s3Key);
