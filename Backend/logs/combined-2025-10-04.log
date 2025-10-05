@@ -1427,3 +1427,12 @@
 2025-10-05T06:46:10.942Z [WARN] [req:a8998812-4028-4e4f-be07-f4a4106264ca] [requireAuth] Unauthorized: No token provided for path: /check-auth
 2025-10-05T06:46:11.183Z [HTTP] [req:a8998812-4028-4e4f-be07-f4a4106264ca] ::1 - - [05/Oct/2025:06:46:11 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-05T06:52:15.184Z [DEBUG] [req:N/A] Running in development mode
+2025-10-05T06:52:21.708Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T06:52:52.381Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T06:52:52.389Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-05T06:52:55.390Z [INFO] [req:N/A] 43 products already exist in the database. Skipping product seeding.
+2025-10-05T06:52:56.892Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T06:52:58.031Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T06:52:58.040Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T06:52:58.041Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-05T06:53:36.527Z [DEBUG] [req:N/A] Running in development mode
