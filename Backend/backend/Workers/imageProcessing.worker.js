@@ -6,6 +6,7 @@ import s3Client from '../Utils/s3Client.js';
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { Product } from '../Models/Product.model.js';
 import mongoose from 'mongoose';
+import { productIndex } from '../Utils/meilisearchClient.js'; // Import productIndex
 
 const S3_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || "e-store-images";
 const MINIO_URL = process.env.MINIO_URL || "http://localhost:9000";
@@ -137,6 +138,35 @@ export const imageProcessingWorker = new Worker(
       await product.save();
       logger.info(`[ImageWorker] Product ${productId} image ${imageIndex} processed and updated successfully.`);
 
+      // --- NEW: Update Meilisearch document after processing is complete ---
+      if (product.imageProcessingStatus === 'completed') {
+        await productIndex.updateDocuments([{
+          _id: product._id.toString(),
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          imageUrls: product.imageUrls,
+          imageRenditions: product.imageRenditions,
+          imageProcessingStatus: product.imageProcessingStatus,
+          isFeatured: Boolean(product.isFeatured),
+          variants: (product.variants || []).map(v => ({
+            _id: v._id.toString(),
+            size: String(v.size ?? ''),
+            color: String(v.color ?? ''),
+            price: Number(v.price ?? 0),
+            stock: Number(v.stock ?? 0),
+          })),
+          price: product.variants[0]?.price ?? 0,
+          colors: product.variants.map(v => v.color),
+          sizes: product.variants.map(v => v.size),
+          averageRating: product.averageRating ?? 0,
+          numberOfReviews: product.numberOfReviews ?? 0,
+          createdAt: product.createdAt ? new Date(product.createdAt).toISOString() : null,
+        }]);
+        logger.info(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'completed'.`);
+      }
+      // --- END NEW ---
+
       // Clean up original uploaded file from S3 if it's no longer needed
       // This is optional, depending on whether you want to keep originals
       try {
@@ -151,6 +181,12 @@ export const imageProcessingWorker = new Worker(
       // Mark product as failed processing if a critical error occurs
       product.imageProcessingStatus = 'failed';
       await product.save();
+      // Also update Meilisearch to reflect the failed status
+      await productIndex.updateDocuments([{
+        _id: product._id.toString(),
+        imageProcessingStatus: 'failed',
+      }]);
+      logger.warn(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'failed'.`);
       throw error; // Re-throw to mark job as failed in BullMQ
     }
   },

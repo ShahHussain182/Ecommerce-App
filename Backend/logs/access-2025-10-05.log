@@ -667,3 +667,48 @@
 2025-10-05T11:37:26.404Z [ERROR] [req:N/A] [ImageWorker] Job 1 failed for product 68e2586ea755ba40be6b8d8a: The specified key does not exist.
 2025-10-05T11:38:49.952Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
 2025-10-05T11:38:50.075Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:38:53.905Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:38:56.773Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:38:56.779Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-05T11:38:58.048Z [INFO] [req:N/A] 41 products already exist in the database. Skipping product seeding.
+2025-10-05T11:38:58.566Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:38:58.764Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:38:58.768Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:39:47.188Z [INFO] [req:N/A] Connecting to MongoDB...
+2025-10-05T11:39:51.856Z [INFO] [req:N/A] ✅ Connected to MongoDB.
+2025-10-05T11:39:51.856Z [INFO] [req:N/A] Deleting all products from MongoDB...
+2025-10-05T11:39:53.063Z [INFO] [req:N/A] ✅ Deleted 41 products from MongoDB.
+2025-10-05T11:39:53.065Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:39:53.089Z [INFO] [req:N/A] ✅ Connected to Meilisearch.
+2025-10-05T11:39:53.090Z [INFO] [req:N/A] Deleting Meilisearch index "products"...
+2025-10-05T11:39:53.505Z [INFO] [req:N/A] 📦 Meilisearch index deletion task UID: 52
+2025-10-05T11:39:53.643Z [INFO] [req:N/A] ✅ Meilisearch index "products" deleted successfully.
+2025-10-05T11:39:53.644Z [INFO] [req:N/A] Disconnecting from MongoDB...
+2025-10-05T11:39:53.651Z [INFO] [req:N/A] ✅ Disconnected from MongoDB.
+2025-10-05T11:39:53.652Z [INFO] [req:N/A] Product clearing process finished.
+2025-10-05T11:40:13.815Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-10-05T11:40:19.725Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:40:19.805Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:40:21.651Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:40:23.451Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:40:23.454Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-05T11:40:24.702Z [INFO] [req:N/A] No products found. Seeding database with mock data...
+2025-10-05T11:40:25.454Z [INFO] [req:N/A] ✅ Database seeded successfully with mock products.
+2025-10-05T11:40:26.675Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:40:26.845Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:40:26.848Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:41:15.984Z [INFO] [req:N/A] ✅ File uploaded: products/originals/68e2595bf9b314d0675e801c-1759664475905.jpeg
+2025-10-05T11:41:16.824Z [INFO] [req:N/A] [ImageWorker] Processing job for product 68e2595bf9b314d0675e801d, image index 0 with key products/originals/68e2595bf9b314d0675e801c-1759664475905.jpeg
+2025-10-05T11:41:17.242Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:41:17 +0000] "POST /api/v1/products HTTP/1.1" 201 665 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:41:17.770Z [HTTP] [req:6dc1269f-d5a8-4d69-8e04-3e7dd8ff81e8] ::1 - - [05/Oct/2025:11:41:17 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 6490 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:41:18.976Z [INFO] [req:N/A] [ImageWorker] Product 68e2595bf9b314d0675e801d image 0 processed and updated successfully.
+2025-10-05T11:41:19.068Z [INFO] [req:N/A] [ImageWorker] Deleted original S3 object: products/originals/68e2595bf9b314d0675e801c-1759664475905.jpeg
+2025-10-05T11:41:20.558Z [INFO] [req:N/A] [ImageWorker] Job 2 completed for product 68e2595bf9b314d0675e801d
+2025-10-05T11:41:39.043Z [HTTP] [req:c3357637-e062-43af-9e66-46601bd2b176] ::1 - - [05/Oct/2025:11:41:39 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=re&sortBy=name-asc HTTP/1.1" 200 1430 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:41:40.399Z [HTTP] [req:d0d59067-58ff-40c2-b1f4-afd5d80dd0aa] ::1 - - [05/Oct/2025:11:41:40 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=rea&sortBy=name-asc HTTP/1.1" 200 2951 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:42:22.154Z [HTTP] [req:475e1998-7cce-4281-8934-b87c83cec7ce] ::1 - - [05/Oct/2025:11:42:22 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:42:22.706Z [HTTP] [req:8e238db9-8c1e-45aa-a078-c249849b9b24] ::1 - - [05/Oct/2025:11:42:22 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:42:22.961Z [HTTP] [req:39c03f86-1c4d-4f60-97c6-9db92f4e5384] ::1 - - [05/Oct/2025:11:42:22 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:42:26.096Z [HTTP] [req:c96b0342-4706-40f6-8f4c-32cc0aa14973] ::1 - - [05/Oct/2025:11:42:26 +0000] "GET /api/v1/products?page=1&limit=10&categories=Accessories&sortBy=name-asc HTTP/1.1" 200 4765 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:47:45.552Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:47:45.686Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
