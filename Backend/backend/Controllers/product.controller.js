@@ -338,7 +338,7 @@ export const deleteProduct = catchErrors(async (req, res) => {
           await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }));
           logger.info(`Deleted S3 object: ${s3Key}`);
         } catch (s3Error) {
-          logger.error(`Failed to delete S3 object ${s3Key}: ${s3Error.message}`);
+          logger.error(`Failed to delete S3 object ${s3Key}:`, { error: s3Error });
         }
       });
     });
@@ -497,7 +497,7 @@ export const deleteProductImage = catchErrors(async (req, res) => {
         deletePromises.push(
           s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }))
             .then(() => logger.info(`Deleted S3 object: ${s3Key}`))
-            .catch(s3Error => logger.error(`Failed to delete S3 object ${s3Key}: ${s3Error.message}`));
+            .catch(s3Error => logger.error(`Failed to delete S3 object ${s3Key}:`, { error: s3Error }));
         );
       }
     }
