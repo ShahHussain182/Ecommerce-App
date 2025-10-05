@@ -117,3 +117,148 @@
 2025-10-05T10:20:00.385Z [HTTP] [req:ae94dbc9-206a-4bef-96b5-8f3e514edf85] ::1 - - [05/Oct/2025:10:20:00 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-05T10:20:33.440Z [HTTP] [req:15c1deb3-9f92-41a5-8732-80cb19d15c79] ::1 - - [05/Oct/2025:10:20:33 +0000] "GET /api/v1/products?page=1&limit=10&categories=Accessories&sortBy=name-asc HTTP/1.1" 200 4597 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-10-05T10:20:38.288Z [HTTP] [req:b83a5e7d-a937-465e-b240-8c6d02676536] ::1 - - [05/Oct/2025:10:20:38 +0000] "GET /api/v1/products?page=1&limit=10&categories=Digital+Products&sortBy=name-asc HTTP/1.1" 200 64 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:34:20.286Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T10:34:20.315Z [INFO] [req:N/A] ✅ Connected to Meilisearch and got "products" index.
+2025-10-05T10:34:20.316Z [INFO] [req:N/A] Fetching up to 5 products from Meilisearch index...
+2025-10-05T10:34:21.239Z [INFO] [req:N/A] ✅ Found 5 products in Meilisearch. Here are the first few:
+2025-10-05T10:34:21.240Z [INFO] [req:N/A] --- Product 1 ---
+2025-10-05T10:34:21.241Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12794
+2025-10-05T10:34:21.242Z [INFO] [req:N/A] Name: Wireless Noise-Cancelling Headphones
+2025-10-05T10:34:21.242Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T10:34:21.243Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T10:34:21.243Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T10:34:21.244Z [INFO] [req:N/A] Price: 249.99
+2025-10-05T10:34:21.244Z [INFO] [req:N/A] Colors: Black, White
+2025-10-05T10:34:21.245Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T10:34:21.246Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T10:34:21.246Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T10:34:21.247Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T10:34:21.247Z [INFO] [req:N/A] --------------------
+2025-10-05T10:34:21.248Z [INFO] [req:N/A] --- Product 2 ---
+2025-10-05T10:34:21.249Z [INFO] [req:N/A] ID: 68e2434af645aea38bd12797
+2025-10-05T10:34:21.249Z [INFO] [req:N/A] Name: 4K Ultra HD Smart TV
+2025-10-05T10:34:21.250Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T10:34:21.250Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T10:34:21.251Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T10:34:21.251Z [INFO] [req:N/A] Price: 499.99
+2025-10-05T10:34:21.251Z [INFO] [req:N/A] Colors: Black, Black
+2025-10-05T10:34:21.252Z [INFO] [req:N/A] Sizes: 55-inch, 65-inch
+2025-10-05T10:34:21.252Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T10:34:21.253Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T10:34:21.253Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T10:34:21.253Z [INFO] [req:N/A] --------------------
+2025-10-05T10:34:21.254Z [INFO] [req:N/A] --- Product 3 ---
+2025-10-05T10:34:21.254Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279a
+2025-10-05T10:34:21.255Z [INFO] [req:N/A] Name: Portable Bluetooth Speaker
+2025-10-05T10:34:21.255Z [INFO] [req:N/A] Category: Electronics
+2025-10-05T10:34:21.255Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T10:34:21.256Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T10:34:21.256Z [INFO] [req:N/A] Price: 89.99
+2025-10-05T10:34:21.256Z [INFO] [req:N/A] Colors: Blue, Red
+2025-10-05T10:34:21.257Z [INFO] [req:N/A] Sizes: One Size, One Size
+2025-10-05T10:34:21.257Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T10:34:21.257Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T10:34:21.257Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T10:34:21.258Z [INFO] [req:N/A] --------------------
+2025-10-05T10:34:21.258Z [INFO] [req:N/A] --- Product 4 ---
+2025-10-05T10:34:21.258Z [INFO] [req:N/A] ID: 68e2434af645aea38bd1279d
+2025-10-05T10:34:21.259Z [INFO] [req:N/A] Name: Classic Cotton T-Shirt
+2025-10-05T10:34:21.259Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T10:34:21.259Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T10:34:21.260Z [INFO] [req:N/A] Is Featured: false
+2025-10-05T10:34:21.260Z [INFO] [req:N/A] Price: 19.99
+2025-10-05T10:34:21.261Z [INFO] [req:N/A] Colors: White, White, White, Black, Black, Black
+2025-10-05T10:34:21.261Z [INFO] [req:N/A] Sizes: S, M, L, S, M, L
+2025-10-05T10:34:21.261Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T10:34:21.262Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T10:34:21.262Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T10:34:21.262Z [INFO] [req:N/A] --------------------
+2025-10-05T10:34:21.263Z [INFO] [req:N/A] --- Product 5 ---
+2025-10-05T10:34:21.263Z [INFO] [req:N/A] ID: 68e2434af645aea38bd127a4
+2025-10-05T10:34:21.263Z [INFO] [req:N/A] Name: Modern Slim-Fit Jeans
+2025-10-05T10:34:21.264Z [INFO] [req:N/A] Category: Apparel
+2025-10-05T10:34:21.264Z [INFO] [req:N/A] Image Processing Status: completed
+2025-10-05T10:34:21.264Z [INFO] [req:N/A] Is Featured: true
+2025-10-05T10:34:21.265Z [INFO] [req:N/A] Price: 79.99
+2025-10-05T10:34:21.265Z [INFO] [req:N/A] Colors: Blue, Blue, Blue
+2025-10-05T10:34:21.265Z [INFO] [req:N/A] Sizes: M, L, XL
+2025-10-05T10:34:21.266Z [INFO] [req:N/A] Average Rating: 0
+2025-10-05T10:34:21.266Z [INFO] [req:N/A] Number of Reviews: 0
+2025-10-05T10:34:21.266Z [INFO] [req:N/A] Image URLs (first): /placeholder.svg
+2025-10-05T10:34:21.267Z [INFO] [req:N/A] --------------------
+2025-10-05T10:34:28.829Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T10:34:30.694Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T10:34:30.696Z [DEBUG] [req:N/A] Running in development mode
+2025-10-05T10:34:34.750Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T10:34:36.950Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T10:34:36.953Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-05T10:34:38.223Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T10:34:38.752Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T10:34:38.961Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T10:34:38.965Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T10:34:38.966Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-05T10:37:59.651Z [DEBUG] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-05T10:37:59.652Z [DEBUG] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] [requireAuth] AccessToken from cookies: present
+2025-10-05T10:37:59.653Z [DEBUG] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] [requireAuth] Authorization header: missing
+2025-10-05T10:38:00.559Z [DEBUG] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T10:38:01.825Z [DEBUG] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T10:38:01.826Z [DEBUG] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T10:38:02.013Z [HTTP] [req:bcb0a47f-979c-4129-95d2-3610abe76d38] ::1 - - [05/Oct/2025:10:38:02 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:38:02.219Z [DEBUG] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] [requireAuth] Attempting to authenticate for path: /metrics
+2025-10-05T10:38:02.220Z [DEBUG] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] [requireAuth] AccessToken from cookies: present
+2025-10-05T10:38:02.221Z [DEBUG] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] [requireAuth] Authorization header: missing
+2025-10-05T10:38:02.223Z [DEBUG] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T10:38:02.454Z [DEBUG] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T10:38:02.454Z [DEBUG] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T10:38:04.648Z [DEBUG] [req:b85fba07-6614-4255-a09b-f59f770542a8] [requireAuth] Attempting to authenticate for path: /sales-over-time
+2025-10-05T10:38:04.649Z [DEBUG] [req:b85fba07-6614-4255-a09b-f59f770542a8] [requireAuth] AccessToken from cookies: present
+2025-10-05T10:38:04.650Z [DEBUG] [req:b85fba07-6614-4255-a09b-f59f770542a8] [requireAuth] Authorization header: missing
+2025-10-05T10:38:04.652Z [DEBUG] [req:b85fba07-6614-4255-a09b-f59f770542a8] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T10:38:04.820Z [DEBUG] [req:b85fba07-6614-4255-a09b-f59f770542a8] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T10:38:04.821Z [DEBUG] [req:b85fba07-6614-4255-a09b-f59f770542a8] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T10:38:04.978Z [HTTP] [req:4b3ab1ad-f9f3-488d-87d7-67b16576eb99] ::1 - - [05/Oct/2025:10:38:04 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 3401 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:38:05.156Z [HTTP] [req:b85fba07-6614-4255-a09b-f59f770542a8] ::1 - - [05/Oct/2025:10:38:05 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:38:05.158Z [DEBUG] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] [requireAuth] Attempting to authenticate for path: /top-selling-products
+2025-10-05T10:38:05.158Z [DEBUG] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] [requireAuth] AccessToken from cookies: present
+2025-10-05T10:38:05.159Z [DEBUG] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] [requireAuth] Authorization header: missing
+2025-10-05T10:38:05.161Z [DEBUG] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T10:38:05.329Z [DEBUG] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T10:38:05.330Z [DEBUG] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T10:38:05.673Z [HTTP] [req:84dfe464-8a56-49b3-82e9-169893ac8eea] ::1 - - [05/Oct/2025:10:38:05 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:38:23.292Z [HTTP] [req:d1d463c4-7ee5-429f-80be-3b07980d89c6] ::1 - - [05/Oct/2025:10:38:23 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:38:27.027Z [HTTP] [req:1945cf6a-3b77-4276-9009-200aa933939d] ::1 - - [05/Oct/2025:10:38:27 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:39:00.153Z [HTTP] [req:960ccc92-9c9d-40dd-aa86-184f3b550a48] ::1 - - [05/Oct/2025:10:39:00 +0000] "GET /api/v1/products?page=1&limit=10&categories=Accessories&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:39:48.803Z [DEBUG] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-05T10:39:48.803Z [DEBUG] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] [requireAuth] AccessToken from cookies: present
+2025-10-05T10:39:48.804Z [DEBUG] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] [requireAuth] Authorization header: missing
+2025-10-05T10:39:48.806Z [DEBUG] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T10:39:49.019Z [DEBUG] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T10:39:49.019Z [DEBUG] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T10:39:49.185Z [HTTP] [req:e54dbcd8-a91c-4de6-85b3-b4e6bfe5744a] ::1 - - [05/Oct/2025:10:39:49 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:39:49.788Z [HTTP] [req:f31f3d90-9b5c-4cb6-9bbc-9753f397bdeb] ::1 - - [05/Oct/2025:10:39:49 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:39:50.072Z [HTTP] [req:0bec8457-403e-4ae4-af8f-356f138613a0] ::1 - - [05/Oct/2025:10:39:50 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:44:58.259Z [DEBUG] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-05T10:44:58.260Z [DEBUG] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] [requireAuth] AccessToken from cookies: present
+2025-10-05T10:44:58.261Z [DEBUG] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] [requireAuth] Authorization header: missing
+2025-10-05T10:44:58.263Z [DEBUG] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T10:44:58.431Z [DEBUG] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T10:44:58.432Z [DEBUG] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T10:44:58.612Z [HTTP] [req:8e2586d9-e1cd-4e28-bca2-cbf543f0ea12] ::1 - - [05/Oct/2025:10:44:58 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:44:59.401Z [HTTP] [req:9ccc966b-d5eb-45ac-875f-85b70cdd0ed6] ::1 - - [05/Oct/2025:10:44:59 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:45:00.131Z [HTTP] [req:54f6e7d1-10f3-4ef2-916a-096c341189ce] ::1 - - [05/Oct/2025:10:45:00 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:51:02.341Z [HTTP] [req:954dc7a3-d394-474f-af32-bf20e690fd65] ::1 - - [05/Oct/2025:10:51:02 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-desc HTTP/1.1" 200 6114 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:51:04.825Z [HTTP] [req:2551da5d-7996-469f-92f9-c054538b28f0] ::1 - - [05/Oct/2025:10:51:04 +0000] "GET /api/v1/products?page=1&limit=10&categories=Home+Goods&sortBy=name-desc HTTP/1.1" 200 5049 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:51:06.337Z [HTTP] [req:a10284cf-d4ee-49b0-a4ee-4f37f21843f2] ::1 - - [05/Oct/2025:10:51:06 +0000] "GET /api/v1/products?page=1&limit=10&categories=Books&sortBy=name-desc HTTP/1.1" 200 64 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:51:08.587Z [HTTP] [req:05b7e067-a0e9-4816-a338-d2ce28083054] ::1 - - [05/Oct/2025:10:51:08 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=ffsd&categories=Books&sortBy=name-desc HTTP/1.1" 200 64 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:51:14.507Z [HTTP] [req:9311d2d2-375f-4c1a-9b46-221366e54295] ::1 - - [05/Oct/2025:10:51:14 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=rea&categories=Books&sortBy=name-desc HTTP/1.1" 200 64 "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:58:48.173Z [HTTP] [req:1bcc346f-5b03-4cbd-9a0e-eb78b04b612b] ::1 - - [05/Oct/2025:10:58:48 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T10:58:48.240Z [HTTP] [req:a18d9597-e64e-4424-bc28-377fca2ab44d] ::1 - - [05/Oct/2025:10:58:48 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=rea&categories=Books&sortBy=name-desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T11:02:48.298Z [DEBUG] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-05T11:02:48.299Z [DEBUG] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] [requireAuth] AccessToken from cookies: present
+2025-10-05T11:02:48.299Z [DEBUG] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] [requireAuth] Authorization header: missing
+2025-10-05T11:02:48.301Z [DEBUG] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T11:02:48.472Z [DEBUG] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T11:02:48.473Z [DEBUG] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] [requireAuth] Session ENX9jKpLhXeZRaLQpFjCsEipQ9EVWs1s touched.
+2025-10-05T11:02:48.652Z [HTTP] [req:be01da9b-35f7-4684-8531-ba0b85a2acb3] ::1 - - [05/Oct/2025:11:02:48 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T11:02:49.263Z [HTTP] [req:ebeb5246-0ea1-456e-afb4-554e83f693af] ::1 - - [05/Oct/2025:11:02:49 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"
+2025-10-05T11:02:49.481Z [HTTP] [req:2f46b912-6752-468f-88d9-b5afa584537d] ::1 - - [05/Oct/2025:11:02:49 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36"

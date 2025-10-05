@@ -8,7 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Plus, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService, UpdateProductData } from '../../services/productService';
-import type { Product, ProductVariant, ApiResponse, PaginatedResponse } from '../../types';
+import type { Product, ProductVariant, ApiResponse, PaginatedProductsResponse } from '../../types';
 
 const getTotalStock = (variants?: ProductVariant[]) => {
   return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
@@ -63,11 +63,11 @@ export const ProductsTable = ({
 
       queryClient.setQueryData(
         ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit: 10, sortBy }],
-        (oldData: PaginatedResponse<Product> | undefined) => {
+        (oldData: PaginatedProductsResponse | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            data: oldData.data.map((product) =>
+            products: oldData.products.map((product) =>
               product._id === id ? { ...product, ...data } : product
             ),
           };
@@ -100,12 +100,12 @@ export const ProductsTable = ({
 
       queryClient.setQueryData(
         ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit: 10, sortBy }],
-        (oldData: PaginatedResponse<Product> | undefined) => {
+        (oldData: PaginatedProductsResponse | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            data: oldData.data.filter((product) => product._id !== productIdToDelete),
-            total: oldData.total - 1,
+            products: oldData.products.filter((product) => product._id !== productIdToDelete),
+            totalProducts: oldData.totalProducts - 1,
           };
         }
       );

@@ -7,7 +7,8 @@
     "dev": "kill-port 3001 && cross-env NODE_ENV=development nodemon backend/server.js ",
     "start": "cross-env NODE_ENV=production node backend/server.js",
     "sync:meili": "node backend/scripts/syncMeili.js",
-    "clear": "node backend/scripts/clearProducts.js"
+    "clear": "node backend/scripts/clearProducts.js",
+    "check:meili": "node backend/scripts/checkMeiliProducts.js"
   },
   "keywords": [],
   "author": "",

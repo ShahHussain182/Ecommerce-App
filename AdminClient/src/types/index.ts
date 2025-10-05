@@ -31,6 +31,14 @@ export interface Product {
   updatedAt: string;
 }
 
+// New: Paginated response specifically for products
+export interface PaginatedProductsResponse {
+  success: boolean;
+  products: Product[];
+  totalProducts: number;
+  nextPage: number | null;
+}
+
 // Order Types
 export interface OrderItem {
   _id: string;
@@ -178,13 +186,14 @@ export interface ApiResponse<T> {
   data?: T; // Keep data for other responses
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
+// Removed generic PaginatedResponse as it's not used consistently
+// export interface PaginatedResponse<T> {
+//   data: T[];
+//   total: number;
+//   page: number;
+//   limit: number;
+//   totalPages: number;
+// }
 
 // Form Types
 export interface ProductFormData {

@@ -20,8 +20,13 @@ async function syncProducts() {
     // ✅ Configure index before syncing
     await productsIndex.updateSettings({
       searchableAttributes: ['name', 'description', 'category'],
-      filterableAttributes: ['category', 'price', 'colors', 'sizes', 'isFeatured', 'averageRating', 'numberOfReviews', 'imageProcessingStatus'], // Added imageProcessingStatus
+      filterableAttributes: ['category', 'price', 'colors', 'sizes', 'isFeatured', 'averageRating', 'numberOfReviews', 'imageProcessingStatus'],
       sortableAttributes: ['price', 'name', 'averageRating', 'numberOfReviews', 'createdAt'],
+      displayedAttributes: [ // Ensure imageRenditions is included here
+        '_id', 'name', 'description', 'category', 'imageUrls', 'imageRenditions',
+        'imageProcessingStatus', 'isFeatured', 'variants', 'averageRating', 'numberOfReviews',
+        'price', 'colors', 'sizes', 'createdAt', 'updatedAt'
+      ],
       rankingRules: [
         'words',
         'typo',
@@ -66,6 +71,7 @@ async function syncProducts() {
       description: String(p.description ?? ''),
       category: String(p.category ?? ''),
       imageUrls: p.imageUrls || [], 
+      imageRenditions: p.imageRenditions || [], // Include imageRenditions here
       isFeatured: Boolean(p.isFeatured),
       variants: (p.variants || []).map(v => ({
         _id: v._id.toString(),
@@ -80,7 +86,7 @@ async function syncProducts() {
       averageRating: Number(p.averageRating ?? 0),
       numberOfReviews: Number(p.numberOfReviews ?? 0),
       createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : null,
-      imageProcessingStatus: String(p.imageProcessingStatus ?? 'pending'), // Ensure status is a string
+      imageProcessingStatus: String(p.imageProcessingStatus ?? 'pending'),
     }));
 
     // 4. Push into Meilisearch

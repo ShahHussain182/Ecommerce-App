@@ -50,8 +50,8 @@ export function Products() {
     staleTime: 5 * 60 * 1000,
   });
 
-  const products = productsData?.data || [];
-  const totalProducts = productsData?.total || 0;
+  const products = productsData?.products || []; // Corrected: Access 'products' key
+  const totalProducts = productsData?.totalProducts || 0; // Corrected: Access 'totalProducts' key
   const totalPages = Math.ceil(totalProducts / limit);
 
   // Mutations for CRUD operations

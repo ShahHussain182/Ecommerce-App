@@ -83,6 +83,11 @@ export const getProducts = catchErrors(async (req, res) => {
     offset: (page - 1) * limit,
     filter: filters.length > 0 ? filters.join(' AND ') : undefined,
     sort: sort.length > 0 ? sort : undefined,
+    attributesToRetrieve: [ // Ensure imageRenditions is included here
+      '_id', 'name', 'description', 'category', 'imageUrls', 'imageRenditions',
+      'imageProcessingStatus', 'isFeatured', 'variants', 'averageRating', 'numberOfReviews',
+      'price', 'colors', 'sizes', 'createdAt', 'updatedAt'
+    ],
   };
 
   const results = await productIndex.search(searchParams.q, searchParams);
@@ -221,6 +226,7 @@ export const createProduct = catchErrors(async (req, res) => {
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls || [],
+    imageRenditions: product.imageRenditions || [], // Include imageRenditions here
     imageProcessingStatus: product.imageProcessingStatus, // Include status
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
@@ -279,6 +285,7 @@ export const updateProduct = catchErrors(async (req, res) => {
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls || [],
+    imageRenditions: product.imageRenditions || [], // Include imageRenditions here
     imageProcessingStatus: product.imageProcessingStatus, // Include status
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
@@ -417,6 +424,7 @@ export const uploadProductImages = catchErrors(async (req, res) => {
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls,
+    imageRenditions: product.imageRenditions, // Include imageRenditions here
     imageProcessingStatus: product.imageProcessingStatus,
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
@@ -514,6 +522,7 @@ export const deleteProductImage = catchErrors(async (req, res) => {
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls,
+    imageRenditions: product.imageRenditions, // Include imageRenditions here
     imageProcessingStatus: product.imageProcessingStatus,
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({

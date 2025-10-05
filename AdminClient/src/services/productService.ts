@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import type { Product, ApiResponse, PaginatedResponse, ProductsFilterState } from '@/types'; 
+import type { Product, ApiResponse, PaginatedProductsResponse, ProductsFilterState } from '@/types'; 
 import { createProductSchema, updateProductSchema } from '../schemas/productSchema';
 import { z } from 'zod';
 
@@ -9,7 +9,7 @@ export type UpdateProductData = z.infer<typeof updateProductSchema>;
 
 export const productService = {
   // Get all products with pagination, search, and filters
-  async getProducts(params: ProductsFilterState = {}): Promise<PaginatedResponse<Product>> {
+  async getProducts(params: ProductsFilterState = {}): Promise<PaginatedProductsResponse> {
     const queryParams = new URLSearchParams();
     
     Object.entries(params).forEach(([key, value]) => {
