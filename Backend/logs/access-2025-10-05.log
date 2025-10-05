@@ -641,3 +641,29 @@
   }
 ]
 2025-10-05T11:33:14.013Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:33:14 +0000] "POST /api/v1/products HTTP/1.1" 400 136 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:36:38.014Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:36:38.149Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:36:40.803Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:36:43.005Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:36:43.010Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-05T11:36:44.411Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T11:36:45.005Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:36:45.190Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:36:45.194Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:37:18.396Z [INFO] [req:N/A] ✅ File uploaded: products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg/72408ec0-d4e9-40a0-98bb-2f567d52b72c-1759664238301.jpg
+2025-10-05T11:37:19.251Z [INFO] [req:N/A] [ImageWorker] Processing job for product 68e2586ea755ba40be6b8d8a, image index 0 with key products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg
+2025-10-05T11:37:19.663Z [ERROR] [req:N/A] [ImageWorker] Failed to download products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg from S3: The specified key does not exist.
+2025-10-05T11:37:19.664Z [ERROR] [req:N/A] [ImageWorker] Failed to process image for product 68e2586ea755ba40be6b8d8a, image index 0: The specified key does not exist.
+2025-10-05T11:37:20.033Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:37:20 +0000] "POST /api/v1/products HTTP/1.1" 201 714 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:37:20.058Z [ERROR] [req:N/A] [ImageWorker] Job 1 failed for product 68e2586ea755ba40be6b8d8a: The specified key does not exist.
+2025-10-05T11:37:20.521Z [HTTP] [req:ad4fdce6-8bf0-4c7d-a1dc-70483c9942c4] ::1 - - [05/Oct/2025:11:37:20 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:37:21.136Z [INFO] [req:N/A] [ImageWorker] Processing job for product 68e2586ea755ba40be6b8d8a, image index 0 with key products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg
+2025-10-05T11:37:21.320Z [ERROR] [req:N/A] [ImageWorker] Failed to download products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg from S3: The specified key does not exist.
+2025-10-05T11:37:21.322Z [ERROR] [req:N/A] [ImageWorker] Failed to process image for product 68e2586ea755ba40be6b8d8a, image index 0: The specified key does not exist.
+2025-10-05T11:37:21.713Z [ERROR] [req:N/A] [ImageWorker] Job 1 failed for product 68e2586ea755ba40be6b8d8a: The specified key does not exist.
+2025-10-05T11:37:24.527Z [INFO] [req:N/A] [ImageWorker] Processing job for product 68e2586ea755ba40be6b8d8a, image index 0 with key products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg
+2025-10-05T11:37:24.707Z [ERROR] [req:N/A] [ImageWorker] Failed to download products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg from S3: The specified key does not exist.
+2025-10-05T11:37:24.708Z [ERROR] [req:N/A] [ImageWorker] Failed to process image for product 68e2586ea755ba40be6b8d8a, image index 0: The specified key does not exist.
+2025-10-05T11:37:26.404Z [ERROR] [req:N/A] [ImageWorker] Job 1 failed for product 68e2586ea755ba40be6b8d8a: The specified key does not exist.
+2025-10-05T11:38:49.952Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:38:50.075Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
