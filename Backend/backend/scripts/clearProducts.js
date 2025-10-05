@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import { MeiliSearch } from 'meilisearch';
-import { Product } from '../Models/Product.model.js';
 import { logger } from '../Utils/logger.js'; // Import the logger
 
 async function clearProducts() {
@@ -29,18 +28,27 @@ async function clearProducts() {
     try {
       const task = await meiliClient.deleteIndex('products');
       logger.info(`📦 Meilisearch index deletion task UID: ${task.taskUid}`);
-      await meiliClient.waitForTask(task.taskUid);
+      
+      // Wait for the task to complete and check its status
+      const taskStatus = await meiliClient.waitForTask(task.taskUid);
+      if (taskStatus.status === 'failed') {
+        logger.error(`❌ Meilisearch task ${task.taskUid} failed:`, taskStatus.error);
+        throw new Error(`Meilisearch task failed: ${taskStatus.error?.message || 'Unknown Meilisearch error'}`);
+      }
       logger.info('✅ Meilisearch index "products" deleted successfully.');
     } catch (error) {
-      if (error.code === 'index_not_found') {
+      // Check if the error is specifically 'index_not_found'
+      if (error.code === 'index_not_found' || (error.message && error.message.includes('index_not_found'))) {
         logger.warn('⚠️ Meilisearch index "products" not found, skipping deletion.');
       } else {
-        throw error; // Re-throw other errors
+        // Re-throw other errors to be caught by the outer catch block
+        throw error;
       }
     }
 
   } catch (err) {
-    logger.error('❌ Error during product clearing process:', err.message);
+    // Log the full error object for better debugging
+    logger.error('❌ Error during product clearing process:', err);
     process.exit(1); // Exit with a failure code
   } finally {
     // 5. Disconnect from MongoDB

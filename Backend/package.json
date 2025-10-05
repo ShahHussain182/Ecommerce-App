@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "kill-port 3001 && cross-env NODE_ENV=development nodemon backend/server.js ",
     "start": "cross-env NODE_ENV=production node backend/server.js",
-    "sync:meili": "node backend/scripts/syncMeili.js"
+    "sync:meili": "node backend/scripts/syncMeili.js",
+    "clear": "node backend/scripts/clearProducts.js"
   },
   "keywords": [],
   "author": "",
