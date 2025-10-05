@@ -12,3 +12,23 @@
 2025-10-05T10:08:27.694Z [ERROR] [req:b404cf67-ae6f-40ba-96e3-a4506ce54c4e] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `imageProcessingStatus` is not filterable. Available filterable attribute patterns are: `averageRating`, `category`, `colors`, `isFeatured`, `numberOfReviews`, `price`, `sizes`.
 1:22 imageProcessingStatus = "completed"
 2025-10-05T11:27:01.583Z [ERROR] [req:N/A] Failed to upload file team-working.jpg during product creation: Class constructor ObjectId cannot be invoked without 'new'
+2025-10-05T11:30:28.566Z [ERROR] [req:N/A] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "imageProcessingStatus"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'imageProcessingStatus'"
+  }
+]
+2025-10-05T11:33:13.840Z [ERROR] [req:N/A] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "imageProcessingStatus"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'imageProcessingStatus'"
+  }
+]

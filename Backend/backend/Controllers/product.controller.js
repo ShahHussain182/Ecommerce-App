@@ -191,7 +191,7 @@ export const createProduct = catchErrors(async (req, res) => {
   const productDataForValidation = {
     ...parsedBody,
     imageUrls: uploadedOriginalImageUrls, // Store original URLs initially
-    imageProcessingStatus: 'pending', // Mark as pending
+    // Removed imageProcessingStatus from here, as it's handled by Mongoose default
   };
 
   const productData = createProductSchema.parse(productDataForValidation);
@@ -205,7 +205,7 @@ export const createProduct = catchErrors(async (req, res) => {
     }];
   }
 
-  const product = await Product.create(productData);
+  const product = await Product.create(productData); // Mongoose default will set imageProcessingStatus to 'pending'
 
   // Add jobs to the image processing queue
   for (let i = 0; i < uploadedOriginalImageUrls.length; i++) {

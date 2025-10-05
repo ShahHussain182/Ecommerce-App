@@ -596,3 +596,48 @@
 2025-10-05T11:30:03.775Z [INFO] [req:N/A] ✅ Mongoose connected to DB
 2025-10-05T11:30:03.779Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
 2025-10-05T11:30:05.123Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T11:30:05.664Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:30:05.858Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:30:05.864Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:30:28.531Z [INFO] [req:N/A] ✅ File uploaded: products/originals/68e256d21645ea8f7eefba52-1759663826393.jpeg/08cd471e-8036-455e-a7bb-21325a92d4db-1759663826393.jpg
+2025-10-05T11:30:28.566Z [ERROR] [req:N/A] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "imageProcessingStatus"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'imageProcessingStatus'"
+  }
+]
+2025-10-05T11:30:28.738Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:30:28 +0000] "POST /api/v1/products HTTP/1.1" 400 136 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:31:58.317Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:31:58.461Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:32:01.329Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:32:03.202Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:32:03.205Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-10-05T11:32:04.475Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T11:32:04.969Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:32:05.196Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:32:05.201Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:32:38.010Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:32:38.180Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:32:42.379Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:32:44.152Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:32:44.155Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-05T11:32:45.474Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T11:32:45.979Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:32:46.173Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:32:46.176Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:33:13.836Z [INFO] [req:N/A] ✅ File uploaded: products/originals/68e257792cabc83527425da0-1759663993751.jpeg/32212f14-883a-406e-9a5c-097d5250007b-1759663993751.jpg
+2025-10-05T11:33:13.840Z [ERROR] [req:N/A] ❌ Path: /api/v1/products | Error: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "imageProcessingStatus"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'imageProcessingStatus'"
+  }
+]
+2025-10-05T11:33:14.013Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:33:14 +0000] "POST /api/v1/products HTTP/1.1" 400 136 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
