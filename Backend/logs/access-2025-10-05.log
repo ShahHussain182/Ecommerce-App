@@ -18,3 +18,63 @@
 2025-10-05T09:52:52.223Z [INFO] [req:N/A] 📦 Meilisearch index deletion task UID: 39
 2025-10-05T09:55:20.429Z [INFO] [req:N/A] Connecting to MongoDB...
 2025-10-05T09:55:22.770Z [INFO] [req:N/A] ✅ Connected to MongoDB.
+2025-10-05T09:56:53.069Z [INFO] [req:N/A] Connecting to MongoDB...
+2025-10-05T09:56:55.094Z [INFO] [req:N/A] ✅ Connected to MongoDB.
+2025-10-05T09:56:55.095Z [INFO] [req:N/A] Deleting all products from MongoDB...
+2025-10-05T09:56:56.298Z [INFO] [req:N/A] ✅ Deleted 0 products from MongoDB.
+2025-10-05T09:56:56.299Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T09:56:56.320Z [INFO] [req:N/A] ✅ Connected to Meilisearch.
+2025-10-05T09:56:56.320Z [INFO] [req:N/A] Deleting Meilisearch index "products"...
+2025-10-05T09:56:56.732Z [INFO] [req:N/A] 📦 Meilisearch index deletion task UID: 40
+2025-10-05T09:57:37.984Z [INFO] [req:N/A] Connecting to MongoDB...
+2025-10-05T09:57:40.884Z [INFO] [req:N/A] ✅ Connected to MongoDB.
+2025-10-05T09:57:40.884Z [INFO] [req:N/A] Deleting all products from MongoDB...
+2025-10-05T09:57:42.985Z [INFO] [req:N/A] ✅ Deleted 0 products from MongoDB.
+2025-10-05T09:57:42.986Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T09:57:43.009Z [INFO] [req:N/A] ✅ Connected to Meilisearch.
+2025-10-05T09:57:43.010Z [INFO] [req:N/A] Deleting Meilisearch index "products"...
+2025-10-05T09:57:43.557Z [INFO] [req:N/A] 📦 Meilisearch index deletion task UID: 41
+2025-10-05T09:57:43.766Z [ERROR] [req:N/A] ❌ Meilisearch task 41 failed: Index `products` not found.
+2025-10-05T10:06:31.653Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T10:06:31.736Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T10:06:55.012Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T10:07:03.219Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T10:07:03.227Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-05T10:07:06.652Z [INFO] [req:N/A] No products found. Seeding database with mock data...
+2025-10-05T10:07:07.287Z [INFO] [req:N/A] ✅ Database seeded successfully with mock products.
+2025-10-05T10:07:07.479Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T10:07:07.653Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T10:07:07.657Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T10:08:24.657Z [HTTP] [req:9cc26ce4-61df-4717-8017-1105fef3eccb] ::1 - - [05/Oct/2025:10:08:24 +0000] "GET /api/v1/categories HTTP/1.1" 200 1379 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:08:25.754Z [ERROR] [req:68a4de5e-91ed-4805-be33-5d6dd8989ed0] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `imageProcessingStatus` is not filterable. Available filterable attribute patterns are: `averageRating`, `category`, `colors`, `isFeatured`, `numberOfReviews`, `price`, `sizes`.
+1:22 imageProcessingStatus = "completed"
+2025-10-05T10:08:25.922Z [HTTP] [req:68a4de5e-91ed-4805-be33-5d6dd8989ed0] ::1 - - [05/Oct/2025:10:08:25 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 500 331 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:08:27.694Z [ERROR] [req:b404cf67-ae6f-40ba-96e3-a4506ce54c4e] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `imageProcessingStatus` is not filterable. Available filterable attribute patterns are: `averageRating`, `category`, `colors`, `isFeatured`, `numberOfReviews`, `price`, `sizes`.
+1:22 imageProcessingStatus = "completed"
+2025-10-05T10:08:27.863Z [HTTP] [req:b404cf67-ae6f-40ba-96e3-a4506ce54c4e] ::1 - - [05/Oct/2025:10:08:27 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 500 331 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:08:40.204Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-10-05T10:08:41.387Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T10:18:34.097Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T10:18:34.175Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T10:18:41.776Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T10:18:43.574Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T10:18:45.210Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-05T10:18:46.597Z [INFO] [req:N/A] 40 products already exist in the database. Skipping product seeding.
+2025-10-05T10:18:47.129Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T10:18:47.415Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T10:18:47.418Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T10:19:10.453Z [WARN] [req:4880e6dd-15f0-4c86-97b2-3d7939a5f03f] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-10-05T10:19:10.628Z [HTTP] [req:4880e6dd-15f0-4c86-97b2-3d7939a5f03f] ::1 - - [05/Oct/2025:10:19:10 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:30.724Z [HTTP] [req:7769ccc6-bb12-42f1-a75c-22068542123f] ::1 - - [05/Oct/2025:10:19:30 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:32.963Z [HTTP] [req:52679b84-5d19-456f-8b06-f335994e29d5] ::1 - - [05/Oct/2025:10:19:32 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:33.586Z [HTTP] [req:d39841b0-61a6-4497-b062-f1ee31e39b66] ::1 - - [05/Oct/2025:10:19:33 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:35.299Z [HTTP] [req:44d461ab-2c0f-4eb8-a7c7-b3683a583040] ::1 - - [05/Oct/2025:10:19:35 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:35.332Z [HTTP] [req:d4bfdef7-ad0a-4f7f-a62d-ddfbf78ca573] ::1 - - [05/Oct/2025:10:19:35 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:36.042Z [HTTP] [req:db514104-7908-460d-9bd7-f6c2b950d31e] ::1 - - [05/Oct/2025:10:19:36 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 3401 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:38.950Z [HTTP] [req:b66b1d22-116a-499e-b211-060d20d98da2] ::1 - - [05/Oct/2025:10:19:38 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:39.538Z [HTTP] [req:90c93389-439b-402b-a9df-dedd423b49ab] ::1 - - [05/Oct/2025:10:19:39 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 6280 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:19:59.604Z [HTTP] [req:a6575971-6b50-4d59-8223-a4824627dbbc] ::1 - - [05/Oct/2025:10:19:59 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:20:00.183Z [HTTP] [req:201057cc-a515-41dd-8f60-6b40ed35e08e] ::1 - - [05/Oct/2025:10:20:00 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:20:00.385Z [HTTP] [req:ae94dbc9-206a-4bef-96b5-8f3e514edf85] ::1 - - [05/Oct/2025:10:20:00 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:20:33.440Z [HTTP] [req:15c1deb3-9f92-41a5-8732-80cb19d15c79] ::1 - - [05/Oct/2025:10:20:33 +0000] "GET /api/v1/products?page=1&limit=10&categories=Accessories&sortBy=name-asc HTTP/1.1" 200 4597 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T10:20:38.288Z [HTTP] [req:b83a5e7d-a937-465e-b240-8c6d02676536] ::1 - - [05/Oct/2025:10:20:38 +0000] "GET /api/v1/products?page=1&limit=10&categories=Digital+Products&sortBy=name-asc HTTP/1.1" 200 64 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

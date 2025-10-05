@@ -3,3 +3,11 @@
 2025-10-05T09:55:22.774Z [ERROR] [req:N/A] ReferenceError: Product is not defined
     at clearProducts (file:///C:/Users/Administrator/dyad-apps/Ecommerce%20App/Backend/backend/scripts/clearProducts.js:15:26)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-05T09:56:56.733Z [ERROR] [req:N/A] TypeError: meiliClient.waitForTask is not a function
+    at clearProducts (file:///C:/Users/Administrator/dyad-apps/Ecommerce%20App/Backend/backend/scripts/clearProducts.js:34:44)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-05T09:57:43.766Z [ERROR] [req:N/A] ❌ Meilisearch task 41 failed: Index `products` not found.
+2025-10-05T10:08:25.754Z [ERROR] [req:68a4de5e-91ed-4805-be33-5d6dd8989ed0] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `imageProcessingStatus` is not filterable. Available filterable attribute patterns are: `averageRating`, `category`, `colors`, `isFeatured`, `numberOfReviews`, `price`, `sizes`.
+1:22 imageProcessingStatus = "completed"
+2025-10-05T10:08:27.694Z [ERROR] [req:b404cf67-ae6f-40ba-96e3-a4506ce54c4e] ❌ Path: /api/v1/products | Error: Index `products`: Attribute `imageProcessingStatus` is not filterable. Available filterable attribute patterns are: `averageRating`, `category`, `colors`, `isFeatured`, `numberOfReviews`, `price`, `sizes`.
+1:22 imageProcessingStatus = "completed"

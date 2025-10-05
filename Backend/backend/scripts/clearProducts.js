@@ -31,7 +31,7 @@ async function clearProducts() {
       logger.info(`📦 Meilisearch index deletion task UID: ${task.taskUid}`);
       
       // Wait for the task to complete and check its status
-      const taskStatus = await meiliClient.waitForTask(task.taskUid);
+      const taskStatus = await meiliClient.tasks.getTask(task.taskUid);
       if (taskStatus.status === 'failed') {
         logger.error(`❌ Meilisearch task ${task.taskUid} failed:`, taskStatus.error);
         throw new Error(`Meilisearch task failed: ${taskStatus.error?.message || 'Unknown Meilisearch error'}`);

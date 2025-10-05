@@ -20,34 +20,34 @@ async function syncProducts() {
     // ✅ Configure index before syncing
     await productsIndex.updateSettings({
       searchableAttributes: ['name', 'description', 'category'],
-      filterableAttributes: ['category', 'price', 'colors', 'sizes', 'isFeatured', 'averageRating', 'numberOfReviews'], // Added averageRating, numberOfReviews
-      sortableAttributes: ['price', 'name', 'averageRating', 'numberOfReviews', 'createdAt'], // Added averageRating, numberOfReviews
-      rankingRules: [ // Custom ranking rules for better relevance
+      filterableAttributes: ['category', 'price', 'colors', 'sizes', 'isFeatured', 'averageRating', 'numberOfReviews', 'imageProcessingStatus'], // Added imageProcessingStatus
+      sortableAttributes: ['price', 'name', 'averageRating', 'numberOfReviews', 'createdAt'],
+      rankingRules: [
         'words',
         'typo',
         'proximity',
         'attribute',
         'sort',
         'exactness',
-        'isFeatured:desc', // Prioritize featured products
-        'averageRating:desc', // Prioritize higher-rated products
-        'numberOfReviews:desc', // Prioritize products with more reviews
+        'isFeatured:desc',
+        'averageRating:desc',
+        'numberOfReviews:desc',
       ],
-      synonyms: { // Example synonyms
+      synonyms: {
         'phone': ['smartphone', 'mobile'],
         'tv': ['television'],
         'laptop': ['notebook', 'computer'],
         'shirt': ['t-shirt', 'tee'],
       },
-      stopWords: ['a', 'an', 'the', 'is', 'are', 'and', 'or', 'for', 'with'], // Example stop words
-      typoTolerance: { // Explicitly enable typo tolerance (default is usually true)
+      stopWords: ['a', 'an', 'the', 'is', 'are', 'and', 'or', 'for', 'with'],
+      typoTolerance: {
         enabled: true,
         minWordSizeForTypos: {
-          oneTypo: 3,   // minimum word length before 1 typo is allowed
-          twoTypos: 7,  // minimum word length before 2 typos are allowed
+          oneTypo: 3,
+          twoTypos: 7,
         },
       
-        disableOnAttributes: ['_id'], // Don't apply typo tolerance to IDs
+        disableOnAttributes: ['_id'],
       },
     });
 
@@ -80,6 +80,7 @@ async function syncProducts() {
       averageRating: Number(p.averageRating ?? 0),
       numberOfReviews: Number(p.numberOfReviews ?? 0),
       createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : null,
+      imageProcessingStatus: String(p.imageProcessingStatus ?? 'pending'), // Ensure status is a string
     }));
 
     // 4. Push into Meilisearch
