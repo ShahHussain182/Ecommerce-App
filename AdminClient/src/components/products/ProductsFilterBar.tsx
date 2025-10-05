@@ -2,19 +2,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Loader2 } from 'lucide-react';
-import type { Category, ProductsFilterState } from '../../types'; // Corrected import path
+import type { Category, ProductsFilterState } from '../../types';
 
 interface ProductsFilterBarProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
-  sortBy: NonNullable<ProductsFilterState['sortBy']>; // Explicitly state that sortBy will not be undefined
-  setSortBy: (sortBy: NonNullable<ProductsFilterState['sortBy']>) => void; // Explicitly state that sortBy will not be undefined
+  sortBy: NonNullable<ProductsFilterState['sortBy']>;
+  setSortBy: (sortBy: NonNullable<ProductsFilterState['sortBy']>) => void;
   categories: Category[];
   categoriesLoading: boolean;
   categoriesError: Error | null;
-  setPage: React.Dispatch<React.SetStateAction<number>>; // Corrected type
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const ProductsFilterBar = ({
@@ -29,7 +29,7 @@ export const ProductsFilterBar = ({
   categoriesError,
   setPage,
 }: ProductsFilterBarProps) => {
-  const handleSortChange = (value: NonNullable<ProductsFilterState['sortBy']>) => { // Changed parameter type
+  const handleSortChange = (value: NonNullable<ProductsFilterState['sortBy']>) => {
     setSortBy(value);
     setPage(1);
   };

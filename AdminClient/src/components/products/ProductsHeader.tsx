@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import type { Category, Product } from '@/types'; // Import Product type
+import type { Category, Product } from '@/types';
 import {
   Dialog,
   DialogContent,
@@ -10,26 +10,26 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger, // Keep DialogTrigger for the button
+  DialogTrigger,
 } from '@/components/ui/dialog';
-import { ProductForm } from './ProductForm'; // Import ProductForm
-import { ProductFormValues } from '../../schemas/productSchema'; // Import ProductFormValues
-import { Loader2 } from 'lucide-react'; // Import Loader2
+import { ProductForm } from './ProductForm';
+import { ProductFormValues } from '../../schemas/productSchema';
+import { Loader2 } from 'lucide-react';
 
 interface ProductsHeaderProps {
   categoriesLoading: boolean;
   categoriesError: Error | null;
-  categories: Category[]; // Added categories prop
-  isAddDialogOpen: boolean; // Pass dialog state
-  setIsAddDialogOpen: (isOpen: boolean) => void; // Pass setter for dialog state
-  onSubmit: (data: ProductFormValues) => void; // Changed type to ProductFormValues
-  isSubmitting: boolean; // Pass submitting state
+  categories: Category[];
+  isAddDialogOpen: boolean;
+  setIsAddDialogOpen: (isOpen: boolean) => void;
+  onSubmit: (data: ProductFormValues) => void;
+  isSubmitting: boolean;
 }
 
 export const ProductsHeader = ({
   categoriesLoading,
   categoriesError,
-  categories, // Destructure categories
+  categories,
   isAddDialogOpen,
   setIsAddDialogOpen,
   onSubmit,
@@ -46,7 +46,6 @@ export const ProductsHeader = ({
         <DialogTrigger asChild>
           <Button
             disabled={categoriesLoading || !!categoriesError || categories.length === 0}
-            // onClick={() => setIsAddDialogOpen(true)} // Handled by onOpenChange
           >
             <Plus className="mr-2 h-4 w-4" />
             Add Product
@@ -69,11 +68,11 @@ export const ProductsHeader = ({
             <p className="text-muted-foreground text-center py-8">No categories available. Please create categories first.</p>
           ) : (
             <ProductForm
-              product={undefined} // No product for creation
+              product={undefined}
               onSubmit={onSubmit}
               onClose={() => setIsAddDialogOpen(false)}
               isSubmitting={isSubmitting}
-              categories={categories} // Pass categories here
+              categories={categories}
             />
           )}
         </DialogContent>

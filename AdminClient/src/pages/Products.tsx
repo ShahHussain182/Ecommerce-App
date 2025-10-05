@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from 'react';
-import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'; // Added useQuery
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { productService, UpdateProductData } from '../services/productService'; // Added UpdateProductData
-import type { Product } from '@/types'; // Changed from 'import type'
+import { productService, UpdateProductData } from '../services/productService';
+import type { Product } from '@/types';
 import { ProductFormValues } from '../schemas/productSchema';
-import { ProductsHeader } from '../components/products/ProductsHeader'; // Explicit import
-import { ProductsFilterBar } from '../components/products/ProductsFilterBar'; // Explicit import
-import { ProductsTable } from '../components/products/ProductsTable'; // Explicit import
-import { ProductViewDialog } from '../components/products/ProductViewDialog'; // Explicit import
-import { ProductForm } from '../components/products/ProductForm'; // Explicit import
+import { ProductsHeader } from '../components/products/ProductsHeader';
+import { ProductsFilterBar } from '../components/products/ProductsFilterBar';
+import { ProductsTable } from '../components/products/ProductsTable';
+import { ProductViewDialog } from '../components/products/ProductViewDialog';
+import { ProductForm } from '../components/products/ProductForm';
 import { useCategories } from '@/hooks/useCategories';
 import {
   Dialog,
@@ -47,11 +47,11 @@ export function Products() {
       categories: selectedCategory || undefined,
       sortBy,
     }),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
-  const products = productsData?.products || [];
-  const totalProducts = productsData?.totalProducts || 0;
+  const products = productsData?.data || [];
+  const totalProducts = productsData?.total || 0;
   const totalPages = Math.ceil(totalProducts / limit);
 
   // Mutations for CRUD operations
@@ -59,7 +59,7 @@ export function Products() {
     mutationFn: (formData: FormData) => productService.createProduct(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success('Product created successfully');
+      toast.success('Product created successfully! Images are being processed in the background.');
       setIsAddDialogOpen(false);
     },
     onError: (err: any) => {
@@ -84,14 +84,12 @@ export function Products() {
     formData.append('name', data.name);
     formData.append('description', data.description);
     formData.append('category', data.category);
-    formData.append('isFeatured', String(data.isFeatured)); // Convert boolean to string
+    formData.append('isFeatured', String(data.isFeatured));
 
-    // Append image files
     data.imageFiles.forEach((file) => {
-      formData.append('images', file); // 'images' matches multer field name
+      formData.append('images', file);
     });
 
-    // Append variants as a JSON string
     if (data.variants && data.variants.length > 0) {
       formData.append('variants', JSON.stringify(data.variants));
     }
@@ -101,21 +99,23 @@ export function Products() {
 
   const handleUpdateProduct = (data: ProductFormValues) => {
     if (selectedProduct) {
-      // For updates, we only send fields that might have changed, and not imageFiles
       const updateData: UpdateProductData = {
         name: data.name,
         description: data.description,
         category: data.category,
         isFeatured: data.isFeatured,
         variants: data.variants,
-        imageUrls: data.imageUrls, // Pass existing image URLs
+        imageUrls: data.imageUrls,
       };
       updateProductMutation.mutate({ id: selectedProduct._id, data: updateData });
     }
   };
 
   const handleProductUpdated = (updatedProduct: Product) => {
-    setSelectedProduct(updatedProduct); // Update the selected product in state
+    setSelectedProduct(updatedProduct);
+    // Invalidate product query to ensure latest data is fetched, especially after image uploads
+    queryClient.invalidateQueries({ queryKey: ['product', updatedProduct._id] });
+    queryClient.invalidateQueries({ queryKey: ['products'] });
   };
 
   return (
@@ -179,7 +179,7 @@ export function Products() {
             onClose={() => setIsEditDialogOpen(false)}
             isSubmitting={updateProductMutation.isPending}
             categories={categories || []}
-            onProductUpdated={handleProductUpdated} // Pass the callback
+            onProductUpdated={handleProductUpdated}
           />
         </DialogContent>
       </Dialog>

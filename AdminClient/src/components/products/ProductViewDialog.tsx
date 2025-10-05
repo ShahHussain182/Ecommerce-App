@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Star } from 'lucide-react';
+import { Star, Loader2 } from 'lucide-react'; // Import Loader2
 import type { Product, ProductVariant } from '../../types';
 import { useEffect } from 'react';
 
@@ -32,10 +32,11 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
 
   const totalStock = getTotalStock(product.variants);
   const stockStatus = getStockStatus(totalStock);
+  const isImageProcessingPending = product.imageProcessingStatus === 'pending';
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-3xl"> {/* Increased max-width for more images */}
+      <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>{product.name}</DialogTitle>
           <DialogDescription>{product.description}</DialogDescription>
@@ -45,17 +46,22 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
           {/* Product Images Gallery */}
           <div>
             <Label className="text-sm font-medium mb-2 block">Product Images</Label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"> {/* Responsive grid for images */}
-              {product.imageUrls && product.imageUrls.length > 0 ? (
-                product.imageUrls.map((imageUrl, index) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {isImageProcessingPending ? (
+                <div className="col-span-full text-center text-muted-foreground py-4 border rounded-lg flex items-center justify-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                  <span>Images are being processed...</span>
+                </div>
+              ) : product.imageRenditions && product.imageRenditions.length > 0 ? (
+                product.imageRenditions.map((renditionSet, index) => (
                   <img
                     key={index}
-                    src={imageUrl || '/placeholder.svg'}
+                    src={renditionSet.thumbnail || '/placeholder.svg'} // Use thumbnail for gallery view
                     alt={`${product.name} - Image ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg border"
                     onError={(e) => {
-                      e.currentTarget.src = '/placeholder.svg'; // Fallback image
-                      e.currentTarget.onerror = null; // Prevent infinite loop
+                      e.currentTarget.src = '/placeholder.svg';
+                      e.currentTarget.onerror = null;
                     }}
                   />
                 ))
@@ -87,6 +93,12 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
                     {stockStatus.status}
                   </Badge>
                   {product.isFeatured && <Badge variant="outline">Featured</Badge>}
+                  {isImageProcessingPending && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      Processing
+                    </Badge>
+                  )}
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import type { Product, ApiResponse, ProductsFilterState } from '@/types'; 
+import type { Product, ApiResponse, PaginatedResponse, ProductsFilterState } from '@/types'; 
 import { createProductSchema, updateProductSchema } from '../schemas/productSchema';
 import { z } from 'zod';
 
@@ -9,7 +9,7 @@ export type UpdateProductData = z.infer<typeof updateProductSchema>;
 
 export const productService = {
   // Get all products with pagination, search, and filters
-  async getProducts(params: ProductsFilterState = {}): Promise<{ products: Product[], totalProducts: number, nextPage: number | null }> {
+  async getProducts(params: ProductsFilterState = {}): Promise<PaginatedResponse<Product>> {
     const queryParams = new URLSearchParams();
     
     Object.entries(params).forEach(([key, value]) => {
@@ -35,7 +35,7 @@ export const productService = {
   },
 
   // Create new product (Admin only)
-  async createProduct(productData: FormData): Promise<ApiResponse<Product>> { // Expect FormData for creation
+  async createProduct(productData: FormData): Promise<ApiResponse<Product>> {
     const response = await api.post('/products', productData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -65,7 +65,7 @@ export const productService = {
   async uploadProductImages(productId: string, files: File[]): Promise<ApiResponse<Product>> {
     const formData = new FormData();
     files.forEach(file => {
-      formData.append('images', file); // 'images' must match the field name in multerConfig.js
+      formData.append('images', file);
     });
 
     const response = await api.post(`/products/${productId}/upload-images`, formData, {
@@ -73,7 +73,7 @@ export const productService = {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data; // Now returns ApiResponse<Product>
+    return response.data;
   },
 
   /**
@@ -84,7 +84,7 @@ export const productService = {
    */
   async deleteProductImage(productId: string, imageUrl: string): Promise<ApiResponse<Product>> {
     const response = await api.delete(`/products/${productId}/images`, {
-      params: { imageUrl }, // Send imageUrl as a query parameter
+      params: { imageUrl },
     });
     return response.data;
   },

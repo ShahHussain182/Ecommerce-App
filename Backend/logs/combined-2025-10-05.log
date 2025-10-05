@@ -1,0 +1,12 @@
+2025-10-05T09:40:10.634Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T09:40:13.734Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T09:40:13.736Z [DEBUG] [req:N/A] Running in development mode
+2025-10-05T09:40:23.881Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-10-05T09:40:30.594Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T09:40:32.442Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T09:40:32.491Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-05T09:40:33.951Z [INFO] [req:N/A] 43 products already exist in the database. Skipping product seeding.
+2025-10-05T09:40:34.856Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T09:40:35.048Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T09:40:35.051Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T09:40:35.051Z [DEBUG] [req:N/A] http://localhost:3001

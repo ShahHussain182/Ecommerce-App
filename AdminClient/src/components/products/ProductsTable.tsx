@@ -7,8 +7,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Plus, Edit, Trash2, Eye, Star, Package, Loader2, ChevronLeft, ChevronRight, MoreHorizontal, Check, X } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { productService, UpdateProductData } from '../../services/productService'; // Corrected import path
-import type { Product, ProductVariant, ApiResponse } from '../../types'; // Corrected import path
+import { productService, UpdateProductData } from '../../services/productService';
+import type { Product, ProductVariant, ApiResponse, PaginatedResponse } from '../../types';
 
 const getTotalStock = (variants?: ProductVariant[]) => {
   return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
@@ -31,7 +31,7 @@ interface ProductsTableProps {
   totalProducts: number;
   totalPages: number;
   page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>; // Corrected type
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   onEditProduct: (product: Product) => void;
   onViewProduct: (product: Product) => void;
   debouncedSearchTerm: string;
@@ -63,11 +63,11 @@ export const ProductsTable = ({
 
       queryClient.setQueryData(
         ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit: 10, sortBy }],
-        (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
+        (oldData: PaginatedResponse<Product> | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            products: oldData.products.map((product) =>
+            data: oldData.data.map((product) =>
               product._id === id ? { ...product, ...data } : product
             ),
           };
@@ -100,12 +100,12 @@ export const ProductsTable = ({
 
       queryClient.setQueryData(
         ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit: 10, sortBy }],
-        (oldData: { products: Product[], totalProducts: number, nextPage: number | null } | undefined) => {
+        (oldData: PaginatedResponse<Product> | undefined) => {
           if (!oldData) return oldData;
           return {
             ...oldData,
-            products: oldData.products.filter((product) => product._id !== productIdToDelete),
-            totalProducts: oldData.totalProducts - 1,
+            data: oldData.data.filter((product) => product._id !== productIdToDelete),
+            total: oldData.total - 1,
           };
         }
       );
@@ -194,19 +194,27 @@ export const ProductsTable = ({
                   const totalStock = getTotalStock(product.variants);
                   const minPrice = getMinPrice(product.variants);
                   const stockStatus = getStockStatus(totalStock);
+                  const isImageProcessingPending = product.imageProcessingStatus === 'pending';
 
-                  // Log image URLs for each product in the table
-                  console.log(`[ProductsTable] Product: ${product.name}, Image URLs:`, product.imageUrls);
+                  const displayImageUrl = isImageProcessingPending 
+                    ? '/placeholder.svg' // Placeholder for pending images
+                    : product.imageRenditions[0]?.thumbnail || product.imageUrls[0] || '/placeholder.svg';
 
                   return (
                     <TableRow key={product._id}>
                       <TableCell className="font-medium">
                         <div className="flex items-center space-x-3">
-                          <img
-                            src={product.imageUrls[0] || '/placeholder.svg'}
-                            alt={product.name}
-                            className="h-8 w-8 rounded-md object-cover"
-                          />
+                          {isImageProcessingPending ? (
+                            <div className="h-8 w-8 flex items-center justify-center bg-gray-100 rounded-md">
+                              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                            </div>
+                          ) : (
+                            <img
+                              src={displayImageUrl}
+                              alt={product.name}
+                              className="h-8 w-8 rounded-md object-cover"
+                            />
+                          )}
                           <div className="font-medium">{product.name}</div>
                         </div>
                       </TableCell>
@@ -237,6 +245,12 @@ export const ProductsTable = ({
                               Featured
                             </Badge>
                           )}
+                          {isImageProcessingPending && (
+                            <Badge variant="secondary" className="flex items-center gap-1">
+                              <Loader2 className="h-3 w-3 animate-spin" />
+                              Processing
+                            </Badge>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
@@ -245,12 +259,13 @@ export const ProductsTable = ({
                             variant="ghost"
                             size="icon"
                             onClick={() => onViewProduct(product)}
+                            disabled={isImageProcessingPending}
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
+                              <Button variant="ghost" size="icon" disabled={isImageProcessingPending}>
                                 <MoreHorizontal className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>

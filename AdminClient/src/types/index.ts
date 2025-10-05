@@ -7,12 +7,22 @@ export interface ProductVariant {
   stock: number;
 }
 
+export interface ImageRenditions {
+  original: string;
+  medium: string;
+  thumbnail: string;
+  webp?: string;
+  avif?: string;
+}
+
 export interface Product {
   _id: string;
   name: string;
   description: string;
   category: string;
-  imageUrls: string[];
+  imageUrls: string[]; // Will now contain the primary display image (e.g., medium.webp)
+  imageRenditions: ImageRenditions[]; // New: Stores URLs for different sizes/formats
+  imageProcessingStatus: 'pending' | 'completed' | 'failed'; // New: Tracks image processing status
   isFeatured: boolean;
   variants: ProductVariant[];
   averageRating: number; // New: Average rating of the product
