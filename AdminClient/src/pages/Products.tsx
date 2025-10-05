@@ -58,7 +58,7 @@ export function Products() {
   const createProductMutation = useMutation({
     mutationFn: (formData: FormData) => productService.createProduct(formData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['products'] }); // Invalidate to refetch product list
       toast.success('Product created successfully! Images are being processed in the background.');
       setIsAddDialogOpen(false);
     },

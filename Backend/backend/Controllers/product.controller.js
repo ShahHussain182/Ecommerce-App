@@ -400,8 +400,16 @@ export const uploadProductImages = catchErrors(async (req, res) => {
 
   // Append new original URLs to existing ones
   product.imageUrls = [...(product.imageUrls || []), ...uploadedOriginalImageUrls];
-  // Initialize new image renditions as empty for now
-  product.imageRenditions = [...(product.imageRenditions || []), ...Array(uploadedOriginalImageUrls.length).fill({})];
+  
+  // Initialize new image renditions with original URL as placeholder for all required fields
+  const newRenditionEntries = uploadedOriginalImageUrls.map(originalUrl => ({
+    original: originalUrl,
+    medium: originalUrl, // Placeholder until processed by worker
+    thumbnail: originalUrl, // Placeholder until processed by worker
+    // webp and avif are optional, so no need to initialize
+  }));
+  product.imageRenditions = [...(product.imageRenditions || []), ...newRenditionEntries];
+  
   product.imageProcessingStatus = 'pending'; // Mark as pending as new images need processing
   await product.save();
 
@@ -489,7 +497,7 @@ export const deleteProductImage = catchErrors(async (req, res) => {
         deletePromises.push(
           s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }))
             .then(() => logger.info(`Deleted S3 object: ${s3Key}`))
-            .catch(s3Error => logger.error(`Failed to delete S3 object ${s3Key}: ${s3Error.message}`))
+            .catch(s3Error => logger.error(`Failed to delete S3 object ${s3Key}: ${s3Error.message}`));
         );
       }
     }

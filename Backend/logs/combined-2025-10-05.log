@@ -888,3 +888,90 @@
 2025-10-05T11:47:45.552Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
 2025-10-05T11:47:45.686Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
 2025-10-05T11:47:45.689Z [DEBUG] [req:N/A] Running in development mode
+2025-10-05T11:47:48.854Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:47:50.682Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:47:50.685Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-10-05T11:47:52.023Z [INFO] [req:N/A] 41 products already exist in the database. Skipping product seeding.
+2025-10-05T11:47:52.749Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:47:52.924Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:47:52.927Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:47:52.928Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-05T11:47:57.179Z [INFO] [req:N/A] Connecting to MongoDB...
+2025-10-05T11:48:00.118Z [INFO] [req:N/A] ✅ Connected to MongoDB.
+2025-10-05T11:48:00.120Z [INFO] [req:N/A] Deleting all products from MongoDB...
+2025-10-05T11:48:01.458Z [INFO] [req:N/A] ✅ Deleted 41 products from MongoDB.
+2025-10-05T11:48:01.459Z [INFO] [req:N/A] Connecting to Meilisearch...
+2025-10-05T11:48:01.482Z [INFO] [req:N/A] ✅ Connected to Meilisearch.
+2025-10-05T11:48:01.484Z [INFO] [req:N/A] Deleting Meilisearch index "products"...
+2025-10-05T11:48:02.020Z [INFO] [req:N/A] 📦 Meilisearch index deletion task UID: 57
+2025-10-05T11:48:02.161Z [INFO] [req:N/A] ✅ Meilisearch index "products" deleted successfully.
+2025-10-05T11:48:02.161Z [INFO] [req:N/A] Disconnecting from MongoDB...
+2025-10-05T11:48:02.169Z [INFO] [req:N/A] ✅ Disconnected from MongoDB.
+2025-10-05T11:48:02.169Z [INFO] [req:N/A] Product clearing process finished.
+2025-10-05T11:48:08.980Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-10-05T11:48:14.954Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-10-05T11:48:15.061Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-10-05T11:48:15.064Z [DEBUG] [req:N/A] Running in development mode
+2025-10-05T11:48:16.915Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-10-05T11:48:21.756Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-10-05T11:48:21.759Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-02.oissf.mongodb.net
+2025-10-05T11:48:24.560Z [INFO] [req:N/A] No products found. Seeding database with mock data...
+2025-10-05T11:48:25.066Z [INFO] [req:N/A] ✅ Database seeded successfully with mock products.
+2025-10-05T11:48:25.234Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-10-05T11:48:25.406Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1003
+2025-10-05T11:48:25.410Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-10-05T11:48:25.410Z [DEBUG] [req:N/A] http://localhost:3001
+2025-10-05T11:49:03.276Z [DEBUG] [req:69760283-c3e1-47d9-b182-7074948178d1] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-05T11:49:03.277Z [DEBUG] [req:69760283-c3e1-47d9-b182-7074948178d1] [requireAuth] AccessToken from cookies: present
+2025-10-05T11:49:03.278Z [DEBUG] [req:69760283-c3e1-47d9-b182-7074948178d1] [requireAuth] Authorization header: missing
+2025-10-05T11:49:03.282Z [DEBUG] [req:69760283-c3e1-47d9-b182-7074948178d1] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T11:49:03.452Z [DEBUG] [req:69760283-c3e1-47d9-b182-7074948178d1] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T11:49:03.452Z [DEBUG] [req:69760283-c3e1-47d9-b182-7074948178d1] [requireAuth] Session NL84N3KkwmSkfmFQt8VcA6b--V-TkXdN touched.
+2025-10-05T11:49:03.630Z [HTTP] [req:69760283-c3e1-47d9-b182-7074948178d1] ::1 - - [05/Oct/2025:11:49:03 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:49:04.209Z [HTTP] [req:f9e2f01f-b765-4f11-97b3-0b2367c9dc30] ::1 - - [05/Oct/2025:11:49:04 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:49:05.691Z [HTTP] [req:0175ef13-cb45-469c-9582-4062439a2a4c] ::1 - - [05/Oct/2025:11:49:05 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 6490 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:49:35.386Z [DEBUG] [req:64743c52-5d17-4cef-9b7b-ec6addf34213] [requireAuth] Attempting to authenticate for path: /
+2025-10-05T11:49:35.386Z [DEBUG] [req:64743c52-5d17-4cef-9b7b-ec6addf34213] [requireAuth] AccessToken from cookies: present
+2025-10-05T11:49:35.387Z [DEBUG] [req:64743c52-5d17-4cef-9b7b-ec6addf34213] [requireAuth] Authorization header: missing
+2025-10-05T11:49:35.389Z [DEBUG] [req:64743c52-5d17-4cef-9b7b-ec6addf34213] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T11:49:35.556Z [DEBUG] [req:64743c52-5d17-4cef-9b7b-ec6addf34213] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T11:49:35.557Z [DEBUG] [req:64743c52-5d17-4cef-9b7b-ec6addf34213] [requireAuth] Session NL84N3KkwmSkfmFQt8VcA6b--V-TkXdN touched.
+2025-10-05T11:49:35.566Z [DEBUG] [req:N/A] [createProduct] Raw req.body: {"name":"RealmRoyale","description":"gdsgsdsdsdsdsdsdsdsdsdfsfa","category":"Electronics","isFeatured":"false","variants":"[{\"size\":\"S\",\"color\":\"red\",\"price\":10,\"stock\":10}]"}
+2025-10-05T11:49:35.567Z [DEBUG] [req:N/A] [createProduct] Raw req.files: ["racing.jpg"]
+2025-10-05T11:49:35.568Z [DEBUG] [req:N/A] [createProduct] Parsed body before Zod: {"name":"RealmRoyale","description":"gdsgsdsdsdsdsdsdsdsdsdfsfa","category":"Electronics","isFeatured":false,"variants":[{"size":"S","color":"red","price":10,"stock":10}]}
+2025-10-05T11:49:35.623Z [INFO] [req:N/A] ✅ File uploaded: products/originals/68e25b4f157a844ad53cd46f-1759664975569.jpeg
+2025-10-05T11:49:36.983Z [INFO] [req:N/A] [ImageWorker] Processing job for product 68e25b4f157a844ad53cd470, image index 0 with key products/originals/68e25b4f157a844ad53cd46f-1759664975569.jpeg
+2025-10-05T11:49:37.480Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:49:37 +0000] "POST /api/v1/products HTTP/1.1" 201 661 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:49:38.190Z [HTTP] [req:40d47272-36c2-4e22-8329-f9496541f7a7] ::1 - - [05/Oct/2025:11:49:38 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:49:38.866Z [INFO] [req:N/A] [ImageWorker] Product 68e25b4f157a844ad53cd470 image 0 processed and updated successfully.
+2025-10-05T11:49:39.008Z [INFO] [req:N/A] [ImageWorker] Product 68e25b4f157a844ad53cd470 Meilisearch document updated with status 'completed'.
+2025-10-05T11:49:39.016Z [INFO] [req:N/A] [ImageWorker] Deleted original S3 object: products/originals/68e25b4f157a844ad53cd46f-1759664975569.jpeg
+2025-10-05T11:49:40.661Z [INFO] [req:N/A] [ImageWorker] Job 3 completed for product 68e25b4f157a844ad53cd470
+2025-10-05T11:50:19.199Z [DEBUG] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] [requireAuth] Attempting to authenticate for path: /check-auth
+2025-10-05T11:50:19.200Z [DEBUG] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] [requireAuth] AccessToken from cookies: present
+2025-10-05T11:50:19.200Z [DEBUG] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] [requireAuth] Authorization header: missing
+2025-10-05T11:50:19.202Z [DEBUG] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T11:50:19.368Z [DEBUG] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T11:50:19.369Z [DEBUG] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] [requireAuth] Session NL84N3KkwmSkfmFQt8VcA6b--V-TkXdN touched.
+2025-10-05T11:50:19.537Z [HTTP] [req:8698ddf5-63d1-428f-88f8-609911ab8a3b] ::1 - - [05/Oct/2025:11:50:19 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:50:20.538Z [HTTP] [req:e4063e16-8670-4595-a733-1a54c697c59b] ::1 - - [05/Oct/2025:11:50:20 +0000] "GET /api/v1/products?page=1&limit=10&sortBy=name-asc HTTP/1.1" 200 6490 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:50:20.549Z [HTTP] [req:91e856c9-7ec6-47da-9094-09a7c74a5676] ::1 - - [05/Oct/2025:11:50:20 +0000] "GET /api/v1/categories HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:50:32.463Z [HTTP] [req:ab021b24-3720-415b-a551-8215d82171c6] ::1 - - [05/Oct/2025:11:50:32 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=Rea&sortBy=name-asc HTTP/1.1" 200 4179 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:50:58.977Z [DEBUG] [req:38726b89-8c0a-4d75-be2f-32541ebd915d] [requireAuth] Attempting to authenticate for path: /68e25b4f157a844ad53cd470/upload-images
+2025-10-05T11:50:58.977Z [DEBUG] [req:38726b89-8c0a-4d75-be2f-32541ebd915d] [requireAuth] AccessToken from cookies: present
+2025-10-05T11:50:58.978Z [DEBUG] [req:38726b89-8c0a-4d75-be2f-32541ebd915d] [requireAuth] Authorization header: missing
+2025-10-05T11:50:58.980Z [DEBUG] [req:38726b89-8c0a-4d75-be2f-32541ebd915d] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T11:50:59.284Z [DEBUG] [req:38726b89-8c0a-4d75-be2f-32541ebd915d] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T11:50:59.284Z [DEBUG] [req:38726b89-8c0a-4d75-be2f-32541ebd915d] [requireAuth] Session NL84N3KkwmSkfmFQt8VcA6b--V-TkXdN touched.
+2025-10-05T11:50:59.502Z [INFO] [req:N/A] ✅ File uploaded: products/originals/68e25ba3157a844ad53cd47b-1759665059458.jpeg
+2025-10-05T11:50:59.510Z [ERROR] [req:N/A] ❌ Path: /api/v1/products/68e25b4f157a844ad53cd470/upload-images | Error: Product validation failed: imageRenditions.1.thumbnail: Path `thumbnail` is required., imageRenditions.1.medium: Path `medium` is required., imageRenditions.1.original: Path `original` is required.
+2025-10-05T11:50:59.690Z [HTTP] [req:N/A] ::1 - - [05/Oct/2025:11:50:59 +0000] "POST /api/v1/products/68e25b4f157a844ad53cd470/upload-images HTTP/1.1" 500 228 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:55:55.305Z [HTTP] [req:f4330ea6-d178-4b60-86f6-b461de9c72f6] ::1 - - [05/Oct/2025:11:55:55 +0000] "OPTIONS /api/v1/products/68e25b4f157a844ad53cd470 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:55:55.600Z [DEBUG] [req:735316d5-bba3-4b86-8cc6-997d0655852e] [requireAuth] Attempting to authenticate for path: /68e25b4f157a844ad53cd470
+2025-10-05T11:55:55.601Z [DEBUG] [req:735316d5-bba3-4b86-8cc6-997d0655852e] [requireAuth] AccessToken from cookies: present
+2025-10-05T11:55:55.602Z [DEBUG] [req:735316d5-bba3-4b86-8cc6-997d0655852e] [requireAuth] Authorization header: missing
+2025-10-05T11:55:55.604Z [DEBUG] [req:735316d5-bba3-4b86-8cc6-997d0655852e] [requireAuth] Token decoded for userId: 68cf8b9f53809e4ca0436f97
+2025-10-05T11:55:55.774Z [DEBUG] [req:735316d5-bba3-4b86-8cc6-997d0655852e] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-10-05T11:55:55.774Z [DEBUG] [req:735316d5-bba3-4b86-8cc6-997d0655852e] [requireAuth] Session NL84N3KkwmSkfmFQt8VcA6b--V-TkXdN touched.
+2025-10-05T11:55:57.284Z [HTTP] [req:735316d5-bba3-4b86-8cc6-997d0655852e] ::1 - - [05/Oct/2025:11:55:57 +0000] "PUT /api/v1/products/68e25b4f157a844ad53cd470 HTTP/1.1" 200 1334 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-10-05T11:55:57.848Z [HTTP] [req:6d6ebef9-9b3f-4288-9de9-f26d71438d09] ::1 - - [05/Oct/2025:11:55:57 +0000] "GET /api/v1/products?page=1&limit=10&searchTerm=Rea&sortBy=name-asc HTTP/1.1" 200 4180 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"

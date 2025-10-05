@@ -41,3 +41,4 @@
 2025-10-05T11:37:24.707Z [ERROR] [req:N/A] [ImageWorker] Failed to download products/originals/68e2586ea755ba40be6b8d89-1759664238301.jpeg from S3: The specified key does not exist.
 2025-10-05T11:37:24.708Z [ERROR] [req:N/A] [ImageWorker] Failed to process image for product 68e2586ea755ba40be6b8d8a, image index 0: The specified key does not exist.
 2025-10-05T11:37:26.404Z [ERROR] [req:N/A] [ImageWorker] Job 1 failed for product 68e2586ea755ba40be6b8d8a: The specified key does not exist.
+2025-10-05T11:50:59.510Z [ERROR] [req:N/A] ❌ Path: /api/v1/products/68e25b4f157a844ad53cd470/upload-images | Error: Product validation failed: imageRenditions.1.thumbnail: Path `thumbnail` is required., imageRenditions.1.medium: Path `medium` is required., imageRenditions.1.original: Path `original` is required.
