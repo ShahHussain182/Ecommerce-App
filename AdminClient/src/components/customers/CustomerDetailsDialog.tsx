@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { User, Mail, Phone, Calendar, DollarSign, ShoppingCart, CheckCircle, XCircle, UserCheck } from 'lucide-react';
 import type { User as CustomerType } from '@/types';
 import { getCustomerType, getCustomerTypeVariant } from '@/lib/customerUtils';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 
 interface CustomerDetailsDialogProps {
   customer: CustomerType | null;
@@ -21,6 +21,10 @@ export const CustomerDetailsDialog = ({ customer, isOpen, setIsOpen }: CustomerD
   const totalOrders = customer.totalOrders || 0;
   const customerType = getCustomerType(totalSpent, totalOrders, customer.lastLogin);
   const isVerified = customer.isVerified;
+
+  const handleSendEmail = () => {
+    window.location.href = `mailto:${customer.email}`;
+  };
 
   const DetailItem = ({ icon: Icon, label, value }: { icon: any, label: string, value: React.ReactNode }) => (
     <div className="flex items-center space-x-3">
@@ -108,8 +112,12 @@ export const CustomerDetailsDialog = ({ customer, isOpen, setIsOpen }: CustomerD
             </CardContent>
           </Card>
           
-          {/* Action Button */}
-          <div className="flex justify-end pt-4">
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-3 pt-4">
+            <Button onClick={handleSendEmail}>
+              <Mail className="h-4 w-4 mr-2" />
+              Send Email
+            </Button>
             <Button asChild>
               <a href={`/orders?customer=${customer._id}`}>
                 View All Orders

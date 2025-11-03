@@ -1,4 +1,4 @@
-import type { User } from '@/types';
+
 import { BadgeProps } from '@/components/ui/badge';
 
 export type CustomerType = 'Active' | 'Inactive' | 'VIP' | 'New' | 'Potential';

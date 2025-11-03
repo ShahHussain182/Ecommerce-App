@@ -73,6 +73,10 @@ export function Customers() {
     setIsDetailsDialogOpen(true);
   };
 
+  const handleSendEmail = (email: string) => {
+    window.location.href = `mailto:${email}`;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -290,7 +294,7 @@ export function Customers() {
                             <Button variant="ghost" size="icon" onClick={() => handleViewDetails(customer)}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="icon">
+                            <Button variant="ghost" size="icon" onClick={() => handleSendEmail(customer.email)}>
                               <Mail className="h-4 w-4" />
                             </Button>
                           </div>
