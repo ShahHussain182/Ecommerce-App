@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
-import { User, Mail, Phone, Calendar, DollarSign, ShoppingCart, CheckCircle, XCircle, UserCheck } from 'lucide-react';
+import { User, Mail, Phone, Calendar, DollarSign, ShoppingCart, CheckCircle, XCircle, UserCheck, Edit } from 'lucide-react';
 import type { User as CustomerType } from '@/types';
 import { getCustomerType, getCustomerTypeVariant } from '@/lib/customerUtils';
 import { Separator } from '@/components/ui/separator';
@@ -12,9 +12,10 @@ interface CustomerDetailsDialogProps {
   customer: CustomerType | null;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  onEdit: (customer: CustomerType) => void;
 }
 
-export const CustomerDetailsDialog = ({ customer, isOpen, setIsOpen }: CustomerDetailsDialogProps) => {
+export const CustomerDetailsDialog = ({ customer, isOpen, setIsOpen, onEdit }: CustomerDetailsDialogProps) => {
   if (!customer) return null;
 
   const totalSpent = customer.totalSpent || 0;
@@ -114,6 +115,10 @@ export const CustomerDetailsDialog = ({ customer, isOpen, setIsOpen }: CustomerD
           
           {/* Action Buttons */}
           <div className="flex justify-end space-x-3 pt-4">
+            <Button variant="outline" onClick={() => onEdit(customer)}>
+              <Edit className="h-4 w-4 mr-2" />
+              Edit
+            </Button>
             <Button onClick={handleSendEmail}>
               <Mail className="h-4 w-4 mr-2" />
               Send Email

@@ -5,7 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Eye, Mail, Phone, Calendar, Users as UsersIcon, RefreshCw, ChevronLeft, ChevronRight, Loader2, XCircle } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { Search, Filter, Eye, Mail, Phone, Calendar, Users as UsersIcon, RefreshCw, ChevronLeft, ChevronRight, Loader2, XCircle, Edit, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { customerService } from '@/services/customerService';
 import {
@@ -24,6 +34,7 @@ import {
 import { getCustomerType, getCustomerTypeVariant } from '@/lib/customerUtils';
 import type { User } from '@/types';
 import { CustomerDetailsDialog } from '@/components/customers/CustomerDetailsDialog';
+import { CustomerForm } from '@/components/customers/CustomerForm';
 
 export function Customers() {
   const queryClient = useQueryClient();
@@ -37,6 +48,9 @@ export function Customers() {
 
   const [selectedCustomer, setSelectedCustomer] = useState<User | null>(null);
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [customerToDelete, setCustomerToDelete] = useState<User | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Debounce search term
   useEffect(() => {
@@ -73,8 +87,44 @@ export function Customers() {
     setIsDetailsDialogOpen(true);
   };
 
+  const handleEditCustomer = (customer: User) => {
+    setSelectedCustomer(customer);
+    setIsDetailsDialogOpen(false);
+    setIsEditDialogOpen(true);
+  };
+
   const handleSendEmail = (email: string) => {
     window.location.href = `mailto:${email}`;
+  };
+
+  const handleDeleteCustomer = (customer: User) => {
+    setCustomerToDelete(customer);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteCustomer = async () => {
+    if (!customerToDelete) return;
+    
+    try {
+      // In a real app, you would call an API to delete the customer
+      // For now, we'll just simulate the deletion
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Deleting customer:', customerToDelete._id);
+      
+      // Refresh the customer list
+      refetch();
+      
+      // Close the dialog
+      setIsDeleteDialogOpen(false);
+      setCustomerToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete customer:', error);
+    }
+  };
+
+  const handleEditSuccess = () => {
+    // Refresh the customer list after successful edit
+    refetch();
   };
 
   return (
@@ -294,8 +344,14 @@ export function Customers() {
                             <Button variant="ghost" size="icon" onClick={() => handleViewDetails(customer)}>
                               <Eye className="h-4 w-4" />
                             </Button>
+                            <Button variant="ghost" size="icon" onClick={() => handleEditCustomer(customer)}>
+                              <Edit className="h-4 w-4" />
+                            </Button>
                             <Button variant="ghost" size="icon" onClick={() => handleSendEmail(customer.email)}>
                               <Mail className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon" onClick={() => handleDeleteCustomer(customer)}>
+                              <Trash2 className="h-4 w-4 text-red-500" />
                             </Button>
                           </div>
                         </TableCell>
@@ -343,7 +399,37 @@ export function Customers() {
         customer={selectedCustomer}
         isOpen={isDetailsDialogOpen}
         setIsOpen={setIsDetailsDialogOpen}
+        onEdit={handleEditCustomer}
       />
+      
+      {/* Customer Edit Dialog */}
+      {selectedCustomer && (
+        <CustomerForm
+          customer={selectedCustomer}
+          isOpen={isEditDialogOpen}
+          setIsOpen={setIsEditDialogOpen}
+          onSuccess={handleEditSuccess}
+        />
+      )}
+      
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the customer
+              {customerToDelete && ` "${customerToDelete.userName}"`} and remove all associated data.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDeleteCustomer} className="bg-red-600 hover:bg-red-700">
+              Delete Customer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

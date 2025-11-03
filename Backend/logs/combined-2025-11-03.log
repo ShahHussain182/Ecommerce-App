@@ -220,3 +220,41 @@
 2025-11-03T08:48:04.775Z [DEBUG] [req:a25b60de-b670-4041-8941-2f5b6499670c] [requireAuth] AccessToken from cookies: present
 2025-11-03T08:48:04.776Z [DEBUG] [req:a25b60de-b670-4041-8941-2f5b6499670c] [requireAuth] Authorization header: missing
 2025-11-03T08:48:04.778Z [DEBUG] [req:a25b60de-b670-4041-8941-2f5b6499670c] [requireAuth] Token decoded for userId: 6905f7a11c7ed2a04156ea74
+2025-11-03T08:48:14.764Z [DEBUG] [req:a25b60de-b670-4041-8941-2f5b6499670c] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-11-03T08:48:14.765Z [DEBUG] [req:a25b60de-b670-4041-8941-2f5b6499670c] [requireAuth] Session aeKexq1ooTGdBX6PwbexTBJqjxaHy3TL touched.
+2025-11-03T08:48:16.384Z [HTTP] [req:a25b60de-b670-4041-8941-2f5b6499670c] ::1 - - [03/Nov/2025:08:48:16 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T08:49:05.173Z [DEBUG] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] [requireAuth] Attempting to authenticate for path: /admin
+2025-11-03T08:49:05.173Z [DEBUG] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] [requireAuth] AccessToken from cookies: present
+2025-11-03T08:49:05.174Z [DEBUG] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] [requireAuth] Authorization header: missing
+2025-11-03T08:49:05.176Z [DEBUG] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] [requireAuth] Token decoded for userId: 6905f7a11c7ed2a04156ea74
+2025-11-03T08:49:05.440Z [DEBUG] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-11-03T08:49:05.441Z [DEBUG] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] [requireAuth] Session hsUcCXO7N4smm6CuYxyjW_iZel3dKetc touched.
+2025-11-03T08:49:06.332Z [HTTP] [req:c4a4250a-4ae3-4eb5-93cc-9360e35111f9] ::1 - - [03/Nov/2025:08:49:06 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T08:49:10.695Z [DEBUG] [req:655f2ac1-0016-47f4-8291-61efec635d77] [requireAuth] Attempting to authenticate for path: /admin
+2025-11-03T08:49:10.696Z [DEBUG] [req:655f2ac1-0016-47f4-8291-61efec635d77] [requireAuth] AccessToken from cookies: present
+2025-11-03T08:49:10.697Z [DEBUG] [req:655f2ac1-0016-47f4-8291-61efec635d77] [requireAuth] Authorization header: missing
+2025-11-03T08:49:10.699Z [DEBUG] [req:655f2ac1-0016-47f4-8291-61efec635d77] [requireAuth] Token decoded for userId: 6905f7a11c7ed2a04156ea74
+2025-11-03T08:49:11.638Z [DEBUG] [req:655f2ac1-0016-47f4-8291-61efec635d77] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-11-03T08:49:11.639Z [DEBUG] [req:655f2ac1-0016-47f4-8291-61efec635d77] [requireAuth] Session TZoP68asKqQNRVIYJ5cc2MuU6hkZ6NiC touched.
+2025-11-03T08:49:12.433Z [HTTP] [req:655f2ac1-0016-47f4-8291-61efec635d77] ::1 - - [03/Nov/2025:08:49:12 +0000] "GET /api/v1/orders/admin?page=1&limit=10&sortBy=date&sortOrder=asc HTTP/1.1" 200 1863 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T08:49:20.618Z [DEBUG] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] [requireAuth] Attempting to authenticate for path: /admin
+2025-11-03T08:49:20.618Z [DEBUG] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] [requireAuth] AccessToken from cookies: present
+2025-11-03T08:49:20.619Z [DEBUG] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] [requireAuth] Authorization header: missing
+2025-11-03T08:49:20.622Z [DEBUG] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] [requireAuth] Token decoded for userId: 6905f7a11c7ed2a04156ea74
+2025-11-03T08:49:20.887Z [DEBUG] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-11-03T08:49:20.887Z [DEBUG] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] [requireAuth] Session gxU8Viz5FaKag59TlntyVFM5Xvw2oHkL touched.
+2025-11-03T08:49:21.682Z [HTTP] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] ::1 - - [03/Nov/2025:08:49:21 +0000] "GET /api/v1/orders/admin?page=1&limit=10&searchTerm=A&sortBy=date&sortOrder=asc HTTP/1.1" 200 1863 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T08:49:22.160Z [DEBUG] [req:96096825-fbe2-4113-86ec-6975840cceb2] [requireAuth] Attempting to authenticate for path: /admin
+2025-11-03T08:49:22.161Z [DEBUG] [req:96096825-fbe2-4113-86ec-6975840cceb2] [requireAuth] AccessToken from cookies: present
+2025-11-03T08:49:22.162Z [DEBUG] [req:96096825-fbe2-4113-86ec-6975840cceb2] [requireAuth] Authorization header: missing
+2025-11-03T08:49:22.164Z [DEBUG] [req:96096825-fbe2-4113-86ec-6975840cceb2] [requireAuth] Token decoded for userId: 6905f7a11c7ed2a04156ea74
+2025-11-03T08:49:22.428Z [DEBUG] [req:96096825-fbe2-4113-86ec-6975840cceb2] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-11-03T08:49:22.429Z [DEBUG] [req:96096825-fbe2-4113-86ec-6975840cceb2] [requireAuth] Session HfY4ab_-6fXw7RBckkUxGIs8IZh0LZDn touched.
+2025-11-03T08:49:23.225Z [HTTP] [req:96096825-fbe2-4113-86ec-6975840cceb2] ::1 - - [03/Nov/2025:08:49:23 +0000] "GET /api/v1/orders/admin?page=1&limit=10&searchTerm=Ali&sortBy=date&sortOrder=asc HTTP/1.1" 200 1863 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T08:49:30.929Z [DEBUG] [req:c9612428-0220-4adb-8344-ba70f9d160ac] [requireAuth] Attempting to authenticate for path: /admin
+2025-11-03T08:49:30.930Z [DEBUG] [req:c9612428-0220-4adb-8344-ba70f9d160ac] [requireAuth] AccessToken from cookies: present
+2025-11-03T08:49:30.931Z [DEBUG] [req:c9612428-0220-4adb-8344-ba70f9d160ac] [requireAuth] Authorization header: missing
+2025-11-03T08:49:30.934Z [DEBUG] [req:c9612428-0220-4adb-8344-ba70f9d160ac] [requireAuth] Token decoded for userId: 6905f7a11c7ed2a04156ea74
+2025-11-03T08:49:31.202Z [DEBUG] [req:c9612428-0220-4adb-8344-ba70f9d160ac] [requireAuth] User SHAH HUSSAIN authenticated.
+2025-11-03T08:49:31.202Z [DEBUG] [req:c9612428-0220-4adb-8344-ba70f9d160ac] [requireAuth] Session ZNfOrcAJNoR0zzZu54iRtZs-wm3jStcA touched.
+2025-11-03T08:49:31.732Z [HTTP] [req:c9612428-0220-4adb-8344-ba70f9d160ac] ::1 - - [03/Nov/2025:08:49:31 +0000] "GET /api/v1/orders/admin?page=1&limit=10&searchTerm=Alex&sortBy=date&sortOrder=asc HTTP/1.1" 200 58 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
