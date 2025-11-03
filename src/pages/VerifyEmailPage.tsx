@@ -10,10 +10,11 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Loader2 } from "lucide-react"; // Import Loader2
+import { Terminal } from "lucide-react"; 
 import { FormErrorMessage } from "@/components/FormErrorMessage";
 import { useAuthStore } from '@/store/authStore'; // Import the auth store
 import * as authApi from '@/lib/authApi'; // Import authApi for resend code
+import { Spinner } from "@/components/ui/Spinner";
 
 const verifyEmailSchema = z.object({
   code: z.string().min(6, { message: "Please enter the 6-digit code." }).max(6, { message: "Code must be 6 digits." }),
@@ -180,11 +181,11 @@ const VerifyEmailPage = () => {
           <p className="text-gray-600">Didn't receive the code?</p>
           <Button variant="link" className="p-0 h-auto" onClick={handleResendCode} disabled={isResending}>
             {isResending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Resending...
-              </>
-            ) : (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Resending...</span>
+                        </div>
+                      ) : (
               "Resend Code"
             )}
           </Button>

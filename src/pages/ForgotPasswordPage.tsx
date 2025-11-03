@@ -14,6 +14,7 @@ import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Spinner } from '@/components/ui/Spinner';
 
 // Define form schema for validation
 const forgotPasswordFormSchema = z.object({
@@ -137,7 +138,12 @@ const ForgotPasswordPage = () => {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Sending..." : "Send Reset Link"}
+              {isSubmitting ?  (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Sending...</span>
+                        </div>
+                      )  : "Send Reset Link"}
             </Button>
           </motion.div>
         </form>

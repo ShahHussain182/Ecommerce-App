@@ -21,31 +21,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const getCustomerTypeVariant = (totalSpent: number, totalOrders: number, lastLogin: string) => {
-  const type = getCustomerType(totalSpent, totalOrders, lastLogin);
-  switch (type) {
-    case 'VIP': return 'default';
-    case 'New': return 'secondary';
-    case 'Potential': return 'outline';
-    case 'Active': return 'default';
-    case 'Inactive': return 'destructive';
-    default: return 'default';
-  }
-};
-
-const getCustomerType = (totalSpent: number, totalOrders: number, lastLogin: string) => {
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  const lastLoginDate = new Date(lastLogin);
-
-  if (totalSpent > 2000) return 'VIP';
-  if (totalOrders === 0) return 'New';
-  // Inactive: has orders, but last login is older than 30 days
-  if (totalOrders > 0 && lastLoginDate < thirtyDaysAgo) return 'Inactive';
-  if (totalSpent < 100 && totalOrders > 0) return 'Potential';
-  return 'Active';
-};
+import { getCustomerType, getCustomerTypeVariant } from '@/lib/customerUtils';
+import type { User } from '@/types';
+import { CustomerDetailsDialog } from '@/components/customers/CustomerDetailsDialog';
 
 export function Customers() {
   const queryClient = useQueryClient();
@@ -56,6 +34,9 @@ export function Customers() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [page, setPage] = useState(1);
   const limit = 10;
+
+  const [selectedCustomer, setSelectedCustomer] = useState<User | null>(null);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
 
   // Debounce search term
   useEffect(() => {
@@ -87,8 +68,10 @@ export function Customers() {
   const totalCustomers = customersData?.totalCustomers || 0;
   const totalPages = Math.ceil(totalCustomers / limit);
 
-  // Removed getStatusBadgeVariant as it's now handled by getCustomerTypeVariant directly
-  // and the logic for 'Inactive' is within getCustomerType.
+  const handleViewDetails = (customer: User) => {
+    setSelectedCustomer(customer);
+    setIsDetailsDialogOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -290,7 +273,7 @@ export function Customers() {
                             </div>
                           </div>
                         </TableCell><TableCell>
-                          <Badge variant={getCustomerTypeVariant(customer.totalSpent || 0, customer.totalOrders || 0, customer.lastLogin)}>
+                          <Badge variant={getCustomerTypeVariant(customerType)}>
                             {customerType}
                           </Badge>
                         </TableCell><TableCell>
@@ -304,7 +287,7 @@ export function Customers() {
                           </div>
                         </TableCell><TableCell className="text-right">
                           <div className="flex items-center space-x-2 justify-end">
-                            <Button variant="ghost" size="icon">
+                            <Button variant="ghost" size="icon" onClick={() => handleViewDetails(customer)}>
                               <Eye className="h-4 w-4" />
                             </Button>
                             <Button variant="ghost" size="icon">
@@ -350,6 +333,13 @@ export function Customers() {
           </div>
         )}
       </Card>
+
+      {/* Customer Details Dialog */}
+      <CustomerDetailsDialog
+        customer={selectedCustomer}
+        isOpen={isDetailsDialogOpen}
+        setIsOpen={setIsDetailsDialogOpen}
+      />
     </div>
   );
 }

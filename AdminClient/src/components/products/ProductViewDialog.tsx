@@ -4,9 +4,14 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Loader2 } from 'lucide-react'; // Import Loader2
 import type { Product, ProductVariant } from '../../types';
 import { useEffect } from 'react';
+import { useProductById } from '@/hooks/useProductById'; // Import useProductById
 
 const getTotalStock = (variants?: ProductVariant[]) => {
   return variants?.reduce((total, variant) => total + variant.stock, 0) || 0;
+};
+
+const getMinPrice = (variants?: ProductVariant[]) => {
+  return variants && variants.length > 0 ? Math.min(...variants.map(v => v.price)) : 0;
 };
 
 const getStockStatus = (totalStock: number) => {
@@ -18,28 +23,37 @@ const getStockStatus = (totalStock: number) => {
 interface ProductViewDialogProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  product: Product | null;
+  product: Product | null; // Now receives the product object directly
 }
 
 export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDialogProps) => {
+  // If product is passed directly, we don't need to fetch it again here.
+  // The parent component (Products.tsx) is responsible for providing the up-to-date product.
+  // However, if the product's imageProcessingStatus changes while this dialog is open,
+  // the parent's `products` query (which this `product` prop comes from) might not update immediately.
+  // To ensure real-time updates for image processing status, we can fetch the product again here.
+  const { data: fetchedProduct, isLoading: isProductLoading, isError: isProductError } = useProductById(product?._id);
+
+  const displayProduct = fetchedProduct || product; // Prioritize fetched data if available
+
   useEffect(() => {
-    if (isOpen && product) {
-      console.log(`[ProductViewDialog] Viewing product: ${product.name}, Image URLs:`, product.imageUrls);
+    if (isOpen && displayProduct) {
+      console.log(`[ProductViewDialog] Viewing product: ${displayProduct.name}, Image URLs:`, displayProduct.imageUrls);
     }
-  }, [isOpen, product]);
+  }, [isOpen, displayProduct]);
 
-  if (!product) return null;
+  if (!displayProduct) return null; // Render nothing if no product data
 
-  const totalStock = getTotalStock(product.variants);
+  const totalStock = getTotalStock(displayProduct.variants);
   const stockStatus = getStockStatus(totalStock);
-  const isImageProcessingPending = product.imageProcessingStatus === 'pending';
+  const isImageProcessingPending = displayProduct.imageProcessingStatus === 'pending';
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
-          <DialogTitle>{product.name}</DialogTitle>
-          <DialogDescription>{product.description}</DialogDescription>
+          <DialogTitle>{displayProduct.name}</DialogTitle>
+          <DialogDescription>{displayProduct.description}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -52,12 +66,12 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
                   <Loader2 className="h-5 w-5 animate-spin text-primary" />
                   <span>Images are being processed...</span>
                 </div>
-              ) : product.imageRenditions && product.imageRenditions.length > 0 ? (
-                product.imageRenditions.map((renditionSet, index) => (
+              ) : displayProduct.imageRenditions && displayProduct.imageRenditions.length > 0 ? (
+                displayProduct.imageRenditions.map((renditionSet, index) => (
                   <img
                     key={index}
                     src={renditionSet.thumbnail || '/placeholder.svg'} // Use thumbnail for gallery view
-                    alt={`${product.name} - Image ${index + 1}`}
+                    alt={`${displayProduct.name} - Image ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg border"
                     onError={(e) => {
                       e.currentTarget.src = '/placeholder.svg';
@@ -77,13 +91,13 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
             <div className="space-y-3">
               <div>
                 <Label className="text-sm font-medium">Category</Label>
-                <p className="text-sm">{product.category}</p>
+                <p className="text-sm">{displayProduct.category}</p>
               </div>
               <div>
                 <Label className="text-sm font-medium">Rating</Label>
                 <div className="flex items-center space-x-2">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span>{product.averageRating.toFixed(1)} ({product.numberOfReviews} reviews)</span>
+                  <span>{displayProduct.averageRating.toFixed(1)} ({displayProduct.numberOfReviews} reviews)</span>
                 </div>
               </div>
               <div>
@@ -92,7 +106,7 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
                   <Badge variant={stockStatus.variant}>
                     {stockStatus.status}
                   </Badge>
-                  {product.isFeatured && <Badge variant="outline">Featured</Badge>}
+                  {displayProduct.isFeatured && <Badge variant="outline">Featured</Badge>}
                   {isImageProcessingPending && (
                     <Badge variant="secondary" className="flex items-center gap-1">
                       <Loader2 className="h-3 w-3 animate-spin" />
@@ -107,8 +121,8 @@ export const ProductViewDialog = ({ isOpen, setIsOpen, product }: ProductViewDia
           <div>
             <Label className="text-sm font-medium">Variants</Label>
             <div className="mt-2 space-y-2">
-              {product.variants && product.variants.length > 0 ? (
-                product.variants.map((variant: ProductVariant, index: number) => (
+              {displayProduct.variants && displayProduct.variants.length > 0 ? (
+                displayProduct.variants.map((variant: ProductVariant, index: number) => (
                   <div key={variant._id || index} className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
                       <span className="font-medium">

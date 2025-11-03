@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useAuthStore } from '@/store/authStore';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Spinner } from '@/components/ui/Spinner';
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -149,7 +150,12 @@ const LoginPage = () => {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Logging In..." : "Log In"}
+              {form.formState.isSubmitting ?  (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Logging In ...</span>
+                        </div>
+                      ) : "Log In"}
             </Button>
           </motion.div>
         </form>

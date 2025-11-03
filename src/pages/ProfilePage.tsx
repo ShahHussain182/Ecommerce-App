@@ -6,13 +6,17 @@ import { Button } from '@/components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
 import * as authApi from '@/lib/authApi';
 import { toast } from 'sonner';
+import { useState } from 'react';
+import { Spinner } from '@/components/ui/Spinner';
 import { User, Mail, Phone, Calendar, LogOut, Edit, Package, Lock } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user, logout: logoutFromStore } = useAuthStore();
   const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
       await authApi.logout();
       logoutFromStore();
@@ -21,6 +25,8 @@ const ProfilePage = () => {
       toast.error("Logout Failed", {
         description: "An error occurred while trying to log out. Please try again.",
       });
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 
@@ -57,6 +63,7 @@ const ProfilePage = () => {
                   <p className="font-medium">{user.email}</p>
                 </div>
               </div>
+
               <div className="flex items-center space-x-4 p-4 border rounded-md">
                 <Phone className="h-5 w-5 text-gray-500" />
                 <div>
@@ -64,6 +71,7 @@ const ProfilePage = () => {
                   <p className="font-medium">{user.phoneNumber}</p>
                 </div>
               </div>
+
               <div className="flex items-center space-x-4 p-4 border rounded-md">
                 <Calendar className="h-5 w-5 text-gray-500" />
                 <div>
@@ -71,24 +79,42 @@ const ProfilePage = () => {
                   <p className="font-medium">{new Date(user.lastLogin).toLocaleString()}</p>
                 </div>
               </div>
+
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button asChild className="w-full">
                   <Link to="/orders">
-                    <span><Package className="mr-2 h-4 w-4" /> My Orders</span>
+                    <Package className="mr-2 h-4 w-4" /> My Orders
                   </Link>
                 </Button>
+
                 <Button asChild className="w-full">
                   <Link to="/profile/edit">
-                    <span><Edit className="mr-2 h-4 w-4" /> Edit Profile</span>
+                    <Edit className="mr-2 h-4 w-4" /> Edit Profile
                   </Link>
                 </Button>
+
                 <Button asChild className="w-full">
                   <Link to="/profile/change-password">
-                    <span><Lock className="mr-2 h-4 w-4" /> Change Password</span>
+                    <Lock className="mr-2 h-4 w-4" /> Change Password
                   </Link>
                 </Button>
-                <Button variant="destructive" onClick={handleLogout} className="w-full">
-                  <span><LogOut className="mr-2 h-4 w-4" /> Logout</span>
+
+                <Button
+                  variant="destructive"
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2"
+                  disabled={isLoggingOut}
+                >
+                  {isLoggingOut ? (
+                    <>
+                      <Spinner size={18} color="text-white" />
+                      Logging out...
+                    </>
+                  ) : (
+                    <>
+                      <LogOut className="mr-2 h-4 w-4" /> Logout
+                    </>
+                  )}
                 </Button>
               </div>
             </CardContent>

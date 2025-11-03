@@ -5,12 +5,20 @@ import catchErrors from "../Utils/catchErrors.js";
 import verificationCodeType from "../Constants/verificationCodeType.js";
 import { oneHourFromNow } from "../Utils/date.js";
 import { signAccessToken, signRefreshToken } from "../Utils/generateTokens.js";
-import { setCookies } from "../Utils/setCookie.js";
+import { cookieDefaults, setCookies } from "../Utils/setCookie.js";
 import { sendVerificationEmail, sendWelcomeEmail,sendPasswordResetEmail ,sendResetSuccessEmail} from "../mailtrap/emails.js";
 import { ResetCode } from "../Models/resetCode.model.js";
 import { verifyRefreshToken } from "../Utils/verifyTokens.js";
 import redisClient from "../Utils/redisClient.js";
 import jwt from "jsonwebtoken";
+import {sendMail} from "../Utils/zohoMailClient.js";
+import { sendResenWelcomeEmail } from "../Utils/resendClient.js";
+import emailjs from '@emailjs/nodejs';
+import { sendVerificationEmailEmailJs,sendWelcomeEmailEmailJs,sendPasswordResetRequestEmailEmailJs,sendPasswordResetSuccessEmailEmailJs } from "../Utils/emailjsClient.js";
+
+
+
+
 export const signup = catchErrors(async (req, res, next) => {
 
 
@@ -72,7 +80,25 @@ export const signup = catchErrors(async (req, res, next) => {
   req.session.token = accessToken;
   setCookies(res, accessToken, "AccessToken");
   setCookies(res, refreshToken, "RefreshToken");
-
+  await sendVerificationEmailEmailJs(user.email, verificationCode.code);
+  /* sendResenWelcomeEmail(user.email, user.userName); */
+  /* await sendMail({
+    to: user.email,
+    subject: 'Welcome to UniqueGamer!',
+    html: `
+      <div style="font-family:sans-serif">
+        <h2>Welcome, ${user.name}!</h2>
+        <p>Thanks for signing up for <strong>UniqueGamer</strong>.</p>
+        <p>We’re excited to have you. Here’s what you can do next:</p>
+        <ul>
+          <li>Verify your account</li>
+          <li>Explore new games</li>
+        </ul>
+        <p>Cheers,<br>The UniqueGamer Team</p>
+      </div>
+    `,
+    text: `Welcome, ${user.name}! Thanks for joining UniqueGamer.`
+  }); */
    /* await sendVerificationEmail(user.email, verificationCode.code);  */
   console.log(user)
   res.status(200).json({
@@ -108,6 +134,7 @@ export const verifyEmail = catchErrors(async (req, res) => {
     });
   }
   await validCode.deleteOne();
+  await sendWelcomeEmailEmailJs(updatedUser.email, updatedUser.userName);
   /* await sendWelcomeEmail(updatedUser.email, updatedUser.name) */
   res.status(200).json({
     success: true,
@@ -259,28 +286,23 @@ export const logout = catchErrors(async (req, res) => {
       const expiresInSec = decoded?.exp ? decoded.exp - Math.floor(Date.now() / 1000) : 60 * 60 * 24 * 30;
       await redisClient.setex(`bl_rt:${refreshToken}`, expiresInSec, "blacklisted");
     }
-    res.clearCookie("AccessToken", {
-      sameSite: "strict",
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production"
-    });
+    const clearOpts = {
+      ...cookieDefaults,
+    };
+    res.clearCookie("AccessToken", clearOpts);
 
-    res.clearCookie("RefreshToken", {
-      sameSite: "strict",
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production"
-    });
+    res.clearCookie("RefreshToken", clearOpts);
     res.clearCookie("connect.sid", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none",
       path: "/",
     });
     return res.status(200).json({
       success: true,
       message: "Logout successful",
     });
-  res.send("logout route");
+  
 })
 });
 export const forgotPassword = catchErrors(async (req, res) => {
@@ -315,7 +337,7 @@ export const forgotPassword = catchErrors(async (req, res) => {
 		
 
 		
-
+    await sendPasswordResetRequestEmailEmailJs(user.email, `${process.env.CLIENT_URL}/reset-password/${resetCode.code}`);
 		// send email
 		/* await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetCode.code}`); */
 
@@ -364,6 +386,7 @@ export const resetPassword = catchErrors(async (req, res) => {
     );
 		console.log(updatedUser)
     await ResetCode.deleteOne({ _id: resetCode._id });
+    await sendPasswordResetSuccessEmailEmailJs(updatedUser.email,updatedUser.userName);
 		/* await sendResetSuccessEmail(updatedUser.email); */
 
 
@@ -540,7 +563,7 @@ export const resendVerificationCode = catchErrors(async (req, res) => {
     type: verificationCodeType.EmailVerification,
     expiresAt: oneHourFromNow(),
   });
-
+     await sendVerificationEmailEmailJs(user.email, newVerificationCode.code);
   /* await sendVerificationEmail(user.email, newVerificationCode.code); */
   console.log(`New verification code for ${user.email}: ${newVerificationCode.code}`);
 

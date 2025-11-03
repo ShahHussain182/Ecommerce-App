@@ -24,6 +24,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { Loader2, CheckCircle2, Truck, CreditCard, Package } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Spinner } from '@/components/ui/Spinner';
 
 // Zod schema for shipping address (matches backend)
 const shippingAddressSchema = z.object({
@@ -415,11 +416,11 @@ const CheckoutPage = () => {
                     {currentStep === 3 && (
                       <Button type="submit" className="ml-auto" disabled={isPlacingOrder}>
                         {isPlacingOrder ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Placing Order...
-                          </>
-                        ) : (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Placing Order...</span>
+                        </div>
+                      ) : (
                           <>
                             <Package className="mr-2 h-4 w-4" />
                             Place Order

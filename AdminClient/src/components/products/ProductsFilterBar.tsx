@@ -92,6 +92,9 @@ export const ProductsFilterBar = ({
           <SelectItem value="price-desc">Price (High to Low)</SelectItem>
           <SelectItem value="averageRating-desc">Top Rated</SelectItem>
           <SelectItem value="numberOfReviews-desc">Most Reviewed</SelectItem>
+          <SelectItem value="createdAt-desc">Newest
+
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

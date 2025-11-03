@@ -14,6 +14,7 @@ import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Spinner } from '@/components/ui/Spinner';
 
 // Define form schema for validation
 const resetPasswordFormSchema = z.object({
@@ -171,7 +172,12 @@ const ResetPasswordPage = () => {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Resetting..." : "Reset Password"}
+              {isSubmitting ?(
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Resetting...</span>
+                        </div>
+                      ) : "Reset Password"}
             </Button>
           </motion.div>
         </form>

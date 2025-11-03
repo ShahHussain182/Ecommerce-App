@@ -6,6 +6,8 @@ import { User } from '../Models/user.model.js'; // Import User model
 import catchErrors from '../Utils/catchErrors.js';
 import { createOrderSchema, updateOrderStatusSchema } from '../Schemas/orderSchema.js';
 import mongoose from 'mongoose';
+import { publishToQueue } from '../Utils/lavinmqClient.js';
+import { logger } from '../Utils/logger.js';
 
 // Helper function to get the next sequential value
 async function getNextSequenceValue(sequenceName) {
@@ -22,6 +24,7 @@ async function getNextSequenceValue(sequenceName) {
  * This is a critical endpoint that handles stock management and transactional integrity.
  */
 export const createOrder = catchErrors(async (req, res) => {
+  console.log("create order")
   const userId = req.userId;
 
   // 1. Validate incoming request body
@@ -106,7 +109,25 @@ export const createOrder = catchErrors(async (req, res) => {
   // 7. Clear the user's cart
   cart.items = [];
   await cart.save();
-
+  try {
+    const job = {
+      to:  req.user?.email ,// ensure you have user's email available on req or user object
+      order: {
+        _id: order._id,
+        orderNumber: order.orderNumber,
+        items: order.items,
+        totalAmount: order.totalAmount,
+        shippingAddress: order.shippingAddress,
+        createdAt: order.createdAt,
+      },
+    };
+    // publish; we don't await to keep request fast, but we will await and log any publish error
+    await publishToQueue( 'order_emails', job);
+    console.log('[createOrder] published order email job for order', order._id);
+  } catch (err) {
+    console.error('[createOrder] failed to publish order email job', err);
+    // don't fail the request — log and continue
+  }
   res.status(201).json({ success: true, message: 'Order placed successfully!', order });
 });
 
@@ -209,28 +230,68 @@ export const getOrderById = catchErrors(async (req, res) => {
  * For a production app, this would have robust authorization checks.
  */
 export const updateOrderStatus = catchErrors(async (req, res) => {
-  // In a real app, you'd check if the user is an admin or has permission
-  // For now, we'll assume the authenticated user can update their own order status (e.g., cancel)
-  const userId = req.userId;
   const { id } = req.params;
   const { status } = updateOrderStatusSchema.parse(req.body);
+  const userId = req.userId;
+  const userRole = req.user.role;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid order ID format.' });
   }
 
+  // Build the query conditionally:
+  const query = userRole === 'admin' ? { _id: id } : { _id: id, userId };
+
   const order = await Order.findOneAndUpdate(
-    { _id: id, userId }, // Ensure user owns the order
+    query,
     { status },
     { new: true, runValidators: true }
   );
 
   if (!order) {
-    return res.status(404).json({ success: false, message: 'Order not found or you do not have permission to update it.' });
+    return res.status(404).json({
+      success: false,
+      message: 'Order not found or you do not have permission to update it.',
+    });
   }
-
-  res.status(200).json({ success: true, message: 'Order status updated successfully.', order });
+  try {
+    // Ensure we have the user's email (populate if not present)
+    let userEmail = req.user.email;
+  
+      // order.userId may already be populated in getAllOrders path, but not here; fetch minimal
+      const u = await User.findById(order.userId)
+      userEmail = u?.email;
+    
+  
+    const job = {
+      to: userEmail,
+      order: {
+        _id: order._id,
+        orderNumber: order.orderNumber,
+        status: order.status,
+        totalAmount: order.totalAmount,
+        items: order.items,
+        shippingAddress: order.shippingAddress,
+        updatedAt: new Date(),
+      },
+      // optional metadata for email:
+     
+    };
+  
+    // Publish to status-email queue (non-blocking, but await so we can log)
+    await publishToQueue( 'order_status_emails', job);
+    logger.info('[updateOrderStatus] published order status email job', { orderId: order._id, to: userEmail });
+  } catch (err) {
+    // Fail silently for user flow: log and continue
+    logger.error('[updateOrderStatus] failed to publish order status email job', { error: err?.message || err, orderId: order._id });
+  }
+  res.status(200).json({
+    success: true,
+    message: 'Order status updated successfully.',
+    order,
+  });
 });
+
 
 /**
  * @description Get order metrics for the admin dashboard.
@@ -377,6 +438,6 @@ export const getTopSellingProducts = catchErrors(async (req, res) => {
       },
     },
   ]);
-
+       
   res.status(200).json({ success: true, data: topProducts });
 });

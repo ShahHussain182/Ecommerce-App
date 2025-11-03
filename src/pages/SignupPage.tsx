@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { useAuthStore } from '@/store/authStore'; // Import the auth store
+import { Spinner } from '@/components/ui/Spinner';
 
 const signupFormSchema = z.object({
   userName: z.string().min(3, { message: "Username must be at least 3 characters." }),
@@ -229,7 +230,12 @@ const SignupPage = () => {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Creating Account..." : "Create Account"}
+              {form.formState.isSubmitting ?  (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Creating Account...</span>
+                        </div>
+                      )  : "Create Account"}
             </Button>
           </motion.div>
         </form>

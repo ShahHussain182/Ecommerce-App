@@ -102,78 +102,82 @@ export const getAllReviews = catchErrors(async (req, res) => {
   const limit = parseInt(req.query.limit, 10) || 10;
   const skip = (page - 1) * limit;
 
-  const matchStage = {};
+  const searchTerm = typeof req.query.searchTerm === 'string' ? req.query.searchTerm.trim() : '';
+  const ratingFilter = req.query.rating ? parseInt(req.query.rating, 10) : undefined;
+
+  // Build pipeline progressively
   const pipeline = [];
 
-  // Search by product name (requires lookup and then matching)
-  if (req.query.searchTerm) {
-    pipeline.push({
-      $lookup: {
-        from: 'products', // The collection name for Product model
-        localField: 'productId',
-        foreignField: '_id',
-        as: 'productDetails',
-      },
-    });
-    pipeline.push({
-      $unwind: '$productDetails',
-    });
-    matchStage['productDetails.name'] = { $regex: req.query.searchTerm, $options: 'i' };
-  }
+  // 1) Lookup product (robust to productId being ObjectId or string)
+  pipeline.push({
+    $lookup: {
+      from: 'products',
+      let: { pid: '$productId' },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $eq: [{ $toString: '$_id' }, { $toString: '$$pid' }]
+            }
+          }
+        },
+        { $project: { _id: 1, name: 1, imageUrls: 1 } },
+      ],
+      as: 'productDetails',
+    },
+  });
+  pipeline.push({ $unwind: { path: '$productDetails', preserveNullAndEmptyArrays: true } });
 
-  // Filter by rating
-  if (req.query.rating) {
-    const rating = parseInt(req.query.rating, 10);
-    if (!isNaN(rating) && rating >= 1 && rating <= 5) {
-      matchStage.rating = rating;
-    }
-  }
+  // 2) Lookup user (robust similarly)
+  pipeline.push({
+    $lookup: {
+      from: 'users',
+      let: { uid: '$userId' },
+      pipeline: [
+        {
+          $match: {
+            $expr: { $eq: [{ $toString: '$_id' }, { $toString: '$$uid' }] }
 
+          },
+        },
+        { $project: { _id: 1, userName: 1 } },
+      ],
+      as: 'userDetails',
+    },
+  });
+  pipeline.push({ $unwind: { path: '$userDetails', preserveNullAndEmptyArrays: true } });
+
+  // 3) If searchTerm provided, match product name
+  const matchStage = {};
+  if (searchTerm) {
+    matchStage['productDetails.name'] = { $regex: searchTerm, $options: 'i' };
+  }
+  // 4) Filter by rating if present
+  if (!isNaN(ratingFilter) && ratingFilter >= 1 && ratingFilter <= 5) {
+    matchStage.rating = ratingFilter;
+  }
   if (Object.keys(matchStage).length > 0) {
     pipeline.push({ $match: matchStage });
   }
 
-  // Add default values for averageRating and numberOfReviews if they are missing
+  // 5) Optional: normalize fields (not strictly necessary, but safe)
   pipeline.push({
     $addFields: {
-      averageRating: { $ifNull: ["$averageRating", 0] },
-      numberOfReviews: { $ifNull: ["$numberOfReviews", 0] },
+      averageRating: { $ifNull: ['$averageRating', 0] },
+      numberOfReviews: { $ifNull: ['$numberOfReviews', 0] },
     },
   });
 
-  // Count total documents before pagination
-  const countPipeline = [...pipeline];
-  countPipeline.push({ $count: 'total' });
+  // 6) Count total AFTER lookups & matches so totalReviews matches returned docs
+  const countPipeline = [...pipeline, { $count: 'total' }];
   const totalResult = await Review.aggregate(countPipeline);
   const totalReviews = totalResult.length > 0 ? totalResult[0].total : 0;
 
-  // Add sorting, skip, and limit for pagination
+  // 7) Add sorting, pagination, and a safe projection
   pipeline.push(
-    { $sort: { createdAt: -1 } }, // Latest reviews first
+    { $sort: { createdAt: -1 } }, // newest first
     { $skip: skip },
     { $limit: limit },
-    {
-      $lookup: {
-        from: 'users', // The collection name for User model
-        localField: 'userId',
-        foreignField: '_id',
-        as: 'userDetails',
-      },
-    },
-    {
-      $unwind: '$userDetails',
-    },
-    {
-      $lookup: {
-        from: 'products', // The collection name for Product model
-        localField: 'productId',
-        foreignField: '_id',
-        as: 'productDetails',
-      },
-    },
-    {
-      $unwind: '$productDetails',
-    },
     {
       $project: {
         _id: 1,
@@ -182,15 +186,22 @@ export const getAllReviews = catchErrors(async (req, res) => {
         comment: 1,
         createdAt: 1,
         updatedAt: 1,
-        'userId._id': '$userDetails._id',
-        'userId.userName': '$userDetails.userName',
-        'productId._id': '$productDetails._id',
-        'productId.name': '$productDetails.name',
-        'productId.imageUrls': '$productDetails.imageUrls',
+        // Provide safe user object (falls back to Unknown user when userDetails missing)
+        userId: {
+          _id: { $ifNull: ['$userDetails._id', null] },
+          userName: { $ifNull: ['$userDetails.userName', 'Unknown user'] },
+        },
+        // Provide safe product object (falls back to Deleted product / placeholder)
+        productId: {
+          _id: { $ifNull: ['$productDetails._id', null] },
+          name: { $ifNull: ['$productDetails.name', 'Deleted product'] },
+          imageUrls: { $ifNull: ['$productDetails.imageUrls', ['/placeholder.svg']] },
+        },
       },
     }
   );
 
+  // 8) Execute pipeline
   const reviews = await Review.aggregate(pipeline);
 
   res.status(200).json({
@@ -200,7 +211,6 @@ export const getAllReviews = catchErrors(async (req, res) => {
     nextPage: totalReviews > skip + reviews.length ? page + 1 : null,
   });
 });
-
 /**
  * @description Update a user's own review.
  */

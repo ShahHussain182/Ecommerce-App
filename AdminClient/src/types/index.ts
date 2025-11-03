@@ -222,6 +222,7 @@ export interface ProductsFilterState {
   priceRange?: string;
   colors?: string;
   sizes?: string;
-  sortBy?: 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc';
+  sortBy?: 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc'|'createdAt-desc';
   sortOrder?: 'asc' | 'desc'; // Added sortOrder for consistency, though sortBy handles direction
+includeProcessing?: boolean;
 }

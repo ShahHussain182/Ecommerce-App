@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import React from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';

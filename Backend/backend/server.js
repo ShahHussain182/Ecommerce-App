@@ -22,6 +22,7 @@ import reviewRouter from "./Routers/review.router.js";
 import customerRouter from "./Routers/customer.router.js";
 import categoryRouter from "./Routers/category.router.js";
 import reportRouter from "./Routers/report.router.js";
+import userRouter from "./Routers/user.router.js";
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
@@ -32,6 +33,8 @@ import { Category } from "./Models/Category.model.js";
 import { mockCategories } from "./Utils/mockCategories.js";
 import { imageProcessingQueue } from './Queues/imageProcessing.queue.js'; // Import queue
 import { imageProcessingWorker } from './Workers/imageProcessing.worker.js'; // Import worker
+import rabbit,{ closeRabbitConnection } from './Utils/lavinmqClient.js';
+
 
 dotenv.config();
 
@@ -94,14 +97,16 @@ app.use(
     store,
     cookie: {
       maxAge: sessionTTL * 1000,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
+      path: "/",
     },
   })
 );
 
 // ----------------- Routes -----------------
+app.use("/api/v1",userRouter)
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
@@ -120,7 +125,8 @@ let server;
 
 const startServer = async () => {
   await connectDB();
-
+  await rabbit.getChannel(); 
+  await rabbit.assertQueues(['order_emails','order_status_emails']);
   // --- Database Seeding Logic ---
   try {
     // Seed Products
@@ -203,7 +209,7 @@ async function cleanup() {
       logger.error("Failed to close HTTP server:", error);
     }
   }
-
+  await closeRabbitConnection();
   if (mongoose.connection.readyState !== 0) {
     logger.debug("Disconnecting Mongoose...");
     try {

@@ -18,6 +18,7 @@ interface OrdersTableProps {
   orders: Order[];
   isLoading: boolean;
   error: Error | null;
+  pendingOrderIds?: string[];
   totalOrders: number;
   totalPages: number;
   page: number;
@@ -42,45 +43,60 @@ export const OrdersTable = ({
   selectAllOrders,
   onUpdateOrderStatus,
   onViewOrderDetails,
+  pendingOrderIds = []
 }: OrdersTableProps) => {
   const queryClient = useQueryClient();
 
   // Mutation for deleting an order (cancelling it)
   const deleteOrderMutation = useMutation({
     mutationFn: (orderId: string) => orderService.updateOrderStatus(orderId, 'Cancelled'),
+    // optimistic update
     onMutate: async (orderIdToDelete) => {
       await queryClient.cancelQueries({ queryKey: ['orders'] });
-      const previousOrders = queryClient.getQueryData(['orders']); // Generic key for simplicity
-
-      queryClient.setQueryData(
-        ['orders'],
-        (oldData: { data: Order[], totalOrders: number, nextPage: number | null } | undefined) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: oldData.data.map(order => 
-              order._id === orderIdToDelete ? { ...order, status: 'Cancelled' } : order
-            ),
-          };
-        }
-      );
-      toast.loading('Cancelling order...', { id: orderIdToDelete });
-      return { previousOrders };
+  
+      const previous = queryClient.getQueryData<{ data: Order[]; totalOrders?: number } | undefined>(['orders']);
+  
+      // Optimistically mark the order as Cancelled in cache (defensive)
+      queryClient.setQueryData(['orders'], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: (old.data || []).map((o: Order) => (o._id === orderIdToDelete ? { ...o, status: 'Cancelled' } : o)),
+        };
+      });
+  
+      // show a loading toast keyed by order id so we can update/replace it later
+      toast.loading('Cancelling order...', { id: `cancel-${orderIdToDelete}` });
+  
+      return { previous };
     },
-    onSuccess: (data, orderIdToDelete) => {
-      toast.success(`Order #${data.data.orderNumber} cancelled successfully`, { id: orderIdToDelete });
+    onSuccess: (res: any, orderIdToDelete: string, context) => {
+      // res should be the server body: { success, message, order }
+      const orderNumber =
+        res?.order?.orderNumber ?? res?.orderNumber ?? res?.data?.orderNumber ?? 'unknown';
+  
+      // replace loading toast with success toast
+      toast.success(`Order #${orderNumber} cancelled successfully`, { id: `cancel-${orderIdToDelete}` });
     },
-    onError: (err: any, orderIdToDelete, context) => {
-      toast.error(err.response?.data?.message || 'Failed to cancel order', { id: orderIdToDelete });
-      if (context?.previousOrders) {
-        queryClient.setQueryData(['orders'], context.previousOrders);
+    onError: (err: any, orderIdToDelete: string, context) => {
+      // restore previous cache on error
+      if (context?.previous) {
+        queryClient.setQueryData(['orders'], context.previous);
       }
+  
+      // show a clearer error message (prefer server message if present)
+      const serverMsg = err?.response?.data?.message;
+      toast.error(serverMsg || 'Failed to cancel order', { id: `cancel-${orderIdToDelete}` });
+  
+      // keep the error in console for debugging
+      console.error('Failed to cancel order:', err);
     },
     onSettled: () => {
+      // re-fetch so server is authoritative
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });
-
+  const pendingSet = new Set(pendingOrderIds);
   const handleDeleteOrder = (orderId: string) => {
     deleteOrderMutation.mutate(orderId);
   };
@@ -165,11 +181,20 @@ export const OrdersTable = ({
                   <div className="font-medium">${order.totalAmount.toFixed(2)}</div>
                   <div className="text-sm text-muted-foreground">{order.paymentMethod}</div>
                 </TableCell><TableCell>
-                  <Badge variant={getStatusBadgeVariant(order.status)} className="flex items-center gap-1 w-fit">
-                    {getStatusIcon(order.status)}
-                    {order.status}
-                  </Badge>
-                </TableCell><TableCell>
+  <div className="flex items-center gap-2">
+    <Badge variant={getStatusBadgeVariant(order.status)} className="flex items-center gap-1 w-fit">
+      {getStatusIcon(order.status)}
+      {order.status}
+    </Badge>
+
+    {pendingSet.has(order._id) && (
+      <div className="flex items-center text-sm text-muted-foreground ml-2">
+        <Loader2 className="h-4 w-4 animate-spin" />
+        <span className="ml-1">Updating…</span>
+      </div>
+    )}
+  </div>
+</TableCell><TableCell>
                   <div>
                     <div className="font-medium">{format(new Date(order.createdAt), 'MMM dd, yyyy')}</div>
                     <div className="text-sm text-muted-foreground">{format(new Date(order.createdAt), 'HH:mm')}</div>

@@ -8,6 +8,7 @@ import {logger} from '../Utils/logger.js';
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import s3Client from "../Utils/s3Client.js";
 import { imageProcessingQueue } from '../Queues/imageProcessing.queue.js'; // Import the queue
+import { v4 as uuidv4 } from 'uuid'; 
 
 const S3_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || "e-store-images";
 const MINIO_URL = process.env.MINIO_URL || "http://localhost:9000";
@@ -25,9 +26,14 @@ export const getProducts = catchErrors(async (req, res) => {
   // Build Meilisearch filter string
   const filters = [];
 
-  // Only show products that have completed image processing
-  filters.push(`imageProcessingStatus = "completed"`);
+ // Admin/client can request to include pending/failed images (useful for admin UI)
+  // Pass ?includeProcessing=true from the client to disable the "completed" filter.
+  const includeProcessing = req.query.includeProcessing === 'true' || req.query.includeProcessing === true;
 
+  // Only add the "completed" filter when NOT explicitly requesting to include processing states.
+  if (!includeProcessing) {
+    filters.push(`imageProcessingStatus = "completed"`);
+  }
   if (categories) {
     const categoryArray = categories.split(',');
     filters.push(`category IN [${categoryArray.map(c => `"${c}"`).join(', ')}]`);
@@ -55,6 +61,9 @@ export const getProducts = catchErrors(async (req, res) => {
   switch (sortBy) {
     case 'price-desc':
       sort = ['price:desc'];
+      break;
+    case 'createdAt-desc':
+      sort = ['createdAt:desc'];
       break;
     case 'name-asc':
       sort = ['name:asc'];
@@ -241,7 +250,7 @@ export const createProduct = catchErrors(async (req, res) => {
     sizes: product.variants.map(v => v.size),
     averageRating: product.averageRating ?? 0,
     numberOfReviews: product.numberOfReviews ?? 0,
-    createdAt: product.createdAt ? new Date(product.createdAt).toISOString() : null,
+    createdAt: product.createdAt ? new Date(product.createdAt).toISOString() :  (new Date()).toISOString(),
   }]);
   
 
@@ -300,7 +309,7 @@ export const updateProduct = catchErrors(async (req, res) => {
     sizes: product.variants.map(v => v.size),
     averageRating: product.averageRating ?? 0,
     numberOfReviews: product.numberOfReviews ?? 0,
-    createdAt: product.createdAt ? new Date(product.createdAt).toISOString() : null,
+    createdAt: product.createdAt ? new Date(product.createdAt).toISOString() :  (new Date()).toISOString(),
   }]);
   
 
@@ -353,86 +362,174 @@ export const deleteProduct = catchErrors(async (req, res) => {
 /**
  * @description Upload product images to S3 and update the product document.
  */
+
+
 export const uploadProductImages = catchErrors(async (req, res) => {
   const { id } = req.params;
+  const PLACEHOLDER_MARKER = 'placeholder.svg'; // adjust if yours differs
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ success: false, message: 'Invalid product ID format.' });
   }
-
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ success: false, message: 'No files uploaded.' });
   }
+
+  logger.info(`[uploadProductImages] Received ${req.files.length} file(s) for product ${id}`);
 
   const product = await Product.findById(id);
   if (!product) {
     return res.status(404).json({ success: false, message: 'Product not found.' });
   }
 
-  const currentImageCount = product.imageUrls ? product.imageUrls.length : 0;
-  if (currentImageCount + req.files.length > MAX_IMAGES) {
-    return res.status(400).json({ 
-      success: false, 
-      message: `Cannot upload more than ${MAX_IMAGES} images. You currently have ${currentImageCount} and are trying to add ${req.files.length}.` 
-    });
-  }
+  // Ensure arrays exist
+  product.imageUrls = Array.isArray(product.imageUrls) ? product.imageUrls : [];
+  product.imageRenditions = Array.isArray(product.imageRenditions) ? product.imageRenditions : [];
 
-  const uploadedOriginalImageUrls = [];
-  const originalS3Keys = [];
-  const newImageIndices = [];
-
-  for (let i = 0; i < req.files.length; i++) {
-    const file = req.files[i];
-    try {
-      const s3Key = `products/originals/${new mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
-      const url = await uploadFileToS3(file.buffer, file.mimetype, s3Key); 
-      uploadedOriginalImageUrls.push(url);
-      originalS3Keys.push(s3Key);
-      newImageIndices.push(currentImageCount + i); // Track index for new images
-    } catch (error) {
-      logger.error(`Failed to upload file ${file.originalname} for product ${id}: ${error.message}`);
+  // Find indexes that look like placeholders (by originalS3Key or original URL)
+  const placeholderIndexes = [];
+  for (let i = 0; i < product.imageRenditions.length; i++) {
+    const r = product.imageRenditions[i] || {};
+    const orig = r.original || product.imageUrls[i] || '';
+    const key = r.originalS3Key || '';
+    if ((typeof orig === 'string' && orig.includes(PLACEHOLDER_MARKER)) ||
+        (typeof key === 'string' && key.includes(PLACEHOLDER_MARKER))) {
+      placeholderIndexes.push(i);
     }
   }
 
-  if (uploadedOriginalImageUrls.length === 0) {
+  // Upload all files to S3 first
+  const uploaded = []; // { url, s3Key, uploadId, originalName }
+  for (const file of req.files) {
+    try {
+      const s3Key = `products/originals/${new mongoose.Types.ObjectId()}-${Date.now()}.${file.mimetype.split('/')[1]}`;
+      const url = await uploadFileToS3(file.buffer, file.mimetype, s3Key);
+      const uploadId = uuidv4();
+      uploaded.push({ url, s3Key, uploadId, originalName: file.originalname });
+      logger.info(`[uploadProductImages] Uploaded file ${file.originalname} -> s3Key=${s3Key} uploadId=${uploadId}`);
+    } catch (err) {
+      logger.error(`[uploadProductImages] Failed to upload ${file.originalname}: ${err?.message || err}`);
+    }
+  }
+
+  if (uploaded.length === 0) {
     return res.status(500).json({ success: false, message: 'No images were successfully uploaded.' });
   }
 
-  // Append new original URLs to existing ones
-  product.imageUrls = [...(product.imageUrls || []), ...uploadedOriginalImageUrls];
-  
-  // Initialize new image renditions with original URL as placeholder for all required fields
-  const newRenditionEntries = uploadedOriginalImageUrls.map(originalUrl => ({
-    original: originalUrl,
-    medium: originalUrl, // Placeholder until processed by worker
-    thumbnail: originalUrl, // Placeholder until processed by worker
-    // webp and avif are optional, so no need to initialize
-  }));
-  product.imageRenditions = [...(product.imageRenditions || []), ...newRenditionEntries];
-  
-  product.imageProcessingStatus = 'pending'; // Mark as pending as new images need processing
-  await product.save();
+  // Place uploads into placeholder slots first, else append
+  const queuedJobs = [];
+  for (let i = 0; i < uploaded.length; i++) {
+    const { url, s3Key, uploadId } = uploaded[i];
 
-  // Add jobs to the image processing queue for new images
-  for (let i = 0; i < uploadedOriginalImageUrls.length; i++) {
-    await imageProcessingQueue.add(
-      `process-image-${product._id}-${newImageIndices[i]}`,
-      {
-        productId: product._id.toString(),
-        originalS3Key: originalS3Keys[i],
-        imageIndex: newImageIndices[i],
+    if (placeholderIndexes.length > 0) {
+      const targetIndex = placeholderIndexes.shift(); // fill this placeholder slot
+      // Ensure arrays long enough
+      while (product.imageRenditions.length <= targetIndex) {
+        product.imageRenditions.push({ original: null, medium: null, thumbnail: null, webp: null, avif: null, uploadId: null, originalS3Key: null });
       }
-    );
+      while (product.imageUrls.length <= targetIndex) product.imageUrls.push(null);
+
+      // Put the uploaded original URL into both arrays; worker will replace with processed renditions
+      product.imageUrls[targetIndex] = url;
+      product.imageRenditions[targetIndex] = {
+        original: url,
+        medium: url,
+        thumbnail: url,
+        webp: null,
+        avif: null,
+        uploadId,
+        originalS3Key: s3Key,
+      };
+
+      queuedJobs.push({ productId: product._id.toString(), originalS3Key: s3Key, imageIndex: targetIndex, uploadId });
+      logger.info(`[uploadProductImages] Replaced placeholder at index=${targetIndex} with uploadId=${uploadId}`);
+    } else {
+      // Append to end
+      const newIndex = product.imageUrls.length;
+      product.imageUrls.push(url);
+      product.imageRenditions.push({
+        original: url,
+        medium: url,
+        thumbnail: url,
+        webp: null,
+        avif: null,
+        uploadId,
+        originalS3Key: s3Key,
+      });
+      queuedJobs.push({ productId: product._id.toString(), originalS3Key: s3Key, imageIndex: newIndex, uploadId });
+      logger.info(`[uploadProductImages] Appended uploaded image at index=${newIndex} uploadId=${uploadId}`);
+    }
   }
 
-  // Update Meilisearch (will be updated again by worker when processing completes)
+  // IMPORTANT: remove any remaining placeholders so seeded placeholder(s) disappear entirely
+  const filteredImageUrls = [];
+  const filteredRenditions = [];
+  for (let i = 0; i < product.imageUrls.length; i++) {
+    const url = product.imageUrls[i];
+    const rend = product.imageRenditions[i] || {};
+    const orig = rend.original || url || '';
+    const key = rend.originalS3Key || '';
+
+    const isPlaceholder = (typeof orig === 'string' && orig.includes(PLACEHOLDER_MARKER)) ||
+                          (typeof key === 'string' && key.includes(PLACEHOLDER_MARKER));
+
+    // Keep only if not placeholder
+    if (!isPlaceholder) {
+      filteredImageUrls.push(url);
+      filteredRenditions.push(rend);
+    } else {
+      logger.info(`[uploadProductImages] Removing leftover placeholder at index ${i} for product ${product._id}`);
+    }
+  }
+
+  // If filtered arrays are empty (shouldn't be — because we uploaded), but guard:
+  if (filteredImageUrls.length === 0 && uploaded.length > 0) {
+    // keep the uploaded ones (they were already placed above); reconstruct from current product arrays
+    product.imageUrls = product.imageUrls.filter(u => typeof u === 'string' && !u.includes(PLACEHOLDER_MARKER));
+    product.imageRenditions = product.imageRenditions.filter(r => !(r?.original && String(r.original).includes(PLACEHOLDER_MARKER)));
+  } else {
+    product.imageUrls = filteredImageUrls;
+    product.imageRenditions = filteredRenditions;
+  }
+
+  // Ensure at least one image remains (Mongoose validation)
+  if (!product.imageUrls || product.imageUrls.length === 0) {
+    // fallback: keep first uploaded (should never happen, defensive)
+    const first = uploaded[0];
+    product.imageUrls = [first.url];
+    product.imageRenditions = [{
+      original: first.url,
+      medium: first.url,
+      thumbnail: first.url,
+      webp: null,
+      avif: null,
+      uploadId: first.uploadId,
+      originalS3Key: first.s3Key,
+    }];
+  }
+
+  product.imageProcessingStatus = 'pending';
+  await product.save();
+
+  // Add jobs to queue (after product.save to ensure product exists)
+  for (const job of queuedJobs) {
+    await imageProcessingQueue.add(`process-image-${job.productId}-${job.uploadId}`, {
+      productId: job.productId,
+      originalS3Key: job.originalS3Key,
+      imageIndex: job.imageIndex,
+      uploadId: job.uploadId,
+    });
+    logger.info(`[uploadProductImages] Queued job process-image-${job.productId}-${job.uploadId} for index=${job.imageIndex}`);
+  }
+
+  // Update Meilisearch (initial entry)
   await productIndex.addDocuments([{
     _id: product._id.toString(),
     name: product.name,
     description: product.description,
     category: product.category,
     imageUrls: product.imageUrls,
-    imageRenditions: product.imageRenditions, // Include imageRenditions here
+    imageRenditions: product.imageRenditions,
     imageProcessingStatus: product.imageProcessingStatus,
     isFeatured: Boolean(product.isFeatured),
     variants: (product.variants || []).map(v => ({
@@ -452,10 +549,12 @@ export const uploadProductImages = catchErrors(async (req, res) => {
 
   res.status(200).json({
     success: true,
-    message: `${uploadedOriginalImageUrls.length} image(s) uploaded. Processing in background.`,
-    product: product,
+    message: `${uploaded.length} image(s) uploaded. Placeholder(s) removed; processing in background.`,
+    product,
   });
 });
+
+
 
 /**
  * @description Delete a specific product image from S3 and update the product document.
@@ -485,24 +584,81 @@ export const deleteProductImage = catchErrors(async (req, res) => {
     return res.status(400).json({ success: false, message: 'A product must have at least one image.' });
   }
 
-  // Get the renditions associated with this image
-  const renditionsToDelete = product.imageRenditions[imageIndex];
+  
+ 
 
   // Delete all renditions from S3
-  if (renditionsToDelete) {
-    const deletePromises = [];
-    for (const key in renditionsToDelete) {
-      if (renditionsToDelete[key]) {
-        const s3Key = renditionsToDelete[key].replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
-        deletePromises.push(
-          s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }))
-            .then(() => logger.info(`Deleted S3 object: ${s3Key}`))
-            .catch(s3Error => logger.error(`Failed to delete S3 object ${s3Key}:`, { error: s3Error }));
-        );
-      }
-    }
-    await Promise.all(deletePromises);
-  }
+   // Get the renditions associated with this image
+   const renditionsToDelete = product.imageRenditions[imageIndex];
+
+   // Delete all renditions from S3 -- robust and defensive
+   if (renditionsToDelete) {
+     const keysToDeleteSet = new Set();
+ 
+     // Helper: derive S3 key from a URL or return null
+     const deriveKey = (val) => {
+       if (!val) return null;
+       if (typeof val !== 'string') return null;
+ 
+       // If it's already an s3/minio key like 'products/...' (no host), accept it
+       if (!val.startsWith('http') && val.includes('/')) {
+         // Heuristic: if it looks like 'products/...' or contains bucket path, treat as key
+         return val;
+       }
+ 
+       // If it's a full URL that includes MINIO_URL and BUCKET, strip prefix
+       const prefix = `${MINIO_URL}/${S3_BUCKET_NAME}/`;
+       if (val.startsWith(prefix)) {
+         return val.replace(prefix, '');
+       }
+ 
+       // If it's a full URL but not matching MINIO_URL, try to parse path and find last segments
+       try {
+         const u = new URL(val);
+         const parts = u.pathname.split('/').filter(Boolean);
+         // if path contains bucket name, remove until bucket name
+         const bucketIndex = parts.indexOf(S3_BUCKET_NAME);
+         if (bucketIndex >= 0 && parts.length > bucketIndex + 1) {
+           return parts.slice(bucketIndex + 1).join('/');
+         }
+         // fallback: return last two segments (best-effort)
+         if (parts.length >= 2) return parts.slice(-2).join('/');
+       } catch (e) {
+         // not a valid URL
+       }
+ 
+       // otherwise can't derive
+       return null;
+     };
+ 
+     // Known rendition fields we care about (skip uploadId)
+     const candidateFields = ['original', 'medium', 'thumbnail', 'webp', 'avif', 'originalS3Key'];
+ 
+     for (const field of candidateFields) {
+       const val = renditionsToDelete[field];
+       const derived = deriveKey(val);
+       if (derived) {
+         keysToDeleteSet.add(derived);
+         logger.info(`[deleteProductImage] Found S3 key candidate from field ${field}: ${derived}`);
+       } else if (val) {
+         logger.debug(`[deleteProductImage] Skipping non-S3 value at field ${field}: ${String(val).slice(0,200)}`);
+       }
+     }
+ 
+     const keysToDelete = Array.from(keysToDeleteSet);
+     if (keysToDelete.length === 0) {
+       logger.info(`[deleteProductImage] No S3 keys found to delete for product ${id} index ${imageIndex}`);
+     } else {
+       logger.info(`[deleteProductImage] Will attempt to delete ${keysToDelete.length} S3 object(s): ${JSON.stringify(keysToDelete)}`);
+       const deletePromises = keysToDelete.map((s3Key) =>
+         s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: s3Key }))
+           .then(() => logger.info(`[deleteProductImage] Deleted S3 object: ${s3Key}`))
+           .catch(s3Error => logger.error(`[deleteProductImage] Failed to delete S3 object ${s3Key}: ${s3Error?.message || s3Error}`, { error: s3Error }))
+       );
+       await Promise.all(deletePromises);
+     }
+   }
+  
 
   // Remove image URL and renditions from product document
   product.imageUrls.splice(imageIndex, 1);

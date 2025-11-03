@@ -12,6 +12,8 @@ import { ProductsTable } from '../components/products/ProductsTable';
 import { ProductViewDialog } from '../components/products/ProductViewDialog';
 import { ProductForm } from '../components/products/ProductForm';
 import { useCategories } from '@/hooks/useCategories';
+import { useProcessingPoll } from '@/hooks/useProcessingPoll';
+import { QueryClient } from '@tanstack/react-query';
 import {
   Dialog,
   DialogContent,
@@ -22,30 +24,69 @@ import {
 import { useDebounce } from 'use-debounce';
 
 export function Products() {
+  const productsQueryKey = (opts: {
+    searchTerm?: string;
+    category?: string;
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    includeProcessing?: boolean;
+    isAdminView?: boolean;
+  }) => [
+    'products',
+    {
+      searchTerm: opts.searchTerm || undefined,
+      category: opts.category || undefined,
+      page: opts.page ?? 1,
+      limit: opts.limit ?? limit,
+      sortBy: opts.sortBy ?? sortBy,
+      includeProcessing: opts.includeProcessing ?? true,
+      isAdminView: opts.isAdminView ?? true, // admin dashboard uses true
+    },
+  ] as const;
   const queryClient = useQueryClient();
   const { data: categories, isLoading: categoriesLoading, error: categoriesError } = useCategories();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'averageRating-desc' | 'numberOfReviews-desc' | 'relevance-desc'>('name-asc');
+  type SortOption =
+  | 'price-asc'
+  | 'price-desc'
+  | 'name-asc'
+  | 'name-desc'
+  | 'averageRating-desc'
+  | 'numberOfReviews-desc'
+  | 'relevance-desc'
+  | 'createdAt-desc';
+
+const [sortBy, setSortBy] = useState<SortOption>('name-asc');
   const [page, setPage] = useState(1);
   const limit = 10;
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null); // Store only ID
 
   // Query for products from API
   const { data: productsData, isLoading, error, refetch } = useQuery({
-    queryKey: ['products', { searchTerm: debouncedSearchTerm, category: selectedCategory, page, limit, sortBy }],
+    queryKey: productsQueryKey({
+      searchTerm: debouncedSearchTerm,
+      category: selectedCategory,
+      page,
+      limit,
+      sortBy,
+      includeProcessing: true,
+      isAdminView: true,
+    }),
     queryFn: () => productService.getProducts({
       page,
       limit,
       searchTerm: debouncedSearchTerm || undefined,
       categories: selectedCategory || undefined,
       sortBy,
+      includeProcessing: true, // <-- show pending/processing products in admin UI
     }),
     staleTime: 5 * 60 * 1000,
   });
@@ -53,14 +94,85 @@ export function Products() {
   const products = productsData?.products || []; // Corrected: Access 'products' key
   const totalProducts = productsData?.totalProducts || 0; // Corrected: Access 'totalProducts' key
   const totalPages = Math.ceil(totalProducts / limit);
-
+  const { startPoll } = useProcessingPoll();
   // Mutations for CRUD operations
   const createProductMutation = useMutation({
     mutationFn: (formData: FormData) => productService.createProduct(formData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] }); // Invalidate to refetch product list
+    onSuccess: async (response) => {
+      const newProduct = response?.product;
       toast.success('Product created successfully! Images are being processed in the background.');
+    
+      // Admin UX: show newest-first and jump to page 1
+      setSortBy('createdAt-desc');
+      setPage(1);
       setIsAddDialogOpen(false);
+    
+      // Build admin query key for newest-first page 1
+      const adminQueryKeyForPage1 = productsQueryKey({
+        searchTerm: debouncedSearchTerm,
+        category: selectedCategory,
+        page: 1,
+        limit,
+        sortBy: 'createdAt-desc',
+        includeProcessing: true,
+        isAdminView: true,
+      });
+    
+      try {
+        const prev = queryClient.getQueryData(adminQueryKeyForPage1) as any | undefined;
+    
+        if (prev && newProduct) {
+          // Already have page 1 cached — just prepend optimistically
+          const already = (prev.products || []).some((p: any) => p._id === newProduct._id);
+          if (!already) {
+            const updatedProducts = [newProduct, ...(prev.products || [])].slice(0, limit);
+            const updatedTotal =
+              typeof prev.totalProducts === 'number'
+                ? prev.totalProducts + 1
+                : (prev.products?.length || 0) + 1;
+            const updated = { ...prev, products: updatedProducts, totalProducts: updatedTotal };
+            queryClient.setQueryData(adminQueryKeyForPage1, updated);
+          }
+        } else if (newProduct) {
+          // No cached page 1 — fetch from server to avoid flicker of "Products (1)"
+          const fetched = await queryClient.fetchQuery({
+            queryKey: adminQueryKeyForPage1,
+            queryFn: () =>
+              productService.getProducts({
+                page: 1,
+                limit,
+                sortBy: 'createdAt-desc',
+                searchTerm: debouncedSearchTerm || undefined,
+                categories: selectedCategory || undefined,
+                includeProcessing: true,
+              }),
+          });
+    
+          const already = (fetched.products || []).some((p: any) => p._id === newProduct._id);
+          const mergedProducts = already ? fetched.products : [newProduct, ...(fetched.products || [])];
+          const trimmed = mergedProducts.slice(0, limit);
+          const updatedTotal =
+            typeof fetched.totalProducts === 'number'
+              ? fetched.totalProducts + (already ? 0 : 1)
+              : trimmed.length;
+          const updated = { ...fetched, products: trimmed, totalProducts: updatedTotal };
+          queryClient.setQueryData(adminQueryKeyForPage1, updated);
+        }
+      } catch (e) {
+        console.warn('Admin cache optimistic update failed:', e);
+      }
+    
+      // Invalidate only admin product queries to stay isolated from client-side views
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          const qKey = query.queryKey;
+          if (!Array.isArray(qKey) || qKey.length < 2) return false;
+          const meta = qKey[1] as any;
+          return qKey[0] === 'products' && meta?.isAdminView === true;
+        },
+      });
+    
+      if (newProduct) startPoll(newProduct._id, queryClient);
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to create product');
@@ -69,8 +181,9 @@ export function Products() {
 
   const updateProductMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateProductData }) => productService.updateProduct(id, data),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['product', response.product?._id] }); // Invalidate single product query
       toast.success('Product updated successfully');
       setIsEditDialogOpen(false);
     },
@@ -79,26 +192,38 @@ export function Products() {
     },
   });
 
-  const handleCreateProduct = (data: ProductFormValues) => {
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('description', data.description);
-    formData.append('category', data.category);
-    formData.append('isFeatured', String(data.isFeatured));
+ // Replace your current handleCreateProduct with this
+const handleCreateProduct = (data: ProductFormValues) => {
+  const formData = new FormData();
+  formData.append('name', data.name);
+  formData.append('description', data.description);
+  formData.append('category', data.category);
+  formData.append('isFeatured', String(data.isFeatured));
 
-    data.imageFiles.forEach((file) => {
-      formData.append('images', file);
-    });
+  // Append image files
+  (data.imageFiles || []).forEach((file) => {
+    formData.append('images', file);
+  });
 
-    if (data.variants && data.variants.length > 0) {
-      formData.append('variants', JSON.stringify(data.variants));
-    }
+  // Sanitize variants: only keep variants that have something meaningful
+  const rawVariants = data.variants || [];
+  const meaningfulVariants = rawVariants.filter(v =>
+    (v.size && v.size.toString().trim() !== '') ||
+    (v.color && v.color.toString().trim() !== '') ||
+    (typeof v.price === 'number' && v.price !== 0) ||
+    (typeof v.stock === 'number' && v.stock !== 0)
+  );
 
-    createProductMutation.mutate(formData);
-  };
+  // If there are meaningful variants, include them. Otherwise omit so backend will set defaults.
+  if (meaningfulVariants.length > 0) {
+    formData.append('variants', JSON.stringify(meaningfulVariants));
+  }
+
+  createProductMutation.mutate(formData);
+};
 
   const handleUpdateProduct = (data: ProductFormValues) => {
-    if (selectedProduct) {
+    if (selectedProductId) {
       const updateData: UpdateProductData = {
         name: data.name,
         description: data.description,
@@ -107,16 +232,12 @@ export function Products() {
         variants: data.variants,
         imageUrls: data.imageUrls,
       };
-      updateProductMutation.mutate({ id: selectedProduct._id, data: updateData });
+      updateProductMutation.mutate({ id: selectedProductId, data: updateData });
     }
   };
 
-  const handleProductUpdated = (updatedProduct: Product) => {
-    setSelectedProduct(updatedProduct);
-    // Invalidate product query to ensure latest data is fetched, especially after image uploads
-    queryClient.invalidateQueries({ queryKey: ['product', updatedProduct._id] });
-    queryClient.invalidateQueries({ queryKey: ['products'] });
-  };
+  // Find the actual product object for the view dialog based on selectedProductId
+  const productToView = products.find(p => p._id === selectedProductId) || null;
 
   return (
     <div className="space-y-6">
@@ -152,11 +273,11 @@ export function Products() {
         page={page}
         setPage={setPage}
         onEditProduct={(product) => {
-          setSelectedProduct(product);
+          setSelectedProductId(product._id);
           setIsEditDialogOpen(true);
         }}
         onViewProduct={(product) => {
-          setSelectedProduct(product);
+          setSelectedProductId(product._id);
           setIsViewDialogOpen(true);
         }}
         debouncedSearchTerm={debouncedSearchTerm}
@@ -174,12 +295,11 @@ export function Products() {
             </DialogDescription>
           </DialogHeader>
           <ProductForm
-            product={selectedProduct || undefined}
+            productId={selectedProductId || undefined} // Pass productId
             onSubmit={handleUpdateProduct}
             onClose={() => setIsEditDialogOpen(false)}
             isSubmitting={updateProductMutation.isPending}
             categories={categories || []}
-            onProductUpdated={handleProductUpdated}
           />
         </DialogContent>
       </Dialog>
@@ -188,7 +308,7 @@ export function Products() {
       <ProductViewDialog
         isOpen={isViewDialogOpen}
         setIsOpen={setIsViewDialogOpen}
-        product={selectedProduct}
+        product={productToView} // Pass the found product object
       />
     </div>
   );

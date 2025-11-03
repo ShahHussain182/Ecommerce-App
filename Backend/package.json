@@ -18,6 +18,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.901.0",
     "@aws-sdk/s3-request-presigner": "^3.901.0",
+    "@emailjs/nodejs": "^5.0.2",
+    "amqplib": "^0.10.9",
     "axios": "^1.12.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -48,6 +50,7 @@
     "nodemailer": "^7.0.6",
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
+    "resend": "^6.3.0",
     "sharp": "^0.34.4",
     "uuid": "^13.0.0",
     "winston": "^3.17.0",

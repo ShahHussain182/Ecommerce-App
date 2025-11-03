@@ -68,12 +68,11 @@ export const ProductsHeader = ({
             <p className="text-muted-foreground text-center py-8">No categories available. Please create categories first.</p>
           ) : (
             <ProductForm
-              product={undefined}
-              onSubmit={onSubmit}
-              onClose={() => setIsAddDialogOpen(false)}
-              isSubmitting={isSubmitting}
-              categories={categories}
-            />
+            onSubmit={onSubmit}
+            onClose={() => setIsAddDialogOpen(false)}
+            isSubmitting={isSubmitting}
+            categories={categories}
+          />
           )}
         </DialogContent>
       </Dialog>

@@ -33,8 +33,9 @@ const imageRenditionSchema = new mongoose.Schema({
   thumbnail: { type: String, required: true },
   webp: { type: String }, // Optional WebP version
   avif: { type: String }, // Optional AVIF version
-  // Add other renditions as needed
-}, { _id: false }); // No _id for sub-documents
+  uploadId: { type: String, index: true, sparse: true },      // stable id to match uploads -> worker
+  originalS3Key: { type: String, sparse: true },              // the original S3 key for reference
+}, { _id: false });
 
 const productSchema = new mongoose.Schema(
   {

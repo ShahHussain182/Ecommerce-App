@@ -24,7 +24,10 @@ export function Orders() {
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const [pendingOrderIds, setPendingOrderIds] = useState<string[]>([]);
 
+const addPending = (id: string) => setPendingOrderIds(prev => prev.includes(id) ? prev : [...prev, id]);
+const removePending = (id: string) => setPendingOrderIds(prev => prev.filter(x => x !== id));
   // Debounce search term
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -58,12 +61,22 @@ export function Orders() {
   const updateOrderStatusMutation = useMutation({
     mutationFn: ({ orderId, newStatus }: { orderId: string; newStatus: OrderStatus }) =>
       orderService.updateOrderStatus(orderId, newStatus),
+    onMutate: ({ orderId }) => {
+      // purely visual: mark this order as "updating"
+      addPending(orderId);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       toast.success('Order status updated successfully');
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || 'Failed to update order status');
+    },
+    onSettled: (_data, _err, variables) => {
+      // remove pending marker and re-fetch authoritative data
+      if (variables?.orderId) removePending(variables.orderId);
+      // you already invalidate in onSuccess; this ensures cleanup on both success & error
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });
 
@@ -153,6 +166,8 @@ export function Orders() {
         selectAllOrders={selectAllOrders}
         onUpdateOrderStatus={handleUpdateOrderStatus}
         onViewOrderDetails={handleViewOrderDetails}
+        pendingOrderIds={pendingOrderIds}
+
       />
 
       <OrderDetailsDialog

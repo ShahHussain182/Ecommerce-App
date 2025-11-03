@@ -13,8 +13,8 @@ const meiliClient = new MeiliSearch({
 });
 
 
-await meiliClient.deleteIndex('products'); 
-const productsIndex = meiliClient.index('products');
+await meiliClient.deleteIndexIfExists('products'); 
+const productsIndex =  meiliClient.index('products');
 async function syncProducts() {
   try {
     // ✅ Configure index before syncing
@@ -85,7 +85,7 @@ async function syncProducts() {
       sizes: (p.variants || []).map(v => v.size).filter(Boolean),
       averageRating: Number(p.averageRating ?? 0),
       numberOfReviews: Number(p.numberOfReviews ?? 0),
-      createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : null,
+      createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : (new Date()).toISOString(),
       imageProcessingStatus: String(p.imageProcessingStatus ?? 'pending'),
     }));
 
