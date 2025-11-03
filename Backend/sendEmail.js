@@ -2,7 +2,7 @@
 
 const appName = 'UniqueGamer';
 const userName = 'Hasnain';
-const userEmail = 'muhammadhussnainasghar866@gmail.com';
+const userEmail = 'saifimalook42@gmail.com';
 const loginUrl = 'https://uniquegamer.example.com/login';
 const supportUrl = 'support@uniquegamer.dpdns.org';
 

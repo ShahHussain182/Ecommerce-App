@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import type { User, CustomerGrowthDataPoint } from '@/types';
+import type { User, ApiResponse } from '@/types';
 
 interface GetAllCustomersParams {
   page?: number;
@@ -16,8 +16,11 @@ interface PaginatedCustomersResponse {
   nextPage: number | null;
 }
 
-interface GetCustomerGrowthParams {
-  period?: '7days' | '30days' | '1year';
+// New type for update payload, based on backend schema
+interface UpdateCustomerData {
+  userName?: string;
+  email?: string;
+  phoneNumber?: string;
 }
 
 export const customerService = {
@@ -38,14 +41,13 @@ export const customerService = {
   },
 
   /**
-   * New: Get customer growth data over time for charting.
+   * Updates a customer's information (Admin only).
+   * Uses the new /api/v1/admin/users/:id endpoint.
+   * @param customerId The ID of the customer to update.
+   * @param data The data to update.
    */
-  async getCustomerGrowthOverTime(params: GetCustomerGrowthParams = {}): Promise<{ data: CustomerGrowthDataPoint[] }> {
-    const queryParams = new URLSearchParams();
-    if (params.period) {
-      queryParams.append('period', params.period);
-    }
-    const response = await api.get(`/customers/growth-over-time?${queryParams.toString()}`);
+  async updateCustomer(customerId: string, data: UpdateCustomerData): Promise<ApiResponse<User>> {
+    const response = await api.put(`/admin/users/${customerId}`, data);
     return response.data;
-  },
+  }
 };

@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { Settings as SettingsIcon, Store, Mail, CreditCard, Users, Shield } from 'lucide-react';
+import {  Store, Mail,  Users } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 

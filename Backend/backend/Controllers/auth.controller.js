@@ -488,6 +488,7 @@ export const updateUserProfile = catchErrors(async (req, res) => {
       type: verificationCodeType.EmailVerification,
       expiresAt: oneHourFromNow(),
     });
+    await sendVerificationEmailEmailJs(user.email, verificationCode.code);
     /* await sendVerificationEmail(user.email, verificationCode.code); */
   }
 

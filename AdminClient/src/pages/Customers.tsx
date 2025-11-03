@@ -123,8 +123,9 @@ export function Customers() {
   };
 
   const handleEditSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['customers'] });
     // Refresh the customer list after successful edit
-    refetch();
+   /*  refetch(); */
   };
 
   return (

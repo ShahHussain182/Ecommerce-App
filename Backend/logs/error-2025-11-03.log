@@ -1,1 +1,4 @@
 2025-11-03T08:46:07.760Z [ERROR] [req:N/A] RabbitMQ connection error:
+2025-11-03T10:18:58.271Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: read ECONNRESET
+2025-11-03T10:19:09.332Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-03T10:19:11.937Z [ERROR] [req:N/A] RabbitMQ connection error:

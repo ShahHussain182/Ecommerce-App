@@ -70,3 +70,58 @@
 2025-11-03T08:49:21.682Z [HTTP] [req:ab1ca33e-7ed8-4e96-b0ca-54d4a1c8eb4a] ::1 - - [03/Nov/2025:08:49:21 +0000] "GET /api/v1/orders/admin?page=1&limit=10&searchTerm=A&sortBy=date&sortOrder=asc HTTP/1.1" 200 1863 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-11-03T08:49:23.225Z [HTTP] [req:96096825-fbe2-4113-86ec-6975840cceb2] ::1 - - [03/Nov/2025:08:49:23 +0000] "GET /api/v1/orders/admin?page=1&limit=10&searchTerm=Ali&sortBy=date&sortOrder=asc HTTP/1.1" 200 1863 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 2025-11-03T08:49:31.732Z [HTTP] [req:c9612428-0220-4adb-8344-ba70f9d160ac] ::1 - - [03/Nov/2025:08:49:31 +0000] "GET /api/v1/orders/admin?page=1&limit=10&searchTerm=Alex&sortBy=date&sortOrder=asc HTTP/1.1" 200 58 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:22:40.173Z [WARN] [req:0caa1750-b590-412c-b870-e6d7ff3e0683] [requireAuth] Unauthorized: No token provided for path: /check-auth
+2025-11-03T09:22:40.176Z [HTTP] [req:0caa1750-b590-412c-b870-e6d7ff3e0683] ::1 - - [03/Nov/2025:09:22:40 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 401 62 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:22.239Z [HTTP] [req:d0ea3997-ce1f-4e41-9615-23fbd96bb7b6] ::1 - - [03/Nov/2025:09:23:22 +0000] "OPTIONS /api/v1/auth/login HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:28.974Z [HTTP] [req:fe9553cf-f62c-44f7-917c-d4a82597781e] ::1 - - [03/Nov/2025:09:23:28 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 841 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:29.193Z [HTTP] [req:0de678de-7533-4048-aaca-684870990aba] ::1 - - [03/Nov/2025:09:23:29 +0000] "GET /api/v1/auth/check-auth HTTP/1.1" 200 310 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:30.737Z [HTTP] [req:d47f661e-04dc-4867-ac8f-e16d10bc97be] ::1 - - [03/Nov/2025:09:23:30 +0000] "GET /api/v1/orders/sales-over-time?period=30days HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:30.768Z [HTTP] [req:8aa6f2bc-b1cf-4cd4-836a-9b26c4d1e6c5] ::1 - - [03/Nov/2025:09:23:30 +0000] "GET /api/v1/orders/top-selling-products?limit=5&sortBy=revenue HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:31.178Z [HTTP] [req:6ec76f4a-00dc-4b09-b99b-3dfee4c67ca8] ::1 - - [03/Nov/2025:09:23:31 +0000] "GET /api/v1/orders/metrics HTTP/1.1" 200 1998 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:23:40.336Z [HTTP] [req:057c6684-33e8-4058-aafd-767c1adde858] ::1 - - [03/Nov/2025:09:23:40 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:24:09.135Z [HTTP] [req:44ddcb78-f4ae-4ae4-aec3-a3b7020bf80f] ::1 - - [03/Nov/2025:09:24:09 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T09:39:54.150Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-11-03T09:39:55.357Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-11-03T09:39:58.317Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-11-03T09:40:00.684Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-11-03T09:40:00.688Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-00.oissf.mongodb.net
+2025-11-03T09:40:00.689Z [INFO] [req:N/A] Attempting to connect to RabbitMQ (attempt 1/5) -> amqps://riqnpmbs:vBYpUAaZEJKuVUrmL36JlCvKccoujOWi@fuji.lmq.cloudamqp.com/riqnpmbs
+2025-11-03T09:40:04.048Z [INFO] [req:N/A] RabbitMQ connected and confirm channel created
+2025-11-03T09:40:04.270Z [INFO] [req:N/A] Asserted queue order_emails
+2025-11-03T09:40:04.490Z [INFO] [req:N/A] Asserted queue order_status_emails
+2025-11-03T09:40:04.675Z [INFO] [req:N/A] 46 products already exist in the database. Skipping product seeding.
+2025-11-03T09:40:04.854Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-11-03T09:40:05.352Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1006
+2025-11-03T09:40:05.355Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-11-03T09:43:02.477Z [WARN] [req:N/A] Received SIGINT, starting graceful shutdown...
+2025-11-03T09:43:02.763Z [INFO] [req:N/A] Starting cleanup process...
+2025-11-03T09:43:02.766Z [INFO] [req:N/A] Starting cleanup process...
+2025-11-03T09:43:02.769Z [INFO] [req:N/A] HTTP server closed.
+2025-11-03T09:53:53.262Z [INFO] [req:N/A] [ImageProcessingQueue] Image processing queue initialized.
+2025-11-03T09:53:53.531Z [INFO] [req:N/A] [ImageWorker] Image processing worker started.
+2025-11-03T09:54:21.149Z [INFO] [req:N/A] MongoClient connected for sessions.
+2025-11-03T09:54:34.570Z [INFO] [req:N/A] ✅ Mongoose connected to DB
+2025-11-03T09:54:34.573Z [INFO] [req:N/A] 📦 MongoDB Connected: cluster0-shard-00-01.oissf.mongodb.net
+2025-11-03T09:54:34.574Z [INFO] [req:N/A] Attempting to connect to RabbitMQ (attempt 1/5) -> amqps://riqnpmbs:vBYpUAaZEJKuVUrmL36JlCvKccoujOWi@fuji.lmq.cloudamqp.com/riqnpmbs
+2025-11-03T09:54:37.681Z [INFO] [req:N/A] RabbitMQ connected and confirm channel created
+2025-11-03T09:54:38.019Z [INFO] [req:N/A] Asserted queue order_emails
+2025-11-03T09:54:38.320Z [INFO] [req:N/A] Asserted queue order_status_emails
+2025-11-03T09:54:38.620Z [INFO] [req:N/A] 46 products already exist in the database. Skipping product seeding.
+2025-11-03T09:54:38.876Z [INFO] [req:N/A] 7 categories already exist in the database. Skipping category seeding.
+2025-11-03T09:54:39.141Z [INFO] [req:N/A] Order number counter already exists, current sequence: 1006
+2025-11-03T09:54:39.145Z [INFO] [req:N/A] 🚀 Server running in development mode on port 3001
+2025-11-03T10:05:01.457Z [HTTP] [req:c21ef61b-6b0c-4665-b931-1bde8a8e4d46] ::1 - - [03/Nov/2025:10:05:01 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:05:24.918Z [HTTP] [req:2347e0da-e569-41d9-8ed5-1df5d653cb6d] ::1 - - [03/Nov/2025:10:05:24 +0000] "OPTIONS /api/v1/admin/users/6905faaabe681ee7389b1509 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:05:26.707Z [HTTP] [req:2e2c5dcf-4f2f-4c44-b142-83156bd0a3fb] ::1 - - [03/Nov/2025:10:05:26 +0000] "PUT /api/v1/admin/users/6905faaabe681ee7389b1509 HTTP/1.1" 200 347 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:05:28.531Z [HTTP] [req:ea48921a-1f5f-4bc7-8e4d-6665378242cb] ::1 - - [03/Nov/2025:10:05:28 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 200 377 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:05:31.631Z [HTTP] [req:0cac270f-8d99-4a20-8fde-e00f8f7857d9] ::1 - - [03/Nov/2025:10:05:31 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:07:09.719Z [HTTP] [req:a159c5b2-53bb-4ae6-9429-5afeede79ffe] ::1 - - [03/Nov/2025:10:07:09 +0000] "OPTIONS /api/v1/admin/users/6905faaabe681ee7389b1509 HTTP/1.1" 204 0 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:07:10.752Z [HTTP] [req:1be77cfa-ea1a-4146-b384-2411ecdb66cf] ::1 - - [03/Nov/2025:10:07:10 +0000] "PUT /api/v1/admin/users/6905faaabe681ee7389b1509 HTTP/1.1" 200 347 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:07:11.527Z [HTTP] [req:16c6640f-5653-48c0-881f-231ea114fe48] ::1 - - [03/Nov/2025:10:07:11 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 200 377 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:07:12.309Z [HTTP] [req:802b16be-c005-49f7-9d0b-5152e6460c40] ::1 - - [03/Nov/2025:10:07:12 +0000] "GET /api/v1/customers?page=1&limit=10&sortBy=createdAt&sortOrder=desc HTTP/1.1" 304 - "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:10:02.611Z [HTTP] [req:e6cbbe13-ac73-4dce-b1de-410ce56d73ea] ::1 - - [03/Nov/2025:10:10:02 +0000] "POST /api/v1/auth/logout HTTP/1.1" 200 46 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+2025-11-03T10:18:58.271Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: read ECONNRESET
+2025-11-03T10:19:04.704Z [WARN] [req:N/A] ⚠️ Mongoose connection is disconnected.
+2025-11-03T10:19:09.332Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-03T10:19:11.937Z [ERROR] [req:N/A] RabbitMQ connection error:
+2025-11-03T10:19:11.940Z [WARN] [req:N/A] RabbitMQ connection closed

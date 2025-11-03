@@ -1,7 +1,8 @@
-import { useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,6 +17,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Loader2 } from 'lucide-react';
 import { customerService } from '@/services/customerService';
 import type { User } from '@/types';
+import toast from 'react-hot-toast';
 
 // Zod schema for customer form validation
 const customerFormSchema = z.object({
@@ -34,7 +36,7 @@ interface CustomerFormProps {
 }
 
 export const CustomerForm = ({ customer, isOpen, setIsOpen, onSuccess }: CustomerFormProps) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const queryClient = useQueryClient();
   
   const form = useForm<CustomerFormValues>({
     resolver: zodResolver(customerFormSchema),
@@ -45,20 +47,28 @@ export const CustomerForm = ({ customer, isOpen, setIsOpen, onSuccess }: Custome
     },
   });
 
-  const onSubmit = async (data: CustomerFormValues) => {
-    setIsSubmitting(true);
-    try {
-      // In a real app, you would call an API to update the customer
-      // For now, we'll just simulate the update
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Updating customer:', { id: customer._id, ...data });
-      onSuccess();
+  const updateCustomerMutation = useMutation({
+    mutationFn: (data: CustomerFormValues) => customerService.updateCustomer(customer._id, data),
+    onSuccess: (response) => {
+      // Show success message
+      toast.success(response.message || 'Customer updated successfully!');
+      // Invalidate queries to refetch updated data
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      // Close the dialog
       setIsOpen(false);
-    } catch (error) {
-      console.error('Failed to update customer:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+      // Trigger parent component's success handler if needed
+      onSuccess();
+    },
+    onError: (error: any) => {
+      // Show error message
+      const errorMessage = error.response?.data?.message || 'Failed to update customer.';
+      toast.error(errorMessage);
+      console.error('Update customer error:', error);
+    },
+  });
+
+  const onSubmit = (data: CustomerFormValues) => {
+    updateCustomerMutation.mutate(data);
   };
 
   return (
@@ -79,7 +89,7 @@ export const CustomerForm = ({ customer, isOpen, setIsOpen, onSuccess }: Custome
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} />
+                    <Input placeholder="Username" {...field} disabled={updateCustomerMutation.isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -92,7 +102,7 @@ export const CustomerForm = ({ customer, isOpen, setIsOpen, onSuccess }: Custome
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Input placeholder="Email" {...field} disabled={updateCustomerMutation.isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,15 +115,18 @@ export const CustomerForm = ({ customer, isOpen, setIsOpen, onSuccess }: Custome
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Phone Number" {...field} />
+                    <Input placeholder="Phone Number" {...field} disabled={updateCustomerMutation.isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <DialogFooter>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button 
+                type="submit" 
+                disabled={updateCustomerMutation.isPending}
+              >
+                {updateCustomerMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Save Changes
               </Button>
             </DialogFooter>

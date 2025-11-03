@@ -23,6 +23,7 @@ import customerRouter from "./Routers/customer.router.js";
 import categoryRouter from "./Routers/category.router.js";
 import reportRouter from "./Routers/report.router.js";
 import userRouter from "./Routers/user.router.js";
+import adminRouter from "./Routers/admin.router.js";
 import { errorHandler, notFoundHandler } from "./Middleware/errorHandler.js";
 import { config } from "./Utils/config.js";
 import { logger } from "./Utils/logger.js";
@@ -116,6 +117,7 @@ app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/reports", reportRouter);
+app.use("/api/v1/admin", adminRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
