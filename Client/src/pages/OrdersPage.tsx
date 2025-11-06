@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Package, Loader2, XCircle, ShoppingBag } from 'lucide-react';
+import { Package, XCircle, ShoppingBag } from 'lucide-react';
 
 const OrdersPage = () => {
   const { data: orders, isLoading, isError, error } = useUserOrders();

@@ -30,6 +30,8 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import WishlistPage from "./pages/WishlistPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage"; // New import
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"; // New import
+import CompleteProfile from "./pages/CompleteProfile";
+import VerifiedProtectedRoute from "./components/VerifiedProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +65,7 @@ const App = () => {
               <Route path="/verify-email" element={<VerifyEmailPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+              <Route path="/complete-profile" element={<CompleteProfile />} />
               <Route path="/" element={<AppLayout />}>
                 <Route index element={<Index />} />
                 <Route path="products" element={<ProductsPage />} />
@@ -116,9 +119,9 @@ const App = () => {
                 <Route 
                   path="/profile" 
                   element={
-                    <ProtectedRoute>
+                    <VerifiedProtectedRoute>
                       <ProfilePage />
-                    </ProtectedRoute>
+                    </VerifiedProtectedRoute>
                   } 
                 />
                 <Route 
@@ -126,7 +129,7 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <EditProfilePage />
-                    </ProtectedRoute>
+                      </ProtectedRoute>
                   } 
                 />
                 <Route 

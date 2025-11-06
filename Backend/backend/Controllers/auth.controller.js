@@ -13,25 +13,38 @@ import redisClient from "../Utils/redisClient.js";
 import jwt from "jsonwebtoken";
 import {sendMail} from "../Utils/zohoMailClient.js";
 import { sendResenWelcomeEmail } from "../Utils/resendClient.js";
-import emailjs from '@emailjs/nodejs';
+
 import { sendVerificationEmailEmailJs,sendWelcomeEmailEmailJs,sendPasswordResetRequestEmailEmailJs,sendPasswordResetSuccessEmailEmailJs } from "../Utils/emailjsClient.js";
 
-
-
+import { OAuth2Client } from 'google-auth-library';
+import crypto from 'crypto';
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const signup = catchErrors(async (req, res, next) => {
-
-
   const data = signupSchema.parse({
     ...req.body,
   });
-  const { userName,  email, password, phoneNumber } = data;
+  const { userName, email: rawEmail, password, phoneNumber } = data;
+
+  const email = rawEmail.toLowerCase(); // normalize
+
+  // Try to find any user that conflicts by email, username, or phone
   const existingUser = await User.findOne({
     $or: [{ email }, { userName }, { phoneNumber }],
   });
 
   if (existingUser) {
+    // If the email matches an existing user and that user signed up via Google,
+    // refuse regular signup and ask them to sign in with Google.
     if (existingUser.email === email) {
+      if (existingUser.googleId) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "This email is linked with a Google account. Please sign in using Google Sign-In.",
+        });
+      }
+      // otherwise fall through to original message
       return res.status(400).json({
         success: false,
         message: "Email already exists.",
@@ -48,21 +61,21 @@ export const signup = catchErrors(async (req, res, next) => {
       });
     }
   }
+
+  // Create user (normal flow)
   const user = await User.create({
     userName,
-   
     email,
     password,
     phoneNumber,
   });
 
-
+  // rest of your existing logic unchanged...
   const verificationCode = await VerificationCodeModel.create({
     userId: user._id,
     type: verificationCodeType.EmailVerification,
     expiresAt: oneHourFromNow(),
   });
-
 
   const accessToken = await signAccessToken({ userId: user._id.toString(), sessionId: req.sessionID });
   const refreshToken = await signRefreshToken({
@@ -81,33 +94,16 @@ export const signup = catchErrors(async (req, res, next) => {
   setCookies(res, accessToken, "AccessToken");
   setCookies(res, refreshToken, "RefreshToken");
   await sendVerificationEmailEmailJs(user.email, verificationCode.code);
-  /* sendResenWelcomeEmail(user.email, user.userName); */
-  /* await sendMail({
-    to: user.email,
-    subject: 'Welcome to UniqueGamer!',
-    html: `
-      <div style="font-family:sans-serif">
-        <h2>Welcome, ${user.name}!</h2>
-        <p>Thanks for signing up for <strong>UniqueGamer</strong>.</p>
-        <p>We’re excited to have you. Here’s what you can do next:</p>
-        <ul>
-          <li>Verify your account</li>
-          <li>Explore new games</li>
-        </ul>
-        <p>Cheers,<br>The UniqueGamer Team</p>
-      </div>
-    `,
-    text: `Welcome, ${user.name}! Thanks for joining UniqueGamer.`
-  }); */
-   /* await sendVerificationEmail(user.email, verificationCode.code);  */
-  console.log(user)
+
+  console.log(user);
   res.status(200).json({
     success: true,
     user: user.pomitPassword(),
     messaage: "User Created Successfully",
-    session: req.session
+    session: req.session,
   });
 });
+
 
 export const verifyEmail = catchErrors(async (req, res) => {
   const verificationCode = codeSchema.parse(req.body.code);
@@ -201,13 +197,13 @@ export const login = catchErrors(async (req, res) => {
     });
   }
 
-  // 6) check verification
+/*   // 6) check verification
   if (!user.isVerified) {
     return res.status(403).json({
       success: false,
       message: "Please verify your email before logging in",
     });
-  }
+  } */
 
   // 7) regenerate session to prevent fixation attacks
   req.session.regenerate((err) => {
@@ -394,9 +390,13 @@ export const resetPassword = catchErrors(async (req, res) => {
 	 
 });
 export const refresh = catchErrors(async (req, res) => {
+  console.log(req.cookies);
+  console.log('[refresh] req.headers.cookie =', req.headers.cookie);
+  console.log('[refresh] req.cookies =', req.cookies);
+
   const refreshToken = req.cookies.RefreshToken;
   const result = await verifyRefreshToken(refreshToken); // ⬅️ await now
-  
+  console.log('refresh token verification result:', result);
   if (!result.valid) {
     return res.status(result.status).json({ success: false, message: result.message });
   }
@@ -460,6 +460,8 @@ export const checkAuth = catchErrors(async (req, res) => {
     return res.status(401).json({ success: false, message: "User not authenticated" });
   }
 
+const refreshToken=req.cookies.RefreshToken;
+
   // Return the user object, which now includes the role
   res.status(200).json({ success: true, user: req.user.pomitPassword() });
   
@@ -473,7 +475,12 @@ export const updateUserProfile = catchErrors(async (req, res) => {
   if (!user) {
     return res.status(404).json({ success: false, message: "User not found." });
   }
-
+  if (user.googleId && updates.email && updates.email !== user.email) {
+    return res.status(400).json({
+      success: false,
+      message: "This account is linked with Google. To change the email, first add a local password or unlink Google from account settings.",
+    });
+  }
   // Handle unique constraint checks for email, userName, phoneNumber
   if (updates.email && updates.email !== user.email) {
     const emailExists = await User.findOne({ email: updates.email });
@@ -531,7 +538,12 @@ export const changePassword = catchErrors(async (req, res) => {
   if (!isMatch) {
     return res.status(400).json({ success: false, message: "Incorrect current password." });
   }
-
+  if (user.googleId ) {
+    return res.status(400).json({
+      success: false,
+      message: "This account is linked with Google. To change the passsword, first add a local password or unlink Google from account settings.",
+    });
+  }
   // Update password
   user.password = newPassword; // Pre-save hook will hash it
   await user.save();
@@ -569,4 +581,85 @@ export const resendVerificationCode = catchErrors(async (req, res) => {
   console.log(`New verification code for ${user.email}: ${newVerificationCode.code}`);
 
   res.status(200).json({ success: true, message: "New verification code sent. Please check your email." });
+});
+export const googleAuth = catchErrors(async (req, res) => {
+  const { idToken } = req.body; // client will send id_token as idToken
+
+  if (!idToken) {
+    return res.status(400).json({ success: false, message: 'idToken required' });
+  }
+
+  // Verify token with Google
+  const ticket = await googleClient.verifyIdToken({
+    idToken,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+
+  // Useful fields: sub (google user id), email, email_verified, name, picture
+  const googleId = payload.sub;
+  const email = payload.email?.toLowerCase();
+  const emailVerified = payload.email_verified;
+  const userNameFromGoogle = payload.name?.replace(/\s+/g, '') || (email ? email.split('@')[0] : `user${Date.now()}`);
+
+  if (!email) {
+    return res.status(400).json({ success: false, message: 'Google account has no email' });
+  }
+
+  // Find existing user by googleId or email
+  let user = await User.findOne({ $or: [{ googleId }, { email }] }).select('+password');
+
+  if (user) {
+    // If a user exists but doesn't have googleId, link it
+    if (!user.googleId) {
+      user.googleId = googleId;
+      user.isVerified = true; // trusted because Google verified
+      await user.save({ validateBeforeSave: false });
+    }
+  } else {
+    // Create new user: give random password (so pre-save hook hashes it)
+    const randomPassword = crypto.randomBytes(32).toString('hex');
+    // Ensure unique username: try userNameFromGoogle else fallback to email local part
+    let candidateUserName = userNameFromGoogle;
+    // Optionally ensure uniqueness:
+    let exists = await User.findOne({ userName: candidateUserName });
+    let suffix = 1;
+    while (exists) {
+      candidateUserName = `${userNameFromGoogle}${suffix++}`;
+      exists = await User.findOne({ userName: candidateUserName });
+    }
+
+    user = await User.create({
+      userName: candidateUserName,
+      email,
+      password: randomPassword,
+       // temporary placeholder - avoid unique violation
+      googleId,
+      isVerified: emailVerified === true,
+    });
+  }
+
+  // Now issue tokens & session exactly like login/signup
+  const accessToken = await signAccessToken({ userId: user._id.toString(), sessionId: req.sessionID });
+  const refreshToken = await signRefreshToken({ userId: user._id.toString(), sessionId: req.sessionID });
+
+  // store refresh token in redis (same pattern you use)
+  await redisClient.set(`rt:${user._id}:${req.sessionID}`, refreshToken, "EX", 60 * 60 * 24 * 30);
+
+  // set session and cookies
+  req.session.userId = user._id;
+  req.session.token = accessToken;
+  setCookies(res, accessToken, "AccessToken");
+  setCookies(res, refreshToken, "RefreshToken");
+
+  // mark lastLogin
+  user.lastLogin = new Date();
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+    user: user.pomitPassword(),
+    message: "Google authentication successful",
+    session: req.session,
+  });
 });

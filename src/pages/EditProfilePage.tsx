@@ -34,7 +34,7 @@ type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
-  const { user, updateUser, logout } = useAuthStore();
+  const { user, updateUser, logout,setSignupProgress } = useAuthStore();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<EditProfileFormValues>({
@@ -82,10 +82,11 @@ const EditProfilePage = () => {
           toast.info("Email changed. Please verify your new email.", {
             description: "A new verification code has been sent.",
           });
-          // Optionally navigate to verify email page if email was changed and unverified
-          // navigate('/verify-email', { state: { email: response.user.email }, replace: true });
+          setSignupProgress(response.user.email);
+          
+           navigate('/verify-email', { state: { email: response.user.email }, replace: true });
         }
-        navigate('/profile');
+        
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
@@ -156,28 +157,40 @@ const EditProfilePage = () => {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field, fieldState: { error } }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"><Mail className="h-4 w-4" /> Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="name@example.com"
-                            {...field}
-                            onChange={(e) => {
-                              if (error) clearErrors("email");
-                              field.onChange(e);
-                            }}
-                            disabled={form.formState.isSubmitting}
-                          />
-                        </FormControl>
-                        <FormErrorMessage message={error?.message} />
-                      </FormItem>
-                    )}
-                  />
+<FormField
+  control={form.control}
+  name="email"
+  render={({ field, fieldState: { error } }) => (
+    <FormItem>
+      <FormLabel className="flex items-center gap-2"><Mail className="h-4 w-4" /> Email</FormLabel>
+      <FormControl>
+        <Input
+          type="email"
+          placeholder="name@example.com"
+          {...field}
+          onChange={(e) => {
+            if (error) clearErrors("email");
+            field.onChange(e);
+          }}
+          disabled={form.formState.isSubmitting || !!user?.googleId} // disable for google users
+        />
+      </FormControl>
+      <FormErrorMessage message={error?.message} />
+      {user?.googleId && (
+        <p className="text-sm text-muted-foreground mt-2">
+          This account is linked with Google — email is managed by Google.{" "}
+          <button
+            type="button"
+            onClick={() => navigate('/profile/link-local')}
+            className="underline ml-1"
+          >
+            Add a password to change email
+          </button>
+        </p>
+      )}
+    </FormItem>
+  )}
+/>
                   <FormField
                     control={form.control}
                     name="phoneNumber"
@@ -231,3 +244,5 @@ const EditProfilePage = () => {
 };
 
 export default EditProfilePage;
+
+

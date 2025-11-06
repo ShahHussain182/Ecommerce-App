@@ -10,7 +10,7 @@ const createOptimisticWishlistItem = (product: Product, variant: ProductVariant,
   productId: product,
   variantId: variant._id,
   nameAtTime: product.name,
-  imageAtTime: product.imageUrls[0] || '/placeholder.svg',
+  imageAtTime: product.imageRenditions[0]?.medium || product.imageUrls[0] || '/placeholder.svg', // Use medium rendition
   priceAtTime: variant.price,
   sizeAtTime: variant.size,
   colorAtTime: variant.color,
@@ -37,11 +37,35 @@ export const useAddWishlistItemMutation = () => {
 
       // Optimistically update Zustand state
       useWishlistStore.setState((state) => {
-        const product = previousWishlist?.items.find(item => item.productId._id === productId)?.productId || { _id: productId, name: 'Unknown Product', imageUrls: [], description: '', category: '', variants: [], averageRating: 0, numberOfReviews: 0 };
-        const variant = product.variants.find(v => v._id === variantId) || { _id: variantId, size: 'N/A', color: 'N/A', price: 0, stock: 0 };
+        // Create a more complete placeholder product object
+        const placeholderProduct: Product = {
+          _id: productId,
+          name: 'Unknown Product',
+          description: '',
+          category: '',
+          imageUrls: ['/placeholder.svg'], // Default placeholder
+          imageRenditions: [{ // Default renditions
+            original: '/placeholder.svg',
+            medium: '/placeholder.svg',
+            thumbnail: '/placeholder.svg',
+          }],
+          imageProcessingStatus: 'completed', // Assume completed for optimistic display
+          isFeatured: false,
+          variants: [],
+          averageRating: 0,
+          numberOfReviews: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+
+        // Try to find the actual product from cache or use placeholder
+        const productInCache = queryClient.getQueryData(['product', productId]) as Product | undefined;
+        const productToUse = productInCache || placeholderProduct;
+
+        const variant = productToUse.variants.find(v => v._id === variantId) || { _id: variantId, size: 'N/A', color: 'N/A', price: 0, stock: 0 };
         
         const tempId = `optimistic_${Date.now()}`;
-        const optimisticItem = createOptimisticWishlistItem(product, variant, tempId);
+        const optimisticItem = createOptimisticWishlistItem(productToUse, variant, tempId);
 
         const currentItems = state.wishlist?.items || [];
         const newItems = [...currentItems, optimisticItem];

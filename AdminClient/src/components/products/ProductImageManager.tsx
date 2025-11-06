@@ -31,9 +31,10 @@ interface Props {
   product?: Product;
   isAnyOperationPending: boolean;
   refetchProduct: () => Promise<any>;
+  onImagesUploaded?: () => void;
 }
 
-export const ProductImageManager: React.FC<Props> = ({ product, isAnyOperationPending, refetchProduct }) => {
+export const ProductImageManager: React.FC<Props> = ({ product, isAnyOperationPending, refetchProduct ,onImagesUploaded}) => {
   const queryClient = useQueryClient();
   const { setValue, watch, formState: { errors } } = useFormContext<ProductFormValues>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -252,47 +253,101 @@ export const ProductImageManager: React.FC<Props> = ({ product, isAnyOperationPe
       queryClient.invalidateQueries({ queryKey: ["products"] });
       // do a refetch to make product in sync
       await refetchProduct();
-
-      // Polite polling if processing remains pending: single-check with backoff using setTimeout (no intervals)
-      if (newProduct.imageProcessingStatus === "pending" && newProduct._id) {
-        const pollInterval = 2000;
-        const maxTime = 30_000;
-        let elapsed = 0;
-
-        const doPoll = async () => {
+      if (typeof onImagesUploaded === 'function') {
+        const productId = newProduct._id;
+        const statusNow = newProduct.imageProcessingStatus;
+      
+        // If already finished, call autosave immediately
+        if (statusNow && statusNow !== 'pending') {
           try {
-            const resp = await productService.getProductById(newProduct._id);
-            const latest = resp?.product;
-            if (latest && latest.imageProcessingStatus === "completed") {
-              await refetchProduct();
-              if (pollingRef.current) {
-                clearTimeout(pollingRef.current);
-                pollingRef.current = null;
-              }
-              return;
-            }
-            elapsed += pollInterval;
-            if (elapsed >= maxTime) {
-              await refetchProduct();
-              if (pollingRef.current) {
-                clearTimeout(pollingRef.current);
-                pollingRef.current = null;
-              }
-              return;
-            }
-            const nextInterval = Math.min(5000, pollInterval + Math.floor(elapsed / 1000) * 500);
-            pollingRef.current = window.setTimeout(doPoll, nextInterval);
-          } catch (err) {
-            console.warn("Polling stopped due to error:", err);
-            try { await refetchProduct(); } catch (_) {}
-            if (pollingRef.current) {
-              clearTimeout(pollingRef.current);
-              pollingRef.current = null;
-            }
+            await onImagesUploaded();
+          } catch (e) {
+            console.error('[ProductImageManager] onImagesUploaded failed (immediate)', e);
           }
-        };
-
-        pollingRef.current = window.setTimeout(doPoll, pollInterval);
+        } else if (productId) {
+          // Poll until processing finishes, then call onImagesUploaded
+          const pollIntervalStart = 2000;
+          const maxTime = 90_000; // total wait time before fallback
+          let elapsed = 0;
+          let delay = pollIntervalStart;
+      
+          const doPoll = async () => {
+            try {
+              const resp = await productService.getProductById(productId);
+              const latest = resp?.product;
+              const latestStatus = latest?.imageProcessingStatus;
+              // eslint-disable-next-line no-console
+              console.debug('[autosave-poll] product', productId, 'status', latestStatus);
+      
+              if (latest && latestStatus && latestStatus !== 'pending') {
+                // final state reached
+                try {
+                  await refetchProduct();
+                } catch (e) {
+                  console.warn('[autosave-poll] refetchProduct failed', e);
+                }
+      
+                // call autosave callback
+                try {
+                  await onImagesUploaded();
+                } catch (e) {
+                  console.error('[ProductImageManager] onImagesUploaded failed (after poll)', e);
+                }
+      
+                // cleanup timer
+                if (pollingRef.current) {
+                  clearTimeout(pollingRef.current);
+                  pollingRef.current = null;
+                }
+                return;
+              }
+      
+              elapsed += delay;
+              if (elapsed >= maxTime) {
+                // give up: fallback behavior — refetch once and still call autosave (or skip if you prefer)
+                try { await refetchProduct(); } catch (e) { /* ignore */ }
+      
+                try {
+                  await onImagesUploaded();
+                } catch (e) {
+                  console.error('[ProductImageManager] onImagesUploaded failed (after timeout)', e);
+                }
+      
+                if (pollingRef.current) {
+                  clearTimeout(pollingRef.current);
+                  pollingRef.current = null;
+                }
+                return;
+              }
+      
+              // schedule next poll with gentle backoff
+              const nextDelay = Math.min(5000, Math.round(delay * 1.5));
+              pollingRef.current = window.setTimeout(doPoll, nextDelay);
+              delay = nextDelay;
+            } catch (err) {
+              console.warn('[autosave-poll] error fetching product', err);
+      
+              elapsed += delay;
+              if (elapsed >= maxTime) {
+                try { await refetchProduct(); } catch (_) {}
+                try { await onImagesUploaded(); } catch (e) { console.error('[ProductImageManager] onImagesUploaded failed (poll error)', e); }
+                if (pollingRef.current) {
+                  clearTimeout(pollingRef.current);
+                  pollingRef.current = null;
+                }
+                return;
+              }
+      
+              // schedule retry after backoff on error
+              const nextDelay = Math.min(5000, Math.round(delay * 1.5));
+              pollingRef.current = window.setTimeout(doPoll, nextDelay);
+              delay = nextDelay;
+            }
+          };
+      
+          // kick off the first poll
+          pollingRef.current = window.setTimeout(doPoll, delay);
+        }
       }
     },
     onError: (err: any) => {

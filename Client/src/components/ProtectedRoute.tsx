@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated ,isVerified} = useAuthStore();
   const location = useLocation();
 
   useEffect(() => {
@@ -23,8 +23,10 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-
-  return <>{children}</>;
+  if (isAuthenticated && !isVerified) {
+    return <Navigate to="/"  replace  state={{ showVerifyToast: true }} />;
+  
 };
-
+return <>{children}</>;
+}
 export default ProtectedRoute;

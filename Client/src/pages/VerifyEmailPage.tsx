@@ -10,22 +10,23 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Loader2 } from "lucide-react"; // Import Loader2
+import { Terminal } from "lucide-react"; 
 import { FormErrorMessage } from "@/components/FormErrorMessage";
 import { useAuthStore } from '@/store/authStore'; // Import the auth store
 import * as authApi from '@/lib/authApi'; // Import authApi for resend code
+import { Spinner } from "@/components/ui/Spinner";
 
 const verifyEmailSchema = z.object({
   code: z.string().min(6, { message: "Please enter the 6-digit code." }).max(6, { message: "Code must be 6 digits." }),
 });
-
+const AUTH_API_BASE_URL =  import.meta.env.VITE_AUTH_API_BASE_URL
 const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const emailFromState = location.state?.email;
   
   // Use auth store state and actions
-  const { isAuthenticated, isVerified, signupInProgress, signupEmail, login } = useAuthStore();
+  const { isAuthenticated, isVerified, signupInProgress, signupEmail, login,clearSignupProgress } = useAuthStore();
   const email = emailFromState || signupEmail; // Prioritize state, then store
 
   const [serverError, setServerError] = useState<string | null>(null);
@@ -43,12 +44,14 @@ const VerifyEmailPage = () => {
   useEffect(() => {
     // If verification was successful, navigate to home. This takes precedence.
     if (isVerificationSuccessful) {
+      console.log("This one!")
       navigate('/', { replace: true });
       return;
     }
 
     // If already authenticated and verified (e.g., user refreshed after verification), go home.
     if (isAuthenticated && isVerified) {
+      console.log("That one!")
       navigate('/', { replace: true });
       toast.info("You are already logged in and verified.");
       return;
@@ -60,6 +63,7 @@ const VerifyEmailPage = () => {
       toast.error("Access Denied", {
         description: "Please sign up to verify your email.",
       });
+      console.log("Other one!")
       navigate('/signup', { replace: true });
       return;
     }
@@ -68,7 +72,7 @@ const VerifyEmailPage = () => {
   async function onSubmit(values: z.infer<typeof verifyEmailSchema>) {
     setServerError(null);
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/auth/verify-email', {
+      const response = await axios.post(`${AUTH_API_BASE_URL}/verify-email`, {
         code: values.code,
       }, {
         withCredentials: true,
@@ -79,6 +83,7 @@ const VerifyEmailPage = () => {
         toast.success("Email verified successfully!", {
           description: "You can now access your account.",
         });
+        clearSignupProgress(); // Clear signup progress on successful verification
         login(response.data.user); 
         // The useEffect will now handle the navigation to '/'
       }
@@ -180,11 +185,11 @@ const VerifyEmailPage = () => {
           <p className="text-gray-600">Didn't receive the code?</p>
           <Button variant="link" className="p-0 h-auto" onClick={handleResendCode} disabled={isResending}>
             {isResending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Resending...
-              </>
-            ) : (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Resending...</span>
+                        </div>
+                      ) : (
               "Resend Code"
             )}
           </Button>

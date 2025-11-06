@@ -32,9 +32,16 @@ const userSchema = new mongoose.Schema(
     
     phoneNumber: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
       trim: true,
+      sparse: true, // allow many docs with absent phoneNumber
+
+    },
+    googleId: {
+      type: String,
+      index: true,
+      sparse: true, // allow many docs without googleId
     },
     role: {
       type: String,
@@ -44,6 +51,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 userSchema.pre("save", async function (next){
   if (!this.isModified("password")) {
     return(next);

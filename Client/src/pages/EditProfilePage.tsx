@@ -17,7 +17,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, User, Mail, Phone, Save, ArrowLeft, Loader2 } from 'lucide-react'; // Added Loader2
+import { Terminal, User, Mail, Phone, Save, ArrowLeft } from 'lucide-react'; // removed Loader2
+import { Spinner } from '@/components/ui/Spinner'; // <-- added
 
 import { useAuthStore } from '@/store/authStore';
 import * as authApi from '@/lib/authApi';
@@ -33,7 +34,7 @@ type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
-  const { user, updateUser, logout } = useAuthStore();
+  const { user, updateUser, logout,setSignupProgress } = useAuthStore();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<EditProfileFormValues>({
@@ -81,10 +82,11 @@ const EditProfilePage = () => {
           toast.info("Email changed. Please verify your new email.", {
             description: "A new verification code has been sent.",
           });
-          // Optionally navigate to verify email page if email was changed and unverified
-          // navigate('/verify-email', { state: { email: response.user.email }, replace: true });
+          setSignupProgress(response.user.email);
+          
+           navigate('/verify-email', { state: { email: response.user.email }, replace: true });
         }
-        navigate('/profile');
+        
       }
     } catch (error: any) {
       let errorMessage = "An unexpected error occurred. Please try again.";
@@ -148,33 +150,47 @@ const EditProfilePage = () => {
                               if (error) clearErrors("userName");
                               field.onChange(e);
                             }}
+                            disabled={form.formState.isSubmitting}
                           />
                         </FormControl>
                         <FormErrorMessage message={error?.message} />
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field, fieldState: { error } }) => (
-                      <FormItem>
-                        <FormLabel className="flex items-center gap-2"><Mail className="h-4 w-4" /> Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="name@example.com"
-                            {...field}
-                            onChange={(e) => {
-                              if (error) clearErrors("email");
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormErrorMessage message={error?.message} />
-                      </FormItem>
-                    )}
-                  />
+<FormField
+  control={form.control}
+  name="email"
+  render={({ field, fieldState: { error } }) => (
+    <FormItem>
+      <FormLabel className="flex items-center gap-2"><Mail className="h-4 w-4" /> Email</FormLabel>
+      <FormControl>
+        <Input
+          type="email"
+          placeholder="name@example.com"
+          {...field}
+          onChange={(e) => {
+            if (error) clearErrors("email");
+            field.onChange(e);
+          }}
+          disabled={form.formState.isSubmitting || !!user?.googleId} // disable for google users
+        />
+      </FormControl>
+      <FormErrorMessage message={error?.message} />
+      {user?.googleId && (
+        <p className="text-sm text-muted-foreground mt-2">
+          This account is linked with Google — email is managed by Google.{" "}
+          <button
+            type="button"
+            onClick={() => navigate('/profile/link-local')}
+            className="underline ml-1"
+          >
+            Add a password to change email
+          </button>
+        </p>
+      )}
+    </FormItem>
+  )}
+/>
                   <FormField
                     control={form.control}
                     name="phoneNumber"
@@ -192,6 +208,7 @@ const EditProfilePage = () => {
                               if (error) clearErrors("phoneNumber");
                               field.onChange(value || "");
                             }}
+                            disabled={form.formState.isSubmitting}
                           />
                         </FormControl>
                         <FormErrorMessage message={error?.message} />
@@ -199,15 +216,15 @@ const EditProfilePage = () => {
                     )}
                   />
                   <div className="flex justify-between gap-4 pt-4">
-                    <Button type="button" variant="outline" onClick={() => navigate('/profile')} className="flex-grow">
+                    <Button type="button" variant="outline" onClick={() => navigate('/profile')} className="flex-grow" disabled={form.formState.isSubmitting}>
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back to Profile
                     </Button>
-                    <Button type="submit" className="flex-grow" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" className="flex-grow" disabled={form.formState.isSubmitting} aria-busy={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
                           Saving...
-                        </>
+                        </div>
                       ) : (
                         <>
                           <Save className="mr-2 h-4 w-4" /> Save Changes
@@ -227,3 +244,5 @@ const EditProfilePage = () => {
 };
 
 export default EditProfilePage;
+
+

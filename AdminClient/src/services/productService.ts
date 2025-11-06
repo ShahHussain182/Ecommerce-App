@@ -46,6 +46,7 @@ export const productService = {
 
   // Update product (Admin only)
   async updateProduct(id: string, productData: UpdateProductData): Promise<ApiResponse<Product>> {
+    console.debug('[productService.updateProduct] called with id', id);
     const response = await api.put(`/products/${id}`, productData);
     return response.data;
   },

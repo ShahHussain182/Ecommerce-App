@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { User } from '@/types';
 import { z } from 'zod';
-import { signupSchema, loginSchema1, codeSchema, forgotPasswordSchema, resetPasswordSchema, updateUserSchema, changePasswordSchema, resendVerificationCodeSchema } from '../../../Backend/backend/Schemas/authSchema'; // Adjust path as needed
+import { signupSchema, loginSchema1, codeSchema, forgotPasswordSchema, resetPasswordSchema, updateUserSchema, changePasswordSchema, resendVerificationCodeSchema } from '../../Schemas/authSchema.js'; // Adjust path as needed
 
-const API_BASE_URL = 'http://localhost:3001/api/v1/auth';
+const API_BASE_URL =  import.meta.env.VITE_AUTH_API_BASE_URL || 'http://localhost:3001/api/v1/auth';
 
 const authApi = axios.create({
   baseURL: API_BASE_URL,

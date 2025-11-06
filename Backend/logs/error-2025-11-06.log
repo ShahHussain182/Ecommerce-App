@@ -1,0 +1,27 @@
+2025-11-06T08:03:17.017Z [ERROR] [req:N/A] RabbitMQ connection error:
+2025-11-06T10:49:58.393Z [ERROR] [req:N/A] RabbitMQ connection error:
+2025-11-06T10:50:18.241Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: read ECONNRESET
+2025-11-06T10:50:29.315Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T10:50:40.331Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T10:50:51.334Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T10:51:02.350Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T10:51:13.368Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T10:51:24.393Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:09:20.577Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: read ECONNRESET
+2025-11-06T11:09:31.596Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:09:34.667Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: getaddrinfo ENOTFOUND redis-14929.c44.us-east-1-2.ec2.redns.redis-cloud.com
+2025-11-06T11:09:45.681Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:09:56.700Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:10:07.719Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:10:18.738Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:10:29.845Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:10:42.845Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:11:00.967Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:11:30.991Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T11:12:01.006Z [ERROR] [req:N/A] [ImageProcessingQueue] Queue error: connect ETIMEDOUT
+2025-11-06T12:02:48.222Z [ERROR] [req:12931220-e960-4965-b3e0-d951a135c37c] ❌ Path: /api/v1/products/6901b75f40aba8140b3f422e | Error: getaddrinfo ENOTFOUND cluster0-shard-00-01.oissf.mongodb.net
+2025-11-06T12:03:10.629Z [ERROR] [req:2a627658-b72d-4422-9a04-4b9c531d2912] ❌ Path: /api/v1/products/6901b75f40aba8140b3f422e | Error: getaddrinfo ENOTFOUND cluster0-shard-00-01.oissf.mongodb.net
+2025-11-06T12:03:18.236Z [ERROR] [req:599cac09-d3e7-4595-873f-662d402bb481] ❌ Path: /api/v1/products/6901b75f40aba8140b3f422e | Error: getaddrinfo ENOTFOUND cluster0-shard-00-01.oissf.mongodb.net
+2025-11-06T12:11:43.556Z [ERROR] [req:N/A] RabbitMQ connection error:
+2025-11-06T12:20:07.971Z [ERROR] [req:6ea223eb-7630-4cfc-9d9d-c14aa9b866e9] [requireAuth] Authentication error for path: /check-auth - TokenExpiredError: jwt expired
+2025-11-06T12:54:24.794Z [ERROR] [req:5d3a2f87-df6a-4433-a6f0-01b58790e6a7] [requireAuth] Authentication error for path: /check-auth - TokenExpiredError: jwt expired

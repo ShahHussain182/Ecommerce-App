@@ -27,8 +27,8 @@ export const verifyAccessToken =  (req) =>  {
 		
 	}
 };
-export const verifyRefreshToken = async (req) => {
-  const token = req.cookies.RefreshToken;
+export const verifyRefreshToken = async (token) => {
+  
   if (!token) {
     return { valid: false, status: 401, message: "Unauthorized - no token provided" };
   }

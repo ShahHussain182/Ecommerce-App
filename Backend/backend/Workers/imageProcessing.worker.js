@@ -1,22 +1,17 @@
 import { Worker } from 'bullmq';
 import sharp from 'sharp';
-import { config } from '../Utils/config.js';
-import { logger } from '../Utils/logger.js';
+
+
 import s3Client from '../Utils/s3Client.js';
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
 import { Product } from '../Models/Product.model.js';
-import mongoose from 'mongoose';
+
 import { productIndex } from '../Utils/meilisearchClient.js';
 
 const S3_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || "e-store-images";
 const MINIO_URL = process.env.MINIO_URL || "http://localhost:9000";
 
-const connection = {
-  host: config.REDIS_HOST,
-  port: Number(config.REDIS_PORT),
-  username: config.REDIS_USERNAME,
-  password: config.REDIS_PASSWORD,
-};
+
 
 // Helper to download file from S3
 const downloadFileFromS3 = async (key) => {
@@ -37,7 +32,7 @@ const downloadFileFromS3 = async (key) => {
     }
     return Buffer.concat(chunks);
   } catch (error) {
-    logger.error(`[ImageWorker] Failed to download ${key} from S3: ${error?.message || error}`);
+    console.error(`[ImageWorker] Failed to download ${key} from S3: ${error?.message || error}`);
     throw error;
   }
 };
@@ -54,7 +49,7 @@ const uploadFileToS3 = async (buffer, key, contentType) => {
     await s3Client.send(command);
     return `${MINIO_URL}/${S3_BUCKET_NAME}/${key}`;
   } catch (error) {
-    logger.error(`[ImageWorker] Failed to upload ${key} to S3: ${error?.message || error}`);
+    console.error(`[ImageWorker] Failed to upload ${key} to S3: ${error?.message || error}`);
     throw error;
   }
 };
@@ -68,12 +63,12 @@ const checkObjectExists = async (key) => {
     return false;
   }
 };
-
-export const imageProcessingWorker = new Worker(
+export function createImageProcessingWorker(connection) {
+ const imageProcessingWorker = new Worker(
   'image-processing',
   async (job) => {
     const { productId, originalS3Key, imageIndex, uploadId } = job.data;
-    logger.info(`[ImageWorker] Job started: product=${productId} imageIndex=${imageIndex} uploadId=${uploadId} key=${originalS3Key}`);
+    console.log(`[ImageWorker] Job started: product=${productId} imageIndex=${imageIndex} uploadId=${uploadId} key=${originalS3Key}`);
 
     // Load product
     let product;
@@ -83,11 +78,11 @@ export const imageProcessingWorker = new Worker(
         throw new Error(`Product with ID ${productId} not found.`);
       }
     } catch (err) {
-      logger.error(`[ImageWorker] Could not load product ${productId}: ${err?.message || err}`);
+      console.error(`[ImageWorker] Could not load product ${productId}: ${err?.message || err}`);
       throw err;
     }
 
-    logger.info(`[ImageWorker] Product ${productId} before processing: imageUrls=${(product.imageUrls || []).length} imageRenditions=${(product.imageRenditions || []).length}`);
+    console.log(`[ImageWorker] Product ${productId} before processing: imageUrls=${(product.imageUrls || []).length} imageRenditions=${(product.imageRenditions || []).length}`);
 
     try {
       // download original
@@ -131,8 +126,8 @@ export const imageProcessingWorker = new Worker(
 
       await Promise.all(uploadPromises);
 
-      logger.info(`[ImageWorker] Renditions generated for product ${productId}: ${JSON.stringify(Object.keys(renditions))}`);
-      logger.debug(`[ImageWorker] Renditions detail: ${JSON.stringify(renditions, null, 2)}`);
+      console.log(`[ImageWorker] Renditions generated for product ${productId}: ${JSON.stringify(Object.keys(renditions))}`);
+      console.log(`[ImageWorker] Renditions detail: ${JSON.stringify(renditions, null, 2)}`);
 
       // Re-fetch product fresh before updating to get the latest arrays
       product = await Product.findById(productId);
@@ -145,17 +140,17 @@ export const imageProcessingWorker = new Worker(
       let targetIndex = -1;
       if (uploadId) {
         targetIndex = (product.imageRenditions || []).findIndex(r => r && r.uploadId === uploadId);
-        logger.info(`[ImageWorker] lookup by uploadId=${uploadId} returned index=${targetIndex}`);
+        console.log(`[ImageWorker] lookup by uploadId=${uploadId} returned index=${targetIndex}`);
       }
 
       // If not found by uploadId, try imageIndex fallback
       if (targetIndex === -1 && typeof imageIndex === 'number' && imageIndex >= 0) {
         if ((product.imageRenditions || []).length > imageIndex) {
           targetIndex = imageIndex;
-          logger.warn(`[ImageWorker] uploadId not found, falling back to provided imageIndex=${imageIndex}`);
+          console.log(`[ImageWorker] uploadId not found, falling back to provided imageIndex=${imageIndex}`);
         } else {
           // pad imageRenditions up to imageIndex
-          logger.warn(`[ImageWorker] imageRenditions too short (len=${product.imageRenditions.length}), padding up to index ${imageIndex}`);
+          console.log(`[ImageWorker] imageRenditions too short (len=${product.imageRenditions.length}), padding up to index ${imageIndex}`);
           for (let i = product.imageRenditions.length; i <= imageIndex; i++) {
             product.imageRenditions.push({
               original: null,
@@ -173,7 +168,7 @@ export const imageProcessingWorker = new Worker(
 
       // If still not found, append a new slot
       if (targetIndex === -1) {
-        logger.warn(`[ImageWorker] Could not find a slot by uploadId or imageIndex; appending a new rendition slot for uploadId=${uploadId}`);
+        console.log(`[ImageWorker] Could not find a slot by uploadId or imageIndex; appending a new rendition slot for uploadId=${uploadId}`);
         product.imageRenditions.push({
           original: null,
           medium: null,
@@ -214,8 +209,8 @@ export const imageProcessingWorker = new Worker(
       product.imageProcessingStatus = allImagesProcessed ? 'completed' : 'pending';
 
       await product.save();
-      logger.info(`[ImageWorker] Product ${productId} updated at index=${targetIndex}. imageUrls.len=${product.imageUrls.length} imageRenditions.len=${product.imageRenditions.length}`);
-      logger.debug(`[ImageWorker] Updated rendition at index ${targetIndex}: ${JSON.stringify(updatedRendition, null, 2)}`);
+      console.log(`[ImageWorker] Product ${productId} updated at index=${targetIndex}. imageUrls.len=${product.imageUrls.length} imageRenditions.len=${product.imageRenditions.length}`);
+      console.log(`[ImageWorker] Updated rendition at index ${targetIndex}: ${JSON.stringify(updatedRendition, null, 2)}`);
 
       // Update Meilisearch if completed
       if (product.imageProcessingStatus === 'completed') {
@@ -242,7 +237,7 @@ export const imageProcessingWorker = new Worker(
           numberOfReviews: product.numberOfReviews ?? 0,
           createdAt: product.createdAt ? new Date(product.createdAt).toISOString() : null,
         }]);
-        logger.info(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'completed'.`);
+        console.log(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'completed'.`);
       }
 
       // Verify processed rendition exists in S3 before deleting original
@@ -250,35 +245,35 @@ export const imageProcessingWorker = new Worker(
         const renditionUrlForCheck = updatedRendition.medium || updatedRendition.original;
         if (renditionUrlForCheck && renditionUrlForCheck.startsWith(`${MINIO_URL}/${S3_BUCKET_NAME}/`)) {
           const keyToCheck = renditionUrlForCheck.replace(`${MINIO_URL}/${S3_BUCKET_NAME}/`, '');
-          logger.info(`[ImageWorker] Verifying rendition exists at key=${keyToCheck} before deleting original=${originalS3Key}`);
+          console.log(`[ImageWorker] Verifying rendition exists at key=${keyToCheck} before deleting original=${originalS3Key}`);
           const exists = await checkObjectExists(keyToCheck);
           if (exists) {
             try {
               await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET_NAME, Key: originalS3Key }));
-              logger.info(`[ImageWorker] Deleted original S3 object: ${originalS3Key}`);
+              console.log(`[ImageWorker] Deleted original S3 object: ${originalS3Key}`);
             } catch (delErr) {
-              logger.warn(`[ImageWorker] Failed to delete original S3 object ${originalS3Key}: ${delErr?.message || delErr}`);
+              console.log(`[ImageWorker] Failed to delete original S3 object ${originalS3Key}: ${delErr?.message || delErr}`);
             }
           } else {
-            logger.warn(`[ImageWorker] Rendition not yet available at key=${keyToCheck}. Skipping delete of original ${originalS3Key}`);
+            console.log(`[ImageWorker] Rendition not yet available at key=${keyToCheck}. Skipping delete of original ${originalS3Key}`);
           }
         } else {
-          logger.warn(`[ImageWorker] Could not derive S3 key from rendition URL (${renditionUrlForCheck}). Skipping delete of original ${originalS3Key}`);
+          console.log(`[ImageWorker] Could not derive S3 key from rendition URL (${renditionUrlForCheck}). Skipping delete of original ${originalS3Key}`);
         }
       } catch (verifyErr) {
-        logger.warn(`[ImageWorker] Verification step failed for product ${productId} index ${targetIndex}: ${verifyErr?.message || verifyErr}`);
+        console.log(`[ImageWorker] Verification step failed for product ${productId} index ${targetIndex}: ${verifyErr?.message || verifyErr}`);
       }
 
     } catch (error) {
-      logger.error(`[ImageWorker] Failed to process image for product ${productId} index ${imageIndex}: ${error?.message || error}`, { error });
+      console.error(`[ImageWorker] Failed to process image for product ${productId} index ${imageIndex}: ${error?.message || error}`, { error });
       // mark product failed if possible
       try {
         product.imageProcessingStatus = 'failed';
         await product.save();
         await productIndex.updateDocuments([{ _id: product._id.toString(), imageProcessingStatus: 'failed' }]);
-        logger.warn(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'failed'.`);
+        console.log(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'failed'.`);
       } catch (saveErr) {
-        logger.error(`[ImageWorker] Failed to set product ${productId} status to failed: ${saveErr?.message || saveErr}`);
+        console.error(`[ImageWorker] Failed to set product ${productId} status to failed: ${saveErr?.message || saveErr}`);
       }
       throw error;
     }
@@ -288,11 +283,13 @@ export const imageProcessingWorker = new Worker(
 );
 
 imageProcessingWorker.on('completed', (job) => {
-  logger.info(`[ImageWorker] Job ${job.id} completed for product ${job.data.productId}`);
+  console.log(`[ImageWorker] Job ${job.id} completed for product ${job.data.productId}`);
 });
 
 imageProcessingWorker.on('failed', (job, err) => {
-  logger.error(`[ImageWorker] Job ${job.id} failed for product ${job.data.productId}: ${err?.message || err}`, { error: err });
+  console.error(`[ImageWorker] Job ${job.id} failed for product ${job.data.productId}: ${err?.message || err}`, { error: err });
 });
 
-logger.info('[ImageWorker] Image processing worker started.');
+console.log('[ImageWorker] Image processing worker started.');
+return imageProcessingWorker;
+}

@@ -14,6 +14,7 @@ import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Spinner } from '@/components/ui/Spinner';
 
 // Define form schema for validation
 const resetPasswordFormSchema = z.object({
@@ -27,7 +28,7 @@ const resetPasswordFormSchema = z.object({
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
-
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL
 const ResetPasswordPage = () => {
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const ResetPasswordPage = () => {
     setIsSubmitting(true);
     try {
       // The token is passed as a URL parameter
-      const response = await axios.post(`http://localhost:3001/api/v1/auth/reset-password/${token}`, {
+      const response = await axios.post(`${AUTH_API_BASE_URL}/reset-password/${token}`, {
         password: values.password,
       }, {
         withCredentials: true,
@@ -171,7 +172,12 @@ const ResetPasswordPage = () => {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Resetting..." : "Reset Password"}
+              {isSubmitting ?(
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Resetting...</span>
+                        </div>
+                      ) : "Reset Password"}
             </Button>
           </motion.div>
         </form>

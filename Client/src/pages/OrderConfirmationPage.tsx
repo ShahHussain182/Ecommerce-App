@@ -25,6 +25,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"; // Import AlertDialog components
+import { Spinner } from '@/components/ui/Spinner';
 
 const OrderConfirmationPage = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -207,9 +208,12 @@ const OrderConfirmationPage = () => {
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" size="lg" disabled={cancelOrderMutation.isPending}>
-                    {cancelOrderMutation.isPending ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
+                    {cancelOrderMutation.isPending ?(
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Cancelling...</span>
+                        </div>
+                      )  : (
                       <Ban className="mr-2 h-4 w-4" />
                     )}
                     Cancel Order

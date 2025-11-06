@@ -1,3 +1,4 @@
+// ChangePasswordPage.tsx (updated spinner usage)
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -16,11 +17,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal, Lock, KeyRound, ArrowLeft, Loader2, Save } from 'lucide-react'; // Added Save icon
+import { Terminal, Lock, KeyRound, ArrowLeft, Save } from 'lucide-react'; 
+import { Spinner } from '@/components/ui/Spinner'; // <-- import your spinner
 
 import { useAuthStore } from '@/store/authStore';
 import * as authApi from '@/lib/authApi';
-import { changePasswordSchema } from '../../../Backend/backend/Schemas/authSchema'; // Import backend schema
+import {changePasswordSchema } from "../../Schemas/authSchema.js" // Import backend schema
 
 type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>;
 
@@ -123,6 +125,8 @@ const ChangePasswordPage = () => {
                               if (error) clearErrors("currentPassword");
                               field.onChange(e);
                             }}
+                            disabled={form.formState.isSubmitting}
+                            aria-invalid={!!error}
                           />
                         </FormControl>
                         <FormErrorMessage message={error?.message} />
@@ -144,6 +148,8 @@ const ChangePasswordPage = () => {
                               if (error) clearErrors("newPassword");
                               field.onChange(e);
                             }}
+                            disabled={form.formState.isSubmitting}
+                            aria-invalid={!!error}
                           />
                         </FormControl>
                         <FormErrorMessage message={error?.message} />
@@ -151,15 +157,15 @@ const ChangePasswordPage = () => {
                     )}
                   />
                   <div className="flex justify-between gap-4 pt-4">
-                    <Button type="button" variant="outline" onClick={() => navigate('/profile')} className="flex-grow">
+                    <Button type="button" variant="outline" onClick={() => navigate('/profile')} className="flex-grow" disabled={form.formState.isSubmitting}>
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back to Profile
                     </Button>
-                    <Button type="submit" className="flex-grow" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" className="flex-grow" disabled={form.formState.isSubmitting} aria-busy={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Saving...
-                        </>
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Saving...</span>
+                        </div>
                       ) : (
                         <>
                           <Save className="mr-2 h-4 w-4" /> Change Password

@@ -20,6 +20,7 @@ import { Spinner } from '@/components/ui/Spinner';
 const forgotPasswordFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const ForgotPasswordPage = () => {
     setServerError(null);
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/auth/forgot-password', {
+      const response = await axios.post(`${AUTH_API_BASE_URL}/forgot-password`, {
         email: values.email,
       }, {
         withCredentials: true,

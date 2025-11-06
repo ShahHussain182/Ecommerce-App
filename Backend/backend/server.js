@@ -33,7 +33,7 @@ import { Counter } from "./Models/Counter.model.js";
 import { Category } from "./Models/Category.model.js";
 import { mockCategories } from "./Utils/mockCategories.js";
 import { imageProcessingQueue } from './Queues/imageProcessing.queue.js'; // Import queue
-import { imageProcessingWorker } from './Workers/imageProcessing.worker.js'; // Import worker
+
 import rabbit,{ closeRabbitConnection } from './Utils/lavinmqClient.js';
 
 
@@ -48,11 +48,11 @@ if (config.NODE_ENV === "development") {
 }
 app.use(requestContextMiddleware); 
 app.use(morgan("combined", { stream: logger.stream }));
-
+const CLIENT_URL = process.env.CLIENT_URL
 app.use(helmet());
 app.use(
   cors({
-    origin: ["http://localhost:8080", "http://localhost:5173"], // multiple origins
+    origin: [CLIENT_URL, "http://localhost:5173"], // multiple origins
     credentials: true,
   })
 );

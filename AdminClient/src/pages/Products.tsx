@@ -22,7 +22,51 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useDebounce } from 'use-debounce';
+// call from anywhere with access to queryClient
+function upsertProductInAllProductCaches(queryClient: QueryClient, updatedProduct: any) {
+  const allQueries = queryClient.getQueryCache().getAll();
+  let replacedInAny = false;
 
+  for (const q of allQueries) {
+    const qKey = q.queryKey;
+    if (!Array.isArray(qKey) || qKey[0] !== 'products') continue;
+
+    const qData = queryClient.getQueryData(qKey);
+    if (!qData) continue;
+
+    try {
+      const pageData = qData as any;
+      if (!Array.isArray(pageData.products)) continue;
+
+      const newProducts = pageData.products.map((p: any) => {
+        const matches =
+          (p._id && String(p._id) === String(updatedProduct._id)) ||
+          (p.id && String(p.id) === String(updatedProduct.id));
+        if (matches) {
+          replacedInAny = true;
+          return { ...p, ...updatedProduct };
+        }
+        return p;
+      });
+
+      if (replacedInAny) {
+        const newPage = { ...pageData, products: newProducts };
+        queryClient.setQueryData(qKey, newPage);
+        // keep going — product could exist in multiple cached pages
+      }
+    } catch (e) {
+      // ignore non-standard shapes
+      // eslint-disable-next-line no-console
+      console.debug('[upsert] ignored non-standard page shape', qKey, e);
+    }
+  }
+
+  // Update single-product caches (both key variants)
+  if (updatedProduct._id) queryClient.setQueryData(['product', updatedProduct._id], updatedProduct);
+  if (updatedProduct.id) queryClient.setQueryData(['product', updatedProduct.id], updatedProduct);
+
+  return replacedInAny;
+}
 export function Products() {
   const productsQueryKey = (opts: {
     searchTerm?: string;
@@ -180,15 +224,96 @@ const [sortBy, setSortBy] = useState<SortOption>('name-asc');
   });
 
   const updateProductMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateProductData }) => productService.updateProduct(id, data),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
-      queryClient.invalidateQueries({ queryKey: ['product', response.product?._id] }); // Invalidate single product query
+    mutationFn: ({ id, data }: { id: string; data: UpdateProductData }) =>
+      productService.updateProduct(id, data),
+  
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries();
+  
+      const snapshots: Array<{ key: unknown; data: unknown }> = [];
+      const allQueries = queryClient.getQueryCache().getAll();
+  
+      for (const q of allQueries) {
+        const qKey = q.queryKey;
+        if (!Array.isArray(qKey) || qKey[0] !== 'products') continue;
+  
+        const qData = queryClient.getQueryData(qKey);
+        snapshots.push({ key: qKey, data: qData });
+  
+        if (!qData) continue;
+        try {
+          const pageData = qData as any;
+          if (!Array.isArray(pageData.products)) continue;
+  
+          const patched = {
+            ...pageData,
+            products: pageData.products.map((p: any) =>
+              p._id === id ? { ...p, ...data } : p
+            ),
+          };
+  
+          queryClient.setQueryData(qKey, patched);
+        } catch (e) {
+          // ignore odd shapes
+        }
+      }
+  
+      return { snapshots };
+    },
+  
+    onError: (err: any, variables, context: any) => {
+      toast.error(err?.response?.data?.message || 'Failed to update product');
+      if (context?.snapshots) {
+        for (const s of context.snapshots) {
+          queryClient.setQueryData(s.key, s.data);
+        }
+      }
+    },
+  
+    onSuccess: (response: any) => {
+      const updatedProduct = response?.product;
+      // eslint-disable-next-line no-console
+      console.debug('[updateProduct:onSuccess] server product:', updatedProduct);
+  
+      if (!updatedProduct) {
+        toast.success('Product updated');
+        setIsEditDialogOpen(false);
+        return;
+      }
+  
+      // Try to upsert in all cached paginated lists
+      const replaced = upsertProductInAllProductCaches(queryClient, updatedProduct);
+  
+      if (!replaced) {
+        // Not found — log keys for debugging and invalidate lists so UI refetches
+        // eslint-disable-next-line no-console
+        console.debug('[updateProduct:onSuccess] product not found in cached pages. Query keys:', queryClient.getQueryCache().getAll().map(q => q.queryKey));
+        queryClient.invalidateQueries({
+          predicate: (query) => Array.isArray(query.queryKey) && query.queryKey[0] === 'products',
+        });
+      } else {
+        // eslint-disable-next-line no-console
+        console.debug('[updateProduct:onSuccess] product replaced in cache');
+      }
+  
+      // Ensure single-product caches are up to date
+      if (updatedProduct._id) queryClient.setQueryData(['product', updatedProduct._id], updatedProduct);
+      if (updatedProduct.id) queryClient.setQueryData(['product', updatedProduct.id], updatedProduct);
+  
       toast.success('Product updated successfully');
       setIsEditDialogOpen(false);
+  
+      // If server says it's still pending and you want to poll:
+      if (updatedProduct.imageProcessingStatus === 'pending') {
+        // make sure startPoll exists in scope (you declared it earlier from useProcessingPoll)
+        try { startPoll(updatedProduct._id, queryClient); } catch (e) { /* ignore if not available */ }
+      }
     },
-    onError: (err: any) => {
-      toast.error(err.response?.data?.message || 'Failed to update product');
+  
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        predicate: (query) => Array.isArray(query.queryKey) && query.queryKey[0] === 'products',
+      });
     },
   });
 
@@ -222,7 +347,7 @@ const handleCreateProduct = (data: ProductFormValues) => {
   createProductMutation.mutate(formData);
 };
 
-  const handleUpdateProduct = (data: ProductFormValues) => {
+  const handleUpdateProduct = async (data: ProductFormValues) => {
     if (selectedProductId) {
       const updateData: UpdateProductData = {
         name: data.name,
@@ -232,7 +357,12 @@ const handleCreateProduct = (data: ProductFormValues) => {
         variants: data.variants,
         imageUrls: data.imageUrls,
       };
-      updateProductMutation.mutate({ id: selectedProductId, data: updateData });
+      try {
+        const resp = await updateProductMutation.mutateAsync({ id: selectedProductId, data: updateData });
+        console.debug('[Products.handleUpdateProduct] mutateAsync response', resp);
+      } catch (err) {
+        console.debug('[Products.handleUpdateProduct] mutateAsync error', err);
+      }
     }
   };
 

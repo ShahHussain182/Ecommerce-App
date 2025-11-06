@@ -44,7 +44,16 @@ export const ProductForm = ({ productId, onSubmit, onClose, isSubmitting, catego
   });
 
   const { reset, handleSubmit, watch } = methods;
+  const { getValues, setValue } = methods;
 
+  // autosave: called by ProductImageManager after images upload+refetch
+  const handleImagesUploaded = async () => {
+    // grab the current form values (imageUrls were updated inside ProductImageManager)
+    const values = getValues() as ProductFormValues;
+    // call the parent's onSubmit handler
+    // (Products.handleUpdateProduct is async and uses mutateAsync)
+    onSubmit(values);
+  };
   // Sync form state with fetched product data
   useEffect(() => {
     if (product) {
@@ -80,6 +89,8 @@ export const ProductForm = ({ productId, onSubmit, onClose, isSubmitting, catego
     || (product ? (hasUnuploadedFiles || isProductImageProcessingPending) : false);
 
   const handleFormSubmit = async (data: ProductFormValues) => {
+    console.debug('[ProductForm.handleFormSubmit] called, productId:', productId, 'hasUnuploadedFiles:', hasUnuploadedFiles);
+
     if (product && hasUnuploadedFiles) {
       toast.error("Please upload new images before updating the product.");
       return;
@@ -88,6 +99,7 @@ export const ProductForm = ({ productId, onSubmit, onClose, isSubmitting, catego
   };
 
   if (isProductLoading && productId) {
+
     return (
       <div className="flex items-center justify-center py-12">
         <Loader2 className="mr-2 h-6 w-6 animate-spin" /> Loading product details...
@@ -113,6 +125,7 @@ export const ProductForm = ({ productId, onSubmit, onClose, isSubmitting, catego
           product={product}
           isAnyOperationPending={isAnyOperationPending}
           refetchProduct={refetch}
+          onImagesUploaded={handleImagesUploaded}
         />
 
         <ProductVariantsSection 

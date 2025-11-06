@@ -7,12 +7,12 @@ import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Heart, Star } from 'lucide-react'; // Import Star icon
+import { Heart, Star } from 'lucide-react'; // Removed Loader2
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { useAddWishlistItemMutation, useRemoveWishlistItemMutation } from '@/hooks/useWishlistMutations';
-import { motion } from 'framer-motion'; // Import motion
+import { motion } from 'framer-motion';
 
 interface ProductCardProps {
   product: Product;
@@ -23,7 +23,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
   
-  // Safely get the first variant, which will always exist due to backend logic
   const defaultVariant = product.variants[0]; 
 
   const addWishlistItemMutation = useAddWishlistItemMutation();
@@ -32,7 +31,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const wishlistItemIdsMap = useWishlistStore((state) => state.wishlistItemIds);
 
   const wishlistItemId = React.useMemo(() => {
-    if (!defaultVariant) return undefined; // Should not happen with new backend logic
+    if (!defaultVariant) return undefined;
     return wishlistItemIdsMap.get(`${product._id}_${defaultVariant._id}`);
   }, [wishlistItemIdsMap, product._id, defaultVariant]);
 
@@ -47,10 +46,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       return;
     }
 
-    if (defaultVariant) { // defaultVariant will always exist now
+    if (defaultVariant) {
       addItemToCart(product, defaultVariant, 1);
     } else {
-      toast.error("Product variant information missing."); // Fallback, should not be hit
+      toast.error("Product variant information missing.");
     }
   };
 
@@ -62,18 +61,21 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       return;
     }
 
-    if (defaultVariant) { // defaultVariant will always exist now
+    if (defaultVariant) {
       if (isInWishlist && wishlistItemId) {
         removeWishlistItemMutation.mutate(wishlistItemId);
       } else {
         addWishlistItemMutation.mutate({ productId: product._id, variantId: defaultVariant._id });
       }
     } else {
-      toast.error("Product variant information missing."); // Fallback, should not be hit
+      toast.error("Product variant information missing.");
     }
   };
 
   const isWishlistActionPending = addWishlistItemMutation.isPending || removeWishlistItemMutation.isPending;
+  
+  // Use the medium rendition for the product card display
+  const displayImageUrl = product.imageRenditions[0]?.medium || product.imageUrls[0] || '/placeholder.svg';
 
   return (
     <motion.div
@@ -94,9 +96,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <Heart className={cn("h-5 w-5", isInWishlist && "fill-red-500")} />
       </Button>
       <Link to={`/product/${product._id}`} className="flex-grow flex flex-col">
-        <CardHeader className="p-0">
+        <CardHeader className="p-0 relative">
           <img 
-            src={product.imageUrls[0]} 
+            src={displayImageUrl} 
             alt={product.name} 
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" 
           />

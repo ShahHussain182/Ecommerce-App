@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Bell, Search, User, LogOut, Loader2 } from 'lucide-react'; // Import Loader2
 import { useAuthStore } from '@/store/authStore';
-import { authService } from '@/services/authService';
+import { authService } from '@/services/authService.ts';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'; // Import useState
+import ThemeToggle from './ThemeToggle'; // Import ThemeToggle
 
 export function Header() {
   const { user, logout } = useAuthStore();
@@ -43,6 +44,7 @@ export function Header() {
       </div>
       
       <div className="flex items-center space-x-4">
+        <ThemeToggle /> {/* Add Theme Toggle here */}
         <Button variant="ghost" size="icon">
           <Bell className="h-5 w-5" />
         </Button>

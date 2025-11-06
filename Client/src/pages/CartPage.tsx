@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Minus, Plus, Trash2, ShoppingCart, Loader2 } from 'lucide-react';
+import { Spinner } from '@/components/ui/Spinner';
 
 const CartPage = () => {
   const { cart, removeItem, updateItemQuantity, clearRemoteCart, isLoading } = useCartStore();
@@ -91,7 +92,12 @@ const CartPage = () => {
             ))}
             <div className="flex justify-end">
               <Button variant="outline" onClick={clearRemoteCart} disabled={isLoading}>
-                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                {isLoading ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          
+                        </div>
+                      ) : null}
                 Clear Cart
               </Button>
             </div>
@@ -116,7 +122,12 @@ const CartPage = () => {
               <CardFooter>
                 <Button asChild className="w-full" size="lg" disabled={isLoading || cart.items.length === 0}>
                   <Link to="/checkout">
-                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    {isLoading ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          
+                        </div>
+                      ) : null}
                     Proceed to Checkout
                   </Link>
                 </Button>

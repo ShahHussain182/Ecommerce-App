@@ -17,6 +17,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { useAuthStore } from '@/store/authStore'; // Import the auth store
 import { Spinner } from '@/components/ui/Spinner';
+import GoogleSignIn from '@/components/GoogleSignIn';
 
 const signupFormSchema = z.object({
   userName: z.string().min(3, { message: "Username must be at least 3 characters." }),
@@ -28,7 +29,7 @@ const signupFormSchema = z.object({
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
-
+const AUTH_API_BASE_URL =  import.meta.env.VITE_AUTH_API_BASE_URL
 const SignupPage = () => {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -66,7 +67,7 @@ const SignupPage = () => {
     const { confirmPassword, ...payload } = values;
 
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/auth/signup', payload, {
+      const response = await axios.post(`${AUTH_API_BASE_URL}/signup`, payload, {
         withCredentials: true,
       });
 
@@ -240,6 +241,10 @@ const SignupPage = () => {
           </motion.div>
         </form>
       </Form>
+      <div className="mt-6">
+  <div className="text-center text-sm mb-3">Or sign up with</div>
+  <GoogleSignIn className="flex justify-center" onSuccessRedirect="/" />
+</div>
       <div className="mt-4 text-center text-sm">
         Already have an account?{" "}
         <Link to="/login" className="underline">

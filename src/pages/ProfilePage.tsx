@@ -8,10 +8,10 @@ import * as authApi from '@/lib/authApi';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Spinner } from '@/components/ui/Spinner';
-import { User, Mail, Phone, Calendar, LogOut, Edit, Package, Lock } from 'lucide-react';
+import { User, Mail, Phone, Calendar, LogOut, Edit, Package, Lock, AlertTriangle } from 'lucide-react';
 
 const ProfilePage = () => {
-  const { user, logout: logoutFromStore } = useAuthStore();
+  const { user, logout: logoutFromStore ,isVerified} = useAuthStore();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -46,6 +46,7 @@ const ProfilePage = () => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
         <div className="max-w-2xl mx-auto">
           <Card className="shadow-lg">
             <CardHeader className="text-center">
@@ -79,6 +80,19 @@ const ProfilePage = () => {
                   <p className="font-medium">{new Date(user.lastLogin).toLocaleString()}</p>
                 </div>
               </div>
+              {!isVerified && (
+    <div className="mb-8 rounded-md border border-yellow-300 bg-yellow-50 p-4 flex items-start space-x-3 shadow-sm">
+      <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+      <div>
+        <p className="text-sm font-medium text-yellow-800">
+          Your email is not verified.
+        </p>
+        <p className="text-sm text-yellow-700">
+          Please verify your email to unlock all features and secure your account.
+        </p>
+      </div>
+    </div>
+  )}
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button asChild className="w-full">
@@ -93,11 +107,13 @@ const ProfilePage = () => {
                   </Link>
                 </Button>
 
-                <Button asChild className="w-full">
-                  <Link to="/profile/change-password">
-                    <Lock className="mr-2 h-4 w-4" /> Change Password
-                  </Link>
-                </Button>
+                {!user.googleId && (
+    <Button asChild className="w-full">
+      <Link to="/profile/change-password">
+        <Lock className="mr-2 h-4 w-4" /> Change Password
+      </Link>
+    </Button>
+  )}
 
                 <Button
                   variant="destructive"

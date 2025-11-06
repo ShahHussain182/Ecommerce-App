@@ -1,3 +1,4 @@
+// ContactUs.tsx
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -6,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Mail, Phone, MapPin, MessageSquareText, HelpCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as userApi from '@/lib/userApi';
 import * as z from 'zod';
 import {
   Form,
@@ -22,9 +24,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Import Card components
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/Spinner';
 
 // Define form schema for validation
 const contactFormSchema = z.object({
@@ -34,8 +37,15 @@ const contactFormSchema = z.object({
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 });
 
+export type ContactFormValues = z.infer<typeof contactFormSchema>;
+
 const ContactUs = () => {
   const location = useLocation();
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const successTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (location.hash) {
@@ -44,9 +54,14 @@ const ContactUs = () => {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
+    return () => {
+      if (successTimeoutRef.current) {
+        window.clearTimeout(successTimeoutRef.current);
+      }
+    };
   }, [location]);
 
-  const form = useForm<z.infer<typeof contactFormSchema>>({
+  const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: "",
@@ -54,14 +69,57 @@ const ContactUs = () => {
       subject: "",
       message: "",
     },
+    mode: 'onTouched',
   });
 
-  function onSubmit(values: z.infer<typeof contactFormSchema>) {
-    console.log("Contact form submitted:", values);
-    toast.success("Your message has been sent!", {
-      description: "We'll get back to you shortly.",
-    });
-    form.reset();
+  // Focus the name input after successful submit
+  const focusName = () => {
+    const el = nameRef.current;
+    if (el) {
+      el.focus();
+    }
+  };
+
+  async function onSubmit(values: ContactFormValues) {
+    setServerError(null);
+    setIsSubmitting(true);
+    setIsSuccess(false);
+
+    try {
+      // call the contact API
+      const response = await userApi.submitContactMessage(values);
+
+      if (response && response.success) {
+        // UX feedback
+        setIsSuccess(true);
+        toast.success('Your message has been sent!', {
+          description: "We'll get back to you shortly.",
+        });
+        form.reset();
+        // auto-hide the success after 6 seconds
+        successTimeoutRef.current = window.setTimeout(() => {
+          setIsSuccess(false);
+        }, 6000);
+
+        // set focus back to name for faster new messages
+        focusName();
+      } else {
+        const message = response?.message || 'Failed to send message.';
+        setServerError(message);
+        toast.error('Request Failed', { description: message });
+      }
+    } catch (error: any) {
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+      setServerError(errorMessage);
+      toast.error('Request Failed', { description: errorMessage });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const onError = (errors: any) => {
@@ -147,95 +205,156 @@ const ContactUs = () => {
               </div>
 
               {/* Contact Form */}
-              <Card className="p-6 shadow-md hover:shadow-2xl hover:scale-[1.01] transition-all duration-300"> {/* Enhanced hover effect here */}
-                <CardHeader className="px-0 pt-0">
-                  <CardTitle className="text-2xl font-bold">Send Us a Message</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field, fieldState: { error } }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground">Your Name</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="John Doe" 
-                                {...field} 
-                                aria-invalid={!!error} 
-                              />
-                            </FormControl>
-                            <FormErrorMessage message={error?.message} />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field, fieldState: { error } }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground">Your Email</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="email" 
-                                placeholder="john.doe@example.com" 
-                                {...field} 
-                                aria-invalid={!!error} 
-                              />
-                            </FormControl>
-                            <FormErrorMessage message={error?.message} />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="subject"
-                        render={({ field, fieldState: { error } }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground">Subject</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Regarding my recent order" 
-                                {...field} 
-                                aria-invalid={!!error} 
-                              />
-                            </FormControl>
-                            <FormErrorMessage message={error?.message} />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field, fieldState: { error } }) => (
-                          <FormItem>
-                            <FormLabel className="text-foreground">Your Message</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Type your message here." 
-                                rows={5} 
-                                {...field} 
-                                aria-invalid={!!error} 
-                              />
-                            </FormControl>
-                            <FormErrorMessage message={error?.message} />
-                          </FormItem>
-                        )}
-                      />
-                      <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? "Sending..." : "Send Message"}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </Card>
+              <div className="relative">
+                {/* Success / Error messages above card */}
+                {isSuccess && (
+                  <div className="mb-4">
+                    <div className="rounded-lg border border-green-200 bg-green-50 p-4 shadow-sm animate-fade-in">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-full bg-green-600 text-white w-9 h-9 flex items-center justify-center">
+                          ✓
+                        </div>
+                        <div>
+                          <p className="font-semibold text-green-800">Message sent</p>
+                          <p className="text-sm text-green-700">Thanks — we received your message and will respond as soon as possible.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {serverError && (
+                  <div className="mb-4">
+                    <div className="rounded-lg border border-red-200 bg-red-50 p-3 shadow-sm">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-full bg-red-600 text-white w-8 h-8 flex items-center justify-center">!</div>
+                        <div className="flex-1">
+                          <p className="font-semibold text-red-800">Something went wrong</p>
+                          <p className="text-sm text-red-700">{serverError}</p>
+                        </div>
+                        <button
+                          onClick={() => setServerError(null)}
+                          aria-label="Dismiss error"
+                          className="text-red-600 hover:underline"
+                        >
+                          Dismiss
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <Card className="p-6 shadow-md hover:shadow-2xl hover:scale-[1.01] transition-all duration-300">
+                  <CardHeader className="px-0 pt-0">
+                    <CardTitle className="text-2xl font-bold">Send Us a Message</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6" noValidate>
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field, fieldState: { error } }) => (
+                            <FormItem>
+                              <FormLabel className="text-foreground">Your Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="John Doe"
+                                  {...field}
+                                  aria-invalid={!!error}
+                                  ref={(e: HTMLInputElement) => {
+                                    field.ref(e);
+                                    if (!nameRef.current) nameRef.current = e;
+                                  }}
+                                  disabled={isSubmitting}
+                                />
+                              </FormControl>
+                              <FormErrorMessage message={error?.message} />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field, fieldState: { error } }) => (
+                            <FormItem>
+                              <FormLabel className="text-foreground">Your Email</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="email"
+                                  placeholder="john.doe@example.com"
+                                  {...field}
+                                  aria-invalid={!!error}
+                                  disabled={isSubmitting}
+                                />
+                              </FormControl>
+                              <FormErrorMessage message={error?.message} />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="subject"
+                          render={({ field, fieldState: { error } }) => (
+                            <FormItem>
+                              <FormLabel className="text-foreground">Subject</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Regarding my recent order"
+                                  {...field}
+                                  aria-invalid={!!error}
+                                  disabled={isSubmitting}
+                                />
+                              </FormControl>
+                              <FormErrorMessage message={error?.message} />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field, fieldState: { error } }) => (
+                            <FormItem>
+                              <FormLabel className="text-foreground">Your Message</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Type your message here."
+                                  rows={5}
+                                  {...field}
+                                  aria-invalid={!!error}
+                                  disabled={isSubmitting}
+                                />
+                              </FormControl>
+                              <FormErrorMessage message={error?.message} />
+                            </FormItem>
+                          )}
+                        />
+                        <div className="flex items-center gap-4">
+                          <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={isSubmitting || form.formState.isSubmitting}
+                          >
+                            {isSubmitting || form.formState.isSubmitting ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <Spinner size={20} color="text-white" />
+                                Sending...
+                              </div>
+                            ) : (
+                              'Send Message'
+                            )}
+                          </Button>
+                        </div>
+                      </form>
+                    </Form>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </section>
 
           {/* FAQ Section */}
-          <section id="faq" className="pt-16 md:pt-24"> {/* Added id="faq" here */}
+          <section id="faq" className="pt-16 md:pt-24">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center gap-3">
               <HelpCircle className="h-9 w-9 text-green-600" /> Frequently Asked Questions
             </h2>

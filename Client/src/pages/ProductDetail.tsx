@@ -25,7 +25,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react';
+import { Minus, Plus, Terminal, ChevronLeft, ChevronRight, X, Heart, Star } from 'lucide-react'; // Removed Loader2
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { useWishlistStore } from '@/store/wishlistStore';
@@ -65,7 +65,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (product && product.variants.length > 0) {
-      setSelectedVariant(product.variants[0]); // Always select the first variant by default
+      setSelectedVariant(product.variants[0]);
     }
   }, [product]);
 
@@ -78,7 +78,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (isMobile) return;
 
-    const headerHeight = 64; // h-16 is 4rem = 64px
+    const headerHeight = 64;
 
     const handleScroll = () => {
       if (addToCartSectionRef.current) {
@@ -111,7 +111,7 @@ const ProductDetail = () => {
     if (selectedVariant && product) {
       addItemToCart(product, selectedVariant, quantity);
     } else {
-      toast.error("Product variant information missing."); // Fallback, should not be hit with new backend logic
+      toast.error("Product variant information missing.");
     }
   };
 
@@ -130,10 +130,9 @@ const ProductDetail = () => {
         addWishlistItemMutation.mutate({ productId: product._id, variantId: selectedVariant._id });
       }
     } else {
-      toast.error("Product variant information missing."); // Fallback, should not be hit with new backend logic
+      toast.error("Product variant information missing.");
     }
   };
-
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
@@ -154,7 +153,6 @@ const ProductDetail = () => {
       prevIndex === product!.imageUrls.length - 1 ? 0 : prevIndex + 1
     );
   };
-
   if (isLoading || (!product && !isError)) {
     return (
       <div className="flex flex-col min-h-screen bg-white">
@@ -187,6 +185,12 @@ const ProductDetail = () => {
   }
 
   const isWishlistActionPending = addWishlistItemMutation.isPending || removeWishlistItemMutation.isPending;
+  
+  // Determine which image URL to use for display based on renditions
+  const mainImageUrl = product.imageRenditions[selectedImageIndex]?.medium || product.imageUrls[selectedImageIndex] || '/placeholder.svg';
+  const thumbnailImageUrl = product.imageRenditions[selectedImageIndex]?.thumbnail || product.imageUrls[selectedImageIndex] || '/placeholder.svg';
+  const lightboxDisplayImageUrl = product.imageRenditions[lightboxImageIndex]?.original || product.imageUrls[lightboxImageIndex] || '/placeholder.svg';
+
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -234,7 +238,7 @@ const ProductDetail = () => {
                     }}
                   >
                     <img 
-                      src={product.imageUrls[selectedImageIndex]}
+                      src={mainImageUrl}
                       alt={product.name} 
                       className="w-full h-auto aspect-square object-cover transition-transform duration-300 ease-in-out"
                       style={{
@@ -248,7 +252,7 @@ const ProductDetail = () => {
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
                     <div className="relative">
                       <img
-                        src={product.imageUrls[lightboxImageIndex]}
+                        src={lightboxDisplayImageUrl}
                         alt={`${product.name} enlarged view`}
                         className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
                       />
@@ -262,7 +266,7 @@ const ProductDetail = () => {
               <div className="grid grid-cols-5 gap-4 mt-4">
                 {product.imageUrls.map((img, index) => (
                   <button key={index} onClick={() => setSelectedImageIndex(index)} className={`rounded-lg overflow-hidden border-2 transition-colors ${selectedImageIndex === index ? 'border-primary' : 'border-transparent hover:border-gray-300'}`}>
-                    <img src={img} alt={`${product.name} thumbnail ${index + 1}`} className="w-full h-auto aspect-square object-cover" />
+                    <img src={product.imageRenditions[index]?.thumbnail || img} alt={`${product.name} thumbnail ${index + 1}`} className="w-full h-auto aspect-square object-cover" />
                   </button>
                 ))}
               </div>
@@ -298,7 +302,6 @@ const ProductDetail = () => {
                 {selectedVariant && <StockIndicator stock={selectedVariant.stock} />}
               </div>
               
-              {/* Only render variant selector if there's more than one variant to choose from */}
               {product.variants.length > 1 && (
                 <ProductVariantSelector variants={product.variants} onChange={setSelectedVariant} />
               )}

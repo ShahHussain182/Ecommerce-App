@@ -14,11 +14,13 @@ import { FormErrorMessage } from '@/components/FormErrorMessage';
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Spinner } from '@/components/ui/Spinner';
 
 // Define form schema for validation
 const forgotPasswordFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ const ForgotPasswordPage = () => {
     setServerError(null);
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/auth/forgot-password', {
+      const response = await axios.post(`${AUTH_API_BASE_URL}/forgot-password`, {
         email: values.email,
       }, {
         withCredentials: true,
@@ -137,7 +139,12 @@ const ForgotPasswordPage = () => {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Sending..." : "Send Reset Link"}
+              {isSubmitting ?  (
+                        <div className="flex items-center justify-center gap-2">
+                          <Spinner size={18} color="text-white" />
+                          <span>Sending...</span>
+                        </div>
+                      )  : "Send Reset Link"}
             </Button>
           </motion.div>
         </form>
