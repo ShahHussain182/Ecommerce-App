@@ -152,7 +152,7 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -171,30 +171,30 @@ const ContactUs = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           {/* Contact Information & Form Section */}
           <section className="mb-16 md:mb-24">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center gap-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center flex items-center justify-center gap-3">
               <MessageSquareText className="h-9 w-9 text-blue-600" /> Get in Touch
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
               {/* Contact Information */}
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Details</h3>
-                <div className="space-y-6 text-gray-700">
+                <h3 className="text-2xl font-bold text-foreground mb-6">Our Details</h3>
+                <div className="space-y-6 text-foreground/80">
                   <div className="flex items-center space-x-4">
-                    <Mail className="h-6 w-6 text-gray-600" />
+                    <Mail className="h-6 w-6 text-muted-foreground" />
                     <div>
                       <p className="font-semibold">Email Us</p>
                       <p>support@e-store.com</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <Phone className="h-6 w-6 text-gray-600" />
+                    <Phone className="h-6 w-6 text-muted-foreground" />
                     <div>
                       <p className="font-semibold">Call Us</p>
                       <p>+1 (555) 123-4567</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
-                    <MapPin className="h-6 w-6 text-gray-600 flex-shrink-0 mt-1" />
+                    <MapPin className="h-6 w-6 text-muted-foreground flex-shrink-0 mt-1" />
                     <div>
                       <p className="font-semibold">Our Office</p>
                       <p>123 E-Store Avenue</p>
@@ -355,7 +355,7 @@ const ContactUs = () => {
 
           {/* FAQ Section */}
           <section id="faq" className="pt-16 md:pt-24">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center gap-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center flex items-center justify-center gap-3">
               <HelpCircle className="h-9 w-9 text-green-600" /> Frequently Asked Questions
             </h2>
             <div className="max-w-3xl mx-auto">
@@ -365,7 +365,7 @@ const ContactUs = () => {
                     <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-700">
+                    <AccordionContent className="text-muted-foreground">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>

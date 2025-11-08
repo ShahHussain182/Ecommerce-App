@@ -11,15 +11,15 @@ interface AuthLayoutProps {
 export const AuthLayout = ({ children, title, description }: AuthLayoutProps) => {
   return (
     <div className="min-h-screen w-full lg:grid lg:grid-cols-2">
-      <div className="hidden bg-gray-100 lg:flex items-center justify-center p-8 dark:bg-gray-800">
+      <div className="hidden bg-muted lg:flex items-center justify-center p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center"
         >
-          <Link to="/" className="text-4xl font-bold text-gray-900 dark:text-gray-50">E-Store</Link>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+          <Link to="/" className="text-4xl font-bold text-foreground">E-Store</Link>
+          <p className="mt-4 text-lg text-muted-foreground">
             Discover Your Next Favorite Thing.
           </p>
           <img
@@ -37,10 +37,10 @@ export const AuthLayout = ({ children, title, description }: AuthLayoutProps) =>
           className="w-full max-w-md space-y-8"
         >
           <div>
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">
               {title}
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <p className="mt-2 text-center text-sm text-muted-foreground">
               {description}
             </p>
           </div>

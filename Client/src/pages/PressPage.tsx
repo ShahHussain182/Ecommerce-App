@@ -72,7 +72,7 @@ const PressPage = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -91,7 +91,7 @@ const PressPage = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           {/* Press Releases Section */}
           <section className="mb-16 md:mb-24">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center gap-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center flex items-center justify-center gap-3">
               <Newspaper className="h-9 w-9 text-teal-600" /> Latest Press Releases
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -99,10 +99,10 @@ const PressPage = () => {
                 <Card key={release.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <CardHeader>
                     <CardTitle className="text-xl font-semibold">{release.title}</CardTitle>
-                    <p className="text-sm text-gray-500">{release.date}</p>
+                    <p className="text-sm text-muted-foreground">{release.date}</p>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-700 mb-4">{release.summary}</p>
+                    <p className="text-foreground/80 mb-4">{release.summary}</p>
                     <Button variant="link" asChild className="p-0 h-auto">
                       <a href={release.link} target="_blank" rel="noopener noreferrer">Read More &rarr;</a>
                     </Button>
@@ -113,18 +113,18 @@ const PressPage = () => {
           </section>
 
           {/* Media Kit Section */}
-          <section className="mb-16 md:mb-24 bg-gray-50 p-8 rounded-lg shadow-inner">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center gap-3">
+          <section className="mb-16 md:mb-24 bg-muted/50 p-8 rounded-lg shadow-inner">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center flex items-center justify-center gap-3">
               <Download className="h-9 w-9 text-cyan-600" /> Media Kit
             </h2>
             <div className="max-w-3xl mx-auto text-center space-y-6">
-              <p className="text-lg text-gray-700">
+              <p className="text-lg text-foreground/80">
                 Access our comprehensive media kit, including high-resolution logos, brand guidelines, and product images, to assist with your coverage.
               </p>
               <Button size="lg" asChild>
                 <a href="/E-Store_Media_Kit.zip" download>Download Media Kit</a>
               </Button>
-              <p className="text-sm text-gray-500 mt-4">
+              <p className="text-sm text-muted-foreground mt-4">
                 (File size: approx. 15MB)
               </p>
             </div>
@@ -132,7 +132,7 @@ const PressPage = () => {
 
           {/* Press Contact Section */}
           <section>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center flex items-center justify-center gap-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center flex items-center justify-center gap-3">
               <MessageSquareText className="h-9 w-9 text-purple-600" /> Press Inquiries
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
@@ -140,26 +140,26 @@ const PressPage = () => {
                 <Card className="p-6 shadow-lg">
                   <CardContent className="space-y-6">
                     <div className="flex items-center space-x-4">
-                      <Mail className="h-6 w-6 text-gray-600" />
+                      <Mail className="h-6 w-6 text-muted-foreground" />
                       <div>
                         <h3 className="font-semibold">Email Us</h3>
-                        <p className="text-gray-700">press@e-store.com</p>
+                        <p className="text-foreground/80">press@e-store.com</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <Phone className="h-6 w-6 text-gray-600" />
+                      <Phone className="h-6 w-6 text-muted-foreground" />
                       <div>
                         <h3 className="font-semibold">Call Us</h3>
-                        <p className="text-gray-700">+1 (555) 987-6543</p>
+                        <p className="text-foreground/80">+1 (555) 987-6543</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-4">
-                      <Newspaper className="h-6 w-6 text-gray-600 flex-shrink-0 mt-1" />
+                      <Newspaper className="h-6 w-6 text-muted-foreground flex-shrink-0 mt-1" />
                       <div>
                         <h3 className="font-semibold">Our Press Office</h3>
-                        <p className="text-gray-700">E-Store Media Relations</p>
-                        <p className="text-gray-700">456 Innovation Drive</p>
-                        <p className="text-gray-700">Tech City, CA 90210</p>
+                        <p className="text-foreground/80">E-Store Media Relations</p>
+                        <p className="text-foreground/80">456 Innovation Drive</p>
+                        <p className="text-foreground/80">Tech City, CA 90210</p>
                       </div>
                     </div>
                   </CardContent>

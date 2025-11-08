@@ -16,16 +16,16 @@ import {
 
 const ShippingReturnsPage = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-gray-100 py-20 md:py-24">
+        <section className="bg-muted/50 py-20 md:py-24">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-4">
               Shipping & Returns
             </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">
+            <p className="text-lg md:text-xl max-w-3xl mx-auto text-muted-foreground">
               Everything you need to know about our shipping process and how to make a return.
             </p>
           </div>
@@ -41,10 +41,10 @@ const ShippingReturnsPage = () => {
                   Shipping Policy
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6 text-gray-700">
+              <CardContent className="space-y-6 text-foreground/80">
                 <p>We are committed to getting your order to you as quickly and efficiently as possible. All orders are processed within <strong>1-2 business days</strong> (excluding weekends and holidays) after you receive your order confirmation email.</p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 pt-4">Domestic Shipping Rates & Estimates</h3>
+                <h3 className="text-xl font-semibold text-foreground pt-4">Domestic Shipping Rates & Estimates</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -72,7 +72,7 @@ const ShippingReturnsPage = () => {
                   </TableBody>
                 </Table>
 
-                <h3 className="text-xl font-semibold text-gray-900 pt-4">Order Tracking</h3>
+                <h3 className="text-xl font-semibold text-foreground pt-4">Order Tracking</h3>
                 <p>Once your order has shipped, you will receive an email notification from us which will include a tracking number you can use to check its status. Please allow 48 hours for the tracking information to become available.</p>
               </CardContent>
             </Card>
@@ -87,10 +87,10 @@ const ShippingReturnsPage = () => {
                   Return & Exchange Policy
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6 text-gray-700">
+              <CardContent className="space-y-6 text-foreground/80">
                 <p>We accept returns up to <strong>30 days</strong> after delivery, if the item is unused and in its original condition. We will refund the full order amount minus the shipping costs for the return.</p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 pt-4">How to Initiate a Return</h3>
+                <h3 className="text-xl font-semibold text-foreground pt-4">How to Initiate a Return</h3>
                 <ol className="list-decimal list-inside space-y-2">
                   <li>Visit our online return portal or reply to your order confirmation email to request a return.</li>
                   <li>Provide your order number and the reason for the return.</li>
@@ -98,10 +98,10 @@ const ShippingReturnsPage = () => {
                   <li>Pack the item securely and send it back to us.</li>
                 </ol>
 
-                <h3 className="text-xl font-semibold text-gray-900 pt-4">Refunds</h3>
+                <h3 className="text-xl font-semibold text-foreground pt-4">Refunds</h3>
                 <p>Once we receive and inspect your returned item, we will process your refund. The money will be refunded to the original payment method you’ve used during the purchase. Please allow 5-7 business days for the refund to appear in your account.</p>
                 
-                <h3 className="text-xl font-semibold text-gray-900 pt-4">Damaged Items</h3>
+                <h3 className="text-xl font-semibold text-foreground pt-4">Damaged Items</h3>
                 <p>In the event that your order arrives damaged in any way, please email us as soon as possible at <a href="mailto:support@e-store.com" className="text-blue-600 hover:underline">support@e-store.com</a> with your order number and a photo of the item’s condition. We address these on a case-by-case basis but will try our best to work towards a satisfactory solution.</p>
               </CardContent>
             </Card>

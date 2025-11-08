@@ -146,11 +146,11 @@ const CheckoutPage = () => {
 
   if (isCartLoading || !cart || cart.items.length === 0) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="ml-4 text-lg text-gray-700">Loading cart...</p>
+          <p className="ml-4 text-lg text-muted-foreground">Loading cart...</p>
         </main>
         <Footer />
       </div>
@@ -291,7 +291,7 @@ const CheckoutPage = () => {
                 </FormItem>
               )}
             />
-            <p className="text-sm text-gray-500 mt-4">
+            <p className="text-sm text-muted-foreground mt-4">
               Note: This is a mock payment integration. No real transactions will occur.
             </p>
           </CardContent>
@@ -356,7 +356,7 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-muted/50">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Checkout</h1>
@@ -367,20 +367,20 @@ const CheckoutPage = () => {
             <Card className="p-6">
               <CardTitle className="mb-4">Progress</CardTitle>
               <ul className="space-y-4">
-                <li className={cn("flex items-center gap-3", currentStep >= 1 ? "text-primary" : "text-gray-500")}>
-                  <div className={cn("h-8 w-8 rounded-full flex items-center justify-center", currentStep >= 1 ? "bg-primary text-primary-foreground" : "bg-gray-200")}>
+                <li className={cn("flex items-center gap-3", currentStep >= 1 ? "text-primary" : "text-muted-foreground")}>
+                  <div className={cn("h-8 w-8 rounded-full flex items-center justify-center", currentStep >= 1 ? "bg-primary text-primary-foreground" : "bg-muted")}>
                     {currentStep > 1 ? <CheckCircle2 className="h-4 w-4" /> : 1}
                   </div>
                   <span className="font-medium">Shipping Address</span>
                 </li>
-                <li className={cn("flex items-center gap-3", currentStep >= 2 ? "text-primary" : "text-gray-500")}>
-                  <div className={cn("h-8 w-8 rounded-full flex items-center justify-center", currentStep >= 2 ? "bg-primary text-primary-foreground" : "bg-gray-200")}>
+                <li className={cn("flex items-center gap-3", currentStep >= 2 ? "text-primary" : "text-muted-foreground")}>
+                  <div className={cn("h-8 w-8 rounded-full flex items-center justify-center", currentStep >= 2 ? "bg-primary text-primary-foreground" : "bg-muted")}>
                     {currentStep > 2 ? <CheckCircle2 className="h-4 w-4" /> : 2}
                   </div>
                   <span className="font-medium">Payment Method</span>
                 </li>
-                <li className={cn("flex items-center gap-3", currentStep >= 3 ? "text-primary" : "text-gray-500")}>
-                  <div className="h-8 w-8 rounded-full flex items-center justify-center bg-gray-200">
+                <li className={cn("flex items-center gap-3", currentStep >= 3 ? "text-primary" : "text-muted-foreground")}>
+                  <div className={cn("h-8 w-8 rounded-full flex items-center justify-center", currentStep >= 3 ? "bg-primary text-primary-foreground" : "bg-muted")}>
                     {currentStep > 3 ? <CheckCircle2 className="h-4 w-4" /> : 3}
                   </div>
                   <span className="font-medium">Review & Place Order</span>

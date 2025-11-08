@@ -74,7 +74,7 @@ const OrderConfirmationPage = () => {
 
   if (!orderId) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <Alert variant="destructive">
@@ -90,11 +90,11 @@ const OrderConfirmationPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="ml-4 text-lg text-gray-700">Loading order details...</p>
+          <p className="ml-4 text-lg text-muted-foreground">Loading order details...</p>
         </main>
         <Footer />
       </div>
@@ -103,7 +103,7 @@ const OrderConfirmationPage = () => {
 
   if (isError || !order) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <Alert variant="destructive">
@@ -125,7 +125,7 @@ const OrderConfirmationPage = () => {
   const canCancel = order.status === 'Pending';
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-muted/50">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-3xl mx-auto text-center">
@@ -137,7 +137,7 @@ const OrderConfirmationPage = () => {
           <h1 className="text-4xl font-bold mb-4">
             {order.status === 'Cancelled' ? 'Order Cancelled' : 'Order Confirmed!'}
           </h1>
-          <p className="text-lg text-gray-700 mb-8">
+          <p className="text-lg text-muted-foreground mb-8">
             {order.status === 'Cancelled'
               ? `Your order #${order.orderNumber} has been cancelled.`
               : `Thank you for your purchase. Your order #${order.orderNumber} has been placed successfully.`}

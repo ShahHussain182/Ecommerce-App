@@ -17,12 +17,12 @@ const CartPage = () => {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col items-center justify-center">
-          <ShoppingCart className="h-24 w-24 text-gray-300 mb-6" />
+          <ShoppingCart className="h-24 w-24 text-muted-foreground/50 mb-6" />
           <h2 className="text-3xl font-bold mb-4">Your cart is empty</h2>
-          <p className="text-gray-600 mb-8">Looks like you haven't added anything to your cart yet.</p>
+          <p className="text-muted-foreground mb-8">Looks like you haven't added anything to your cart yet.</p>
           <Button asChild>
             <Link to="/products">Continue Shopping</Link>
           </Button>
@@ -33,7 +33,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Your Shopping Cart</h1>
@@ -53,7 +53,7 @@ const CartPage = () => {
                   <Link to={`/product/${item.productId._id}`}>
                     <CardTitle className="text-lg font-semibold hover:text-primary">{item.nameAtTime}</CardTitle>
                   </Link>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     {item.sizeAtTime} / {item.colorAtTime}
                   </p>
                   <p className="text-md font-medium mt-1">${item.priceAtTime.toFixed(2)}</p>
@@ -110,7 +110,7 @@ const CartPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
-                  <p className="text-gray-700">Subtotal ({cart?.totalItems || 0} items)</p>
+                  <p className="text-muted-foreground">Subtotal ({cart?.totalItems || 0} items)</p>
                   <p className="font-semibold">${cart?.subtotal.toFixed(2)}</p>
                 </div>
                 <Separator />

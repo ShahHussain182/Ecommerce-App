@@ -7,7 +7,7 @@ const sectionVariants: Variants = { hidden: { opacity: 0, y: 20 }, visible: { op
 
 const PrivacyPolicyPage = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -41,11 +41,11 @@ const PrivacyPolicyPage = () => {
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 space-y-12">
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0  }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">1. Introduction</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">1. Introduction</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>Welcome to E-Store! This Privacy Policy describes how E-Store ("we," "us," or "our") collects, uses, and shares your personal information when you visit or make a purchase from our website (the "Site") or use our services.</p>
                 <p>We are committed to protecting your privacy and handling your data in an open and transparent manner. By using our Service, you agree to the collection and use of information in accordance with this policy.</p>
               </CardContent>
@@ -53,13 +53,13 @@ const PrivacyPolicyPage = () => {
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">2. Information We Collect</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">2. Information We Collect</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>We collect several types of information for various purposes to provide and improve our Service to you.</p>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-50">Personal Data</h3>
+                <h3 className="text-xl font-semibold text-foreground">Personal Data</h3>
                 <p>While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you ("Personal Data"). Personally identifiable information may include, but is not limited to:</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li>Email address</li>
@@ -68,18 +68,18 @@ const PrivacyPolicyPage = () => {
                   <li>Address, State, Province, ZIP/Postal code, City</li>
                   <li>Cookies and Usage Data</li>
                 </ul>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-50">Usage Data</h3>
+                <h3 className="text-xl font-semibold text-foreground">Usage Data</h3>
                 <p>We may also collect information how the Service is accessed and used ("Usage Data"). This Usage Data may include information such as your computer's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
               </CardContent>
             </Card>
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">3. How We Use Your Information</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">3. How We Use Your Information</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>E-Store uses the collected data for various purposes:</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li>To provide and maintain our Service</li>
@@ -96,11 +96,11 @@ const PrivacyPolicyPage = () => {
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">4. How We Share Your Information</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">4. How We Share Your Information</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>We may share your personal information in the following situations:</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li><strong>With Service Providers:</strong> We may share your personal information with service providers to monitor and analyze the use of our Service, to contact you.</li>
@@ -114,11 +114,11 @@ const PrivacyPolicyPage = () => {
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay:0.4 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">5. Your Choices and Rights</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">5. Your Choices and Rights</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>You have certain rights regarding your personal information, including:</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li>The right to access, update or delete the information we have on you.</li>
@@ -133,22 +133,22 @@ const PrivacyPolicyPage = () => {
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay:0.5 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">6. Data Security</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">6. Data Security</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
               </CardContent>
             </Card>
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">7. Children's Privacy</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">7. Children's Privacy</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>Our Service does not address anyone under the age of 18 ("Children").</p>
                 <p>We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Children has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers.</p>
               </CardContent>
@@ -156,11 +156,11 @@ const PrivacyPolicyPage = () => {
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.7 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">8. Changes to This Policy</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">8. Changes to This Policy</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
                 <p>We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the "effective date" at the top of this Privacy Policy.</p>
                 <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
@@ -169,11 +169,11 @@ const PrivacyPolicyPage = () => {
           </motion.section>
 
           <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.8 }}>
-            <Card className="shadow-lg border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+            <Card className="shadow-lg border bg-card">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">9. Contact Us</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">9. Contact Us</CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-700 dark:text-gray-300 space-y-4">
+              <CardContent className="text-muted-foreground space-y-4">
                 <p>If you have any questions about this Privacy Policy, please contact us:</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li>By email: <a href="mailto:privacy@e-store.com" className="text-blue-600 hover:underline">privacy@e-store.com</a></li>

@@ -30,7 +30,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -47,14 +47,14 @@ const AboutUs = () => {
         </section>
 
         {/* Our Story Section */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section className="py-16 md:py-24 bg-muted/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Story</h2>
+              <p className="text-lg text-foreground/80 leading-relaxed">
                 Founded in 2023, E-Store began with a simple vision: to create an online shopping experience that combines convenience, quality, and customer satisfaction. We noticed a gap in the market for a platform that truly prioritizes the customer, offering a curated selection of products that meet high standards of excellence.
               </p>
-              <p className="mt-4 text-lg text-gray-700 leading-relaxed">
+              <p className="mt-4 text-lg text-foreground/80 leading-relaxed">
                 From humble beginnings, we've grown into a thriving community of shoppers and innovators. Every product in our catalog is hand-picked, and every customer interaction is an opportunity to build lasting relationships. We believe in transparency, integrity, and continuously striving to exceed expectations.
               </p>
             </div>
@@ -64,7 +64,7 @@ const AboutUs = () => {
         {/* Our Mission & Vision Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">Our Mission & Vision</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">Our Mission & Vision</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
               <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="flex flex-col items-center pb-4">
@@ -72,7 +72,7 @@ const AboutUs = () => {
                   <CardTitle className="text-xl font-semibold">Our Mission</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     To empower individuals to discover and acquire high-quality products that enhance their daily lives, delivered with unparalleled convenience and exceptional customer care.
                   </p>
                 </CardContent>
@@ -83,7 +83,7 @@ const AboutUs = () => {
                   <CardTitle className="text-xl font-semibold">Our Vision</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     To be the leading online destination for curated products, recognized for our commitment to quality, innovation, and fostering a trusted community of shoppers.
                   </p>
                 </CardContent>
@@ -93,9 +93,9 @@ const AboutUs = () => {
         </section>
 
         {/* Our Values Section */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section className="py-16 md:py-24 bg-muted/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">Our Values</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">Our Values</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="text-center p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="flex flex-col items-center pb-4">
@@ -103,7 +103,7 @@ const AboutUs = () => {
                   <CardTitle className="text-xl font-semibold">Innovation</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     We constantly seek new ways to improve our products and services, embracing creativity and forward-thinking solutions.
                   </p>
                 </CardContent>
@@ -114,7 +114,7 @@ const AboutUs = () => {
                   <CardTitle className="text-xl font-semibold">Integrity</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     We operate with honesty and transparency, building trust with our customers and partners in every interaction.
                   </p>
                 </CardContent>
@@ -125,7 +125,7 @@ const AboutUs = () => {
                   <CardTitle className="text-xl font-semibold">Customer Focus</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">
+                  <p className="text-muted-foreground">
                     Our customers are at the heart of everything we do. We are dedicated to providing exceptional service and satisfaction.
                   </p>
                 </CardContent>
@@ -137,7 +137,7 @@ const AboutUs = () => {
         {/* Meet Our Team Section */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">Meet Our Team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">Meet Our Team</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {teamMembers.map((member, index) => (
                 <Card key={index} className="text-center p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -150,7 +150,7 @@ const AboutUs = () => {
                     <p className="text-sm text-blue-600 font-medium">{member.title}</p>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-600">{member.description}</p>
+                    <p className="text-muted-foreground">{member.description}</p>
                   </CardContent>
                 </Card>
               ))}

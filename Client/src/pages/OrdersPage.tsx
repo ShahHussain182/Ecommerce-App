@@ -15,7 +15,7 @@ const OrdersPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h1 className="text-4xl font-bold mb-8 text-center">My Orders</h1>
@@ -36,7 +36,7 @@ const OrdersPage = () => {
 
   if (isError) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <Alert variant="destructive">
@@ -57,12 +57,12 @@ const OrdersPage = () => {
 
   if (!orders || orders.length === 0) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col items-center justify-center">
-          <ShoppingBag className="h-24 w-24 text-gray-300 mb-6" />
+          <ShoppingBag className="h-24 w-24 text-muted-foreground/50 mb-6" />
           <h2 className="text-3xl font-bold mb-4">No orders found</h2>
-          <p className="text-gray-600 mb-8">It looks like you haven't placed any orders yet.</p>
+          <p className="text-muted-foreground mb-8">It looks like you haven't placed any orders yet.</p>
           <Button asChild>
             <Link to="/products">Start Shopping</Link>
           </Button>
@@ -73,7 +73,7 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-muted/50">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">My Orders</h1>
@@ -85,18 +85,18 @@ const OrdersPage = () => {
                 <CardTitle className="text-xl font-semibold flex items-center gap-2">
                   <Package className="h-6 w-6 text-primary" /> Order #{order.orderNumber} {/* Display sequential order number */}
                 </CardTitle>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-muted-foreground">
                   Placed on: {new Date(order.createdAt).toLocaleDateString()}
                 </div>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-gray-600">Total Amount:</p>
+                    <p className="text-muted-foreground">Total Amount:</p>
                     <p className="font-medium text-lg">${order.totalAmount.toFixed(2)}</p>
                   </div>
                   <div>
-                    <p className="text-gray-600">Status:</p>
+                    <p className="text-muted-foreground">Status:</p>
                     <p className="font-medium text-lg capitalize">{order.status}</p>
                   </div>
                 </div>

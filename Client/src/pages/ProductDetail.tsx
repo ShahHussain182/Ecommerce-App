@@ -155,7 +155,7 @@ const ProductDetail = () => {
   };
   if (isLoading || (!product && !isError)) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow">
           <ProductDetailSkeleton />
@@ -167,7 +167,7 @@ const ProductDetail = () => {
 
   if (isError || !product) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Alert variant="destructive">
@@ -193,7 +193,7 @@ const ProductDetail = () => {
 
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       {!isMobile && (
         <StickyAddToCartBar
@@ -265,7 +265,7 @@ const ProductDetail = () => {
               </Dialog>
               <div className="grid grid-cols-5 gap-4 mt-4">
                 {product.imageUrls.map((img, index) => (
-                  <button key={index} onClick={() => setSelectedImageIndex(index)} className={`rounded-lg overflow-hidden border-2 transition-colors ${selectedImageIndex === index ? 'border-primary' : 'border-transparent hover:border-gray-300'}`}>
+                  <button key={index} onClick={() => setSelectedImageIndex(index)} className={`rounded-lg overflow-hidden border-2 transition-colors ${selectedImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'}`}>
                     <img src={product.imageRenditions[index]?.thumbnail || img} alt={`${product.name} thumbnail ${index + 1}`} className="w-full h-auto aspect-square object-cover" />
                   </button>
                 ))}
@@ -283,7 +283,7 @@ const ProductDetail = () => {
                         key={i}
                         className={cn(
                           "h-5 w-5",
-                          i < Math.round(product.averageRating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                          i < Math.round(product.averageRating) ? "fill-yellow-400 text-yellow-400" : "text-muted"
                         )}
                       />
                     ))}
@@ -327,7 +327,7 @@ const ProductDetail = () => {
                   disabled={!isAuthenticated || isWishlistActionPending || !selectedVariant}
                   className={cn(
                     "h-12 w-12",
-                    isInWishlistForRender ? "text-red-500 border-red-500 hover:bg-red-50 hover:text-red-600" : "text-gray-500 hover:bg-gray-50 hover:text-gray-600"
+                    isInWishlistForRender ? "text-red-500 border-red-500 hover:bg-red-500/10 hover:text-red-600" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   )}
                 >
                   <Heart className={cn("h-6 w-6", isInWishlistForRender && "fill-red-500")} />

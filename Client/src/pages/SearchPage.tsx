@@ -94,12 +94,12 @@ const SearchPage = () => {
 
   if (!filters.searchTerm) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <SearchX className="mx-auto h-24 w-24 text-gray-300 mb-6" />
+          <SearchX className="mx-auto h-24 w-24 text-muted-foreground/50 mb-6" />
           <h2 className="text-3xl font-bold mb-4">What are you looking for?</h2>
-          <p className="text-gray-600 mb-8">Enter a search term to find products.</p>
+          <p className="text-muted-foreground mb-8">Enter a search term to find products.</p>
         </main>
         <Footer />
       </div>
@@ -107,13 +107,13 @@ const SearchPage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold">Search Results for "{filters.searchTerm}"</h1>
-            <p className="text-gray-600 mt-2">Found {totalProducts} products.</p>
+            <p className="text-muted-foreground mt-2">Found {totalProducts} products.</p>
           </div>
 
           {isMobile ? (
@@ -163,7 +163,7 @@ const SearchPage = () => {
               <ResizablePanel defaultSize={75}>
                 <div className="p-6 h-full overflow-y-auto">
                   <div className="flex justify-between items-center mb-6">
-                    <p className="text-sm text-gray-600">Showing {totalProducts} products</p>
+                    <p className="text-sm text-muted-foreground">Showing {totalProducts} products</p>
                     <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange({ sortBy: value as FilterState['sortBy'] })}>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Sort by" />
