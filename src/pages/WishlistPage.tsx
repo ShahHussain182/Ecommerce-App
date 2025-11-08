@@ -51,11 +51,11 @@ const WishlistPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex items-center justify-center">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="ml-4 text-lg text-gray-700">Loading wishlist...</p>
+          <p className="ml-4 text-lg text-muted-foreground">Loading wishlist...</p>
         </main>
         <Footer />
       </div>
@@ -64,12 +64,12 @@ const WishlistPage = () => {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col min-h-screen bg-white">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col items-center justify-center">
-          <HeartCrack className="h-24 w-24 text-gray-300 mb-6" />
+          <HeartCrack className="h-24 w-24 text-muted-foreground/50 mb-6" />
           <h2 className="text-3xl font-bold mb-4">Your wishlist is empty</h2>
-          <p className="text-gray-600 mb-8">Looks like you haven't added any items to your wishlist yet.</p>
+          <p className="text-muted-foreground mb-8">Looks like you haven't added any items to your wishlist yet.</p>
           <Button asChild>
             <Link to="/products">Continue Shopping</Link>
           </Button>
@@ -82,7 +82,7 @@ const WishlistPage = () => {
   const isAnyWishlistMutationPending = removeWishlistItemMutation.isPending || clearWishlistMutation.isPending;
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">My Wishlist</h1>
@@ -108,7 +108,7 @@ const WishlistPage = () => {
                     <Link to={`/product/${product._id}`}>
                       <CardTitle className="text-lg font-semibold hover:text-primary">{item.nameAtTime}</CardTitle>
                     </Link>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       {item.sizeAtTime} / {item.colorAtTime}
                     </p>
                     <div className="flex items-baseline gap-2 mt-1">
@@ -152,11 +152,11 @@ const WishlistPage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
-                  <p className="text-gray-700">Total Items</p>
+                  <p className="text-muted-foreground">Total Items</p>
                   <p className="font-semibold">{wishlist?.totalItems || 0}</p>
                 </div>
                 <Separator />
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   Items in your wishlist are saved for later. Prices and availability may change.
                 </p>
               </CardContent>

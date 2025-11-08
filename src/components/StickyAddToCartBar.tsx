@@ -24,7 +24,7 @@ export const StickyAddToCartBar = ({
   return (
     <div
       className={cn(
-        "fixed top-16 left-0 right-0 bg-white/95 backdrop-blur-sm border-b shadow-md z-40 transition-transform duration-300 ease-in-out",
+        "fixed top-16 left-0 right-0 bg-background/95 backdrop-blur-sm border-b shadow-md z-40 transition-transform duration-300 ease-in-out",
         isVisible ? "translate-y-0" : "-translate-y-full"
       )}
     >
@@ -35,7 +35,7 @@ export const StickyAddToCartBar = ({
             <div>
               <h3 className="font-semibold text-lg">{product.name}</h3>
               {selectedVariant && (
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   ${selectedVariant.price.toFixed(2)}
                 </p>
               )}

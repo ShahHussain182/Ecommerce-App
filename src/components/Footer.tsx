@@ -9,31 +9,31 @@ export const Footer = () => {
   const displayedCategories = categories?.slice(0, 5) || [];
 
   const linkVariants = {
-    initial: { x: 0, color: "hsl(var(--gray-600))", backgroundColor: "transparent", transition: { duration: 0.2 } },
+    initial: { x: 0, color: "hsl(var(--muted-foreground))", backgroundColor: "transparent", transition: { duration: 0.2 } },
     hover: { x: 8, color: "hsl(var(--primary))", backgroundColor: "hsl(var(--accent))", transition: { duration: 0.2 } },
   };
 
   return (
-    <footer className="bg-gray-100 dark:bg-gray-900 py-12 border-t border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200">
+    <footer className="bg-muted/50 py-12 border-t text-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Company Info */}
         <div>
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-4">E-Store</h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+          <h3 className="text-2xl font-bold text-foreground mb-4">E-Store</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed">
             Your one-stop shop for the latest electronics, trendy clothing, home essentials, and captivating books.
             Discover quality products and exceptional service.
           </p>
           <div className="flex space-x-4 mt-6">
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <a href="#" className="text-muted-foreground hover:text-blue-600 transition-colors">
               <Facebook size={20} />
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
+            <a href="#" className="text-muted-foreground hover:text-pink-600 transition-colors">
               <Instagram size={20} />
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300 transition-colors">
+            <a href="#" className="text-muted-foreground hover:text-blue-400 transition-colors">
               <Twitter size={20} />
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+            <a href="#" className="text-muted-foreground hover:text-red-600 transition-colors">
               <Youtube size={20} />
             </a>
           </div>
@@ -41,31 +41,31 @@ export const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h4 className="font-semibold text-gray-900 dark:text-gray-50">Quick Links</h4>
+          <h4 className="font-semibold text-foreground">Quick Links</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Home</Link>
+                <Link to="/" className="block px-2 py-1 text-muted-foreground transition-colors">Home</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/about" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">About Us</Link>
+                <Link to="/about" className="block px-2 py-1 text-muted-foreground transition-colors">About Us</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/contact" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Contact Us</Link>
+                <Link to="/contact" className="block px-2 py-1 text-muted-foreground transition-colors">Contact Us</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/cart" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Cart</Link>
+                <Link to="/cart" className="block px-2 py-1 text-muted-foreground transition-colors">Cart</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/profile" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">My Account</Link>
+                <Link to="/profile" className="block px-2 py-1 text-muted-foreground transition-colors">My Account</Link>
               </motion.div>
             </li>
           </ul>
@@ -73,16 +73,16 @@ export const Footer = () => {
 
         {/* Shop Categories */}
         <div>
-          <h4 className="font-semibold text-gray-900 dark:text-gray-50">Shop</h4>
+          <h4 className="font-semibold text-foreground">Shop</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/products" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">All Products</Link>
+                <Link to="/products" className="block px-2 py-1 text-muted-foreground transition-colors">All Products</Link>
               </motion.div>
             </li>
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
-                <li key={i}><Skeleton className="h-4 w-24 bg-gray-200 dark:bg-gray-700" /></li>
+                <li key={i}><Skeleton className="h-4 w-24 bg-muted" /></li>
               ))
             ) : isError ? (
               <li><span className="text-destructive">Error loading categories</span></li>
@@ -90,7 +90,7 @@ export const Footer = () => {
               displayedCategories.map((category) => (
                 <li key={category._id}>
                   <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">
+                    <Link to={`/products?category=${encodeURIComponent(category.name)}`} className="block px-2 py-1 text-muted-foreground transition-colors">
                       {category.name}
                     </Link>
                   </motion.div>
@@ -100,7 +100,7 @@ export const Footer = () => {
             {categories && categories.length > 5 && (
               <li>
                 <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                  <Link to="/products" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">
+                  <Link to="/products" className="block px-2 py-1 text-muted-foreground transition-colors">
                     More Categories...
                   </Link>
                 </motion.div>
@@ -111,37 +111,37 @@ export const Footer = () => {
 
         {/* Customer Service */}
         <div>
-          <h4 className="font-semibold text-gray-900 dark:text-gray-50">Customer Service</h4>
+          <h4 className="font-semibold text-foreground">Customer Service</h4>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/contact#faq" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">FAQ</Link>
+                <Link to="/contact#faq" className="block px-2 py-1 text-muted-foreground transition-colors">FAQ</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/shipping-returns" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Shipping & Returns</Link>
+                <Link to="/shipping-returns" className="block px-2 py-1 text-muted-foreground transition-colors">Shipping & Returns</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/press" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Press</Link>
+                <Link to="/press" className="block px-2 py-1 text-muted-foreground transition-colors">Press</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/privacy-policy" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Privacy Policy</Link>
+                <Link to="/privacy-policy" className="block px-2 py-1 text-muted-foreground transition-colors">Privacy Policy</Link>
               </motion.div>
             </li>
             <li>
               <motion.div whileHover="hover" initial="initial" variants={linkVariants} className="inline-block rounded-md">
-                <Link to="/terms-of-service" className="block px-2 py-1 text-gray-600 dark:text-gray-400 transition-colors">Terms of Service</Link>
+                <Link to="/terms-of-service" className="block px-2 py-1 text-muted-foreground transition-colors">Terms of Service</Link>
               </motion.div>
             </li>
           </ul>
         </div>
       </div>
-      <div className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+      <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
         &copy; {new Date().getFullYear()} E-Store. All rights reserved.
       </div>
     </footer>

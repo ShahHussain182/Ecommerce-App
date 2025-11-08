@@ -9,48 +9,48 @@ const itemVariants = {
 
 export const ValueProposition = () => {
   return (
-    <section className="py-16 bg-blue-50 dark:bg-gray-800"> {/* Added a light background color */}
+    <section className="py-16 bg-muted/50"> {/* Added a light background color */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
-          className="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-gray-50"
+          className="text-3xl font-bold text-center mb-10 text-foreground"
         >
           Why Choose E-Store?
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <motion.div variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
-            <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-blue-200 dark:border-blue-700 bg-card dark:bg-gray-700">
+            <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-blue-200 dark:border-blue-900 bg-card">
               <CardHeader className="flex flex-col items-center pb-4">
                 <Truck className="h-12 w-12 text-blue-600 dark:text-blue-400 mb-4" />
-                <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50">Fast & Free Shipping</CardTitle>
+                <CardTitle className="text-xl font-semibold text-foreground">Fast & Free Shipping</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 dark:text-gray-300">Enjoy swift delivery on all orders, with no hidden costs.</p>
+                <p className="text-muted-foreground">Enjoy swift delivery on all orders, with no hidden costs.</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.1 }}>
-            <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-green-200 dark:border-green-700 bg-card dark:bg-gray-700">
+            <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-green-200 dark:border-green-900 bg-card">
               <CardHeader className="flex flex-col items-center pb-4">
                 <ShieldCheck className="h-12 w-12 text-green-600 dark:text-green-400 mb-4" />
-                <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50">Quality Guarantee</CardTitle>
+                <CardTitle className="text-xl font-semibold text-foreground">Quality Guarantee</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 dark:text-gray-300">We stand by the quality of our products with a satisfaction guarantee.</p>
+                <p className="text-muted-foreground">We stand by the quality of our products with a satisfaction guarantee.</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} transition={{ delay: 0.2 }}>
-            <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-purple-200 dark:border-purple-700 bg-card dark:bg-gray-700">
+            <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-purple-200 dark:border-purple-900 bg-card">
               <CardHeader className="flex flex-col items-center pb-4">
                 <Headphones className="h-12 w-12 text-purple-600 dark:text-purple-400 mb-4" />
-                <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50">24/7 Customer Support</CardTitle>
+                <CardTitle className="text-xl font-semibold text-foreground">24/7 Customer Support</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 dark:text-gray-300">Our dedicated team is always here to assist you, day or night.</p>
+                <p className="text-muted-foreground">Our dedicated team is always here to assist you, day or night.</p>
               </CardContent>
             </Card>
           </motion.div>

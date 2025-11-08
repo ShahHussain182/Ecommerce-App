@@ -43,40 +43,40 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-muted/50">
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
     
         <div className="max-w-2xl mx-auto">
           <Card className="shadow-lg">
             <CardHeader className="text-center">
-              <div className="inline-block bg-gray-100 p-4 rounded-full mx-auto mb-4">
-                <User className="h-16 w-16 text-gray-600" />
+              <div className="inline-block bg-muted p-4 rounded-full mx-auto mb-4">
+                <User className="h-16 w-16 text-muted-foreground" />
               </div>
               <CardTitle className="text-3xl font-bold">{user.userName}</CardTitle>
               <CardDescription>Your personal account details.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4 p-4 border rounded-md">
-                <Mail className="h-5 w-5 text-gray-500" />
+                <Mail className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-gray-500">Email</p>
+                  <p className="text-sm text-muted-foreground">Email</p>
                   <p className="font-medium">{user.email}</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4 p-4 border rounded-md">
-                <Phone className="h-5 w-5 text-gray-500" />
+                <Phone className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-gray-500">Phone Number</p>
+                  <p className="text-sm text-muted-foreground">Phone Number</p>
                   <p className="font-medium">{user.phoneNumber}</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4 p-4 border rounded-md">
-                <Calendar className="h-5 w-5 text-gray-500" />
+                <Calendar className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-gray-500">Last Login</p>
+                  <p className="text-sm text-muted-foreground">Last Login</p>
                   <p className="font-medium">{new Date(user.lastLogin).toLocaleString()}</p>
                 </div>
               </div>

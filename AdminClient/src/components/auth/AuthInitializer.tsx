@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/authStore';
 import { authService } from '@/services/authService';
@@ -14,33 +14,67 @@ interface AuthInitializerProps {
 export function AuthInitializer({ children }: AuthInitializerProps) {
   const { setUser, logout, isAuthenticated, user } = useAuthStore();
   const [isInitialCheckComplete, setIsInitialCheckComplete] = useState(false);
+  const refreshingRef = useRef(false);
 
-  // Always run checkAuth on component mount to verify the session with the backend.
-  // The persisted 'isAuthenticated' state is treated as a hint, but not a definitive truth.
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError: isAuthQueryError, error: authQueryError, refetch: refetchAuthStatus } = useQuery({
     queryKey: ['checkAuth'],
     queryFn: authService.checkAuth,
-    enabled: true, // ALWAYS run this on mount to validate the session
+    enabled: true,
     retry: false,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   useEffect(() => {
-    if (!isLoading) {
-      if (data?.success && data.user) {
-        // Check for admin role
-        if (data.user.role === 'admin') {
-          setUser(data.user);
-        } else {
-          // If not admin, log out and redirect
-          logout();
-          // No toast here, as it might be triggered by the login page already
-        }
-      } else if (isError) {
-        logout(); // Server check failed, log out
+    if (isLoading) return;
+
+    if (data?.success && data.user) {
+      if (data.user.role === 'admin') {
+        setUser(data.user);
+      } else {
+        logout();
       }
       setIsInitialCheckComplete(true);
+    } else if (isAuthQueryError) {
+      // Extract message safely
+      const msg =
+        (authQueryError as any)?.response?.data?.message ||
+        (authQueryError as any)?.message ||
+        '';
+
+      const looksLikeExpired =
+        typeof msg === 'string' &&
+        (msg.toLowerCase().includes('access token expired') ||
+          msg.toLowerCase().includes('token expired') ||
+          msg.toLowerCase().includes('jwt expired') ||
+          msg.toLowerCase().includes('expired token'));
+
+      if (looksLikeExpired && !refreshingRef.current) {
+        refreshingRef.current = true;
+        authService.refreshToken()
+          .then((refreshed) => {
+            if (refreshed.success) {
+              refetchAuthStatus();
+            } else {
+              logout();
+              setIsInitialCheckComplete(true);
+            }
+          })
+          .catch((err) => {
+            console.warn('[AuthInitializer] refresh failed', err);
+            logout();
+            setIsInitialCheckComplete(true);
+          })
+          .finally(() => {
+            refreshingRef.current = false;
+          });
+      } else {
+        // Not expired or already refreshing: logout and complete
+        logout();
+        setIsInitialCheckComplete(true);
+      }
     }
-  }, [isLoading, data, isError, setUser, logout]);
+  }, [isLoading, data, isAuthQueryError, authQueryError, setUser, logout, refetchAuthStatus, isAuthenticated]);
 
   if (!isInitialCheckComplete || isLoading) {
     return (
@@ -50,8 +84,6 @@ export function AuthInitializer({ children }: AuthInitializerProps) {
     );
   }
 
-  // After initial check, if not authenticated or not admin, redirect to login
-  // isAuthenticated and user?.role are now guaranteed to be in sync with the backend check
   if (!isAuthenticated || user?.role !== 'admin') {
     return <Navigate to="/login" replace />;
   }

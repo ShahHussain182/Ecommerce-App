@@ -1,5 +1,6 @@
 import { Worker } from 'bullmq';
 import sharp from 'sharp';
+import axios from 'axios';
 
 
 import s3Client from '../Utils/s3Client.js';
@@ -10,9 +11,35 @@ import { productIndex } from '../Utils/meilisearchClient.js';
 
 const S3_BUCKET_NAME = process.env.MINIO_BUCKET_NAME || "e-store-images";
 const MINIO_URL = process.env.MINIO_URL || "http://localhost:9000";
-
-
-
+const API_URL = process.env.INTERNAL_API_URL || 'http://localhost:3001';
+const WORKER_SECRET = process.env.WORKER_SECRET || 'dev-worker-secret-change-me';
+const internalApi = axios.create({
+  baseURL: API_URL,
+  timeout: 5000, // 5s
+  headers: {
+    'x-worker-secret': WORKER_SECRET,
+    'Content-Type': 'application/json',
+  },
+});
+async function notifyInternal(payload) {
+  try {
+    console.log('[ImageWorker] -> notifyInternal :', API_URL, 'payload summary:', JSON.stringify(payload).slice(0, 1000));
+    const resp = await internalApi.post('/internal/notify-product', payload);
+    console.log('[ImageWorker] <- notifyInternal success:', resp.status, JSON.stringify(resp.data).slice(0, 1000));
+    return { ok: true, status: resp.status, data: resp.data };
+  } catch (notifyErr) {
+    // full details for debugging
+    if (notifyErr?.response) {
+      console.warn('[ImageWorker] notify failed - response status:', notifyErr.response.status);
+      console.warn('[ImageWorker] notify failed - response data:', JSON.stringify(notifyErr.response.data).slice(0,2000));
+    } else if (notifyErr?.request) {
+      console.warn('[ImageWorker] notify failed - no response, request details:', notifyErr.message);
+    } else {
+      console.warn('[ImageWorker] notify failed - error:', notifyErr.message || notifyErr);
+    }
+    return { ok: false, error: notifyErr };
+  }
+}
 // Helper to download file from S3
 const downloadFileFromS3 = async (key) => {
   try {
@@ -211,7 +238,19 @@ export function createImageProcessingWorker(connection) {
       await product.save();
       console.log(`[ImageWorker] Product ${productId} updated at index=${targetIndex}. imageUrls.len=${product.imageUrls.length} imageRenditions.len=${product.imageRenditions.length}`);
       console.log(`[ImageWorker] Updated rendition at index ${targetIndex}: ${JSON.stringify(updatedRendition, null, 2)}`);
-
+      // notify internal server to emit socket event (success/pending)
+      console.log('[ImageWorker] about to notify internal (success) for product', productId, 'index', targetIndex);
+      const notifyResult = await notifyInternal({
+        productId,
+        status: product.imageProcessingStatus, // 'completed' or 'pending'
+        imageIndex: targetIndex,
+        rendition: { medium: updatedRendition.medium, thumbnail: updatedRendition.thumbnail }
+      });
+      if (!notifyResult.ok) {
+        console.warn('[ImageWorker] notifyInternal reported failure (success-path)', notifyResult.error?.message || notifyResult.error);
+      } else {
+        console.log('[ImageWorker] notifyInternal reported ok for product', productId);
+      }
       // Update Meilisearch if completed
       if (product.imageProcessingStatus === 'completed') {
         await productIndex.updateDocuments([{
@@ -271,6 +310,19 @@ export function createImageProcessingWorker(connection) {
         product.imageProcessingStatus = 'failed';
         await product.save();
         await productIndex.updateDocuments([{ _id: product._id.toString(), imageProcessingStatus: 'failed' }]);
+        // notify internal server that processing failed
+(async () => {
+  try {
+    await internalApi.post('/internal/notify-product', {
+      productId,
+      status: 'failed',
+      imageIndex: typeof targetIndex === 'number' ? targetIndex : null,
+      error: String(error?.message || error),
+    });
+  } catch (notifyErr) {
+    console.warn('[ImageWorker] notify (failed) call failed:', notifyErr?.message || notifyErr);
+  }
+})();
         console.log(`[ImageWorker] Product ${productId} Meilisearch document updated with status 'failed'.`);
       } catch (saveErr) {
         console.error(`[ImageWorker] Failed to set product ${productId} status to failed: ${saveErr?.message || saveErr}`);

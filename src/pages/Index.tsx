@@ -26,7 +26,7 @@ useEffect(() => {
   }
 }, [location]);
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <VerifyEmailBar />  
       <main className="flex-grow">

@@ -16,16 +16,16 @@ export const CategoryShowcase = () => {
 
   if (isLoading) {
     return (
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-gray-50">Shop by Category</h2>
+          <h2 className="text-3xl font-bold text-center mb-10 text-foreground">Shop by Category</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {Array.from({ length: 4 }).map((_, index) => (
-              <Card key={index} className="overflow-hidden border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800 shadow-sm">
-                <Skeleton className="w-full h-48 object-cover bg-gray-200 dark:bg-gray-700" />
+              <Card key={index} className="overflow-hidden border bg-card shadow-sm">
+                <Skeleton className="w-full h-48 object-cover bg-muted" />
                 <CardContent className="p-4 text-center">
-                  <Skeleton className="h-6 w-3/4 mx-auto mb-2 bg-gray-200 dark:bg-gray-700" />
-                  <Skeleton className="h-4 w-full mx-auto bg-gray-200 dark:bg-gray-700" />
+                  <Skeleton className="h-6 w-3/4 mx-auto mb-2 bg-muted" />
+                  <Skeleton className="h-4 w-full mx-auto bg-muted" />
                 </CardContent>
               </Card>
             ))}
@@ -37,9 +37,9 @@ export const CategoryShowcase = () => {
 
   if (isError) {
     return (
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-gray-50">Shop by Category</h2>
+          <h2 className="text-3xl font-bold text-center mb-10 text-foreground">Shop by Category</h2>
           <Alert variant="destructive">
             <Terminal className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
@@ -54,13 +54,13 @@ export const CategoryShowcase = () => {
 
   if (!categories || categories.length === 0) {
     return (
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-gray-50">Shop by Category</h2>
+          <h2 className="text-3xl font-bold text-center mb-10 text-foreground">Shop by Category</h2>
           <div className="text-center py-8">
-            <Tag className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600" />
-            <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-gray-50">No categories found</h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Check back later for new categories!</p>
+            <Tag className="mx-auto h-12 w-12 text-muted-foreground" />
+            <h3 className="mt-2 text-lg font-semibold text-foreground">No categories found</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Check back later for new categories!</p>
           </div>
         </div>
       </section>
@@ -68,9 +68,9 @@ export const CategoryShowcase = () => {
   }
 
   return (
-    <section className="py-16 bg-gray-50 dark:bg-gray-900">
+    <section className="py-16 bg-muted/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-900 dark:text-gray-50">Shop by Category</h2>
+        <h2 className="text-3xl font-bold text-center mb-10 text-foreground">Shop by Category</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {displayedCategories.map((category, index) => (
             <motion.div
@@ -81,15 +81,15 @@ export const CategoryShowcase = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link to={`/products?category=${encodeURIComponent(category.name)}`}>
-                <Card className="overflow-hidden group hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700 bg-card dark:bg-gray-800">
+                <Card className="overflow-hidden group hover:shadow-lg transition-shadow duration-300 border bg-card">
                   <img
                     src={DEFAULT_CATEGORY_IMAGE} 
                     alt={category.name}
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <CardContent className="p-4 text-center">
-                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-200 text-gray-900 dark:text-gray-50">{category.name}</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">{category.description || "Explore products in this category."}</p>
+                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-200 text-foreground">{category.name}</h3>
+                    <p className="text-muted-foreground text-sm">{category.description || "Explore products in this category."}</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -98,7 +98,7 @@ export const CategoryShowcase = () => {
         </div>
         {categories.length > 4 && (
           <div className="text-center mt-10">
-            <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground dark:border-primary dark:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground">
+            <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
               <Link to="/products">View All Categories</Link>
             </Button>
           </div>

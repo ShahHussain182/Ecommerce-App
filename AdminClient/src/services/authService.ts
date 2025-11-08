@@ -14,6 +14,10 @@ interface LoginResponse {
   user: User;
   message: string;
 }
+interface GenericSuccessResponse {
+  success: boolean;
+  message: string;
+}
 
 export const authService = {
   async login(data: LoginData): Promise<LoginResponse> {
@@ -30,4 +34,9 @@ export const authService = {
     const response = await api.get('/auth/check-auth');
     return response.data;
   },
+  async refreshToken  (): Promise<GenericSuccessResponse>  {
+    const response = await api.get('/auth/refresh');
+    return response.data;
+  }
+  
 };
